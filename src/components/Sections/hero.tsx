@@ -7,15 +7,12 @@ import { DATA } from '../../lib/data';
 import { Card } from '../Common/Card';
 import { Badge } from '../Common/Badge';
 import { Button } from '../Common/Button';
-import { Blobs } from '../Common/Effects';
-
 export const Hero: React.FC = () => {
   return (
     <section
       id="about"
       className="relative overflow-hidden min-h-screen flex items-center"
     >
-      <Blobs />
       <div className="max-w-5xl mx-auto px-4 py-16 sm:py-24 w-full">
         <motion.div
           initial={{ opacity: 0 }}
