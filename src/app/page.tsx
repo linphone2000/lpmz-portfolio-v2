@@ -10,7 +10,7 @@ import { Projects } from '../components/Sections/projects';
 import { Skills } from '../components/Sections/skills';
 import { Education } from '../components/Sections/education';
 import { Contact } from '../components/Sections/contact';
-import { ScrollProgress } from '../components/Common/Effects';
+import { ScrollProgress, Blobs } from '../components/Common/Effects';
 import { Card } from '../components/Common/Card';
 import { Badge } from '../components/Common/Badge';
 
@@ -277,6 +277,9 @@ export default function Portfolio() {
       <div className="min-h-screen relative bg-[radial-gradient(50%_80%_at_50%_0%,rgba(79,195,247,0.18),transparent_60%),radial-gradient(60%_70%_at_100%_30%,rgba(2,119,189,0.12),transparent_60%),linear-gradient(180deg,#F8FAFC,transparent_40%)] dark:bg-[radial-gradient(50%_80%_at_50%_0%,rgba(79,195,247,0.12),transparent_60%),linear-gradient(180deg,#0B1220,transparent_50%)] text-slate-900 dark:text-slate-100">
         {/* Global scroll progress */}
         <ScrollProgress />
+
+        {/* Background blobs */}
+        <Blobs />
 
         <TabNavigation activeTab={activeTab} onTabChange={setActiveTab} />
 
