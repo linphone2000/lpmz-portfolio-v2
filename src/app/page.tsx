@@ -2,10 +2,10 @@
 
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
-import { Contact } from '../components/Sections/contact';
+import { Contact } from '../components/Common/contact';
 import { ScrollProgress, Blobs } from '../components/Common/Effects';
 import { TabNavigation } from '../components/Common/TabNavigation';
-import { TabContent } from '../components/Sections/TabContent';
+import { TabContent } from '../components/Common/TabContent';
 import { ScrollToTop } from '../components/Common/ScrollToTop';
 import { LoadingSkeleton } from '../components/Common/LoadingSpinner';
 import { ErrorBoundary } from '../components/Common/ErrorBoundary';
