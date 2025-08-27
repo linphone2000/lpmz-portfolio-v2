@@ -49,8 +49,8 @@ export const Hero: React.FC = () => {
                 {DATA.summary}
               </p>
               <div className="mt-8 flex flex-wrap gap-4">
-                <Button href={DATA.links.portfolio}>Live Portfolio</Button>
-                <Button href={DATA.links.linkedin} variant="ghost">
+                {/* <Button href={DATA.links.portfolio}>Live Portfolio</Button> */}
+                <Button href={DATA.links.linkedin}>
                   LinkedIn
                 </Button>
                 <Button
