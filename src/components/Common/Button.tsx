@@ -3,9 +3,7 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 
-// Utility function for conditional classes
-const cx = (...cls: Array<string | undefined | false>) =>
-  cls.filter(Boolean).join(' ');
+import { cx } from '../../lib/utils';
 
 export const Button: React.FC<
   React.PropsWithChildren<{
