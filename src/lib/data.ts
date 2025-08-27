@@ -14,7 +14,8 @@ export const DATA = {
     'Junior Software Engineer experienced in React Native, MERN, and backend (Node.js, Express). Passionate about building real products that solve problems, clean architecture, and AI.',
   // Add more detailed personal info
   about: {
-    tagline: 'Building mobile-first experiences with strong API and data modeling foundations',
+    tagline:
+      'Building mobile-first experiences with strong API and data modeling foundations',
     availability: 'Available for freelance opportunities',
     yearsOfExperience: 2,
     totalProjects: 5,
@@ -50,7 +51,11 @@ export const DATA = {
         'Contributed to a FinTech project, focused on backend.',
         'Hands‑on requirement gathering and documentation within a large organization.',
       ],
-      technologies: ['Backend Development', 'Requirements Gathering', 'Documentation'],
+      technologies: [
+        'Backend Development',
+        'Requirements Gathering',
+        'Documentation',
+      ],
     },
   ],
   projects: [
@@ -64,7 +69,12 @@ export const DATA = {
       category: 'Mobile Development',
       year: 2025,
       status: 'Completed',
-      features: ['Real-time Trading', 'P&L Tracking', 'Portfolio Analytics', 'Market Simulation'],
+      features: [
+        'Real-time Trading',
+        'P&L Tracking',
+        'Portfolio Analytics',
+        'Market Simulation',
+      ],
     },
     {
       name: 'Intelligent Home Surveillance System',
@@ -75,7 +85,12 @@ export const DATA = {
       category: 'AI & Computer Vision',
       year: 2024,
       status: 'Completed',
-      features: ['Object Detection', 'Face Recognition', 'Email Alerts', 'Mode Switching'],
+      features: [
+        'Object Detection',
+        'Face Recognition',
+        'Email Alerts',
+        'Mode Switching',
+      ],
     },
     {
       name: 'Pharmacy Management System',
@@ -86,7 +101,12 @@ export const DATA = {
       category: 'Full-Stack Development',
       year: 2024,
       status: 'Completed',
-      features: ['Inventory Management', 'Real-time Stock', 'Client Reviews', 'Team Collaboration'],
+      features: [
+        'Inventory Management',
+        'Real-time Stock',
+        'Client Reviews',
+        'Team Collaboration',
+      ],
     },
     {
       name: 'Hotel Booking Web Application',
@@ -97,7 +117,12 @@ export const DATA = {
       category: 'Full-Stack Development',
       year: 2023,
       status: 'Completed',
-      features: ['Room Booking', 'Hotel Management', 'Admin Portal', 'Responsive Design'],
+      features: [
+        'Room Booking',
+        'Hotel Management',
+        'Admin Portal',
+        'Responsive Design',
+      ],
     },
     {
       name: 'Peer‑to‑peer Rental Platform',
@@ -108,7 +133,12 @@ export const DATA = {
       category: 'Web Development',
       year: 2023,
       status: 'Completed',
-      features: ['Advanced Filtering', 'Media Storage', 'Scalable Architecture', 'Cloud Integration'],
+      features: [
+        'Advanced Filtering',
+        'Media Storage',
+        'Scalable Architecture',
+        'Cloud Integration',
+      ],
     },
   ],
   skills: {
@@ -143,7 +173,12 @@ export const DATA = {
       period: 'Aug 2023 – Mar 2025',
       location: 'Edinburgh, UK',
       gpa: 'Distinction',
-      relevantCourses: ['Software Engineering', 'Database Systems', 'Web Development', 'AI & Machine Learning'],
+      relevantCourses: [
+        'Software Engineering',
+        'Database Systems',
+        'Web Development',
+        'AI & Machine Learning',
+      ],
     },
     {
       school: 'Info Myanmar College',
@@ -151,7 +186,12 @@ export const DATA = {
       period: 'Apr 2022 – Jun 2023',
       location: 'Yangon, Myanmar',
       gpa: 'Merits',
-      relevantCourses: ['Programming Fundamentals', 'Software Design', 'Database Management', 'System Analysis'],
+      relevantCourses: [
+        'Programming Fundamentals',
+        'Software Design',
+        'Database Management',
+        'System Analysis',
+      ],
     },
   ],
   certs: [
@@ -188,15 +228,17 @@ export const DATA = {
   ],
   // Add achievements and milestones
   achievements: [
-          {
-        title: 'Distinction Graduate',
-        description: 'Achieved 1ˢᵗ Class Honours in BSc Computing from Edinburgh Napier University',
-        year: 2025,
-        category: 'Academic',
-      },
+    {
+      title: 'Distinction Graduate',
+      description:
+        'Achieved 1ˢᵗ Class Honours in BSc Computing from Edinburgh Napier University',
+      year: 2025,
+      category: 'Academic',
+    },
     {
       title: 'Remote Developer Success',
-      description: 'Successfully working as a remote React Native developer at HighGround',
+      description:
+        'Successfully working as a remote React Native developer at HighGround',
       year: 2025,
       category: 'Professional',
     },
@@ -211,19 +253,22 @@ export const DATA = {
   services: [
     {
       title: 'Mobile Development',
-      description: 'Cross-platform React Native apps with clean architecture and excellent UX',
+      description:
+        'Cross-platform React Native apps with clean architecture and excellent UX',
       technologies: ['React Native', 'Expo'],
       icon: 'mobile',
     },
     {
       title: 'Full-Stack Solutions',
-      description: 'Complete MERN stack applications with robust backend APIs and databases',
+      description:
+        'Complete MERN stack applications with robust backend APIs and databases',
       technologies: ['MERN', 'Node.js'],
       icon: 'fullstack',
     },
     {
       title: 'Clean Architecture',
-      description: 'Well-documented, maintainable code with strong development practices',
+      description:
+        'Well-documented, maintainable code with strong development practices',
       technologies: ['TypeScript', 'Clean Code'],
       icon: 'architecture',
     },

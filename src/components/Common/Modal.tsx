@@ -12,12 +12,12 @@ interface ModalProps {
   size?: 'sm' | 'md' | 'lg' | 'xl';
 }
 
-export const Modal: React.FC<ModalProps> = ({ 
-  isOpen, 
-  onClose, 
-  title, 
-  children, 
-  size = 'lg' 
+export const Modal: React.FC<ModalProps> = ({
+  isOpen,
+  onClose,
+  title,
+  children,
+  size = 'lg',
 }) => {
   // Close modal on escape key
   useEffect(() => {
@@ -59,7 +59,7 @@ export const Modal: React.FC<ModalProps> = ({
             className="absolute inset-0 bg-black/50 backdrop-blur-sm"
             onClick={onClose}
           />
-          
+
           {/* Modal */}
           <motion.div
             initial={{ opacity: 0, scale: 0.95, y: 20 }}
@@ -81,7 +81,7 @@ export const Modal: React.FC<ModalProps> = ({
                 <XMarkIcon className="w-5 h-5" />
               </button>
             </div>
-            
+
             {/* Content */}
             <div className="p-6 overflow-y-auto max-h-[calc(90vh-120px)]">
               {children}

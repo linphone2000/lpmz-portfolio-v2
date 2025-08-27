@@ -96,7 +96,7 @@
 
   /* Background colors */
   --color-background-light: #ffffff;
-  --color-background-dark: #0B1220;
+  --color-background-dark: #0b1220;
   --color-background-light-secondary: #f8fafc;
   --color-background-dark-secondary: #1e293b;
 
@@ -120,7 +120,11 @@
   --bg-gradient-primary: linear-gradient(135deg, #0ea5e9 0%, #14b8a6 100%);
   --bg-gradient-secondary: linear-gradient(135deg, #14b8a6 0%, #f2741a 100%);
   --bg-gradient-accent: linear-gradient(135deg, #f2741a 0%, #ef4444 100%);
-  --bg-gradient-radial: radial-gradient(50% 80% at 50% 0%, rgba(14, 165, 233, 0.18), transparent 60%);
+  --bg-gradient-radial: radial-gradient(
+    50% 80% at 50% 0%,
+    rgba(14, 165, 233, 0.18),
+    transparent 60%
+  );
 
   /* Animation */
   --animate-gradient-x: gradient-x 3s ease infinite;
@@ -135,7 +139,7 @@
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --background: #0B1220;
+    --background: #0b1220;
     --foreground: #f8fafc;
   }
 }
@@ -176,11 +180,11 @@ body {
 }
 
 .dark .bg-background-light {
-  background-color: #0B1220;
+  background-color: #0b1220;
 }
 
 .bg-background-dark {
-  background-color: #0B1220;
+  background-color: #0b1220;
 }
 
 .light .bg-background-dark {

@@ -21,7 +21,9 @@ export const Skills: React.FC = () => {
     <section className="py-16">
       <div className="max-w-5xl mx-auto px-4">
         <div className="text-center mb-12">
-          <h2 className="text-3xl font-bold mb-4 text-neutral-900 dark:text-neutral-100">Skills & Technologies</h2>
+          <h2 className="text-3xl font-bold mb-4 text-neutral-900 dark:text-neutral-100">
+            Skills & Technologies
+          </h2>
           <p className="text-neutral-600 dark:text-neutral-300 max-w-2xl mx-auto">
             A comprehensive overview of my technical skills and tools I use to
             build modern applications.
@@ -39,7 +41,9 @@ export const Skills: React.FC = () => {
             >
               <Card className="h-full">
                 <div className="text-2xl mb-3">{category.icon}</div>
-                <h3 className="text-lg font-bold mb-4 text-neutral-900 dark:text-neutral-100">{category.title}</h3>
+                <h3 className="text-lg font-bold mb-4 text-neutral-900 dark:text-neutral-100">
+                  {category.title}
+                </h3>
                 <div className="flex flex-wrap gap-2">
                   {category.skills.map((skill) => (
                     <Badge

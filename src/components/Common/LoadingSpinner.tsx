@@ -7,9 +7,9 @@ interface LoadingSpinnerProps {
   className?: string;
 }
 
-export const LoadingSpinner: React.FC<LoadingSpinnerProps> = ({ 
-  size = 'md', 
-  className = '' 
+export const LoadingSpinner: React.FC<LoadingSpinnerProps> = ({
+  size = 'md',
+  className = '',
 }) => {
   const sizeClasses = {
     sm: 'w-4 h-4',
@@ -18,7 +18,9 @@ export const LoadingSpinner: React.FC<LoadingSpinnerProps> = ({
   };
 
   return (
-    <div className={`animate-spin rounded-full border-2 border-neutral-300 border-t-primary-500 ${sizeClasses[size]} ${className}`} />
+    <div
+      className={`animate-spin rounded-full border-2 border-neutral-300 border-t-primary-500 ${sizeClasses[size]} ${className}`}
+    />
   );
 };
 

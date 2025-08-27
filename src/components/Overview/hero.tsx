@@ -7,10 +7,10 @@ import { DATA } from '../../lib/data';
 import { Card } from '../Common/Card';
 import { Badge } from '../Common/Badge';
 import { Button } from '../Common/Button';
-import { 
-  BriefcaseIcon, 
-  AcademicCapIcon, 
-  StarIcon, 
+import {
+  BriefcaseIcon,
+  AcademicCapIcon,
+  StarIcon,
   RocketLaunchIcon,
 } from '@heroicons/react/24/outline';
 export const Hero: React.FC = () => {
@@ -19,7 +19,7 @@ export const Hero: React.FC = () => {
       id="about"
       className="relative overflow-hidden min-h-screen flex items-center"
     >
-      <div className="max-w-7xl mx-auto px-6 py-10 sm:py-10 w-full">
+      <div className="max-w-7xl mx-auto px-6 py-16 sm:py-16 w-full">
         <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
@@ -50,9 +50,7 @@ export const Hero: React.FC = () => {
               </p>
               <div className="mt-8 flex flex-wrap gap-4">
                 {/* <Button href={DATA.links.portfolio}>Live Portfolio</Button> */}
-                <Button href={DATA.links.linkedin}>
-                  LinkedIn
-                </Button>
+                <Button href={DATA.links.linkedin}>LinkedIn</Button>
                 <Button
                   href={`tel:${DATA.phone.replace(/\s/g, '')}`}
                   variant="ghost"
@@ -61,34 +59,48 @@ export const Hero: React.FC = () => {
                 </Button>
               </div>
             </div>
-            
+
             {/* Option 4: Enhanced Tech Snapshot */}
             <Card className="relative">
               <div className="absolute -inset-1 rounded-2xl bg-gradient-to-tr from-primary-500/20 to-secondary-400/10 blur-2xl" />
               <div className="relative">
-                <h3 className="font-semibold mb-4 text-neutral-900 dark:text-neutral-100">Tech Expertise</h3>
+                <h3 className="font-semibold mb-4 text-neutral-900 dark:text-neutral-100">
+                  Tech Expertise
+                </h3>
                 <div className="space-y-4">
                   <div>
-                    <h4 className="text-sm font-medium text-neutral-700 dark:text-neutral-300 mb-2">Frontend</h4>
+                    <h4 className="text-sm font-medium text-neutral-700 dark:text-neutral-300 mb-2">
+                      Frontend
+                    </h4>
                     <div className="flex flex-wrap gap-2">
                       {DATA.skills.frontend.map((skill) => (
-                        <Badge key={skill} className="text-xs">{skill}</Badge>
+                        <Badge key={skill} className="text-xs">
+                          {skill}
+                        </Badge>
                       ))}
                     </div>
                   </div>
                   <div>
-                    <h4 className="text-sm font-medium text-neutral-700 dark:text-neutral-300 mb-2">Backend</h4>
+                    <h4 className="text-sm font-medium text-neutral-700 dark:text-neutral-300 mb-2">
+                      Backend
+                    </h4>
                     <div className="flex flex-wrap gap-2">
                       {DATA.skills.backend.map((skill) => (
-                        <Badge key={skill} className="text-xs">{skill}</Badge>
+                        <Badge key={skill} className="text-xs">
+                          {skill}
+                        </Badge>
                       ))}
                     </div>
                   </div>
                   <div>
-                    <h4 className="text-sm font-medium text-neutral-700 dark:text-neutral-300 mb-2">Databases</h4>
+                    <h4 className="text-sm font-medium text-neutral-700 dark:text-neutral-300 mb-2">
+                      Databases
+                    </h4>
                     <div className="flex flex-wrap gap-2">
                       {DATA.skills.databases.map((skill) => (
-                        <Badge key={skill} className="text-xs">{skill}</Badge>
+                        <Badge key={skill} className="text-xs">
+                          {skill}
+                        </Badge>
                       ))}
                     </div>
                   </div>
@@ -115,7 +127,7 @@ export const Hero: React.FC = () => {
                 Years Experience
               </div>
             </motion.div>
-            
+
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
@@ -129,7 +141,7 @@ export const Hero: React.FC = () => {
                 Projects Built
               </div>
             </motion.div>
-            
+
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
@@ -143,7 +155,7 @@ export const Hero: React.FC = () => {
                 Technologies
               </div>
             </motion.div>
-            
+
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
@@ -161,7 +173,9 @@ export const Hero: React.FC = () => {
 
           {/* Option 2: Recent Achievements */}
           <div>
-            <h2 className="text-2xl font-bold mb-6 text-neutral-900 dark:text-neutral-100">Recent Achievements</h2>
+            <h2 className="text-2xl font-bold mb-6 text-neutral-900 dark:text-neutral-100">
+              Recent Achievements
+            </h2>
             <div className="grid md:grid-cols-3 gap-6">
               {DATA.achievements.slice(0, 3).map((achievement, index) => (
                 <motion.div
@@ -172,12 +186,21 @@ export const Hero: React.FC = () => {
                   className="flex items-start gap-3"
                 >
                   <div className="flex-shrink-0 w-10 h-10 bg-primary-100 dark:bg-primary-900/30 rounded-lg flex items-center justify-center">
-                    {achievement.category === 'Academic' && <StarIcon className="w-5 h-5 text-primary-600 dark:text-primary-400" />}
-                    {achievement.category === 'Professional' && <RocketLaunchIcon className="w-5 h-5 text-primary-600 dark:text-primary-400" />}
-                    {achievement.category !== 'Academic' && achievement.category !== 'Professional' && <BriefcaseIcon className="w-5 h-5 text-primary-600 dark:text-primary-400" />}
+                    {achievement.category === 'Academic' && (
+                      <StarIcon className="w-5 h-5 text-primary-600 dark:text-primary-400" />
+                    )}
+                    {achievement.category === 'Professional' && (
+                      <RocketLaunchIcon className="w-5 h-5 text-primary-600 dark:text-primary-400" />
+                    )}
+                    {achievement.category !== 'Academic' &&
+                      achievement.category !== 'Professional' && (
+                        <BriefcaseIcon className="w-5 h-5 text-primary-600 dark:text-primary-400" />
+                      )}
                   </div>
                   <div>
-                    <h3 className="font-semibold text-neutral-900 dark:text-neutral-100 mb-1">{achievement.title}</h3>
+                    <h3 className="font-semibold text-neutral-900 dark:text-neutral-100 mb-1">
+                      {achievement.title}
+                    </h3>
                     <p className="text-sm text-neutral-600 dark:text-neutral-300">
                       {achievement.description}
                     </p>
@@ -187,11 +210,11 @@ export const Hero: React.FC = () => {
             </div>
           </div>
 
-
-
           {/* Option 5: Call-to-Action Cards */}
           <div>
-            <h2 className="text-2xl font-bold mb-6 text-neutral-900 dark:text-neutral-100">What I Offer</h2>
+            <h2 className="text-2xl font-bold mb-6 text-neutral-900 dark:text-neutral-100">
+              What I Offer
+            </h2>
             <div className="grid md:grid-cols-3 gap-6">
               {DATA.services.map((service, index) => (
                 <motion.div
@@ -202,11 +225,19 @@ export const Hero: React.FC = () => {
                   className="p-6 rounded-xl border border-neutral-200 dark:border-neutral-700 hover:border-primary-300 dark:hover:border-primary-600 transition-colors"
                 >
                   <div className="w-12 h-12 bg-primary-100 dark:bg-primary-900/30 rounded-lg flex items-center justify-center mb-4">
-                    {service.icon === 'mobile' && <BriefcaseIcon className="w-6 h-6 text-primary-600 dark:text-primary-400" />}
-                    {service.icon === 'fullstack' && <AcademicCapIcon className="w-6 h-6 text-primary-600 dark:text-primary-400" />}
-                    {service.icon === 'architecture' && <StarIcon className="w-6 h-6 text-primary-600 dark:text-primary-400" />}
+                    {service.icon === 'mobile' && (
+                      <BriefcaseIcon className="w-6 h-6 text-primary-600 dark:text-primary-400" />
+                    )}
+                    {service.icon === 'fullstack' && (
+                      <AcademicCapIcon className="w-6 h-6 text-primary-600 dark:text-primary-400" />
+                    )}
+                    {service.icon === 'architecture' && (
+                      <StarIcon className="w-6 h-6 text-primary-600 dark:text-primary-400" />
+                    )}
                   </div>
-                  <h3 className="text-lg font-semibold mb-2 text-neutral-900 dark:text-neutral-100">{service.title}</h3>
+                  <h3 className="text-lg font-semibold mb-2 text-neutral-900 dark:text-neutral-100">
+                    {service.title}
+                  </h3>
                   <p className="text-neutral-600 dark:text-neutral-300 mb-4">
                     {service.description}
                   </p>
