@@ -1,8 +1,14 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Bars3Icon, XMarkIcon } from '@heroicons/react/24/outline';
+import { 
+  Bars3Icon, 
+  XMarkIcon,
+  HomeIcon,
+  BriefcaseIcon,
+  AcademicCapIcon
+} from '@heroicons/react/24/outline';
 import { DATA } from '../../lib/data';
 import { Button } from './Button';
 import { ThemeToggle } from './ThemeToggle';
@@ -24,11 +30,13 @@ export const TabNavigation: React.FC<TabNavigationProps> = React.memo(({
   mounted,
 }) => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [isVisible, setIsVisible] = useState(true);
+  const [lastScrollY, setLastScrollY] = useState(0);
 
   const tabs = [
-    { id: 'overview', label: 'Overview', icon: '' },
-    { id: 'portfolio', label: 'Portfolio', icon: '' },
-    { id: 'education', label: 'Education', icon: '' },
+    { id: 'overview', label: 'Overview', icon: <HomeIcon className="h-4 w-4" /> },
+    { id: 'portfolio', label: 'Portfolio', icon: <BriefcaseIcon className="h-4 w-4" /> },
+    { id: 'education', label: 'Education', icon: <AcademicCapIcon className="h-4 w-4" /> },
   ];
 
   const handleKeyDown = (e: React.KeyboardEvent, tabId: string) => {
@@ -53,8 +61,32 @@ export const TabNavigation: React.FC<TabNavigationProps> = React.memo(({
     }
   };
 
+  // Scroll behavior
+  useEffect(() => {
+    const handleScroll = () => {
+      const currentScrollY = window.scrollY;
+      
+      // Show navbar when scrolling up or at top, hide when scrolling down
+      if (currentScrollY < lastScrollY || currentScrollY < 100) {
+        setIsVisible(true);
+      } else if (currentScrollY > lastScrollY && currentScrollY > 100) {
+        setIsVisible(false);
+      }
+      
+      setLastScrollY(currentScrollY);
+    };
+
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, [lastScrollY]);
+
   return (
-    <header className="sticky top-0 z-40 backdrop-blur bg-white/60 dark:bg-neutral-900/50 border-b border-neutral-200 dark:border-neutral-700">
+    <motion.header 
+      className="sticky top-0 z-40 backdrop-blur bg-white/60 dark:bg-neutral-900/50 border-b border-neutral-200 dark:border-neutral-700"
+      initial={{ y: 0 }}
+      animate={{ y: isVisible ? 0 : -100 }}
+      transition={{ duration: 0.3, ease: 'easeInOut' }}
+    >
       <div className="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between">
         <motion.button
           whileHover={{ scale: 1.1 }}
@@ -191,7 +223,7 @@ export const TabNavigation: React.FC<TabNavigationProps> = React.memo(({
           </motion.div>
         )}
       </AnimatePresence>
-    </header>
+    </motion.header>
   );
 });
 
