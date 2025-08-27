@@ -35,10 +35,10 @@ export const DATA = {
   ],
   projects: [
     {
-      name: 'Minty – Personal Finance Management App',
-      stack: ['React Native', 'Express.js', 'Zustand', 'JWT'],
+      name: 'PropertyApp – Advanced Trading & Investment Dashboard',
+      stack: ['React Native', 'Expo', 'TypeScript', 'Zustand', 'AsyncStorage'],
       blurb:
-        'Cross‑platform finance app with secure auth, offline support, patterns like pull‑to‑refresh, empty states, and skeleton loaders. Backend handles transactions, profiles, and sync.',
+        'Sophisticated property investment platform with real-time trading, live P&L tracking, 7-day performance charts, buy/sell functionality, and advanced portfolio analytics. Features market simulation, transaction history, and professional-grade trading interfaces.',
       href: '#',
       highlight: true,
     },

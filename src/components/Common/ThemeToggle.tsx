@@ -19,7 +19,7 @@ export const ThemeToggle: React.FC<ThemeToggleProps> = ({
 
   if (!mounted) {
     return (
-      <div className="h-4 w-8 rounded-full bg-neutral-200/80 dark:bg-neutral-800/60 animate-pulse" />
+      <div className="h-5 w-10 rounded-full bg-neutral-200/80 dark:bg-neutral-800/60 animate-pulse" />
     );
   }
 
@@ -33,7 +33,7 @@ export const ThemeToggle: React.FC<ThemeToggleProps> = ({
       whileHover={{ scale: prefersReducedMotion ? 1 : 1.05 }}
       whileTap={{ scale: prefersReducedMotion ? 1 : 0.95 }}
       className={[
-        'relative h-4 w-8 rounded-full transition-colors duration-300',
+        'relative h-5 w-10 rounded-full transition-colors duration-300',
         'bg-white/70 dark:bg-neutral-900/70 backdrop-blur',
         'focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-1',
         'focus-visible:ring-rose-400 dark:focus-visible:ring-amber-300',
@@ -42,7 +42,7 @@ export const ThemeToggle: React.FC<ThemeToggleProps> = ({
         'overflow-hidden',
       ].join(' ')}
     >
-      {/* Dark-mode ambient glow */}
+      {/* Glow background */}
       <motion.div
         aria-hidden="true"
         className="absolute inset-0 rounded-full"
@@ -56,69 +56,54 @@ export const ThemeToggle: React.FC<ThemeToggleProps> = ({
         }}
       />
 
-      {/* Sparkles layer (Sun sparkles in light, stars in dark) */}
+      {/* Sparkles & stars */}
       <div className="pointer-events-none absolute inset-0">
-        {/* Sun sparkles (only in light) */}
+        {/* Sun sparkles */}
         <motion.span
           initial={false}
-          animate={{ opacity: dark ? 0 : 1, scale: dark ? 0.9 : 1 }}
+          animate={{ opacity: dark ? 0 : 1 }}
           transition={{ duration: 0.3 }}
-          className="absolute left-[6px] top-1/2 -translate-y-1/2"
+          className="absolute left-[7px] top-1/2 -translate-y-1/2"
         >
-          {/* Three tiny rays around the sun */}
           <motion.span
-            className="absolute h-[6px] w-[1.5px] rounded-full bg-rose-400/70"
-            style={{ left: 12, top: -9 }}
+            className="absolute h-[7px] w-[1.5px] rounded-full bg-rose-400/70"
+            style={{ left: 14, top: -10 }}
             animate={{ opacity: [0.3, 1, 0.3], scaleY: [0.8, 1.1, 0.8] }}
             transition={{ duration: 1.6, repeat: Infinity, ease: 'easeInOut' }}
           />
           <motion.span
-            className="absolute h-[6px] w-[1.5px] rounded-full bg-amber-400/70"
-            style={{ left: 18, top: -1, rotate: 45 }}
+            className="absolute h-[7px] w-[1.5px] rounded-full bg-amber-400/70"
+            style={{ left: 20, top: -1, rotate: 45 }}
             animate={{ opacity: [0.2, 0.9, 0.2], scaleY: [0.8, 1.15, 0.8] }}
             transition={{ duration: 1.9, repeat: Infinity, ease: 'easeInOut' }}
           />
-          <motion.span
-            className="absolute h-[6px] w-[1.5px] rounded-full bg-rose-400/70"
-            style={{ left: 12, top: 7, rotate: -25 }}
-            animate={{ opacity: [0.3, 1, 0.3], scaleY: [0.85, 1.1, 0.85] }}
-            transition={{ duration: 1.7, repeat: Infinity, ease: 'easeInOut' }}
-          />
         </motion.span>
 
-        {/* Moon stars (only in dark) */}
+        {/* Moon stars */}
         <motion.span
           initial={false}
-          animate={{ opacity: dark ? 1 : 0, scale: dark ? 1 : 0.95 }}
+          animate={{ opacity: dark ? 1 : 0 }}
           transition={{ duration: 0.3 }}
         >
           <motion.span
-            className="absolute right-[14px] top-[3px] h-0.5 w-0.5 rounded-full bg-white/90"
-            animate={{ opacity: [0.4, 1, 0.4], scale: [0.8, 1, 0.8] }}
-            transition={{ duration: 1.8, repeat: Infinity, ease: 'easeInOut' }}
+            className="absolute right-[15px] top-[3px] h-0.5 w-0.5 rounded-full bg-white/90"
+            animate={{ opacity: [0.4, 1, 0.4] }}
+            transition={{ duration: 1.8, repeat: Infinity }}
           />
           <motion.span
-            className="absolute right-[6px] top-[6px] h-0.5 w-0.5 rounded-full bg-white/70"
-            animate={{ opacity: [0.3, 0.8, 0.3], scale: [0.8, 1, 0.8] }}
-            transition={{ duration: 2.1, repeat: Infinity, ease: 'easeInOut' }}
-          />
-          <motion.span
-            className="absolute right-[10px] bottom-[4px] h-0.5 w-0.5 rounded-full bg-white/60"
-            animate={{ opacity: [0.4, 0.9, 0.4], scale: [0.85, 1, 0.85] }}
-            transition={{ duration: 1.6, repeat: Infinity, ease: 'easeInOut' }}
+            className="absolute right-[7px] top-[7px] h-0.5 w-0.5 rounded-full bg-white/70"
+            animate={{ opacity: [0.3, 0.8, 0.3] }}
+            transition={{ duration: 2.1, repeat: Infinity }}
           />
         </motion.span>
       </div>
 
       {/* Knob */}
       <motion.div
-        className="absolute left-0.5 top-1/2 h-3 w-3 -translate-y-1/2 rounded-full bg-white dark:bg-neutral-100 shadow-md will-change-transform"
+        className="absolute left-0.5 top-1/2 h-3.5 w-3.5 -translate-y-1/2 rounded-full bg-white dark:bg-neutral-100 shadow-md"
         initial={false}
         animate={{
-          x: dark ? 18 : 0, // exact travel for 32px track, 12px knob, 2px padding
-          boxShadow: dark
-            ? '0 3px 9px rgba(255,88,120,0.35)'
-            : '0 3px 9px rgba(0,0,0,0.15)',
+          x: dark ? 22 : 0, // updated travel distance for larger size
         }}
         transition={
           prefersReducedMotion
@@ -126,20 +111,12 @@ export const ThemeToggle: React.FC<ThemeToggleProps> = ({
             : { type: 'spring', stiffness: 600, damping: 32 }
         }
       >
-        {/* Icon holder */}
         <div className="flex h-full w-full items-center justify-center">
-          <motion.div
-            initial={false}
-            animate={{ rotate: dark ? 0 : 180, scale: 1 }}
-            transition={{ duration: 0.35 }}
-            className="leading-none"
-          >
-            {dark ? (
-              <MoonIcon className="h-2.5 w-2.5 text-amber-300 drop-shadow-[0_0_3px_rgba(255,200,64,0.6)]" />
-            ) : (
-              <SunIcon className="h-2.5 w-2.5 text-rose-500 drop-shadow-[0_0_3px_rgba(255,88,120,0.6)]" />
-            )}
-          </motion.div>
+          {dark ? (
+            <MoonIcon className="h-3 w-3 text-amber-300 drop-shadow-[0_0_3px_rgba(255,200,64,0.6)]" />
+          ) : (
+            <SunIcon className="h-3 w-3 text-rose-500 drop-shadow-[0_0_3px_rgba(255,88,120,0.6)]" />
+          )}
         </div>
       </motion.div>
     </motion.button>
