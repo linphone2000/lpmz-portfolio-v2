@@ -23,7 +23,7 @@ export default function Portfolio() {
   return (
     <ErrorBoundary>
       <div className={dark ? 'dark' : ''}>
-        <div className="min-h-screen relative bg-[radial-gradient(50%_80%_at_50%_0%,rgba(79,195,247,0.18),transparent_60%),radial-gradient(60%_70%_at_100%_30%,rgba(2,119,189,0.12),transparent_60%),linear-gradient(180deg,#F8FAFC,transparent_40%)] dark:bg-[radial-gradient(50%_80%_at_50%_0%,rgba(79,195,247,0.12),transparent_60%),linear-gradient(180deg,#0B1220,transparent_50%)] text-slate-900 dark:text-slate-100">
+        <div className="min-h-screen relative bg-neutral-50 dark:bg-neutral-900 text-neutral-900 dark:text-neutral-100">
           {/* Global scroll progress */}
           <ScrollProgress />
 

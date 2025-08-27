@@ -10,8 +10,8 @@ export const Certifications: React.FC = () => {
     <section className="py-16">
       <div className="max-w-5xl mx-auto px-4">
         <div className="text-center mb-12">
-          <h2 className="text-3xl font-bold mb-4">Certifications</h2>
-          <p className="text-slate-600 dark:text-slate-400">
+          <h2 className="text-3xl font-bold mb-4 text-neutral-900 dark:text-neutral-100">Certifications</h2>
+          <p className="text-neutral-600 dark:text-neutral-300">
             Professional certifications and continuous learning achievements.
           </p>
         </div>
@@ -26,7 +26,7 @@ export const Certifications: React.FC = () => {
             >
               <Card className="text-center">
                 <div className="text-2xl mb-3">🏆</div>
-                <h3 className="font-semibold mb-2">{cert}</h3>
+                <h3 className="font-semibold mb-2 text-neutral-900 dark:text-neutral-100">{cert}</h3>
               </Card>
             </motion.div>
           ))}

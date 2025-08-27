@@ -25,10 +25,10 @@ export const Hero: React.FC = () => {
               <Badge>Available for freelance</Badge>
               <Badge>{DATA.location}</Badge>
             </div>
-            <h1 className="text-4xl sm:text-5xl font-black leading-tight tracking-tight">
+            <h1 className="text-4xl sm:text-5xl font-black leading-tight tracking-tight text-neutral-900 dark:text-neutral-100">
               {DATA.name}
             </h1>
-            <div className="mt-2 text-lg text-slate-700 dark:text-slate-300 max-w-2xl">
+            <div className="mt-2 text-lg text-neutral-600 dark:text-neutral-300 max-w-2xl">
               <Typewriter
                 options={{
                   strings: [
@@ -41,7 +41,7 @@ export const Hero: React.FC = () => {
                 }}
               />
             </div>
-            <p className="mt-3 text-slate-700 dark:text-slate-300 max-w-2xl">
+            <p className="mt-3 text-neutral-600 dark:text-neutral-300 max-w-2xl">
               {DATA.summary}
             </p>
             <div className="mt-6 flex flex-wrap gap-3">
@@ -58,9 +58,9 @@ export const Hero: React.FC = () => {
             </div>
           </div>
           <Card className="relative">
-            <div className="absolute -inset-1 rounded-2xl bg-gradient-to-tr from-sky-500/20 to-cyan-400/10 blur-2xl" />
+            <div className="absolute -inset-1 rounded-2xl bg-gradient-to-tr from-primary-500/20 to-secondary-400/10 blur-2xl" />
             <div className="relative">
-              <h3 className="font-semibold mb-2">Tech Snapshot</h3>
+              <h3 className="font-semibold mb-2 text-neutral-900 dark:text-neutral-100">Tech Snapshot</h3>
               <div className="flex flex-wrap gap-2">
                 {[
                   ...DATA.skills.frontend,
@@ -72,7 +72,7 @@ export const Hero: React.FC = () => {
                     <Badge key={s}>{s}</Badge>
                   ))}
               </div>
-              <p className="mt-3 text-sm text-slate-600 dark:text-slate-400">
+              <p className="mt-3 text-sm text-neutral-500 dark:text-neutral-400">
                 Building mobile‑first experiences with strong API and data
                 modeling foundations.
               </p>

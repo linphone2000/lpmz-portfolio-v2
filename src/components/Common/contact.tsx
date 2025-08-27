@@ -8,11 +8,11 @@ import { Button } from './Button';
 
 export const Contact: React.FC = () => {
   return (
-    <section className="py-16 bg-slate-50 dark:bg-slate-900/50">
+    <section className="py-16 bg-neutral-100 dark:bg-neutral-800/50">
       <div className="max-w-5xl mx-auto px-4">
         <div className="text-center mb-12">
-          <h2 className="text-3xl font-bold mb-4">Get In Touch</h2>
-          <p className="text-slate-600 dark:text-slate-400 max-w-2xl mx-auto">
+          <h2 className="text-3xl font-bold mb-4 text-neutral-900 dark:text-neutral-100">Get In Touch</h2>
+          <p className="text-neutral-600 dark:text-neutral-300 max-w-2xl mx-auto">
             I'm always open to discussing new opportunities, interesting
             projects, or just having a chat about technology.
           </p>
@@ -26,29 +26,29 @@ export const Contact: React.FC = () => {
             viewport={{ once: true }}
           >
             <Card>
-              <h3 className="text-xl font-bold mb-4">Contact Information</h3>
+              <h3 className="text-xl font-bold mb-4 text-neutral-900 dark:text-neutral-100">Contact Information</h3>
               <div className="space-y-3">
                 <div className="flex items-center gap-3">
-                  <span className="text-sky-500">📧</span>
+                  <span className="text-primary-500">📧</span>
                   <a
                     href={`mailto:${DATA.email}`}
-                    className="text-slate-700 dark:text-slate-300 hover:text-sky-500 transition-colors"
+                    className="text-neutral-600 dark:text-neutral-300 hover:text-primary-500 transition-colors"
                   >
                     {DATA.email}
                   </a>
                 </div>
                 <div className="flex items-center gap-3">
-                  <span className="text-sky-500">📱</span>
+                  <span className="text-primary-500">📱</span>
                   <a
                     href={`tel:${DATA.phone.replace(/\s/g, '')}`}
-                    className="text-slate-700 dark:text-slate-300 hover:text-sky-500 transition-colors"
+                    className="text-neutral-600 dark:text-neutral-300 hover:text-primary-500 transition-colors"
                   >
                     {DATA.phone}
                   </a>
                 </div>
                 <div className="flex items-center gap-3">
-                  <span className="text-sky-500">📍</span>
-                  <span className="text-slate-700 dark:text-slate-300">
+                  <span className="text-primary-500">📍</span>
+                  <span className="text-neutral-600 dark:text-neutral-300">
                     {DATA.location}
                   </span>
                 </div>
@@ -63,7 +63,7 @@ export const Contact: React.FC = () => {
             viewport={{ once: true }}
           >
             <Card>
-              <h3 className="text-xl font-bold mb-4">Quick Actions</h3>
+              <h3 className="text-xl font-bold mb-4 text-neutral-900 dark:text-neutral-100">Quick Actions</h3>
               <div className="space-y-3">
                 <Button href={`mailto:${DATA.email}`} className="w-full">
                   Send Email

@@ -16,9 +16,9 @@ export const Button: React.FC<
   const base = cx(
     'inline-flex items-center gap-2 rounded-xl px-4 py-2 text-sm font-semibold transition',
     variant === 'solid' &&
-      'bg-black text-white hover:bg-black/90 dark:bg-white dark:text-black dark:hover:bg-white/90',
+      'bg-primary-500 text-white hover:bg-primary-600 dark:bg-primary-400 dark:text-primary-950 dark:hover:bg-primary-300',
     variant === 'ghost' &&
-      'bg-transparent hover:bg-black/5 dark:hover:bg-white/10',
+      'text-neutral-600 dark:text-neutral-300 bg-transparent hover:bg-neutral-100 dark:hover:bg-neutral-800',
     className
   );
   if (href)
