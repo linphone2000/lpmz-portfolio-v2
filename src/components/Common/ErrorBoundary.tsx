@@ -34,7 +34,7 @@ export class ErrorBoundary extends Component<Props, State> {
               <div className="text-6xl mb-4">😅</div>
               <h1 className="text-2xl font-bold mb-2 text-neutral-900 dark:text-neutral-100">Oops! Something went wrong</h1>
               <p className="text-neutral-600 dark:text-neutral-300 mb-4">
-                Don't worry, it's not you - it's me. Please refresh the page.
+                Don&apos;t worry, it&apos;s not you - it&apos;s me. Please refresh the page.
               </p>
               <button
                 onClick={() => window.location.reload()}
