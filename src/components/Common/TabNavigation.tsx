@@ -4,6 +4,7 @@ import React from 'react';
 import { motion } from 'framer-motion';
 import { DATA } from '../../lib/data';
 import { Button } from './Button';
+import { ThemeToggle } from './ThemeToggle';
 import { cx } from '../../lib/utils';
 
 interface TabNavigationProps {
@@ -69,10 +70,8 @@ export const TabNavigation: React.FC<TabNavigationProps> = React.memo(({
           ))}
         </nav>
 
-        <div className="flex items-center gap-2">
-          <Button variant="ghost" onClick={toggle} aria-label="Toggle theme">
-            {mounted && dark ? '☀️' : '🌙'}
-          </Button>
+        <div className="flex items-center gap-3">
+          <ThemeToggle dark={dark} toggle={toggle} mounted={mounted} />
           <Button href={`mailto:${DATA.email}`}>Contact</Button>
         </div>
       </div>
