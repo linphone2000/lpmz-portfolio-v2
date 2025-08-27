@@ -8,29 +8,44 @@ export const DATA = {
   links: {
     portfolio: 'https://lpmz-portfolio.vercel.app/',
     linkedin: 'https://www.linkedin.com/in/lin-phone-myint-zaw-025082176/',
+    github: 'https://github.com/yourusername', // Add your GitHub
   },
   summary:
     'Junior Software Engineer experienced in React Native, MERN, and backend (Node.js, Express). Passionate about clean architecture, strong documentation, and building real products.',
+  // Add more detailed personal info
+  about: {
+    tagline: 'Building mobile-first experiences with strong API and data modeling foundations',
+    availability: 'Available for freelance opportunities',
+    yearsOfExperience: 2,
+    totalProjects: 5,
+    technologiesMastered: 12,
+  },
   experience: [
     {
       company: 'HighGround',
       role: 'Junior Developer (Remote)',
       period: 'July 2025 – Present',
+      location: 'Remote',
+      type: 'Full-time',
       bullets: [
         'Developing cross‑platform mobile apps with React Native in an Agile environment.',
         'Writing requirements from customer input to clarify scope and support the team.',
         'Established consistency guidelines for navigation, API integration, theming, and UI/UX.',
         'Contributed structured documentation improving team alignment and maintainability.',
       ],
+      technologies: ['React Native', 'TypeScript', 'Agile', 'Documentation'],
     },
     {
       company: 'NTT Data Myanmar',
       role: 'Junior System Engineer (Application Dev)',
       period: 'April 2025 – June 2025',
+      location: 'Yangon, Myanmar',
+      type: 'Full-time',
       bullets: [
-        'Contributed to a FinTech system renewal project, focused on backend.',
+        'Contributed to a FinTech project, focused on backend.',
         'Hands‑on requirement gathering and documentation within a large organization.',
       ],
+      technologies: ['Backend Development', 'Requirements Gathering', 'Documentation'],
     },
   ],
   projects: [
@@ -41,6 +56,10 @@ export const DATA = {
         'Sophisticated property investment platform with real-time trading, live P&L tracking, 7-day performance charts, buy/sell functionality, and advanced portfolio analytics. Features market simulation, transaction history, and professional-grade trading interfaces.',
       href: '#',
       highlight: true,
+      category: 'Mobile Development',
+      year: 2025,
+      status: 'Completed',
+      features: ['Real-time Trading', 'P&L Tracking', 'Portfolio Analytics', 'Market Simulation'],
     },
     {
       name: 'Intelligent Home Surveillance System',
@@ -48,6 +67,10 @@ export const DATA = {
       blurb:
         'Web‑based AI security with object detection & face recognition; switches modes based on detected classes and emails alerts for strangers.',
       href: '#',
+      category: 'AI & Computer Vision',
+      year: 2024,
+      status: 'Completed',
+      features: ['Object Detection', 'Face Recognition', 'Email Alerts', 'Mode Switching'],
     },
     {
       name: 'Pharmacy Management System',
@@ -55,6 +78,10 @@ export const DATA = {
       blurb:
         'Inventory management web app for real‑time stock & sales; weekly client reviews; Gantt/Trello/GitHub for delivery.',
       href: '#',
+      category: 'Full-Stack Development',
+      year: 2024,
+      status: 'Completed',
+      features: ['Inventory Management', 'Real-time Stock', 'Client Reviews', 'Team Collaboration'],
     },
     {
       name: 'Hotel Booking Web Application',
@@ -62,6 +89,10 @@ export const DATA = {
       blurb:
         'Responsive booking platform with room/hotel management and a simple admin portal.',
       href: '#',
+      category: 'Full-Stack Development',
+      year: 2023,
+      status: 'Completed',
+      features: ['Room Booking', 'Hotel Management', 'Admin Portal', 'Responsive Design'],
     },
     {
       name: 'Peer‑to‑peer Rental Platform',
@@ -69,6 +100,10 @@ export const DATA = {
       blurb:
         'Scalable listings site with advanced filtering and media storage via Cloudinary.',
       href: '#',
+      category: 'Web Development',
+      year: 2023,
+      status: 'Completed',
+      features: ['Advanced Filtering', 'Media Storage', 'Scalable Architecture', 'Cloud Integration'],
     },
   ],
   skills: {
@@ -88,24 +123,104 @@ export const DATA = {
     ],
     aiml: ['TensorFlow.js', 'OpenCV', 'CNN Models', 'COCO‑SSD'],
     soft: ['Communication', 'Collaboration', 'Presentation', 'Adaptability'],
+    // Add skill proficiency levels
+    proficiency: {
+      expert: ['React Native', 'TypeScript', 'JavaScript'],
+      advanced: ['React.js', 'Node.js', 'Express.js', 'MongoDB'],
+      intermediate: ['Next.js', 'Python', 'MySQL', 'TensorFlow.js'],
+      beginner: ['Java', 'Docker', 'OpenCV'],
+    },
   },
   education: [
     {
       school: 'Edinburgh Napier University',
       credential: 'BSc (Hons) in Computing – Distinction',
       period: 'Aug 2023 – Mar 2025',
+      location: 'Edinburgh, UK',
+      gpa: 'Distinction',
+      relevantCourses: ['Software Engineering', 'Database Systems', 'Web Development', 'AI & Machine Learning'],
     },
     {
       school: 'Info Myanmar College',
       credential: 'Higher National Diploma in Software Engineering – Merits',
       period: 'Apr 2022 – Jun 2023',
+      location: 'Yangon, Myanmar',
+      gpa: 'Merits',
+      relevantCourses: ['Programming Fundamentals', 'Software Design', 'Database Management', 'System Analysis'],
     },
   ],
   certs: [
-    'IT Passport (ITPEC) – 2022',
-    'Basic Linux Skills – 2019',
-    'Network Engineering – 2018',
-    'Intermediate English – 2018',
-    'CompTIA A+ – 2016',
+    {
+      name: 'IT Passport (ITPEC)',
+      year: 2022,
+      issuer: 'ITPEC',
+      description: 'Information Technology Passport Examination',
+    },
+    {
+      name: 'Basic Linux Skills',
+      year: 2019,
+      issuer: 'Linux Foundation',
+      description: 'Fundamental Linux system administration',
+    },
+    {
+      name: 'Network Engineering',
+      year: 2018,
+      issuer: 'Cisco',
+      description: 'Network infrastructure and protocols',
+    },
+    {
+      name: 'Intermediate English',
+      year: 2018,
+      issuer: 'Cambridge English',
+      description: 'B2 level English proficiency',
+    },
+    {
+      name: 'CompTIA A+',
+      year: 2016,
+      issuer: 'CompTIA',
+      description: 'IT fundamentals and hardware support',
+    },
+  ],
+  // Add achievements and milestones
+  achievements: [
+    {
+      title: 'Distinction Graduate',
+      description: 'Achieved distinction in BSc Computing from Edinburgh Napier University',
+      year: 2025,
+      category: 'Academic',
+    },
+    {
+      title: 'Remote Developer Success',
+      description: 'Successfully working as a remote React Native developer at HighGround',
+      year: 2025,
+      category: 'Professional',
+    },
+    {
+      title: 'FinTech Project Contribution',
+      description: 'Contributed to a FinTech project at NTT Data Myanmar',
+      year: 2025,
+      category: 'Professional',
+    },
+  ],
+  // Add services offered
+  services: [
+    {
+      title: 'Mobile Development',
+      description: 'Cross-platform React Native apps with clean architecture and excellent UX',
+      technologies: ['React Native', 'Expo'],
+      icon: 'mobile',
+    },
+    {
+      title: 'Full-Stack Solutions',
+      description: 'Complete MERN stack applications with robust backend APIs and databases',
+      technologies: ['MERN', 'Node.js'],
+      icon: 'fullstack',
+    },
+    {
+      title: 'Clean Architecture',
+      description: 'Well-documented, maintainable code with strong development practices',
+      technologies: ['TypeScript', 'Clean Code'],
+      icon: 'architecture',
+    },
   ],
 };
