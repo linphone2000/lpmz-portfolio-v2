@@ -13,7 +13,7 @@ export const Contact: React.FC = () => {
         <div className="text-center mb-12">
           <h2 className="text-3xl font-bold mb-4 text-neutral-900 dark:text-neutral-100">Get In Touch</h2>
           <p className="text-neutral-600 dark:text-neutral-300 max-w-2xl mx-auto">
-            I'm always open to discussing new opportunities, interesting
+            I&apos;m always open to discussing new opportunities, interesting
             projects, or just having a chat about technology.
           </p>
         </div>

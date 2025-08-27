@@ -9,7 +9,7 @@ import {
   BriefcaseIcon,
   AcademicCapIcon
 } from '@heroicons/react/24/outline';
-import { DATA } from '../../lib/data';
+
 import { Button } from './Button';
 import { ThemeToggle } from './ThemeToggle';
 import { cx } from '../../lib/utils';

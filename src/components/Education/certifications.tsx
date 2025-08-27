@@ -26,7 +26,9 @@ export const Certifications: React.FC = () => {
             >
               <Card className="text-center">
                 <div className="text-2xl mb-3">🏆</div>
-                <h3 className="font-semibold mb-2 text-neutral-900 dark:text-neutral-100">{cert}</h3>
+                <h3 className="font-semibold mb-2 text-neutral-900 dark:text-neutral-100">{cert.name}</h3>
+                <p className="text-sm text-neutral-600 dark:text-neutral-400 mb-1">{cert.issuer}</p>
+                <p className="text-xs text-neutral-500 dark:text-neutral-500">{cert.year}</p>
               </Card>
             </motion.div>
           ))}
