@@ -1,56 +1,43 @@
 import { useEffect, useState } from 'react';
 
 export function useDarkMode() {
-  const [dark, setDark] = useState<boolean>(false);
-  const [mounted, setMounted] = useState<boolean>(false);
+  const [mounted, setMounted] = useState(false);
+  const [dark, setDark] = useState(false);
 
   useEffect(() => {
     setMounted(true);
-    const saved = localStorage.getItem('lpmz.theme');
-    if (saved === 'dark') {
-      setDark(true);
-    } else if (saved === 'light') {
-      setDark(false);
-    } else {
-      try {
-        const systemDark = window.matchMedia(
-          '(prefers-color-scheme: dark)'
-        ).matches;
-        setDark(systemDark);
-        localStorage.setItem('lpmz.theme', systemDark ? 'dark' : 'light');
-      } catch {
-        setDark(false);
-        localStorage.setItem('lpmz.theme', 'light');
-      }
-    }
+    
+    // Initialize dark state from localStorage or system preference
+    const savedTheme = localStorage.getItem('theme');
+    const systemPrefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
+    const shouldBeDark = savedTheme === "dark" || (!savedTheme && systemPrefersDark);
+    
+    setDark(shouldBeDark);
+    
+    // Apply the theme to the document
+    document.documentElement.classList.toggle("dark", shouldBeDark);
   }, []);
 
-  useEffect(() => {
-    if (!mounted) return;
+  const toggle = () => {
+    const newDark = !dark;
+    setDark(newDark);
+    
+    if (newDark) {
+      // Whenever the user explicitly chooses dark mode
+      localStorage.theme = "dark";
+      document.documentElement.classList.add('dark');
+    } else {
+      // Whenever the user explicitly chooses light mode
+      localStorage.theme = "light";
+      document.documentElement.classList.remove('dark');
+    }
+    
+    console.log('Toggle clicked! New theme:', newDark ? 'dark' : 'light');
+  };
 
-    const root = document.documentElement;
-    root.classList.toggle('dark', dark);
-    try {
-      localStorage.setItem('lpmz.theme', dark ? 'dark' : 'light');
-    } catch {}
-  }, [dark, mounted]);
-
-  useEffect(() => {
-    if (!mounted) return;
-
-    const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
-    const handleChange = (e: MediaQueryListEvent) => {
-      const saved = localStorage.getItem('lpmz.theme');
-      if (!saved) {
-        setDark(e.matches);
-        localStorage.setItem('lpmz.theme', e.matches ? 'dark' : 'light');
-      }
-    };
-
-    mediaQuery.addEventListener('change', handleChange);
-    return () => mediaQuery.removeEventListener('change', handleChange);
-  }, [mounted]);
-
-  const toggle = () => setDark((d) => !d);
-  return { dark, toggle, mounted } as const;
+  return {
+    dark,
+    toggle,
+    mounted
+  };
 }

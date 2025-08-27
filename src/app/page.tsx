@@ -22,38 +22,36 @@ export default function Portfolio() {
 
   return (
     <ErrorBoundary>
-      <div className={dark ? 'dark' : ''}>
-        <div className="min-h-screen relative bg-neutral-50 dark:bg-neutral-900 text-neutral-900 dark:text-neutral-100">
-          {/* Global scroll progress */}
-          <ScrollProgress />
+      <div className="min-h-screen relative bg-neutral-50 dark:bg-neutral-900 text-neutral-900 dark:text-neutral-100">
+        {/* Global scroll progress */}
+        <ScrollProgress />
 
-          {/* Background blobs */}
-          <Blobs />
+        {/* Background blobs */}
+        <Blobs />
 
-          <TabNavigation 
-            activeTab={activeTab} 
-            onTabChange={setActiveTab}
-            dark={dark}
-            toggle={toggle}
-            mounted={mounted}
-          />
+        <TabNavigation 
+          activeTab={activeTab} 
+          onTabChange={setActiveTab}
+          dark={dark}
+          toggle={toggle}
+          mounted={mounted}
+        />
 
-          {/* Tab Content */}
-          <motion.div
-            key={activeTab}
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.3 }}
-          >
-            <TabContent activeTab={activeTab} />
-          </motion.div>
+        {/* Tab Content */}
+        <motion.div
+          key={activeTab}
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.3 }}
+        >
+          <TabContent activeTab={activeTab} />
+        </motion.div>
 
-          {/* Contact section always visible */}
-          <Contact />
+        {/* Contact section always visible */}
+        <Contact />
 
-          {/* Scroll to top */}
-          <ScrollToTop />
-        </div>
+        {/* Scroll to top */}
+        <ScrollToTop />
       </div>
     </ErrorBoundary>
   );
