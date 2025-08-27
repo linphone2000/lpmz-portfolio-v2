@@ -11,8 +11,8 @@ export const Experience: React.FC = () => {
     <section className="py-16">
       <div className="max-w-5xl mx-auto px-4">
         <div className="text-center mb-12">
-          <h2 className="text-3xl font-bold mb-4">Experience</h2>
-          <p className="text-slate-600 dark:text-slate-400 max-w-2xl mx-auto">
+          <h2 className="text-3xl font-bold mb-4 text-neutral-900 dark:text-neutral-100">Experience</h2>
+          <p className="text-neutral-600 dark:text-neutral-300 max-w-2xl mx-auto">
             My professional journey in software development, focusing on mobile
             and web technologies.
           </p>
@@ -28,16 +28,16 @@ export const Experience: React.FC = () => {
               viewport={{ once: true }}
             >
               <Card className="relative overflow-hidden">
-                <div className="absolute top-0 left-0 w-1 h-full bg-gradient-to-b from-sky-500 to-cyan-500" />
+                <div className="absolute top-0 left-0 w-1 h-full bg-gradient-to-b from-primary-500 to-secondary-500" />
                 <div className="pl-6">
                   <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-4">
                     <div>
-                      <h3 className="text-xl font-bold mb-1">{exp.role}</h3>
-                      <p className="text-sky-600 dark:text-sky-400 font-medium">
+                      <h3 className="text-xl font-bold mb-1 text-neutral-900 dark:text-neutral-100">{exp.role}</h3>
+                      <p className="text-primary-600 dark:text-primary-400 font-medium">
                         {exp.company}
                       </p>
                     </div>
-                    <Badge className="bg-sky-500/10 text-sky-700 dark:text-sky-300 w-fit">
+                    <Badge className="bg-primary-500/10 text-primary-700 dark:text-primary-300 w-fit">
                       {exp.period}
                     </Badge>
                   </div>
@@ -45,9 +45,9 @@ export const Experience: React.FC = () => {
                     {exp.bullets.map((bullet, bulletIndex) => (
                       <li
                         key={bulletIndex}
-                        className="flex items-start gap-2 text-slate-700 dark:text-slate-300"
+                        className="flex items-start gap-2 text-neutral-600 dark:text-neutral-300"
                       >
-                        <span className="text-sky-500 mt-1.5">•</span>
+                        <span className="text-primary-500 mt-1.5">•</span>
                         <span>{bullet}</span>
                       </li>
                     ))}

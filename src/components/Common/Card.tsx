@@ -16,7 +16,8 @@ export const Card: React.FC<
     transition={{ duration: 0.6 }}
     viewport={{ once: true }}
     className={cx(
-      'rounded-2xl border border-black/5 dark:border-white/10 bg-white/80 dark:bg-white/5 backdrop-blur p-5 shadow-lg',
+      'rounded-2xl border border-neutral-200 dark:border-neutral-700 bg-white/80 dark:bg-neutral-900/5 backdrop-blur p-5 shadow-lg',
+      'text-neutral-900 dark:text-neutral-100',
       className
     )}
     style={style}
