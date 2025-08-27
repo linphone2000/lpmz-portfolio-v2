@@ -39,17 +39,13 @@ export const Hero: React.FC = () => {
               <div className="mt-2 text-lg text-neutral-600 dark:text-neutral-300 max-w-2xl">
                 <Typewriter
                   options={{
-                    strings: [
-                      `${DATA.title}`,
-                      'React Native · MERN · Backend Developer',
-                      'Building real products with clean code',
-                    ],
+                    strings: DATA.about.typewriterStrings,
                     autoStart: true,
                     loop: true,
                   }}
                 />
               </div>
-              <p className="mt-3 text-neutral-600 dark:text-neutral-300 max-w-2xl">
+              <p className="mt-3 text-neutral-600 dark:text-neutral-300 max-w-1.5xl">
                 {DATA.summary}
               </p>
               <div className="mt-8 flex flex-wrap gap-4">

@@ -11,7 +11,7 @@ export const DATA = {
     github: 'https://github.com/yourusername', // Add your GitHub
   },
   summary:
-    'Junior Software Engineer experienced in React Native, MERN, and backend (Node.js, Express). Passionate about clean architecture, strong documentation, and building real products.',
+    'Junior Software Engineer experienced in React Native, MERN, and backend (Node.js, Express). Passionate about building real products that solve problems, clean architecture, and AI.',
   // Add more detailed personal info
   about: {
     tagline: 'Building mobile-first experiences with strong API and data modeling foundations',
@@ -19,6 +19,11 @@ export const DATA = {
     yearsOfExperience: 2,
     totalProjects: 5,
     technologiesMastered: 12,
+    typewriterStrings: [
+      'Full‑Stack / React Native Developer',
+      'Graduate from Edinburgh Napier University',
+      'Building real products with clean code',
+    ],
   },
   experience: [
     {
@@ -183,12 +188,12 @@ export const DATA = {
   ],
   // Add achievements and milestones
   achievements: [
-    {
-      title: 'Distinction Graduate',
-      description: 'Achieved distinction in BSc Computing from Edinburgh Napier University',
-      year: 2025,
-      category: 'Academic',
-    },
+          {
+        title: 'Distinction Graduate',
+        description: 'Achieved 1ˢᵗ Class Honours in BSc Computing from Edinburgh Napier University',
+        year: 2025,
+        category: 'Academic',
+      },
     {
       title: 'Remote Developer Success',
       description: 'Successfully working as a remote React Native developer at HighGround',
