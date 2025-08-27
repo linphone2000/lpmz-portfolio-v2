@@ -11,8 +11,9 @@ export const Button: React.FC<
     onClick?: () => void;
     variant?: 'solid' | 'ghost';
     className?: string;
+    download?: boolean;
   }>
-> = ({ href, onClick, children, variant = 'solid', className }) => {
+> = ({ href, onClick, children, variant = 'solid', className, download }) => {
   const base = cx(
     'inline-flex items-center gap-2 rounded-xl px-4 py-2 text-sm font-semibold transition',
     variant === 'solid' &&
@@ -27,8 +28,9 @@ export const Button: React.FC<
         whileHover={{ scale: 1.05 }}
         className={base}
         href={href}
-        target="_blank"
-        rel="noreferrer noopener"
+        target={download ? undefined : "_blank"}
+        rel={download ? undefined : "noreferrer noopener"}
+        download={download}
       >
         {children}
       </motion.a>
