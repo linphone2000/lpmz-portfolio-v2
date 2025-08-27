@@ -29,8 +29,8 @@ export default function Portfolio() {
         {/* Background blobs */}
         <Blobs />
 
-        <TabNavigation 
-          activeTab={activeTab} 
+        <TabNavigation
+          activeTab={activeTab}
           onTabChange={setActiveTab}
           dark={dark}
           toggle={toggle}

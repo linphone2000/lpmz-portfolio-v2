@@ -28,8 +28,8 @@ export const Button: React.FC<
         whileHover={{ scale: 1.05 }}
         className={base}
         href={href}
-        target={download ? undefined : "_blank"}
-        rel={download ? undefined : "noreferrer noopener"}
+        target={download ? undefined : '_blank'}
+        rel={download ? undefined : 'noreferrer noopener'}
         download={download}
       >
         {children}

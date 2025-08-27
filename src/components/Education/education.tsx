@@ -11,7 +11,9 @@ export const Education: React.FC = () => {
     <section className="py-16">
       <div className="max-w-5xl mx-auto px-4">
         <div className="text-center mb-12">
-          <h2 className="text-3xl font-bold mb-4 text-neutral-900 dark:text-neutral-100">Education</h2>
+          <h2 className="text-3xl font-bold mb-4 text-neutral-900 dark:text-neutral-100">
+            Education
+          </h2>
           <p className="text-neutral-600 dark:text-neutral-300 max-w-2xl mx-auto">
             My academic background and continuous learning journey in software
             development and computing.
@@ -29,7 +31,9 @@ export const Education: React.FC = () => {
             >
               <Card className="h-full">
                 <div className="text-2xl mb-3">🎓</div>
-                <h3 className="text-lg font-bold mb-2 text-neutral-900 dark:text-neutral-100">{edu.school}</h3>
+                <h3 className="text-lg font-bold mb-2 text-neutral-900 dark:text-neutral-100">
+                  {edu.school}
+                </h3>
                 <p className="text-neutral-600 dark:text-neutral-300 mb-3">
                   {edu.credential}
                 </p>

@@ -7,7 +7,9 @@ interface SectionDividerProps {
   className?: string;
 }
 
-export const SectionDivider: React.FC<SectionDividerProps> = ({ className = '' }) => {
+export const SectionDivider: React.FC<SectionDividerProps> = ({
+  className = '',
+}) => {
   return (
     <div className={`w-full ${className}`}>
       <div className="max-w-7xl mx-auto px-6">
