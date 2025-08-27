@@ -5,11 +5,14 @@ import { motion } from 'framer-motion';
 import { DATA } from '../../lib/data';
 import { Card } from '../Common/Card';
 import { Badge } from '../Common/Badge';
+import { SectionDivider } from '../Common/SectionDivider';
 
 export const Experience: React.FC = () => {
   return (
-    <section className="py-20">
-      <div className="max-w-7xl mx-auto px-6">
+    <>
+      <SectionDivider className="py-8" />
+      <section className="py-10">
+        <div className="max-w-7xl mx-auto px-6">
         <div className="text-center mb-16">
           <h2 className="text-3xl font-bold mb-6 text-neutral-900 dark:text-neutral-100">Experience</h2>
           <p className="text-neutral-600 dark:text-neutral-300 max-w-3xl mx-auto">
@@ -58,6 +61,7 @@ export const Experience: React.FC = () => {
           ))}
         </div>
       </div>
-    </section>
+      </section>
+    </>
   );
 };
