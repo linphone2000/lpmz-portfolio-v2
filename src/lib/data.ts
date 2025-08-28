@@ -37,7 +37,7 @@ export const DATA = {
         'Developing cross‑platform mobile apps with React Native in an Agile environment.',
         'Writing requirements from customer input to clarify scope and support the team.',
         'Established consistency guidelines for navigation, API integration, theming, and UI/UX.',
-        'Contributed structured documentation improving team alignment and maintainability.',
+        'Work on overseas projects with international clients.',
       ],
       technologies: ['React Native', 'TypeScript', 'Agile', 'Documentation'],
     },
