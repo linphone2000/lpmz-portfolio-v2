@@ -1,8 +1,9 @@
 'use client';
 
-import React from 'react';
-import { motion, useReducedMotion } from 'framer-motion';
+import React, { useCallback } from 'react';
+import { motion } from 'framer-motion';
 import { SunIcon, MoonIcon } from '@heroicons/react/24/solid';
+import { useReducedMotion } from '../../hooks/useReducedMotion';
 
 interface ThemeToggleProps {
   dark: boolean;
@@ -10,12 +11,18 @@ interface ThemeToggleProps {
   mounted: boolean;
 }
 
-export const ThemeToggle: React.FC<ThemeToggleProps> = ({
+export const ThemeToggle: React.FC<ThemeToggleProps> = React.memo(({
   dark,
   toggle,
   mounted,
 }) => {
   const prefersReducedMotion = useReducedMotion();
+
+  const handleToggle = useCallback(() => {
+    toggle();
+  }, [toggle]);
+
+
 
   if (!mounted) {
     return (
@@ -24,22 +31,23 @@ export const ThemeToggle: React.FC<ThemeToggleProps> = ({
   }
 
   return (
-    <motion.button
+    <button
       type="button"
-      onClick={toggle}
+      onClick={handleToggle}
       role="switch"
       aria-checked={dark}
       aria-label="Toggle theme"
-      whileHover={{ scale: prefersReducedMotion ? 1 : 1.05 }}
-      whileTap={{ scale: prefersReducedMotion ? 1 : 0.95 }}
       className={[
-        'relative h-5 w-10 rounded-full transition-colors duration-300',
+        'relative h-5 w-10 rounded-full transition-all duration-300',
         'bg-white/70 dark:bg-neutral-900/70 backdrop-blur',
         'focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-1',
         'focus-visible:ring-rose-400 dark:focus-visible:ring-amber-300',
         'focus-visible:ring-offset-white dark:focus-visible:ring-offset-neutral-900',
         'border border-neutral-200/70 dark:border-neutral-700/70',
         'overflow-hidden',
+        // CSS animations for hover and tap
+        'hover:scale-105 active:scale-95',
+        prefersReducedMotion ? '' : 'transform-gpu',
       ].join(' ')}
     >
       {/* Glow background */}
@@ -99,17 +107,10 @@ export const ThemeToggle: React.FC<ThemeToggleProps> = ({
       </div>
 
       {/* Knob */}
-      <motion.div
-        className="absolute left-0.5 top-1/2 h-3.5 w-3.5 -translate-y-1/2 rounded-full bg-white dark:bg-neutral-100 shadow-md"
-        initial={false}
-        animate={{
-          x: dark ? 22 : 0, // updated travel distance for larger size
-        }}
-        transition={
-          prefersReducedMotion
-            ? { duration: 0.2 }
-            : { type: 'spring', stiffness: 600, damping: 32 }
-        }
+      <div
+        className={`absolute top-1/2 h-3.5 w-3.5 -translate-y-1/2 rounded-full bg-white dark:bg-neutral-100 shadow-md transition-transform duration-300 ease-out ${
+          dark ? 'translate-x-[22px]' : 'translate-x-[2px]'
+        }`}
       >
         <div className="flex h-full w-full items-center justify-center">
           {dark ? (
@@ -118,7 +119,9 @@ export const ThemeToggle: React.FC<ThemeToggleProps> = ({
             <SunIcon className="h-3 w-3 text-rose-500 drop-shadow-[0_0_3px_rgba(255,88,120,0.6)]" />
           )}
         </div>
-      </motion.div>
-    </motion.button>
+      </div>
+    </button>
   );
-};
+});
+
+ThemeToggle.displayName = 'ThemeToggle';

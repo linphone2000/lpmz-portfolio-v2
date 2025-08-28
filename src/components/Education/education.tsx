@@ -6,9 +6,11 @@ import { DATA } from '../../lib/data';
 import { Card } from '../Common/Card';
 import { Badge } from '../Common/Badge';
 
+
 export const Education: React.FC = () => {
   return (
-    <section className="py-16">
+    <section className="py-16 relative">
+
       <div className="max-w-5xl mx-auto px-4">
         <div className="text-center mb-12">
           <h2 className="text-3xl font-bold mb-4 text-neutral-900 dark:text-neutral-100">
