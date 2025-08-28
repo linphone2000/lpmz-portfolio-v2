@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useCallback } from 'react';
 import { motion } from 'framer-motion';
 import { Modal } from './Modal';
 import { Badge } from './Badge';
@@ -14,7 +14,6 @@ import {
   UserGroupIcon,
   PlayIcon,
   PhotoIcon,
-  XMarkIcon,
 } from '@heroicons/react/24/outline';
 
 interface Project {
@@ -35,7 +34,7 @@ interface ProjectModalProps {
   project: Project;
 }
 
-export const ProjectModal: React.FC<ProjectModalProps> = ({
+export const ProjectModal: React.FC<ProjectModalProps> = React.memo(({
   isOpen,
   onClose,
   project,
@@ -44,6 +43,15 @@ export const ProjectModal: React.FC<ProjectModalProps> = ({
     'overview'
   );
   const [isVideoPlaying, setIsVideoPlaying] = useState(false);
+
+  // Memoized callbacks
+  const handleTabChange = useCallback((tab: 'overview' | 'demo' | 'gallery') => {
+    setActiveTab(tab);
+  }, []);
+
+  const handleVideoToggle = useCallback(() => {
+    setIsVideoPlaying(prev => !prev);
+  }, []);
 
   // Mock screenshots for PropertyApp
   const mockScreenshots = [
@@ -125,7 +133,7 @@ export const ProjectModal: React.FC<ProjectModalProps> = ({
             ].map((tab) => (
               <button
                 key={tab.id}
-                onClick={() => setActiveTab(tab.id as any)}
+                onClick={() => handleTabChange(tab.id as 'overview' | 'demo' | 'gallery')}
                 className={`flex items-center gap-2 py-2 px-1 border-b-2 font-medium text-sm transition-colors ${
                   activeTab === tab.id
                     ? 'border-primary-500 text-primary-600 dark:text-primary-400'
@@ -239,7 +247,7 @@ export const ProjectModal: React.FC<ProjectModalProps> = ({
                   <div className="text-center">
                     <div
                       className="w-20 h-20 bg-primary-500 rounded-full flex items-center justify-center mb-4 mx-auto cursor-pointer hover:bg-primary-600 transition-colors"
-                      onClick={() => setIsVideoPlaying(true)}
+                      onClick={handleVideoToggle}
                     >
                       <PlayIcon className="w-8 h-8 text-white" />
                     </div>
@@ -263,8 +271,8 @@ export const ProjectModal: React.FC<ProjectModalProps> = ({
               )}
             </div>
             <p className="text-sm text-neutral-600 dark:text-neutral-400">
-              Watch a comprehensive demo of PropertyApp's key features including
-              real-time trading, P&L tracking, and portfolio analytics.
+              Watch a comprehensive demo of PropertyApp&apos;s key features including
+              real-time trading, P&amp;L tracking, and portfolio analytics.
             </p>
           </div>
         )}
@@ -323,4 +331,6 @@ export const ProjectModal: React.FC<ProjectModalProps> = ({
       </div>
     </Modal>
   );
-};
+});
+
+ProjectModal.displayName = 'ProjectModal';

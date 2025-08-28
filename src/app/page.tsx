@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useCallback, useMemo } from 'react';
 import { motion } from 'framer-motion';
 import { Contact } from '../components/Common/contact';
 import { ScrollProgress, Blobs } from '../components/Common/Effects';
@@ -15,6 +15,17 @@ export default function Portfolio() {
   const { dark, toggle, mounted } = useDarkMode();
   const [activeTab, setActiveTab] = useState('overview');
 
+  // Memoized callback to prevent unnecessary re-renders
+  const handleTabChange = useCallback((tab: string) => {
+    setActiveTab(tab);
+  }, []);
+
+  // Memoize animation variants
+  const tabContentVariants = useMemo(() => ({
+    hidden: { opacity: 0, y: 20 },
+    visible: { opacity: 1, y: 0 }
+  }), []);
+
   // Prevent hydration mismatch by not rendering until mounted
   if (!mounted) {
     return <LoadingSkeleton />;
@@ -27,11 +38,11 @@ export default function Portfolio() {
         <ScrollProgress />
 
         {/* Background blobs */}
-        <Blobs />
+        <Blobs activeTab={activeTab} />
 
         <TabNavigation
           activeTab={activeTab}
-          onTabChange={setActiveTab}
+          onTabChange={handleTabChange}
           dark={dark}
           toggle={toggle}
           mounted={mounted}
@@ -40,8 +51,9 @@ export default function Portfolio() {
         {/* Tab Content */}
         <motion.div
           key={activeTab}
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
+          variants={tabContentVariants}
+          initial="hidden"
+          animate="visible"
           transition={{ duration: 0.3 }}
         >
           <TabContent activeTab={activeTab} />

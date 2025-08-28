@@ -7,11 +7,13 @@ import { Card } from '../Common/Card';
 import { Badge } from '../Common/Badge';
 import { SectionDivider } from '../Common/SectionDivider';
 
+
 export const Experience: React.FC = () => {
   return (
     <>
       <SectionDivider className="py-8" />
-      <section className="py-10">
+      <section className="py-10 relative">
+
         <div className="max-w-7xl mx-auto px-6">
           <div className="text-center mb-16">
             <h2 className="text-3xl font-bold mb-6 text-neutral-900 dark:text-neutral-100">

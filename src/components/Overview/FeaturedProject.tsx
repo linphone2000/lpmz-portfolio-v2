@@ -1,12 +1,12 @@
 'use client';
 
-import React, { useState } from 'react';
-import { motion } from 'framer-motion';
+import React, { useState, useCallback, useMemo } from 'react';
 import { DATA } from '../../lib/data';
 import { Button } from '../Common/Button';
 import { Badge } from '../Common/Badge';
 import { SectionDivider } from '../Common/SectionDivider';
 import { ProjectModal } from '../Common/ProjectModal';
+import { useInView } from '../../hooks/useInView';
 import {
   CalendarIcon,
   CheckCircleIcon,
@@ -14,29 +14,70 @@ import {
   RocketLaunchIcon,
 } from '@heroicons/react/24/outline';
 
-export const FeaturedProject: React.FC = () => {
+export const FeaturedProject: React.FC = React.memo(() => {
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const featuredProject =
-    DATA.projects.find((p) => p.highlight) || DATA.projects[0];
+  
+  // Use custom in-view hook
+  const [headerRef, isHeaderInView] = useInView({ 
+    threshold: 0.1, 
+    triggerOnce: true 
+  });
+  const [containerRef, isContainerInView] = useInView({ 
+    threshold: 0.1, 
+    triggerOnce: true 
+  });
+  
+  // Memoize featured project to prevent recalculation
+  const featuredProject = useMemo(() => 
+    DATA.projects.find((p) => p.highlight) || DATA.projects[0]
+  , []);
 
-  const handleOpenModal = () => {
+  // Memoized callbacks
+  const handleOpenModal = useCallback(() => {
     setIsModalOpen(true);
-  };
+  }, []);
 
-  const handleCloseModal = () => {
+  const handleCloseModal = useCallback(() => {
     setIsModalOpen(false);
-  };
+  }, []);
+
+  // Memoize project features for rendering
+  const projectFeatures = useMemo(() => 
+    featuredProject.features.map((feature, index) => (
+      <div
+        key={index}
+        className="flex items-center gap-2 text-sm text-neutral-600 dark:text-neutral-400"
+      >
+        <CheckCircleIcon className="w-4 h-4 text-green-500 flex-shrink-0" />
+        <span>{feature}</span>
+      </div>
+    ))
+  , [featuredProject.features]);
+
+  // Memoize tech stack badges
+  const techStackBadges = useMemo(() => 
+    featuredProject.stack.map((tech) => (
+      <Badge
+        key={tech}
+        className="bg-neutral-100 dark:bg-neutral-800 text-xs"
+      >
+        {tech}
+      </Badge>
+    ))
+  , [featuredProject.stack]);
 
   return (
     <>
       <SectionDivider className="py-8" />
       <section className="py-10">
         <div className="max-w-7xl mx-auto px-6">
-          <motion.div
-            className="text-center mb-16"
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
+          <div
+            ref={headerRef}
+            className={`text-center mb-16 transition-all duration-700 ease-out ${
+              isHeaderInView 
+                ? 'opacity-100 translate-y-0' 
+                : 'opacity-0 translate-y-8'
+            }`}
           >
             <h2 className="text-3xl font-bold mb-6 text-neutral-900 dark:text-neutral-100">
               Featured Project
@@ -45,13 +86,15 @@ export const FeaturedProject: React.FC = () => {
               A showcase of my most impactful work, demonstrating technical
               skills and problem-solving approach.
             </p>
-          </motion.div>
+          </div>
 
-          <motion.div
-            className="max-w-5xl mx-auto relative"
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.2 }}
+          <div
+            ref={containerRef}
+            className={`max-w-5xl mx-auto relative transition-all duration-800 ease-out delay-200 ${
+              isContainerInView 
+                ? 'opacity-100 translate-y-0' 
+                : 'opacity-0 translate-y-8'
+            }`}
           >
             {/* Animated border container */}
             <div className="relative rounded-2xl p-[2px] bg-gradient-to-r from-primary-500 to-secondary-500 animate-gradient-x">
@@ -98,15 +141,7 @@ export const FeaturedProject: React.FC = () => {
                         Key Features
                       </h4>
                       <div className="grid grid-cols-2 gap-2">
-                        {featuredProject.features.map((feature, index) => (
-                          <div
-                            key={index}
-                            className="flex items-center gap-2 text-sm text-neutral-600 dark:text-neutral-400"
-                          >
-                            <CheckCircleIcon className="w-4 h-4 text-green-500 flex-shrink-0" />
-                            <span>{feature}</span>
-                          </div>
-                        ))}
+                        {projectFeatures}
                       </div>
                     </div>
 
@@ -116,14 +151,7 @@ export const FeaturedProject: React.FC = () => {
                         Tech Stack
                       </h4>
                       <div className="flex flex-wrap gap-2">
-                        {featuredProject.stack.map((tech) => (
-                          <Badge
-                            key={tech}
-                            className="bg-neutral-100 dark:bg-neutral-800 text-xs"
-                          >
-                            {tech}
-                          </Badge>
-                        ))}
+                        {techStackBadges}
                       </div>
                     </div>
 
@@ -225,7 +253,7 @@ export const FeaturedProject: React.FC = () => {
                 </div>
               </div>
             </div>
-          </motion.div>
+          </div>
         </div>
       </section>
 
@@ -237,4 +265,6 @@ export const FeaturedProject: React.FC = () => {
       />
     </>
   );
-};
+});
+
+FeaturedProject.displayName = 'FeaturedProject';

@@ -7,6 +7,7 @@ import { DATA } from '../../lib/data';
 import { Card } from '../Common/Card';
 import { Badge } from '../Common/Badge';
 import { Button } from '../Common/Button';
+
 import {
   BriefcaseIcon,
   AcademicCapIcon,
@@ -19,6 +20,7 @@ export const Hero: React.FC = () => {
       id="about"
       className="relative overflow-hidden min-h-screen flex items-center"
     >
+
       <div className="max-w-7xl mx-auto px-6 py-16 sm:py-16 w-full">
         <motion.div
           initial={{ opacity: 0 }}

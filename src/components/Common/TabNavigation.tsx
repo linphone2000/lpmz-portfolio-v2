@@ -1,7 +1,6 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import React, { useState, useCallback, useMemo } from 'react';
 import {
   Bars3Icon,
   XMarkIcon,
@@ -13,6 +12,8 @@ import {
 import { Button } from './Button';
 import { ThemeToggle } from './ThemeToggle';
 import { cx } from '../../lib/utils';
+import { useThrottledScroll } from '../../hooks/useThrottledScroll';
+import { useExitAnimation } from '../../hooks/useExitAnimation';
 
 interface TabNavigationProps {
   activeTab: string;
@@ -22,13 +23,26 @@ interface TabNavigationProps {
   mounted: boolean;
 }
 
+interface TabItem {
+  id: string;
+  label: string;
+  icon: React.ReactNode;
+}
+
 export const TabNavigation: React.FC<TabNavigationProps> = React.memo(
   ({ activeTab, onTabChange, dark, toggle, mounted }) => {
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
     const [isVisible, setIsVisible] = useState(true);
     const [lastScrollY, setLastScrollY] = useState(0);
 
-    const tabs = [
+    // Use exit animation hook for mobile menu
+    const { isVisible: isMenuVisible, isExiting, hide: hideMenu, show: showMenu } = useExitAnimation({
+      duration: 300,
+      onExit: () => setIsMobileMenuOpen(false)
+    });
+
+    // Memoize tabs array to prevent unnecessary re-renders
+    const tabs: TabItem[] = useMemo(() => [
       {
         id: 'overview',
         label: 'Overview',
@@ -44,65 +58,64 @@ export const TabNavigation: React.FC<TabNavigationProps> = React.memo(
         label: 'Education',
         icon: <AcademicCapIcon className="h-4 w-4" />,
       },
-    ];
+    ], []);
 
-    const handleKeyDown = (e: React.KeyboardEvent, tabId: string) => {
+    // Memoized callbacks to prevent unnecessary re-renders
+    const handleKeyDown = useCallback((e: React.KeyboardEvent, tabId: string) => {
       if (e.key === 'Enter' || e.key === ' ') {
         e.preventDefault();
         onTabChange(tabId);
       }
-    };
+    }, [onTabChange]);
 
-    const handleTabClick = (tabId: string) => {
+    const handleTabClick = useCallback((tabId: string) => {
       onTabChange(tabId);
-      setIsMobileMenuOpen(false);
-    };
+      hideMenu();
+    }, [onTabChange, hideMenu]);
 
-    const handleMobileMenuToggle = () => {
-      setIsMobileMenuOpen(!isMobileMenuOpen);
-    };
-
-    const handleEscapeKey = (e: React.KeyboardEvent) => {
-      if (e.key === 'Escape') {
-        setIsMobileMenuOpen(false);
+    const handleMobileMenuToggle = useCallback(() => {
+      if (isMobileMenuOpen) {
+        hideMenu();
+      } else {
+        setIsMobileMenuOpen(true);
+        showMenu();
       }
-    };
+    }, [isMobileMenuOpen, hideMenu, showMenu]);
 
-    // Scroll behavior
-    useEffect(() => {
-      const handleScroll = () => {
-        const currentScrollY = window.scrollY;
+    const handleEscapeKey = useCallback((e: React.KeyboardEvent) => {
+      if (e.key === 'Escape') {
+        hideMenu();
+      }
+    }, [hideMenu]);
 
-        // Show navbar when scrolling up or at top, hide when scrolling down
-        if (currentScrollY < lastScrollY || currentScrollY < 100) {
-          setIsVisible(true);
-        } else if (currentScrollY > lastScrollY && currentScrollY > 100) {
-          setIsVisible(false);
-        }
-
-        setLastScrollY(currentScrollY);
-      };
-
-      window.addEventListener('scroll', handleScroll, { passive: true });
-      return () => window.removeEventListener('scroll', handleScroll);
+    // Throttled scroll handler for better performance
+    const handleScroll = useCallback((currentScrollY: number) => {
+      // Show navbar when scrolling up or at top, hide when scrolling down
+      if (currentScrollY < lastScrollY || currentScrollY < 100) {
+        setIsVisible(true);
+      } else if (currentScrollY > lastScrollY && currentScrollY > 100) {
+        setIsVisible(false);
+      }
+      setLastScrollY(currentScrollY);
     }, [lastScrollY]);
 
+    // Use throttled scroll hook
+    useThrottledScroll(handleScroll, { throttleMs: 16 });
+
     return (
-      <motion.header
-        className="sticky top-0 z-40 backdrop-blur bg-white/60 dark:bg-neutral-900/50 border-b border-neutral-200 dark:border-neutral-700"
-        initial={{ y: 0 }}
-        animate={{ y: isVisible ? 0 : -100 }}
-        transition={{ duration: 0.3, ease: 'easeInOut' }}
+      <header
+        className={`sticky top-0 z-40 backdrop-blur bg-white/60 dark:bg-neutral-900/50 border-b border-neutral-200 dark:border-neutral-700 transition-transform duration-300 ease-in-out ${
+          isVisible ? 'translate-y-0' : '-translate-y-full'
+        }`}
       >
         <div className="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between">
-          <motion.button
-            whileHover={{ scale: 1.1 }}
+          <button
             onClick={() => handleTabClick('overview')}
-            className="font-extrabold tracking-tight text-lg text-neutral-900 dark:text-neutral-100"
+            className="font-extrabold tracking-tight text-lg text-neutral-900 dark:text-neutral-100 transform hover:scale-110 transition-transform duration-200"
             aria-label="Go to overview"
           >
             LPMZ<span className="text-primary-500">.</span>
-          </motion.button>
+          </button>
 
           {/* Desktop Navigation */}
           <nav
@@ -113,7 +126,7 @@ export const TabNavigation: React.FC<TabNavigationProps> = React.memo(
             {tabs.map((tab) => (
               <button
                 key={tab.id}
-                onClick={() => onTabChange(tab.id)}
+                onClick={() => handleTabClick(tab.id)}
                 onKeyDown={(e) => handleKeyDown(e, tab.id)}
                 role="tab"
                 aria-selected={activeTab === tab.id}
@@ -151,53 +164,39 @@ export const TabNavigation: React.FC<TabNavigationProps> = React.memo(
               aria-expanded={isMobileMenuOpen}
               aria-controls="mobile-menu"
             >
-              <AnimatePresence mode="wait">
+              <div className="relative">
                 {isMobileMenuOpen ? (
-                  <motion.div
-                    key="close"
-                    initial={{ rotate: -90, opacity: 0 }}
-                    animate={{ rotate: 0, opacity: 1 }}
-                    exit={{ rotate: 90, opacity: 0 }}
-                    transition={{ duration: 0.2 }}
-                  >
+                  <div className="transform rotate-0 opacity-100 transition-all duration-200">
                     <XMarkIcon className="h-6 w-6" />
-                  </motion.div>
+                  </div>
                 ) : (
-                  <motion.div
-                    key="menu"
-                    initial={{ rotate: 90, opacity: 0 }}
-                    animate={{ rotate: 0, opacity: 1 }}
-                    exit={{ rotate: -90, opacity: 0 }}
-                    transition={{ duration: 0.2 }}
-                  >
+                  <div className="transform rotate-0 opacity-100 transition-all duration-200">
                     <Bars3Icon className="h-6 w-6" />
-                  </motion.div>
+                  </div>
                 )}
-              </AnimatePresence>
+              </div>
             </button>
           </div>
         </div>
 
-        {/* Mobile Menu */}
-        <AnimatePresence>
-          {isMobileMenuOpen && (
-            <motion.div
-              id="mobile-menu"
-              initial={{ opacity: 0, height: 0 }}
-              animate={{ opacity: 1, height: 'auto' }}
-              exit={{ opacity: 0, height: 0 }}
-              transition={{ duration: 0.3, ease: 'easeInOut' }}
-              className="md:hidden border-t border-neutral-200 dark:border-neutral-700 bg-white/95 dark:bg-neutral-900/95 backdrop-blur"
-            >
+        {/* Mobile Menu Dropdown */}
+        {(isMobileMenuOpen || isMenuVisible) && (
+          <div
+            id="mobile-menu"
+            className={`md:hidden absolute top-16 right-4 z-50 transition-all duration-300 ease-in-out ${
+              isMenuVisible && !isExiting 
+                ? 'opacity-100 translate-y-0' 
+                : 'opacity-0 -translate-y-2 pointer-events-none'
+            }`}
+          >
+            {/* Menu Content */}
+            <div className="bg-white/95 dark:bg-neutral-900/95 backdrop-blur border border-neutral-200 dark:border-neutral-700 shadow-lg rounded-lg min-w-[200px]">
               <div className="px-6 py-4 space-y-3">
                 {/* Mobile Navigation Tabs */}
                 <nav role="tablist" aria-label="Portfolio sections">
                   {tabs.map((tab, index) => (
-                    <motion.button
+                    <button
                       key={tab.id}
-                      initial={{ opacity: 0, x: -20 }}
-                      animate={{ opacity: 1, x: 0 }}
-                      transition={{ duration: 0.3, delay: index * 0.1 }}
                       onClick={() => handleTabClick(tab.id)}
                       onKeyDown={(e) => handleKeyDown(e, tab.id)}
                       role="tab"
@@ -210,19 +209,24 @@ export const TabNavigation: React.FC<TabNavigationProps> = React.memo(
                           ? 'bg-primary-500 text-white shadow-lg'
                           : 'text-neutral-600 dark:text-neutral-300 hover:bg-neutral-100 dark:hover:bg-neutral-800'
                       )}
+                      style={{
+                        animationDelay: `${index * 100}ms`,
+                        animation: isMenuVisible && !isExiting ? 'slideInLeft 0.3s ease-out forwards' : 'none'
+                      }}
                     >
                       <span>{tab.icon}</span>
                       {tab.label}
-                    </motion.button>
+                    </button>
                   ))}
                 </nav>
 
                 {/* Mobile Download CV Button */}
-                <motion.div
-                  initial={{ opacity: 0, x: -20 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  transition={{ duration: 0.3, delay: 0.4 }}
+                <div
                   className="pt-2"
+                  style={{
+                    animationDelay: '400ms',
+                    animation: isMenuVisible && !isExiting ? 'slideInLeft 0.3s ease-out forwards' : 'none'
+                  }}
                 >
                   <Button
                     href="/lpmz-cv.pdf"
@@ -231,12 +235,12 @@ export const TabNavigation: React.FC<TabNavigationProps> = React.memo(
                   >
                     Download CV
                   </Button>
-                </motion.div>
+                </div>
               </div>
-            </motion.div>
-          )}
-        </AnimatePresence>
-      </motion.header>
+            </div>
+          </div>
+        )}
+      </header>
     );
   }
 );

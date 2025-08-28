@@ -1,6 +1,6 @@
 'use client';
 
-import React from 'react';
+import React, { useMemo } from 'react';
 import { Hero } from '../Overview/hero';
 import { Experience } from '../Overview/experience';
 import { FeaturedProject } from '../Overview/FeaturedProject';
@@ -13,8 +13,9 @@ interface TabContentProps {
   activeTab: string;
 }
 
-export const TabContent: React.FC<TabContentProps> = ({ activeTab }) => {
-  const renderTabContent = () => {
+export const TabContent: React.FC<TabContentProps> = React.memo(({ activeTab }) => {
+  // Memoize tab content to prevent unnecessary re-renders
+  const tabContent = useMemo(() => {
     switch (activeTab) {
       case 'overview':
         return (
@@ -47,7 +48,9 @@ export const TabContent: React.FC<TabContentProps> = ({ activeTab }) => {
           </div>
         );
     }
-  };
+  }, [activeTab]);
 
-  return renderTabContent();
-};
+  return tabContent;
+});
+
+TabContent.displayName = 'TabContent';
