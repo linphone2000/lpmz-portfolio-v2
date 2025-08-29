@@ -6,6 +6,7 @@ import { Button } from '../Common/Button';
 import { Badge } from '../Common/Badge';
 import { SectionDivider } from '../Common/SectionDivider';
 import { ProjectModal } from '../Common/ProjectModal';
+import { PhoneFrame } from '../Common/PhoneFrame';
 import { useInView } from '../../hooks/useInView';
 import { useDarkMode } from '../../hooks/useDarkMode';
 import {
@@ -205,15 +206,15 @@ export const FeaturedProject: React.FC = React.memo(() => {
                             {/* App Screenshot */}
                             <div className="relative mb-4 sm:mb-6">
                               {/* Phone frame */}
-                              <div className="relative w-30 h-64 sm:w-34 sm:h-72 bg-neutral-900 rounded-2xl p-1 shadow-2xl">
-                                {/* Screen */}
-                                <div className="w-full h-full rounded-2xl overflow-hidden relative">
-                                  <img
-                                    src="/property-project/home1.png"
-                                    alt="PropertyApp Screenshot"
-                                    className="w-full h-full object-contain"
-                                  />
-                                </div>
+                              <div className="relative w-30 h-64 sm:w-34 sm:h-72">
+                                <PhoneFrame
+                                  src={
+                                    featuredProject?.preview?.screenshot ||
+                                    '/property-project/home1.png'
+                                  }
+                                  alt="PropertyApp Screenshot"
+                                  showHoverEffect={false}
+                                />
                               </div>
 
                               {/* Glow effect */}
@@ -234,34 +235,31 @@ export const FeaturedProject: React.FC = React.memo(() => {
                                 : 'Experience the full functionality with interactive features.'}
                             </p>
 
-                            {/* Quick Stats */}
-                            <div className="grid grid-cols-2 gap-3 mb-4">
-                              <div className="text-center">
-                                <div className="text-lg font-bold text-green-600">
-                                  $124K
-                                </div>
-                                <div className="text-xs text-neutral-500 dark:text-neutral-400">
-                                  Portfolio Value
-                                </div>
-                              </div>
-                              <div className="text-center">
-                                <div className="text-lg font-bold text-blue-600">
-                                  +2.4%
-                                </div>
-                                <div className="text-xs text-neutral-500 dark:text-neutral-400">
-                                  Today's Gain
-                                </div>
-                              </div>
-                            </div>
-
                             {/* Feature Pills */}
-                            <div className="flex flex-wrap justify-center gap-2">
-                              <span className="px-2 py-1 bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-300 text-xs rounded-full">
-                                Real-time Trading
-                              </span>
-                              <span className="px-2 py-1 bg-blue-100 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300 text-xs rounded-full">
-                                Portfolio Analytics
-                              </span>
+                            <div className="flex flex-wrap justify-center gap-2 mb-4">
+                              {featuredProject.preview?.featurePills?.map(
+                                (pill, index) => (
+                                  <span
+                                    key={index}
+                                    className={`px-2 py-1 text-xs rounded-full ${
+                                      index === 0
+                                        ? 'bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-300'
+                                        : 'bg-blue-100 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300'
+                                    }`}
+                                  >
+                                    {pill}
+                                  </span>
+                                )
+                              ) || (
+                                <>
+                                  <span className="px-2 py-1 bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-300 text-xs rounded-full">
+                                    Real-time Trading
+                                  </span>
+                                  <span className="px-2 py-1 bg-blue-100 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300 text-xs rounded-full">
+                                    Portfolio Analytics
+                                  </span>
+                                </>
+                              )}
                             </div>
                           </div>
                         </div>

@@ -29,6 +29,14 @@ This folder contains comprehensive documentation for the portfolio project, incl
   - Performance considerations
   - Best practices for the blob system
 
+### **⚡ Optimization Plans**
+- **`HERO_FEATUREDPROJECT_OPTIMIZATION_PLAN.md`** - Detailed optimization strategy for Hero and FeaturedProject components
+  - Comprehensive analysis of current performance issues
+  - 5-phase implementation strategy (Data Access, Component Splitting, CSS, Image, Advanced)
+  - Success metrics and testing strategy
+  - Risk assessment and mitigation strategies
+  - Timeline and expected outcomes
+
 ## 🎯 **Quick Reference**
 
 ### **Performance Metrics**
