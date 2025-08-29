@@ -74,7 +74,91 @@ export const DATA = {
         'P&L Tracking',
         'Portfolio Analytics',
         'Market Simulation',
+        '7-Day Performance Chart',
+        'Virtual Trading',
       ],
+      // PropertyApp-specific data for preview
+      preview: {
+        platform: 'iOS & Android',
+        buysell: 'Buy/Sell',
+        featurePills: ['Real-time Trading', 'Portfolio Analytics'],
+        screenshot: '/property-project/home1.png',
+        screenshots: [
+          {
+            id: 1,
+            src: '/property-project/home1.png',
+            title: 'Dashboard Overview',
+            description:
+              'Main trading dashboard with portfolio summary and key metrics',
+          },
+          {
+            id: 2,
+            src: '/property-project/home2.png',
+            title: 'Top P&L Properties',
+            description: 'Detailed portfolio performance and analytics view',
+          },
+          {
+            id: 3,
+            src: '/property-project/home3.png',
+            title: 'P&L Tracking',
+            description: 'Live trading interface with buy/sell functionality',
+          },
+          {
+            id: 4,
+            src: '/property-project/home4.png',
+            title: 'Recent Trades',
+            description: 'Profit and loss tracking with detailed analytics',
+          },
+          {
+            id: 5,
+            src: '/property-project/home5.png',
+            title: 'Buy',
+            description: 'Real-time market data and price charts',
+          },
+          {
+            id: 6,
+            src: '/property-project/home6.png',
+            title: 'Sell',
+            description: 'Complete transaction log and history view',
+          },
+          {
+            id: 7,
+            src: '/property-project/home7.png',
+            title: 'Transaction Success',
+            description: 'Advanced portfolio analytics and insights',
+          },
+          {
+            id: 8,
+            src: '/property-project/property1.png',
+            title: 'Property Management',
+            description: 'Property listing and management interface',
+          },
+          {
+            id: 9,
+            src: '/property-project/property2.png',
+            title: 'Property Details',
+            description: 'Detailed property information and metrics',
+          },
+          {
+            id: 10,
+            src: '/property-project/profile1.png',
+            title: 'User Profile',
+            description: 'User profile and account management',
+          },
+          {
+            id: 11,
+            src: '/property-project/profile2.png',
+            title: 'Account Settings',
+            description: 'Account settings and preferences',
+          },
+          {
+            id: 12,
+            src: '/property-project/manage1.PNG',
+            title: 'Management Dashboard',
+            description: 'Administrative dashboard and controls',
+          },
+        ],
+      },
     },
     {
       name: 'Intelligent Home Surveillance System',
