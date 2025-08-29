@@ -1,15 +1,14 @@
 'use client';
 
-import React, { useState, useCallback, useMemo } from 'react';
+import React, { useState, useCallback, useMemo, Suspense } from 'react';
 import { motion } from 'framer-motion';
-import { Contact } from '../components/Common/contact';
 import { ScrollProgress, Blobs } from '../components/Common/Effects';
 import { TabNavigation } from '../components/Common/TabNavigation';
-import { TabContent } from '../components/Common/TabContent';
 import { ScrollToTop } from '../components/Common/ScrollToTop';
-import { LoadingSkeleton } from '../components/Common/LoadingSpinner';
+import { LoadingSkeleton, LoadingSpinner } from '../components/Common/LoadingSpinner';
 import { ErrorBoundary } from '../components/Common/ErrorBoundary';
 import { useDarkMode } from '../hooks/useDarkMode';
+import { DynamicTabContent, DynamicContact } from '../components/Common/DynamicImport';
 
 export default function Portfolio() {
   const { dark, toggle, mounted } = useDarkMode();
@@ -56,11 +55,15 @@ export default function Portfolio() {
           animate="visible"
           transition={{ duration: 0.3 }}
         >
-          <TabContent activeTab={activeTab} />
+          <Suspense fallback={<LoadingSpinner />}>
+            <DynamicTabContent activeTab={activeTab} />
+          </Suspense>
         </motion.div>
 
         {/* Contact section always visible */}
-        <Contact />
+        <Suspense fallback={<LoadingSpinner />}>
+          <DynamicContact />
+        </Suspense>
 
         {/* Scroll to top */}
         <ScrollToTop />
