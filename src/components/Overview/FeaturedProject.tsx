@@ -1,22 +1,20 @@
 'use client';
 
-import React, { useState, useCallback, useMemo } from 'react';
-import { DATA } from '../../lib/data';
+import React, { useState, useCallback, useMemo, Suspense } from 'react';
+import { OPTIMIZED_DATA } from '../../lib/optimizedData';
+import { getAnimationClassName } from '../../lib/animationConfig';
 import { Button } from '../Common/Button';
-import { Badge } from '../Common/Badge';
 import { SectionDivider } from '../Common/SectionDivider';
-import { ProjectModal } from '../Common/ProjectModal';
-import { PhoneFrame } from '../Common/PhoneFrame';
+import { LoadingSpinner } from '../Common/LoadingSpinner';
 import { useInView } from '../../hooks/useInView';
-import { useDarkMode } from '../../hooks/useDarkMode';
-import {
-  CalendarIcon,
-  CheckCircleIcon,
-  CodeBracketIcon,
-} from '@heroicons/react/24/outline';
+import { ProjectHeader, ProjectFeatures, ProjectTechStack, ProjectPreview } from './FeaturedProject/index';
+import { DynamicProjectModal } from '../Common/DynamicImport';
 
 export const FeaturedProject: React.FC = React.memo(() => {
   const [isModalOpen, setIsModalOpen] = useState(false);
+
+  // Use optimized data instead of finding project on every render
+  const { featuredProject } = OPTIMIZED_DATA;
 
   // Use custom in-view hook
   const [headerRef, isHeaderInView] = useInView({
@@ -28,12 +26,6 @@ export const FeaturedProject: React.FC = React.memo(() => {
     triggerOnce: true,
   });
 
-  // Memoize featured project to prevent recalculation
-  const featuredProject = useMemo(
-    () => DATA.projects.find((p) => p.highlight) || DATA.projects[0],
-    []
-  );
-
   // Memoized callbacks
   const handleOpenModal = useCallback(() => {
     setIsModalOpen(true);
@@ -43,33 +35,12 @@ export const FeaturedProject: React.FC = React.memo(() => {
     setIsModalOpen(false);
   }, []);
 
-  // Memoize project features for rendering
-  const projectFeatures = useMemo(
-    () =>
-      featuredProject.features.map((feature, index) => (
-        <div
-          key={index}
-          className="flex items-center gap-2 text-sm text-neutral-600 dark:text-neutral-400"
-        >
-          <CheckCircleIcon className="w-4 h-4 text-green-500 flex-shrink-0" />
-          <span>{feature}</span>
-        </div>
-      )),
-    [featuredProject.features]
-  );
 
-  // Memoize tech stack badges
-  const techStackBadges = useMemo(
-    () =>
-      featuredProject.stack.map((tech) => (
-        <Badge
-          key={tech}
-          className="bg-neutral-100 dark:bg-neutral-800 text-xs"
-        >
-          {tech}
-        </Badge>
-      )),
-    [featuredProject.stack]
+
+  // Memoize screenshot source to avoid re-computation
+  const screenshotSrc = useMemo(() => 
+    featuredProject?.preview?.screenshot || '/property-project/home1.png',
+    [featuredProject?.preview?.screenshot]
   );
 
   return (
@@ -79,11 +50,7 @@ export const FeaturedProject: React.FC = React.memo(() => {
         <div className="max-w-7xl mx-auto px-6">
           <div
             ref={headerRef}
-            className={`text-center mb-16 transition-all duration-700 ease-out ${
-              isHeaderInView
-                ? 'opacity-100 translate-y-0'
-                : 'opacity-0 translate-y-8'
-            }`}
+            className={`text-center mb-16 ${getAnimationClassName(isHeaderInView, 'hero')}`}
           >
             <h2 className="text-3xl font-bold mb-6 text-neutral-900 dark:text-neutral-100">
               Featured Project
@@ -96,11 +63,7 @@ export const FeaturedProject: React.FC = React.memo(() => {
 
           <div
             ref={containerRef}
-            className={`max-w-5xl mx-auto relative transition-all duration-800 ease-out delay-200 ${
-              isContainerInView
-                ? 'opacity-100 translate-y-0'
-                : 'opacity-0 translate-y-8'
-            }`}
+            className={`max-w-5xl mx-auto relative ${getAnimationClassName(isContainerInView, 'featuredProject')} animation-delay-200`}
           >
             {/* Animated border container */}
             <div className="relative rounded-2xl p-[2px] bg-gradient-to-r from-primary-500 to-secondary-500 animate-gradient-x">
@@ -108,59 +71,19 @@ export const FeaturedProject: React.FC = React.memo(() => {
                 <div className="grid md:grid-cols-[1.2fr_.8fr] gap-12">
                   {/* Left side - Project details */}
                   <div>
-                    {/* Project Header */}
-                    <div className="flex items-start justify-between mb-4 sm:mb-6">
-                      <div className="flex-1">
-                        <div className="flex flex-wrap items-center gap-2 sm:gap-3 mb-2 sm:mb-3">
-                          <Badge className="bg-primary-500/10 text-primary-700 dark:text-primary-300 text-xs">
-                            {featuredProject.category}
-                          </Badge>
-                          <Badge className="bg-green-500/10 text-green-700 dark:text-green-300 text-xs">
-                            {featuredProject.status}
-                          </Badge>
-                        </div>
-                        <h3 className="text-xl sm:text-2xl font-bold text-neutral-900 dark:text-neutral-100 mb-2">
-                          {featuredProject.name}
-                        </h3>
-                        <div className="flex flex-wrap items-center gap-3 sm:gap-4 text-xs sm:text-sm text-neutral-500 dark:text-neutral-400">
-                          <div className="flex items-center gap-1">
-                            <CalendarIcon className="w-3 h-3 sm:w-4 sm:h-4" />
-                            <span>{featuredProject.year}</span>
-                          </div>
-                          <div className="flex items-center gap-1">
-                            <CodeBracketIcon className="w-3 h-3 sm:w-4 sm:h-4" />
-                            <span>
-                              {featuredProject.stack.length} technologies
-                            </span>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
+                                      {/* Project Header */}
+                  <ProjectHeader project={featuredProject} />
 
-                    {/* Project Description */}
-                    <p className="text-sm sm:text-base text-neutral-600 dark:text-neutral-300 mb-4 sm:mb-6 leading-relaxed">
-                      {featuredProject.blurb}
-                    </p>
+                  {/* Project Description */}
+                  <p className="text-sm sm:text-base text-neutral-600 dark:text-neutral-300 mb-4 sm:mb-6 leading-relaxed">
+                    {featuredProject.blurb}
+                  </p>
 
-                    {/* Project Features */}
-                    <div className="mb-6 sm:mb-8">
-                      <h4 className="text-sm font-semibold text-neutral-700 dark:text-neutral-300 mb-3">
-                        Key Features
-                      </h4>
-                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
-                        {projectFeatures}
-                      </div>
-                    </div>
+                  {/* Project Features */}
+                  <ProjectFeatures features={featuredProject.features} />
 
-                    {/* Tech Stack */}
-                    <div className="mb-8">
-                      <h4 className="text-sm font-semibold text-neutral-700 dark:text-neutral-300 mb-3">
-                        Tech Stack
-                      </h4>
-                      <div className="flex flex-wrap gap-2">
-                        {techStackBadges}
-                      </div>
-                    </div>
+                  {/* Tech Stack */}
+                  <ProjectTechStack stack={featuredProject.stack} />
 
                     {/* Call to Action */}
                     <Button
@@ -172,100 +95,7 @@ export const FeaturedProject: React.FC = React.memo(() => {
                   </div>
 
                   {/* Right side - Project Preview */}
-                  <div className="hidden md:block h-full">
-                    {/* Project Preview Card */}
-                    <div className="relative group h-full">
-                      {/* Gradient border */}
-                      <div className="bg-gradient-to-br from-primary-500/40 via-primary-300/25 to-secondary-400/40 p-[1px] rounded-2xl h-full">
-                        {/* Card body */}
-                        <div
-                          className="relative rounded-2xl bg-white/70 dark:bg-neutral-900/60 backdrop-blur
-                    shadow-sm transition-all duration-300
-                    group-hover:shadow-xl group-hover:-translate-y-1 h-full flex flex-col justify-center"
-                        >
-                          {/* Soft spotlight */}
-                          <div
-                            className="pointer-events-none absolute inset-0 rounded-2xl opacity-0
-                        group-hover:opacity-100 transition-opacity duration-300"
-                            style={{
-                              background:
-                                'radial-gradient(60% 50% at 50% 0%, rgba(79,195,247,0.08) 0%, rgba(0,0,0,0) 70%)',
-                            }}
-                          />
-
-                          {/* Sheen on hover */}
-                          <span
-                            className="pointer-events-none absolute -inset-y-6 -left-1/3 w-2/3 rotate-6
-                          bg-gradient-to-r from-transparent via-white/30 to-transparent
-                          dark:via-white/10 blur-md opacity-0
-                          group-hover:opacity-100 group-hover:translate-x-[120%]
-                          transition-all duration-700"
-                          />
-
-                          <div className="p-4 sm:p-6 md:p-8 flex flex-col items-center">
-                            {/* App Screenshot */}
-                            <div className="relative mb-4 sm:mb-6">
-                              {/* Phone frame */}
-                              <div className="relative w-30 h-64 sm:w-34 sm:h-72">
-                                <PhoneFrame
-                                  src={
-                                    featuredProject?.preview?.screenshot ||
-                                    '/property-project/home1.png'
-                                  }
-                                  alt="PropertyApp Screenshot"
-                                  showHoverEffect={false}
-                                />
-                              </div>
-
-                              {/* Glow effect */}
-                              <div className="absolute inset-0 w-40 h-64 sm:w-44 sm:h-72 bg-gradient-to-r from-blue-500/20 to-indigo-500/20 rounded-3xl blur-xl -z-10"></div>
-                            </div>
-
-                            {/* Title */}
-                            <h4 className="font-semibold text-neutral-900 dark:text-neutral-100 mb-2 tracking-tight text-sm sm:text-base text-center">
-                              {featuredProject.category === 'Mobile Development'
-                                ? 'Property Investment App'
-                                : 'Live Demo Available'}
-                            </h4>
-
-                            {/* Copy */}
-                            <p className="text-xs sm:text-sm text-neutral-600 dark:text-neutral-400 mb-4 max-w-md text-center">
-                              {featuredProject.category === 'Mobile Development'
-                                ? 'Advanced trading platform with real-time P&L tracking and portfolio analytics.'
-                                : 'Experience the full functionality with interactive features.'}
-                            </p>
-
-                            {/* Feature Pills */}
-                            <div className="flex flex-wrap justify-center gap-2 mb-4">
-                              {featuredProject.preview?.featurePills?.map(
-                                (pill, index) => (
-                                  <span
-                                    key={index}
-                                    className={`px-2 py-1 text-xs rounded-full ${
-                                      index === 0
-                                        ? 'bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-300'
-                                        : 'bg-blue-100 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300'
-                                    }`}
-                                  >
-                                    {pill}
-                                  </span>
-                                )
-                              ) || (
-                                <>
-                                  <span className="px-2 py-1 bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-300 text-xs rounded-full">
-                                    Real-time Trading
-                                  </span>
-                                  <span className="px-2 py-1 bg-blue-100 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300 text-xs rounded-full">
-                                    Portfolio Analytics
-                                  </span>
-                                </>
-                              )}
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
+                  <ProjectPreview project={featuredProject} screenshotSrc={screenshotSrc} />
                 </div>
               </div>
             </div>
@@ -274,11 +104,15 @@ export const FeaturedProject: React.FC = React.memo(() => {
       </section>
 
       {/* Project Modal */}
-      <ProjectModal
-        isOpen={isModalOpen}
-        onClose={handleCloseModal}
-        project={featuredProject}
-      />
+      {isModalOpen && (
+        <Suspense fallback={<LoadingSpinner />}>
+          <DynamicProjectModal
+            isOpen={isModalOpen}
+            onClose={handleCloseModal}
+            project={featuredProject}
+          />
+        </Suspense>
+      )}
     </>
   );
 });

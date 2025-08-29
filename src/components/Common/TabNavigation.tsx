@@ -205,14 +205,12 @@ export const TabNavigation: React.FC<TabNavigationProps> = React.memo(
                       tabIndex={activeTab === tab.id ? 0 : -1}
                       className={cx(
                         'w-full text-left px-4 py-3 rounded-lg text-sm font-medium transition-all duration-200 flex items-center gap-2 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2',
+                        `mobile-menu-delay-${index * 100}`,
+                        isMenuVisible && !isExiting ? 'animate-slide-in' : '',
                         activeTab === tab.id
                           ? 'bg-primary-500 text-white shadow-lg'
                           : 'text-neutral-600 dark:text-neutral-300 hover:bg-neutral-100 dark:hover:bg-neutral-800'
                       )}
-                      style={{
-                        animationDelay: `${index * 100}ms`,
-                        animation: isMenuVisible && !isExiting ? 'slideInLeft 0.3s ease-out forwards' : 'none'
-                      }}
                     >
                       <span>{tab.icon}</span>
                       {tab.label}
@@ -222,11 +220,9 @@ export const TabNavigation: React.FC<TabNavigationProps> = React.memo(
 
                 {/* Mobile Download CV Button */}
                 <div
-                  className="pt-2"
-                  style={{
-                    animationDelay: '400ms',
-                    animation: isMenuVisible && !isExiting ? 'slideInLeft 0.3s ease-out forwards' : 'none'
-                  }}
+                  className={`pt-2 mobile-menu-delay-400 ${
+                    isMenuVisible && !isExiting ? 'animate-slide-in' : ''
+                  }`}
                 >
                   <Button
                     href="/lpmz-cv.pdf"

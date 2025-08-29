@@ -53,15 +53,10 @@ export const ThemeToggle: React.FC<ThemeToggleProps> = React.memo(({
       {/* Glow background */}
       <motion.div
         aria-hidden="true"
-        className="absolute inset-0 rounded-full"
+        className="absolute inset-0 rounded-full theme-toggle-glow"
         initial={false}
         animate={{ opacity: dark ? 1 : 0 }}
         transition={{ duration: 0.35 }}
-        style={{
-          background:
-            'linear-gradient(135deg, rgba(255,88,120,0.25), rgba(255,200,64,0.25))',
-          filter: 'blur(3px)',
-        }}
       />
 
       {/* Sparkles & stars */}
@@ -74,14 +69,12 @@ export const ThemeToggle: React.FC<ThemeToggleProps> = React.memo(({
           className="absolute left-[7px] top-1/2 -translate-y-1/2"
         >
           <motion.span
-            className="absolute h-[7px] w-[1.5px] rounded-full bg-rose-400/70"
-            style={{ left: 14, top: -10 }}
+            className="absolute h-[7px] w-[1.5px] rounded-full sparkle-rose sparkle-1"
             animate={{ opacity: [0.3, 1, 0.3], scaleY: [0.8, 1.1, 0.8] }}
             transition={{ duration: 1.6, repeat: Infinity, ease: 'easeInOut' }}
           />
           <motion.span
-            className="absolute h-[7px] w-[1.5px] rounded-full bg-amber-400/70"
-            style={{ left: 20, top: -1, rotate: 45 }}
+            className="absolute h-[7px] w-[1.5px] rounded-full sparkle-amber sparkle-2"
             animate={{ opacity: [0.2, 0.9, 0.2], scaleY: [0.8, 1.15, 0.8] }}
             transition={{ duration: 1.9, repeat: Infinity, ease: 'easeInOut' }}
           />
