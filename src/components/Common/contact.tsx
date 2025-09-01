@@ -1,16 +1,19 @@
 'use client';
 
 import React from 'react';
-import { motion } from 'framer-motion';
-import { DATA } from '../../lib/data';
-import { Card } from './Card';
-import { Button } from './Button';
+import { useInView } from '@/hooks/useInView';
+import { DATA } from '@/lib/data';
+import { Card } from '@/components/Common/Card';
+import { Button } from '@/components/Common/Button';
 
-import { SectionDivider } from './SectionDivider';
+import { SectionDivider } from '@/components/Common/SectionDivider';
 
 export const Contact: React.FC = () => {
+  const [leftCardRef, leftCardInView] = useInView({ threshold: 0.1, triggerOnce: true });
+  const [rightCardRef, rightCardInView] = useInView({ threshold: 0.1, triggerOnce: true });
+
   return (
-    <section className="relative">
+    <section className="relative pb-12">
       <SectionDivider className="pt-10 pb-16" />
 
       <div className="max-w-5xl mx-auto px-4">
@@ -25,11 +28,11 @@ export const Contact: React.FC = () => {
         </div>
 
         <div className="grid md:grid-cols-2 gap-8">
-          <motion.div
-            initial={{ opacity: 0, x: -20 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.5 }}
-            viewport={{ once: true }}
+          <div
+            ref={leftCardRef}
+            className={`transition-all duration-500 ease-out ${
+              leftCardInView ? 'opacity-100 translate-x-0' : 'opacity-0 -translate-x-5'
+            }`}
           >
             <Card>
               <h3 className="text-xl font-bold mb-4 text-neutral-900 dark:text-neutral-100">
@@ -62,17 +65,17 @@ export const Contact: React.FC = () => {
                 </div>
               </div>
             </Card>
-          </motion.div>
+          </div>
 
-          <motion.div
-            initial={{ opacity: 0, x: 20 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.5 }}
-            viewport={{ once: true }}
+          <div
+            ref={rightCardRef}
+            className={`transition-all duration-500 ease-out ${
+              rightCardInView ? 'opacity-100 translate-x-0' : 'opacity-0 translate-x-5'
+            }`}
           >
             <Card>
               <h3 className="text-xl font-bold mb-4 text-neutral-900 dark:text-neutral-100">
-                Quick Actions
+                Social Links
               </h3>
               <div className="space-y-3">
                 <Button href={`mailto:${DATA.email}`} className="w-full">
@@ -86,15 +89,15 @@ export const Contact: React.FC = () => {
                   Connect on LinkedIn
                 </Button>
                 <Button
-                  href={DATA.links.portfolio}
+                  href={DATA.links.github}
                   variant="ghost"
                   className="w-full"
                 >
-                  View Portfolio
+                  View GitHub
                 </Button>
               </div>
             </Card>
-          </motion.div>
+          </div>
         </div>
       </div>
     </section>

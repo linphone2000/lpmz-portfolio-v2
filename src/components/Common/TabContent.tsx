@@ -1,9 +1,9 @@
 'use client';
 
 import React, { useMemo } from 'react';
-import { Hero } from '../Overview/hero';
-import { Experience } from '../Overview/experience';
-import { FeaturedProject } from '../Overview/FeaturedProject';
+import { Hero } from '@/components/Overview/Hero/hero';
+import { Experience } from '@/components/Overview/Experience/experience';
+import { FeaturedProject } from '@/components/Overview/FeaturedProject/FeaturedProject';
 import { Projects } from '../Portfolio/projects';
 import { Skills } from '../Portfolio/skills';
 import { Education } from '../Education/education';

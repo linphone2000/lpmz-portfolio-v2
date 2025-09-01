@@ -1,14 +1,15 @@
 'use client';
 
 import React from 'react';
-import { motion } from 'framer-motion';
-import { DATA } from '../../lib/data';
-import { Card } from '../Common/Card';
-import { Badge } from '../Common/Badge';
-import { SectionDivider } from '../Common/SectionDivider';
+import { useInView } from '@/hooks/useInView';
+import { DATA } from '@/lib/data';
+import { Card } from '@/components/Common/Card';
+import { Badge } from '@/components/Common/Badge';
+import { SectionDivider } from '@/components/Common/SectionDivider';
 
 
 export const Experience: React.FC = () => {
+  const [containerRef, isInView] = useInView({ threshold: 0.1, triggerOnce: true });
   return (
     <>
       <SectionDivider className="py-8" />
@@ -25,15 +26,14 @@ export const Experience: React.FC = () => {
             </p>
           </div>
 
-          <div className="space-y-12">
+          <div
+            ref={containerRef}
+            className={`space-y-6 transition-all duration-700 ease-out ${
+              isInView ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-6'
+            }`}
+          >
             {DATA.experience.map((exp, index) => (
-              <motion.div
-                key={index}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.5, delay: index * 0.1 }}
-                viewport={{ once: true }}
-              >
+              <div key={index} className={`transition-all duration-500 ease-out animation-delay-${index * 100}`}>
                 <Card className="relative overflow-hidden">
                   <div className="absolute top-0 left-0 w-1 h-full bg-gradient-to-b from-primary-500 to-secondary-500" />
                   <div className="pl-8">
@@ -63,7 +63,7 @@ export const Experience: React.FC = () => {
                     </ul>
                   </div>
                 </Card>
-              </motion.div>
+              </div>
             ))}
           </div>
         </div>

@@ -1,9 +1,8 @@
 'use client';
 
 import React from 'react';
-import { motion } from 'framer-motion';
-import { DATA } from '../../lib/data';
-import { Card } from '../Common/Card';
+import { DATA } from '@/lib/data';
+import { Card } from '@/components/Common/Card';
 
 export const Certifications: React.FC = () => {
   return (
@@ -19,12 +18,9 @@ export const Certifications: React.FC = () => {
         </div>
         <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
           {DATA.certs.map((cert, index) => (
-            <motion.div
+            <div
               key={index}
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: index * 0.1 }}
-              viewport={{ once: true }}
+              className={`transition-all duration-500 ease-out animation-delay-${index * 100} opacity-0 translate-y-5 animate-[fadeInUp_0.5s_ease-out_forwards]`}
             >
               <Card className="text-center">
                 <div className="text-2xl mb-3">🏆</div>
@@ -38,7 +34,7 @@ export const Certifications: React.FC = () => {
                   {cert.year}
                 </p>
               </Card>
-            </motion.div>
+            </div>
           ))}
         </div>
       </div>

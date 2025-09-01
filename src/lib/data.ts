@@ -6,9 +6,8 @@ export const DATA = {
   phone: '+95 996 765 8131',
   email: 'linphonem@gmail.com',
   links: {
-    portfolio: 'https://lpmz-portfolio.vercel.app/',
     linkedin: 'https://www.linkedin.com/in/lin-phone-myint-zaw-025082176/',
-    github: 'https://github.com/yourusername', // Add your GitHub
+    github: 'https://github.com/linphone2000',
   },
   summary:
     'Junior Software Engineer experienced in React Native, MERN, and backend (Node.js, Express). Passionate about building real products that solve problems, clean architecture, and AI.',
@@ -37,7 +36,7 @@ export const DATA = {
         'Developing cross‑platform mobile apps with React Native in an Agile environment.',
         'Writing requirements from customer input to clarify scope and support the team.',
         'Established consistency guidelines for navigation, API integration, theming, and UI/UX.',
-        'Contributed structured documentation improving team alignment and maintainability.',
+        'Work on overseas projects with international clients.',
       ],
       technologies: ['React Native', 'TypeScript', 'Agile', 'Documentation'],
     },
@@ -74,7 +73,91 @@ export const DATA = {
         'P&L Tracking',
         'Portfolio Analytics',
         'Market Simulation',
+        '7-Day Performance Chart',
+        'Virtual Trading',
       ],
+      // PropertyApp-specific data for preview
+      preview: {
+        platform: 'iOS & Android',
+        buysell: 'Buy/Sell',
+        featurePills: ['Real-time Trading', 'Portfolio Analytics'],
+        screenshot: '/property-project/home1.png',
+        screenshots: [
+          {
+            id: 1,
+            src: '/property-project/home1.png',
+            title: 'Dashboard Overview',
+            description:
+              'Main trading dashboard with portfolio summary and key metrics',
+          },
+          {
+            id: 2,
+            src: '/property-project/home2.png',
+            title: 'Top P&L Properties',
+            description: 'Detailed portfolio performance and analytics view',
+          },
+          {
+            id: 3,
+            src: '/property-project/home3.png',
+            title: 'P&L Tracking',
+            description: 'Live trading interface with buy/sell functionality',
+          },
+          {
+            id: 4,
+            src: '/property-project/home4.png',
+            title: 'Recent Trades',
+            description: 'Profit and loss tracking with detailed analytics',
+          },
+          {
+            id: 5,
+            src: '/property-project/home5.png',
+            title: 'Buy',
+            description: 'Real-time market data and price charts',
+          },
+          {
+            id: 6,
+            src: '/property-project/home6.png',
+            title: 'Sell',
+            description: 'Complete transaction log and history view',
+          },
+          {
+            id: 7,
+            src: '/property-project/home7.png',
+            title: 'Transaction Success',
+            description: 'Advanced portfolio analytics and insights',
+          },
+          {
+            id: 8,
+            src: '/property-project/property1.png',
+            title: 'Property Management',
+            description: 'Property listing and management interface',
+          },
+          {
+            id: 9,
+            src: '/property-project/property2.png',
+            title: 'Property Details',
+            description: 'Detailed property information and metrics',
+          },
+          {
+            id: 10,
+            src: '/property-project/profile1.png',
+            title: 'User Profile',
+            description: 'User profile and account management',
+          },
+          {
+            id: 11,
+            src: '/property-project/profile2.png',
+            title: 'Account Settings',
+            description: 'Account settings and preferences',
+          },
+          {
+            id: 12,
+            src: '/property-project/manage1.PNG',
+            title: 'Management Dashboard',
+            description: 'Administrative dashboard and controls',
+          },
+        ],
+      },
     },
     {
       name: 'Intelligent Home Surveillance System',
@@ -229,13 +312,6 @@ export const DATA = {
   // Add achievements and milestones
   achievements: [
     {
-      title: 'Distinction Graduate',
-      description:
-        'Achieved 1ˢᵗ Class Honours in BSc Computing from Edinburgh Napier University',
-      year: 2025,
-      category: 'Academic',
-    },
-    {
       title: 'Remote Developer Success',
       description:
         'Successfully working as a remote React Native developer at HighGround',
@@ -247,6 +323,13 @@ export const DATA = {
       description: 'Contributed to a FinTech project at NTT Data Myanmar',
       year: 2025,
       category: 'Professional',
+    },
+    {
+      title: 'Distinction Graduate',
+      description:
+        'Achieved 1ˢᵗ Class Honours in BSc Computing from Edinburgh Napier University',
+      year: 2025,
+      category: 'Academic',
     },
   ],
   // Add services offered
