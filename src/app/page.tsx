@@ -1,14 +1,15 @@
 'use client';
 
-import React, { useState, useCallback, useMemo, Suspense } from 'react';
+import React, { useState, useCallback, useMemo } from 'react';
 import { motion } from 'framer-motion';
 import { ScrollProgress, Blobs } from '../components/Common/Effects';
 import { TabNavigation } from '../components/Common/TabNavigation';
 import { ScrollToTop } from '../components/Common/ScrollToTop';
-import { LoadingSkeleton, LoadingSpinner } from '../components/Common/LoadingSpinner';
+import { TabContent } from '../components/Common/TabContent';
+import { Contact } from '../components/Common/contact';
+
 import { ErrorBoundary } from '../components/Common/ErrorBoundary';
 import { useDarkMode } from '../hooks/useDarkMode';
-import { DynamicTabContent, DynamicContact } from '../components/Common/DynamicImport';
 
 export default function Portfolio() {
   const { dark, toggle, mounted } = useDarkMode();
@@ -27,7 +28,7 @@ export default function Portfolio() {
 
   // Prevent hydration mismatch by not rendering until mounted
   if (!mounted) {
-    return <LoadingSkeleton />;
+    return null;
   }
 
   return (
@@ -55,15 +56,11 @@ export default function Portfolio() {
           animate="visible"
           transition={{ duration: 0.3 }}
         >
-          <Suspense fallback={<LoadingSpinner />}>
-            <DynamicTabContent activeTab={activeTab} />
-          </Suspense>
+          <TabContent activeTab={activeTab} />
         </motion.div>
 
         {/* Contact section always visible */}
-        <Suspense fallback={<LoadingSpinner />}>
-          <DynamicContact />
-        </Suspense>
+        <Contact />
 
         {/* Scroll to top */}
         <ScrollToTop />

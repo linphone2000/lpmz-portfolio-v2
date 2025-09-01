@@ -1,14 +1,14 @@
 'use client';
 
-import React, { useState, useCallback, useMemo, Suspense } from 'react';
+import React, { useState, useCallback, useMemo } from 'react';
 import { OPTIMIZED_DATA } from '../../lib/optimizedData';
 import { getAnimationClassName } from '../../lib/animationConfig';
 import { Button } from '../Common/Button';
 import { SectionDivider } from '../Common/SectionDivider';
-import { LoadingSpinner } from '../Common/LoadingSpinner';
+
 import { useInView } from '../../hooks/useInView';
 import { ProjectHeader, ProjectFeatures, ProjectTechStack, ProjectPreview } from './FeaturedProject/index';
-import { DynamicProjectModal } from '../Common/DynamicImport';
+import { ProjectModal } from '../Common/ProjectModal';
 
 export const FeaturedProject: React.FC = React.memo(() => {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -103,16 +103,14 @@ export const FeaturedProject: React.FC = React.memo(() => {
         </div>
       </section>
 
-      {/* Project Modal */}
-      {isModalOpen && (
-        <Suspense fallback={<LoadingSpinner />}>
-          <DynamicProjectModal
+              {/* Project Modal */}
+        {isModalOpen && (
+          <ProjectModal
             isOpen={isModalOpen}
             onClose={handleCloseModal}
             project={featuredProject}
           />
-        </Suspense>
-      )}
+        )}
     </>
   );
 });
