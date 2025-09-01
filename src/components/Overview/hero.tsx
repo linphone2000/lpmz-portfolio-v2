@@ -2,16 +2,32 @@
 
 import React, { useCallback } from 'react';
 import Typewriter from 'typewriter-effect';
-import { OPTIMIZED_DATA } from '../../lib/optimizedData';
-import { getAnimationClassName } from '../../lib/animationConfig';
+import { DATA } from '../../lib/data';
 import { Badge } from '../Common/Badge';
 import { Button } from '../Common/Button';
 import { useInView } from '../../hooks/useInView';
 import { HeroStats, HeroTechSnapshot, HeroAchievements, HeroServices } from './Hero/index';
 
 export const Hero: React.FC = React.memo(() => {
-  // Destructure optimized data for better performance
-  const { heroData, stats } = OPTIMIZED_DATA;
+  // Direct data access for simplicity
+  const heroData = {
+    achievements: DATA.achievements.slice(0, 3),
+    services: DATA.services,
+    about: DATA.about,
+    skills: DATA.skills,
+    links: DATA.links,
+    phone: DATA.phone,
+    location: DATA.location,
+    name: DATA.name,
+    summary: DATA.summary,
+  };
+  
+  const stats = {
+    yearsExperience: DATA.about.yearsOfExperience,
+    totalProjects: DATA.about.totalProjects,
+    technologiesMastered: DATA.about.technologiesMastered,
+    educationCount: DATA.education.length,
+  };
   
   // Use custom in-view hooks for performance-optimized animations
   const [heroRef, isHeroInView] = useInView({ 
@@ -46,7 +62,9 @@ export const Hero: React.FC = React.memo(() => {
       <div className="max-w-7xl mx-auto px-6 py-16 sm:py-16 w-full">
         <div
           ref={heroRef}
-          className={`space-y-16 ${getAnimationClassName(isHeroInView, 'hero')}`}
+          className={`space-y-16 transition-all duration-700 ease-out ${
+            isHeroInView ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-6'
+          }`}
         >
           {/* Main Hero Content */}
           <div className="grid md:grid-cols-[1.2fr_.8fr] gap-12 items-center">

@@ -1,8 +1,7 @@
 'use client';
 
 import React, { useState, useCallback, useMemo } from 'react';
-import { OPTIMIZED_DATA } from '../../lib/optimizedData';
-import { getAnimationClassName } from '../../lib/animationConfig';
+import { DATA } from '../../lib/data';
 import { Button } from '../Common/Button';
 import { SectionDivider } from '../Common/SectionDivider';
 
@@ -13,8 +12,8 @@ import { ProjectModal } from '../Common/ProjectModal';
 export const FeaturedProject: React.FC = React.memo(() => {
   const [isModalOpen, setIsModalOpen] = useState(false);
 
-  // Use optimized data instead of finding project on every render
-  const { featuredProject } = OPTIMIZED_DATA;
+  // Direct data access for simplicity
+  const featuredProject = DATA.projects.find(p => p.highlight) || DATA.projects[0];
 
   // Use custom in-view hook
   const [headerRef, isHeaderInView] = useInView({
@@ -50,7 +49,9 @@ export const FeaturedProject: React.FC = React.memo(() => {
         <div className="max-w-7xl mx-auto px-6">
           <div
             ref={headerRef}
-            className={`text-center mb-16 ${getAnimationClassName(isHeaderInView, 'hero')}`}
+            className={`text-center mb-16 transition-all duration-700 ease-out ${
+              isHeaderInView ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-6'
+            }`}
           >
             <h2 className="text-3xl font-bold mb-6 text-neutral-900 dark:text-neutral-100">
               Featured Project
@@ -63,7 +64,9 @@ export const FeaturedProject: React.FC = React.memo(() => {
 
           <div
             ref={containerRef}
-            className={`max-w-5xl mx-auto relative ${getAnimationClassName(isContainerInView, 'featuredProject')} animation-delay-200`}
+            className={`max-w-5xl mx-auto relative transition-all duration-700 ease-out ${
+              isContainerInView ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-6'
+            } animation-delay-200`}
           >
             {/* Animated border container */}
             <div className="relative rounded-2xl p-[2px] bg-gradient-to-r from-primary-500 to-secondary-500 animate-gradient-x">

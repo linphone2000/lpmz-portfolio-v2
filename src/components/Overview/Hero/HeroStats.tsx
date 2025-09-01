@@ -1,8 +1,12 @@
 import React from 'react';
-import { Stats } from '../../../lib/optimizedData';
 
 interface HeroStatsProps {
-  stats: Stats;
+  stats: {
+    yearsExperience: number;
+    totalProjects: number;
+    technologiesMastered: number;
+    educationCount: number;
+  };
 }
 
 export const HeroStats: React.FC<HeroStatsProps> = React.memo(({ stats }) => {

@@ -1,9 +1,14 @@
 import React, { useMemo } from 'react';
-import { getCategoryIcon } from '../../../lib/iconMappings';
-import { HeroData } from '../../../lib/optimizedData';
+import { StarIcon, RocketLaunchIcon, BriefcaseIcon } from '@heroicons/react/24/outline';
 
 interface HeroAchievementsProps {
-  heroData: HeroData;
+  heroData: {
+    achievements: Array<{
+      title: string;
+      description: string;
+      category: string;
+    }>;
+  };
   isInView: boolean;
 }
 
@@ -11,7 +16,11 @@ export const HeroAchievements: React.FC<HeroAchievementsProps> = React.memo(({ h
   // Memoize achievements for rendering
   const achievementsList = useMemo(() => 
     heroData.achievements.map((achievement, index) => {
-      const CategoryIcon = getCategoryIcon(achievement.category);
+      // Simple icon mapping
+      const CategoryIcon = 
+        achievement.category === 'Academic' ? StarIcon :
+        achievement.category === 'Professional' ? RocketLaunchIcon :
+        BriefcaseIcon;
       
       return (
         <div
