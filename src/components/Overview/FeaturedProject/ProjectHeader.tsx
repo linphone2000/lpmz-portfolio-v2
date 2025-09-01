@@ -1,5 +1,5 @@
 import React from 'react';
-import { Badge } from '../../Common/Badge';
+import { Badge } from '@/components/Common/Badge';
 import { CalendarIcon, CodeBracketIcon } from '@heroicons/react/24/outline';
 
 interface ProjectHeaderProps {

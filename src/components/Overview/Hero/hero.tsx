@@ -2,11 +2,11 @@
 
 import React, { useCallback } from 'react';
 import Typewriter from 'typewriter-effect';
-import { DATA } from '../../lib/data';
-import { Badge } from '../Common/Badge';
-import { Button } from '../Common/Button';
-import { useInView } from '../../hooks/useInView';
-import { HeroStats, HeroTechSnapshot, HeroAchievements, HeroServices } from './Hero/index';
+import { DATA } from '@/lib/data';
+import { Badge } from '@/components/Common/Badge';
+import { Button } from '@/components/Common/Button';
+import { useInView } from '@/hooks/useInView';
+import { HeroStats, HeroTechSnapshot, HeroAchievements, HeroServices } from './index';
 
 export const Hero: React.FC = React.memo(() => {
   // Direct data access for simplicity

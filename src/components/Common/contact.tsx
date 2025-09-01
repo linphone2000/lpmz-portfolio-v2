@@ -2,15 +2,15 @@
 
 import React from 'react';
 import { motion } from 'framer-motion';
-import { DATA } from '../../lib/data';
-import { Card } from './Card';
-import { Button } from './Button';
+import { DATA } from '@/lib/data';
+import { Card } from '@/components/Common/Card';
+import { Button } from '@/components/Common/Button';
 
-import { SectionDivider } from './SectionDivider';
+import { SectionDivider } from '@/components/Common/SectionDivider';
 
 export const Contact: React.FC = () => {
   return (
-    <section className="relative">
+    <section className="relative pb-12">
       <SectionDivider className="pt-10 pb-16" />
 
       <div className="max-w-5xl mx-auto px-4">

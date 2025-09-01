@@ -1,5 +1,5 @@
 import React, { useMemo } from 'react';
-import { PhoneFrame } from '../../Common/PhoneFrame';
+import { PhoneFrame } from '@/components/Common/PhoneFrame';
 
 interface ProjectPreviewProps {
   project: {

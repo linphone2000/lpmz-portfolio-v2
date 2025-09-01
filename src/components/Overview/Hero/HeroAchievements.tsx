@@ -46,7 +46,7 @@ export const HeroAchievements: React.FC<HeroAchievementsProps> = React.memo(({ h
   , [heroData.achievements]);
 
   return (
-    <div className={`transition-all duration-600 ease-out ${
+    <div className={`transition-all duration-700 ease-out ${
       isInView 
         ? 'opacity-100 translate-y-0' 
         : 'opacity-0 translate-y-6'
