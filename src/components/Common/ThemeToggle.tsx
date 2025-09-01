@@ -1,9 +1,8 @@
 'use client';
 
 import React, { useCallback } from 'react';
-import { motion } from 'framer-motion';
 import { SunIcon, MoonIcon } from '@heroicons/react/24/solid';
-import { useReducedMotion } from '../../hooks/useReducedMotion';
+import { useReducedMotion } from '@/hooks/useReducedMotion';
 
 interface ThemeToggleProps {
   dark: boolean;
@@ -39,7 +38,7 @@ export const ThemeToggle: React.FC<ThemeToggleProps> = React.memo(({
       aria-label="Toggle theme"
       className={[
         'relative h-5 w-10 rounded-full transition-all duration-300',
-        'bg-white/70 dark:bg-neutral-900/70 backdrop-blur',
+        'bg-white/80 dark:bg-neutral-900/80',
         'focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-1',
         'focus-visible:ring-rose-400 dark:focus-visible:ring-amber-300',
         'focus-visible:ring-offset-white dark:focus-visible:ring-offset-neutral-900',
@@ -50,58 +49,19 @@ export const ThemeToggle: React.FC<ThemeToggleProps> = React.memo(({
         prefersReducedMotion ? '' : 'transform-gpu',
       ].join(' ')}
     >
-      {/* Glow background */}
-      <motion.div
+      {/* Gradient background */}
+      <div
         aria-hidden="true"
-        className="absolute inset-0 rounded-full theme-toggle-glow"
-        initial={false}
-        animate={{ opacity: dark ? 1 : 0 }}
-        transition={{ duration: 0.35 }}
+        className={`absolute inset-0 rounded-full transition-opacity duration-300 ${
+          dark 
+            ? 'bg-gradient-to-r from-blue-900/20 to-purple-900/20 opacity-100' 
+            : 'bg-gradient-to-r from-pink-400/20 to-orange-400/20 opacity-100'
+        }`}
       />
-
-      {/* Sparkles & stars */}
-      <div className="pointer-events-none absolute inset-0">
-        {/* Sun sparkles */}
-        <motion.span
-          initial={false}
-          animate={{ opacity: dark ? 0 : 1 }}
-          transition={{ duration: 0.3 }}
-          className="absolute left-[7px] top-1/2 -translate-y-1/2"
-        >
-          <motion.span
-            className="absolute h-[7px] w-[1.5px] rounded-full sparkle-rose sparkle-1"
-            animate={{ opacity: [0.3, 1, 0.3], scaleY: [0.8, 1.1, 0.8] }}
-            transition={{ duration: 1.6, repeat: Infinity, ease: 'easeInOut' }}
-          />
-          <motion.span
-            className="absolute h-[7px] w-[1.5px] rounded-full sparkle-amber sparkle-2"
-            animate={{ opacity: [0.2, 0.9, 0.2], scaleY: [0.8, 1.15, 0.8] }}
-            transition={{ duration: 1.9, repeat: Infinity, ease: 'easeInOut' }}
-          />
-        </motion.span>
-
-        {/* Moon stars */}
-        <motion.span
-          initial={false}
-          animate={{ opacity: dark ? 1 : 0 }}
-          transition={{ duration: 0.3 }}
-        >
-          <motion.span
-            className="absolute right-[15px] top-[3px] h-0.5 w-0.5 rounded-full bg-white/90"
-            animate={{ opacity: [0.4, 1, 0.4] }}
-            transition={{ duration: 1.8, repeat: Infinity }}
-          />
-          <motion.span
-            className="absolute right-[7px] top-[7px] h-0.5 w-0.5 rounded-full bg-white/70"
-            animate={{ opacity: [0.3, 0.8, 0.3] }}
-            transition={{ duration: 2.1, repeat: Infinity }}
-          />
-        </motion.span>
-      </div>
 
       {/* Knob */}
       <div
-        className={`absolute top-1/2 h-3.5 w-3.5 -translate-y-1/2 rounded-full bg-white dark:bg-neutral-100 shadow-md transition-transform duration-300 ease-out ${
+        className={`absolute top-1/2 h-3.5 w-3.5 -translate-y-1/2 rounded-full bg-white dark:bg-gray-700 shadow-md transition-transform duration-300 ease-out ${
           dark ? 'translate-x-[22px]' : 'translate-x-[2px]'
         }`}
       >

@@ -1,6 +1,14 @@
+/* ==========================================================================
+   IMPORTS & CONFIGURATION
+   ========================================================================== */
+
 @import 'tailwindcss';
 
 @custom-variant dark (&:where(.dark, .dark *));
+
+/* ==========================================================================
+   DESIGN SYSTEM - COLOR PALETTE
+   ========================================================================== */
 
 @theme {
   /* Primary brand colors */
@@ -126,11 +134,15 @@
     transparent 60%
   );
 
-  /* Animation */
+  /* Animation variables */
   --animate-gradient-x: gradient-x 3s ease infinite;
   --animate-fade-in: fadeIn 0.5s ease-in-out;
   --animate-slide-up: slideUp 0.3s ease-out;
 }
+
+/* ==========================================================================
+   BASE STYLES & ROOT VARIABLES
+   ========================================================================== */
 
 :root {
   --background: #ffffff;
@@ -150,7 +162,11 @@ body {
   font-family: Arial, Helvetica, sans-serif;
 }
 
-/* Semantic color utility classes */
+/* ==========================================================================
+   SEMANTIC COLOR UTILITY CLASSES
+   ========================================================================== */
+
+/* Text colors */
 .text-text-light-primary {
   color: #0f172a;
 }
@@ -175,6 +191,7 @@ body {
   color: #94a3b8;
 }
 
+/* Background colors */
 .bg-background-light {
   background-color: #ffffff;
 }
@@ -191,6 +208,7 @@ body {
   background-color: #ffffff;
 }
 
+/* Border colors */
 .border-border-light-primary {
   border-color: #e2e8f0;
 }
@@ -207,10 +225,13 @@ body {
   border-color: #e2e8f0;
 }
 
-/* Custom animations */
+/* ==========================================================================
+   ANIMATION KEYFRAMES
+   ========================================================================== */
+
+/* Basic animations */
 @keyframes gradient-x {
-  0%,
-  100% {
+  0%, 100% {
     background-position: 0% 50%;
   }
   50% {
@@ -269,243 +290,19 @@ body {
   }
 }
 
-/* Animation classes */
-.animate-gradient-x {
-  background-size: 200% 200%;
-  animation: gradient-x 3s ease infinite;
-}
-
-.animate-fade-in {
-  animation: fade-in 0.6s ease-out;
-}
-
-.animate-fade-in-up {
-  animation: fade-in-up 0.6s ease-out;
-}
-
-.animate-fade-in-left {
-  animation: fade-in-left 0.6s ease-out;
-}
-
-.animate-fade-in-right {
-  animation: fade-in-right 0.6s ease-out;
-}
-
-.animate-slide-in {
-  animation: slide-in 0.8s ease-out;
-}
-
-/* Complex gradient effects */
-.spotlight-gradient {
-  background: radial-gradient(60% 50% at 50% 0%, rgba(79,195,247,0.08) 0%, rgba(0,0,0,0) 70%);
-}
-
-.sheen-effect {
-  background: linear-gradient(to right, transparent, rgba(255,255,255,0.3), transparent);
-}
-
-.dark .sheen-effect {
-  background: linear-gradient(to right, transparent, rgba(255,255,255,0.1), transparent);
-}
-
-/* Project preview specific styles */
-.project-preview-card {
-  background: rgba(255, 255, 255, 0.7);
-  backdrop-filter: blur(8px);
-}
-
-.dark .project-preview-card {
-  background: rgba(23, 23, 23, 0.6);
-}
-
-.project-preview-border {
-  background: linear-gradient(135deg, 
-    rgba(var(--primary-500), 0.4) 0%, 
-    rgba(var(--primary-300), 0.25) 50%, 
-    rgba(var(--secondary-400), 0.4) 100%);
-}
-
-/* Phone frame glow effect */
-.phone-glow {
-  background: linear-gradient(to right, 
-    rgba(59, 130, 246, 0.2), 
-    rgba(99, 102, 241, 0.2));
-  border-radius: 1.5rem;
-  filter: blur(1rem);
-}
-
-/* Theme toggle effects */
-.theme-toggle-glow {
-  background: linear-gradient(135deg, rgba(255,88,120,0.25), rgba(255,200,64,0.25));
-  filter: blur(3px);
-}
-
-.sparkle-rose {
-  background-color: rgba(251, 113, 133, 0.7);
-}
-
-.sparkle-amber {
-  background-color: rgba(251, 191, 36, 0.7);
-}
-
-/* Sparkle positioning */
-.sparkle-1 {
-  left: 14px;
-  top: -10px;
-}
-
-.sparkle-2 {
-  left: 20px;
-  top: -1px;
-  transform: rotate(45deg);
-}
-
-/* Blob animation delays */
-.blob-delay-0 { animation-delay: 0s; }
-.blob-delay-1 { animation-delay: 1s; }
-.blob-delay-2 { animation-delay: 2s; }
-.blob-delay-3 { animation-delay: 3s; }
-.blob-delay-4 { animation-delay: 4s; }
-.blob-delay-5 { animation-delay: 5s; }
-.blob-delay-6 { animation-delay: 6s; }
-.blob-delay-7 { animation-delay: 7s; }
-.blob-delay-8 { animation-delay: 8s; }
-
-/* Scroll progress */
-.scroll-progress-bar {
-  transform-origin: left;
-}
-
-/* Mobile menu animation delays */
-.mobile-menu-delay-0 { animation-delay: 0ms; }
-.mobile-menu-delay-100 { animation-delay: 100ms; }
-.mobile-menu-delay-200 { animation-delay: 200ms; }
-.mobile-menu-delay-300 { animation-delay: 300ms; }
-.mobile-menu-delay-400 { animation-delay: 400ms; }
-
-/* Animation delays */
-.animation-delay-0 {
-  animation-delay: 0ms;
-}
-
-.animation-delay-100 {
-  animation-delay: 100ms;
-}
-
-.animation-delay-200 {
-  animation-delay: 200ms;
-}
-
-.animation-delay-300 {
-  animation-delay: 300ms;
-}
-
-.animation-delay-400 {
-  animation-delay: 400ms;
-}
-
-.animation-delay-500 {
-  animation-delay: 500ms;
-}
-
-.animation-delay-600 {
-  animation-delay: 600ms;
-}
-
-.animation-delay-700 {
-  animation-delay: 700ms;
-}
-
-.animation-delay-800 {
-  animation-delay: 800ms;
-}
-
-/* Image loading animations */
-@keyframes shimmer {
-  0% {
-    background-position: -200px 0;
-  }
-  100% {
-    background-position: calc(200px + 100%) 0;
-  }
-}
-
-.phone-frame-container {
-  aspect-ratio: 9/16;
-  max-width: 100%;
-  max-height: 100%;
-  width: 100%;
-  height: 100%;
-}
-
-/* Smooth scrolling */
-html {
-  scroll-behavior: smooth;
-}
-
-/* Custom scrollbar - overlay style */
-::-webkit-scrollbar {
-  width: 8px;
-}
-
-::-webkit-scrollbar-track {
-  background: transparent;
-}
-
-::-webkit-scrollbar-thumb {
-  background: rgba(0, 0, 0, 0.2);
-  border-radius: 4px;
-  border: 2px solid transparent;
-  background-clip: content-box;
-}
-
-::-webkit-scrollbar-thumb:hover {
-  background: rgba(0, 0, 0, 0.3);
-  background-clip: content-box;
-}
-
-.dark ::-webkit-scrollbar-thumb {
-  background: rgba(255, 255, 255, 0.2);
-  background-clip: content-box;
-}
-
-.dark ::-webkit-scrollbar-thumb:hover {
-  background: rgba(255, 255, 255, 0.3);
-  background-clip: content-box;
-}
-
-/* Firefox scrollbar */
-* {
-  scrollbar-width: thin;
-  scrollbar-color: rgba(0, 0, 0, 0.2) transparent;
-}
-
-.dark * {
-  scrollbar-color: rgba(255, 255, 255, 0.2) transparent;
-}
-
-/* Additional animations for mobile menu */
-@keyframes slideInLeft {
-  from {
-    opacity: 0;
-    transform: translateX(-20px);
-  }
-  to {
-    opacity: 1;
-    transform: translateX(0);
-  }
-}
-
-/* Moderate blob animations */
+/* Blob animations */
 @keyframes blob-1 {
   0%, 100% {
     transform: translate(0, 0);
   }
-  33% {
-    transform: translate(30px, 20px);
+  25% {
+    transform: translate(60px, 40px);
   }
-  66% {
-    transform: translate(-20px, 30px);
+  50% {
+    transform: translate(-40px, 60px);
+  }
+  75% {
+    transform: translate(40px, -30px);
   }
 }
 
@@ -513,20 +310,15 @@ html {
   0%, 100% {
     transform: translate(0, 0);
   }
-  33% {
-    transform: translate(-25px, -15px);
+  25% {
+    transform: translate(-50px, -40px);
   }
-  66% {
-    transform: translate(15px, -25px);
+  50% {
+    transform: translate(30px, -60px);
   }
-}
-
-.animate-blob-1 {
-  animation: blob-1 12s ease-in-out infinite;
-}
-
-.animate-blob-2 {
-  animation: blob-2 14s ease-in-out infinite;
+  75% {
+    transform: translate(-30px, 50px);
+  }
 }
 
 /* Modal animations */
@@ -561,4 +353,225 @@ html {
     opacity: 1;
     transform: translateY(0);
   }
+}
+
+/* Mobile menu animations */
+@keyframes slideInLeft {
+  from {
+    opacity: 0;
+    transform: translateX(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+/* Image loading animations */
+@keyframes shimmer {
+  0% {
+    background-position: -200px 0;
+  }
+  100% {
+    background-position: calc(200px + 100%) 0;
+  }
+}
+
+/* ==========================================================================
+   ANIMATION UTILITY CLASSES
+   ========================================================================== */
+
+/* Basic animation classes */
+.animate-gradient-x {
+  background-size: 200% 200%;
+  animation: gradient-x 3s ease infinite;
+}
+
+.animate-fade-in {
+  animation: fade-in 0.6s ease-out;
+}
+
+.animate-fade-in-up {
+  animation: fade-in-up 0.6s ease-out;
+}
+
+.animate-fade-in-left {
+  animation: fade-in-left 0.6s ease-out;
+}
+
+.animate-fade-in-right {
+  animation: fade-in-right 0.6s ease-out;
+}
+
+.animate-slide-in {
+  animation: slide-in 0.8s ease-out;
+}
+
+/* Blob animation classes */
+.animate-blob-1 {
+  animation: blob-1 20s ease-in-out infinite;
+}
+
+.animate-blob-2 {
+  animation: blob-2 24s ease-in-out infinite;
+}
+
+/* Animation delay utilities */
+.animation-delay-0 { animation-delay: 0ms; }
+.animation-delay-100 { animation-delay: 100ms; }
+.animation-delay-200 { animation-delay: 200ms; }
+.animation-delay-300 { animation-delay: 300ms; }
+.animation-delay-400 { animation-delay: 400ms; }
+.animation-delay-500 { animation-delay: 500ms; }
+.animation-delay-600 { animation-delay: 600ms; }
+.animation-delay-700 { animation-delay: 700ms; }
+.animation-delay-800 { animation-delay: 800ms; }
+
+/* Blob delay utilities */
+.blob-delay-0 { animation-delay: 0s; }
+.blob-delay-1 { animation-delay: 1s; }
+.blob-delay-2 { animation-delay: 2s; }
+.blob-delay-3 { animation-delay: 3s; }
+.blob-delay-4 { animation-delay: 4s; }
+.blob-delay-5 { animation-delay: 5s; }
+.blob-delay-6 { animation-delay: 6s; }
+.blob-delay-7 { animation-delay: 7s; }
+.blob-delay-8 { animation-delay: 8s; }
+
+/* Mobile menu delay utilities */
+.mobile-menu-delay-0 { animation-delay: 0ms; }
+.mobile-menu-delay-100 { animation-delay: 100ms; }
+.mobile-menu-delay-200 { animation-delay: 200ms; }
+.mobile-menu-delay-300 { animation-delay: 300ms; }
+.mobile-menu-delay-400 { animation-delay: 400ms; }
+
+/* ==========================================================================
+   COMPONENT-SPECIFIC STYLES
+   ========================================================================== */
+
+/* Complex gradient effects */
+.spotlight-gradient {
+  background: radial-gradient(60% 50% at 50% 0%, rgba(79,195,247,0.08) 0%, rgba(0,0,0,0) 70%);
+}
+
+.sheen-effect {
+  background: linear-gradient(to right, transparent, rgba(255,255,255,0.3), transparent);
+}
+
+.dark .sheen-effect {
+  background: linear-gradient(to right, transparent, rgba(255,255,255,0.1), transparent);
+}
+
+/* Project preview styles */
+.project-preview-card {
+  background: rgba(255, 255, 255, 0.7);
+  backdrop-filter: blur(8px);
+}
+
+.dark .project-preview-card {
+  background: rgba(23, 23, 23, 0.6);
+}
+
+.project-preview-border {
+  background: linear-gradient(135deg, 
+    rgba(var(--primary-500), 0.4) 0%, 
+    rgba(var(--primary-300), 0.25) 50%, 
+    rgba(var(--secondary-400), 0.4) 100%);
+}
+
+/* Phone frame styles */
+.phone-frame-container {
+  aspect-ratio: 9/16;
+  max-width: 100%;
+  max-height: 100%;
+  width: 100%;
+  height: 100%;
+}
+
+.phone-glow {
+  background: linear-gradient(to right, 
+    rgba(59, 130, 246, 0.2), 
+    rgba(99, 102, 241, 0.2));
+  border-radius: 1.5rem;
+  filter: blur(1rem);
+}
+
+/* Theme toggle styles */
+.theme-toggle-glow {
+  background: linear-gradient(135deg, rgba(255,88,120,0.25), rgba(255,200,64,0.25));
+  filter: blur(3px);
+}
+
+.sparkle-rose {
+  background-color: rgba(251, 113, 133, 0.7);
+}
+
+.sparkle-amber {
+  background-color: rgba(251, 191, 36, 0.7);
+}
+
+.sparkle-1 {
+  left: 14px;
+  top: -10px;
+}
+
+.sparkle-2 {
+  left: 20px;
+  top: -1px;
+  transform: rotate(45deg);
+}
+
+/* Scroll progress */
+.scroll-progress-bar {
+  transform-origin: left;
+}
+
+/* ==========================================================================
+   BROWSER-SPECIFIC STYLES
+   ========================================================================== */
+
+/* Smooth scrolling */
+html {
+  scroll-behavior: smooth;
+}
+
+/* Webkit scrollbar styles */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(0, 0, 0, 0.2);
+  border-radius: 4px;
+  border: 2px solid transparent;
+  background-clip: content-box;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(0, 0, 0, 0.3);
+  background-clip: content-box;
+}
+
+.dark ::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.2);
+  background-clip: content-box;
+}
+
+.dark ::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 255, 255, 0.3);
+  background-clip: content-box;
+}
+
+/* Firefox scrollbar styles */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(0, 0, 0, 0.2) transparent;
+}
+
+.dark * {
+  scrollbar-color: rgba(255, 255, 255, 0.2) transparent;
 }

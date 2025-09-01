@@ -48,16 +48,16 @@ export const Hero: React.FC = React.memo(() => {
     window.open(heroData.links.linkedin, '_blank');
   }, [heroData.links.linkedin]);
 
-  const handleCallClick = useCallback(() => {
-    window.open(`tel:${heroData.phone.replace(/\s/g, '')}`, '_self');
-  }, [heroData.phone]);
+  const handleGitHubClick = useCallback(() => {
+    window.open(heroData.links.github, '_blank');
+  }, [heroData.links.github]);
 
 
 
   return (
     <section
       id="about"
-      className="relative overflow-hidden min-h-screen flex items-center"
+      className="relative min-h-screen flex items-center"
     >
       <div className="max-w-7xl mx-auto px-6 py-16 sm:py-16 w-full">
         <div
@@ -91,10 +91,10 @@ export const Hero: React.FC = React.memo(() => {
               <div className="mt-8 flex flex-wrap gap-4">
                 <Button onClick={handleLinkedInClick}>LinkedIn</Button>
                 <Button
-                  onClick={handleCallClick}
+                  onClick={handleGitHubClick}
                   variant="ghost"
                 >
-                  Call
+                  GitHub
                 </Button>
               </div>
             </div>

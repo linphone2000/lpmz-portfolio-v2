@@ -28,7 +28,7 @@ export const Experience: React.FC = () => {
 
           <div
             ref={containerRef}
-            className={`space-y-12 transition-all duration-700 ease-out ${
+            className={`space-y-6 transition-all duration-700 ease-out ${
               isInView ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-6'
             }`}
           >

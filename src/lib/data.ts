@@ -6,9 +6,8 @@ export const DATA = {
   phone: '+95 996 765 8131',
   email: 'linphonem@gmail.com',
   links: {
-    portfolio: 'https://lpmz-portfolio.vercel.app/',
     linkedin: 'https://www.linkedin.com/in/lin-phone-myint-zaw-025082176/',
-    github: 'https://github.com/yourusername', // Add your GitHub
+    github: 'https://github.com/linphone2000',
   },
   summary:
     'Junior Software Engineer experienced in React Native, MERN, and backend (Node.js, Express). Passionate about building real products that solve problems, clean architecture, and AI.',
@@ -313,13 +312,6 @@ export const DATA = {
   // Add achievements and milestones
   achievements: [
     {
-      title: 'Distinction Graduate',
-      description:
-        'Achieved 1ˢᵗ Class Honours in BSc Computing from Edinburgh Napier University',
-      year: 2025,
-      category: 'Academic',
-    },
-    {
       title: 'Remote Developer Success',
       description:
         'Successfully working as a remote React Native developer at HighGround',
@@ -331,6 +323,13 @@ export const DATA = {
       description: 'Contributed to a FinTech project at NTT Data Myanmar',
       year: 2025,
       category: 'Professional',
+    },
+    {
+      title: 'Distinction Graduate',
+      description:
+        'Achieved 1ˢᵗ Class Honours in BSc Computing from Edinburgh Napier University',
+      year: 2025,
+      category: 'Academic',
     },
   ],
   // Add services offered

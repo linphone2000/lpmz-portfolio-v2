@@ -1,15 +1,14 @@
 'use client';
 
-import React, { useState, useCallback, useMemo } from 'react';
-import { motion } from 'framer-motion';
-import { ScrollProgress, Blobs } from '../components/Common/Effects';
-import { TabNavigation } from '../components/Common/TabNavigation';
-import { ScrollToTop } from '../components/Common/ScrollToTop';
-import { TabContent } from '../components/Common/TabContent';
-import { Contact } from '../components/Common/contact';
+import React, { useState, useCallback } from 'react';
+import { ScrollProgress, Blobs } from '@/components/Common/Effects';
+import { TabNavigation } from '@/components/Common/TabNavigation';
+import { ScrollToTop } from '@/components/Common/ScrollToTop';
+import { TabContent } from '@/components/Common/TabContent';
+import { Contact } from '@/components/Common/contact';
 
-import { ErrorBoundary } from '../components/Common/ErrorBoundary';
-import { useDarkMode } from '../hooks/useDarkMode';
+import { ErrorBoundary } from '@/components/Common/ErrorBoundary';
+import { useDarkMode } from '@/hooks/useDarkMode';
 
 export default function Portfolio() {
   const { dark, toggle, mounted } = useDarkMode();
@@ -19,12 +18,6 @@ export default function Portfolio() {
   const handleTabChange = useCallback((tab: string) => {
     setActiveTab(tab);
   }, []);
-
-  // Memoize animation variants
-  const tabContentVariants = useMemo(() => ({
-    hidden: { opacity: 0, y: 20 },
-    visible: { opacity: 1, y: 0 }
-  }), []);
 
   // Prevent hydration mismatch by not rendering until mounted
   if (!mounted) {
@@ -49,15 +42,12 @@ export default function Portfolio() {
         />
 
         {/* Tab Content */}
-        <motion.div
+        <div 
           key={activeTab}
-          variants={tabContentVariants}
-          initial="hidden"
-          animate="visible"
-          transition={{ duration: 0.3 }}
+          className="animate-[fadeInUp_0.3s_ease-out_forwards]"
         >
           <TabContent activeTab={activeTab} />
-        </motion.div>
+        </div>
 
         {/* Contact section always visible */}
         <Contact />
