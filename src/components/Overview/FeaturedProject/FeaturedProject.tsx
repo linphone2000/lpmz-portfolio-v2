@@ -1,13 +1,13 @@
 'use client';
 
 import React, { useState, useCallback, useMemo } from 'react';
-import { DATA } from '../../lib/data';
-import { Button } from '../Common/Button';
-import { SectionDivider } from '../Common/SectionDivider';
+import { DATA } from '@/lib/data';
+import { Button } from '@/components/Common/Button';
+import { SectionDivider } from '@/components/Common/SectionDivider';
 
-import { useInView } from '../../hooks/useInView';
-import { ProjectHeader, ProjectFeatures, ProjectTechStack, ProjectPreview } from './FeaturedProject/index';
-import { ProjectModal } from '../Common/ProjectModal';
+import { useInView } from '@/hooks/useInView';
+import { ProjectHeader, ProjectFeatures, ProjectTechStack, ProjectPreview } from './index';
+import { ProjectModal } from '@/components/Common/ProjectModal';
 
 export const FeaturedProject: React.FC = React.memo(() => {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -66,7 +66,7 @@ export const FeaturedProject: React.FC = React.memo(() => {
             ref={containerRef}
             className={`max-w-5xl mx-auto relative transition-all duration-700 ease-out ${
               isContainerInView ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-6'
-            } animation-delay-200`}
+            }`}
           >
             {/* Animated border container */}
             <div className="relative rounded-2xl p-[2px] bg-gradient-to-r from-primary-500 to-secondary-500 animate-gradient-x">

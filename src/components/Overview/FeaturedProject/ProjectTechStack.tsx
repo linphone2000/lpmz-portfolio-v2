@@ -1,5 +1,5 @@
 import React, { useMemo } from 'react';
-import { Badge } from '../../Common/Badge';
+import { Badge } from '@/components/Common/Badge';
 
 interface ProjectTechStackProps {
   stack: string[];

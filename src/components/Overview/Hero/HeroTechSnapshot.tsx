@@ -1,6 +1,6 @@
 import React from 'react';
-import { Card } from '../../Common/Card';
-import { Badge } from '../../Common/Badge';
+import { Card } from '@/components/Common/Card';
+import { Badge } from '@/components/Common/Badge';
 
 interface HeroTechSnapshotProps {
   heroData: {

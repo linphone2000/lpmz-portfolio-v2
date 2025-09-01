@@ -1,5 +1,5 @@
 import React, { useMemo } from 'react';
-import { Badge } from '../../Common/Badge';
+import { Badge } from '@/components/Common/Badge';
 import { BriefcaseIcon, AcademicCapIcon, StarIcon } from '@heroicons/react/24/outline';
 
 interface HeroServicesProps {
@@ -48,7 +48,7 @@ export const HeroServices: React.FC<HeroServicesProps> = React.memo(({ heroData,
   , [heroData.services]);
 
   return (
-    <div className={`transition-all duration-600 ease-out ${
+    <div className={`transition-all duration-700 ease-out ${
       isInView 
         ? 'opacity-100 translate-y-0 scale-100' 
         : 'opacity-0 translate-y-6 scale-95'
