@@ -1,13 +1,19 @@
 'use client';
 
 import React from 'react';
-import { motion } from 'framer-motion';
 import { DATA } from '../../lib/data';
 import { Card } from '../Common/Card';
 import { Badge } from '../Common/Badge';
+import { useInView } from '../../hooks/useInView';
 
 
 export const Education: React.FC = () => {
+  // Use custom in-view hook for animations
+  const [containerRef, isContainerInView] = useInView({
+    threshold: 0.1,
+    triggerOnce: true,
+  });
+
   return (
     <section className="py-16 relative">
 
@@ -22,14 +28,16 @@ export const Education: React.FC = () => {
           </p>
         </div>
 
-        <div className="grid md:grid-cols-2 gap-6">
+        <div 
+          ref={containerRef}
+          className={`grid md:grid-cols-2 gap-6 transition-all duration-700 ease-out ${
+            isContainerInView ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-6'
+          }`}
+        >
           {DATA.education.map((edu, index) => (
-            <motion.div
+            <div
               key={index}
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: index * 0.1 }}
-              viewport={{ once: true }}
+              className={`transition-all duration-500 ease-out animation-delay-${index * 100}`}
             >
               <Card className="h-full">
                 <div className="text-2xl mb-3">🎓</div>
@@ -43,7 +51,7 @@ export const Education: React.FC = () => {
                   {edu.period}
                 </Badge>
               </Card>
-            </motion.div>
+            </div>
           ))}
         </div>
       </div>

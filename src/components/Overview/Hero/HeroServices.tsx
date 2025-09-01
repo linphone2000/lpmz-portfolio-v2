@@ -1,10 +1,16 @@
 import React, { useMemo } from 'react';
 import { Badge } from '../../Common/Badge';
-import { getServiceIcon } from '../../../lib/iconMappings';
-import { HeroData } from '../../../lib/optimizedData';
+import { BriefcaseIcon, AcademicCapIcon, StarIcon } from '@heroicons/react/24/outline';
 
 interface HeroServicesProps {
-  heroData: HeroData;
+  heroData: {
+    services: Array<{
+      title: string;
+      description: string;
+      icon: string;
+      technologies: string[];
+    }>;
+  };
   isInView: boolean;
 }
 
@@ -12,7 +18,12 @@ export const HeroServices: React.FC<HeroServicesProps> = React.memo(({ heroData,
   // Memoize services for rendering
   const servicesList = useMemo(() => 
     heroData.services.map((service, index) => {
-      const ServiceIcon = getServiceIcon(service.icon);
+      // Simple icon mapping
+      const ServiceIcon = 
+        service.icon === 'mobile' ? BriefcaseIcon :
+        service.icon === 'fullstack' ? AcademicCapIcon :
+        service.icon === 'architecture' ? StarIcon :
+        BriefcaseIcon;
       
       return (
         <div

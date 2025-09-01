@@ -1,10 +1,18 @@
 import React from 'react';
 import { Card } from '../../Common/Card';
 import { Badge } from '../../Common/Badge';
-import { HeroData } from '../../../lib/optimizedData';
 
 interface HeroTechSnapshotProps {
-  heroData: HeroData;
+  heroData: {
+    skills: {
+      frontend: string[];
+      backend: string[];
+      databases: string[];
+    };
+    about: {
+      tagline: string;
+    };
+  };
 }
 
 export const HeroTechSnapshot: React.FC<HeroTechSnapshotProps> = React.memo(({ heroData }) => {
