@@ -5,7 +5,7 @@ import { useInView } from '@/hooks/useInView';
 import { DATA } from '@/lib/data';
 import { Card } from '@/components/Common/Card';
 import { Button } from '@/components/Common/Button';
-
+import { EnvelopeIcon, PhoneIcon, MapPinIcon } from '@heroicons/react/24/outline';
 import { SectionDivider } from '@/components/Common/SectionDivider';
 
 export const Contact: React.FC = () => {
@@ -40,7 +40,7 @@ export const Contact: React.FC = () => {
               </h3>
               <div className="space-y-3">
                 <div className="flex items-center gap-3">
-                  <span className="text-primary-500">📧</span>
+                  <EnvelopeIcon className="w-5 h-5 text-primary-500" />
                   <a
                     href={`mailto:${DATA.email}`}
                     className="text-neutral-600 dark:text-neutral-300 hover:text-primary-500 transition-colors"
@@ -49,7 +49,7 @@ export const Contact: React.FC = () => {
                   </a>
                 </div>
                 <div className="flex items-center gap-3">
-                  <span className="text-primary-500">📱</span>
+                  <PhoneIcon className="w-5 h-5 text-primary-500" />
                   <a
                     href={`tel:${DATA.phone.replace(/\s/g, '')}`}
                     className="text-neutral-600 dark:text-neutral-300 hover:text-primary-500 transition-colors"
@@ -58,7 +58,7 @@ export const Contact: React.FC = () => {
                   </a>
                 </div>
                 <div className="flex items-center gap-3">
-                  <span className="text-primary-500">📍</span>
+                  <MapPinIcon className="w-5 h-5 text-primary-500" />
                   <span className="text-neutral-600 dark:text-neutral-300">
                     {DATA.location}
                   </span>

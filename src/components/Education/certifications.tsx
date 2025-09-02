@@ -3,6 +3,7 @@
 import React from 'react';
 import { DATA } from '@/lib/data';
 import { Card } from '@/components/Common/Card';
+import { TrophyIcon } from '@heroicons/react/24/outline';
 
 export const Certifications: React.FC = () => {
   return (
@@ -23,7 +24,9 @@ export const Certifications: React.FC = () => {
               className={`transition-all duration-500 ease-out animation-delay-${index * 100} opacity-0 translate-y-5 animate-[fadeInUp_0.5s_ease-out_forwards]`}
             >
               <Card className="text-center">
-                <div className="text-2xl mb-3">🏆</div>
+                <div className="text-2xl mb-3 text-primary-500">
+                  <TrophyIcon className="w-8 h-8 mx-auto" />
+                </div>
                 <h3 className="font-semibold mb-2 text-neutral-900 dark:text-neutral-100">
                   {cert.name}
                 </h3>
