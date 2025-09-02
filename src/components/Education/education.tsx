@@ -5,6 +5,7 @@ import { DATA } from '../../lib/data';
 import { Card } from '../Common/Card';
 import { Badge } from '../Common/Badge';
 import { useInView } from '../../hooks/useInView';
+import { AcademicCapIcon } from '@heroicons/react/24/outline';
 
 
 export const Education: React.FC = () => {
@@ -40,7 +41,9 @@ export const Education: React.FC = () => {
               className={`transition-all duration-500 ease-out animation-delay-${index * 100}`}
             >
               <Card className="h-full">
-                <div className="text-2xl mb-3">🎓</div>
+                <div className="text-2xl mb-3 text-primary-500">
+                  <AcademicCapIcon className="w-8 h-8" />
+                </div>
                 <h3 className="text-lg font-bold mb-2 text-neutral-900 dark:text-neutral-100">
                   {edu.school}
                 </h3>
