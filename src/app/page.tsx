@@ -5,7 +5,6 @@ import { ScrollProgress, Blobs } from '@/components/Common/Effects';
 import { TabNavigation } from '@/components/Common/TabNavigation';
 import { ScrollToTop } from '@/components/Common/ScrollToTop';
 import { TabContent } from '@/components/Common/TabContent';
-import { Contact } from '@/components/Common/contact';
 
 import { ErrorBoundary } from '@/components/Common/ErrorBoundary';
 import { useDarkMode } from '@/hooks/useDarkMode';
@@ -48,9 +47,6 @@ export default function Portfolio() {
         >
           <TabContent activeTab={activeTab} />
         </div>
-
-        {/* Contact section always visible */}
-        <Contact />
 
         {/* Scroll to top */}
         <ScrollToTop />
