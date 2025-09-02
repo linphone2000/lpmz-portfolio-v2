@@ -1,6 +1,7 @@
 'use client';
 
 import React, { Component, ErrorInfo, ReactNode } from 'react';
+import { FaceFrownIcon } from '@heroicons/react/24/outline';
 
 interface Props {
   children: ReactNode;
@@ -31,7 +32,9 @@ export class ErrorBoundary extends Component<Props, State> {
         this.props.fallback || (
           <div className="min-h-screen flex items-center justify-center bg-neutral-50 dark:bg-neutral-900">
             <div className="text-center p-8">
-              <div className="text-6xl mb-4">😅</div>
+              <div className="text-6xl mb-4 text-neutral-400 dark:text-neutral-500">
+                <FaceFrownIcon className="w-24 h-24 mx-auto" />
+              </div>
               <h1 className="text-2xl font-bold mb-2 text-neutral-900 dark:text-neutral-100">
                 Oops! Something went wrong
               </h1>
