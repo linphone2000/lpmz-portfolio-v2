@@ -13,44 +13,46 @@ interface TabContentProps {
   activeTab: string;
 }
 
-export const TabContent: React.FC<TabContentProps> = React.memo(({ activeTab }) => {
-  // Memoize tab content to prevent unnecessary re-renders
-  const tabContent = useMemo(() => {
-    switch (activeTab) {
-      case 'overview':
-        return (
-          <div>
-            <Hero />
-            <FeaturedProject />
-            <Experience />
-          </div>
-        );
-      case 'portfolio':
-        return (
-          <div>
-            <Projects />
-            <Skills />
-          </div>
-        );
-      case 'education':
-        return (
-          <div>
-            <Education />
-            <Certifications />
-          </div>
-        );
-      default:
-        return (
-          <div>
-            <Hero />
-            <FeaturedProject />
-            <Experience />
-          </div>
-        );
-    }
-  }, [activeTab]);
+export const TabContent: React.FC<TabContentProps> = React.memo(
+  ({ activeTab }) => {
+    // Memoize tab content to prevent unnecessary re-renders
+    const tabContent = useMemo(() => {
+      switch (activeTab) {
+        case 'overview':
+          return (
+            <div>
+              <Hero />
+              <FeaturedProject />
+              <Experience />
+            </div>
+          );
+        case 'portfolio':
+          return (
+            <div>
+              <Projects />
+              <Skills />
+            </div>
+          );
+        case 'education':
+          return (
+            <div>
+              <Education />
+              <Certifications />
+            </div>
+          );
+        default:
+          return (
+            <div>
+              <Hero />
+              <FeaturedProject />
+              <Experience />
+            </div>
+          );
+      }
+    }, [activeTab]);
 
-  return tabContent;
-});
+    return tabContent;
+  }
+);
 
 TabContent.displayName = 'TabContent';

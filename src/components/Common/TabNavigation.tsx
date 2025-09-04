@@ -32,50 +32,62 @@ export const TabNavigation: React.FC<TabNavigationProps> = React.memo(
     const [lastScrollY, setLastScrollY] = useState(0);
 
     // Memoize tabs array to prevent unnecessary re-renders
-    const tabs: TabItem[] = useMemo(() => [
-      {
-        id: 'overview',
-        label: 'Overview',
-        icon: <HomeIcon className="h-4 w-4" />,
-      },
-      {
-        id: 'portfolio',
-        label: 'Portfolio',
-        icon: <BriefcaseIcon className="h-4 w-4" />,
-      },
-      {
-        id: 'education',
-        label: 'Education',
-        icon: <AcademicCapIcon className="h-4 w-4" />,
-      },
-    ], []);
+    const tabs: TabItem[] = useMemo(
+      () => [
+        {
+          id: 'overview',
+          label: 'Overview',
+          icon: <HomeIcon className="h-4 w-4" />,
+        },
+        {
+          id: 'portfolio',
+          label: 'Portfolio',
+          icon: <BriefcaseIcon className="h-4 w-4" />,
+        },
+        {
+          id: 'education',
+          label: 'Education',
+          icon: <AcademicCapIcon className="h-4 w-4" />,
+        },
+      ],
+      []
+    );
 
     // Memoized callbacks to prevent unnecessary re-renders
-    const handleKeyDown = useCallback((e: React.KeyboardEvent, tabId: string) => {
-      if (e.key === 'Enter' || e.key === ' ') {
-        e.preventDefault();
-        onTabChange(tabId);
-      }
-    }, [onTabChange]);
+    const handleKeyDown = useCallback(
+      (e: React.KeyboardEvent, tabId: string) => {
+        if (e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault();
+          onTabChange(tabId);
+        }
+      },
+      [onTabChange]
+    );
 
-    const handleTabClick = useCallback((tabId: string) => {
-      onTabChange(tabId);
-    }, [onTabChange]);
+    const handleTabClick = useCallback(
+      (tabId: string) => {
+        onTabChange(tabId);
+      },
+      [onTabChange]
+    );
 
     const handleLogoClick = useCallback(() => {
       handleTabClick('overview');
     }, [handleTabClick]);
 
     // Throttled scroll handler for better performance
-    const handleScroll = useCallback((currentScrollY: number) => {
-      // Show navbar when scrolling up or at top, hide when scrolling down
-      if (currentScrollY < lastScrollY || currentScrollY < 100) {
-        setIsVisible(true);
-      } else if (currentScrollY > lastScrollY && currentScrollY > 100) {
-        setIsVisible(false);
-      }
-      setLastScrollY(currentScrollY);
-    }, [lastScrollY]);
+    const handleScroll = useCallback(
+      (currentScrollY: number) => {
+        // Show navbar when scrolling up or at top, hide when scrolling down
+        if (currentScrollY < lastScrollY || currentScrollY < 100) {
+          setIsVisible(true);
+        } else if (currentScrollY > lastScrollY && currentScrollY > 100) {
+          setIsVisible(false);
+        }
+        setLastScrollY(currentScrollY);
+      },
+      [lastScrollY]
+    );
 
     // Use throttled scroll hook
     useThrottledScroll(handleScroll, { throttleMs: 16 });

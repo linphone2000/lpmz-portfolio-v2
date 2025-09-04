@@ -23,31 +23,31 @@ export const PhoneFrame: React.FC<PhoneFrameProps> = React.memo(
             onClick ? 'cursor-pointer' : ''
           }`}
           onClick={onClick}
-                 >
-           <div className="relative w-full h-full rounded-2xl overflow-hidden">
-             <Image
-               src={src}
-               alt={alt}
-               width={300}
-               height={600}
-               className="w-full h-full object-contain"
-               onLoad={() => setIsLoading(false)}
-               onError={() => setIsLoading(false)}
-             />
-             
-             {/* Loading state overlay */}
-             {isLoading && (
-               <div className="absolute inset-0 bg-neutral-200 dark:bg-neutral-700 flex items-center justify-center">
-                 <div className="text-center">
-                   <PhotoIcon className="w-8 h-8 text-neutral-400 dark:text-neutral-500 mx-auto mb-2" />
-                   <div className="text-xs text-neutral-400 dark:text-neutral-500">
-                     Loading...
-                   </div>
-                 </div>
-               </div>
-             )}
-           </div>
-          
+        >
+          <div className="relative w-full h-full rounded-2xl overflow-hidden">
+            <Image
+              src={src}
+              alt={alt}
+              width={300}
+              height={600}
+              className="w-full h-full object-contain"
+              onLoad={() => setIsLoading(false)}
+              onError={() => setIsLoading(false)}
+            />
+
+            {/* Loading state overlay */}
+            {isLoading && (
+              <div className="absolute inset-0 bg-neutral-200 dark:bg-neutral-700 flex items-center justify-center">
+                <div className="text-center">
+                  <PhotoIcon className="w-8 h-8 text-neutral-400 dark:text-neutral-500 mx-auto mb-2" />
+                  <div className="text-xs text-neutral-400 dark:text-neutral-500">
+                    Loading...
+                  </div>
+                </div>
+              </div>
+            )}
+          </div>
+
           {/* Overlay on hover */}
           {showHoverEffect && (
             <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-all duration-300 flex items-center justify-center rounded-2xl">

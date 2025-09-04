@@ -5,25 +5,54 @@ import { DATA } from '../../lib/data';
 import { Card } from '../Common/Card';
 import { Badge } from '../Common/Badge';
 import { useInView } from '../../hooks/useInView';
-import { 
-  PaintBrushIcon, 
-  CogIcon, 
-  ServerIcon, 
-  CodeBracketIcon, 
-  WrenchScrewdriverIcon, 
-  CpuChipIcon, 
-  UserGroupIcon 
-} from '@heroicons/react/24/outline';import { Contact } from '../Common/contact';
+import {
+  PaintBrushIcon,
+  CogIcon,
+  ServerIcon,
+  CodeBracketIcon,
+  WrenchScrewdriverIcon,
+  CpuChipIcon,
+  UserGroupIcon,
+} from '@heroicons/react/24/outline';
+import { Contact } from '../Common/contact';
 
 export const Skills: React.FC = () => {
   const skillCategories = [
-    { title: 'Frontend', skills: DATA.skills.frontend, icon: <PaintBrushIcon className="w-8 h-8" /> },
-    { title: 'Backend', skills: DATA.skills.backend, icon: <CogIcon className="w-8 h-8" /> },
-    { title: 'Databases', skills: DATA.skills.databases, icon: <ServerIcon className="w-8 h-8" /> },
-    { title: 'Languages', skills: DATA.skills.languages, icon: <CodeBracketIcon className="w-8 h-8" /> },
-    { title: 'Tools', skills: DATA.skills.tools, icon: <WrenchScrewdriverIcon className="w-8 h-8" /> },
-    { title: 'AI/ML', skills: DATA.skills.aiml, icon: <CpuChipIcon className="w-8 h-8" /> },
-    { title: 'Soft Skills', skills: DATA.skills.soft, icon: <UserGroupIcon className="w-8 h-8" /> },
+    {
+      title: 'Frontend',
+      skills: DATA.skills.frontend,
+      icon: <PaintBrushIcon className="w-8 h-8" />,
+    },
+    {
+      title: 'Backend',
+      skills: DATA.skills.backend,
+      icon: <CogIcon className="w-8 h-8" />,
+    },
+    {
+      title: 'Databases',
+      skills: DATA.skills.databases,
+      icon: <ServerIcon className="w-8 h-8" />,
+    },
+    {
+      title: 'Languages',
+      skills: DATA.skills.languages,
+      icon: <CodeBracketIcon className="w-8 h-8" />,
+    },
+    {
+      title: 'Tools',
+      skills: DATA.skills.tools,
+      icon: <WrenchScrewdriverIcon className="w-8 h-8" />,
+    },
+    {
+      title: 'AI/ML',
+      skills: DATA.skills.aiml,
+      icon: <CpuChipIcon className="w-8 h-8" />,
+    },
+    {
+      title: 'Soft Skills',
+      skills: DATA.skills.soft,
+      icon: <UserGroupIcon className="w-8 h-8" />,
+    },
   ];
 
   // Use custom in-view hook for animations
@@ -59,7 +88,9 @@ export const Skills: React.FC = () => {
               className={`transition-all duration-500 ease-out animation-delay-${index * 100}`}
             >
               <Card className="h-full">
-                <div className="text-2xl mb-3 text-primary-500">{category.icon}</div>
+                <div className="text-2xl mb-3 text-primary-500">
+                  {category.icon}
+                </div>
                 <h3 className="text-lg font-bold mb-4 text-neutral-900 dark:text-neutral-100">
                   {category.title}
                 </h3>

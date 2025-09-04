@@ -41,7 +41,7 @@ export default function Portfolio() {
         />
 
         {/* Tab Content */}
-        <div 
+        <div
           key={activeTab}
           className="animate-[fadeInUp_0.3s_ease-out_forwards]"
         >

@@ -22,7 +22,7 @@ export const ThemeToggle: React.FC<ThemeToggleProps> = ({
     const checkMobile = () => {
       setIsMobile(window.innerWidth < 768);
     };
-    
+
     checkMobile();
     window.addEventListener('resize', checkMobile);
     return () => window.removeEventListener('resize', checkMobile);
@@ -97,12 +97,8 @@ export const ThemeToggle: React.FC<ThemeToggleProps> = ({
             animate={{ opacity: dark ? 1 : 0 }}
             transition={{ duration: 0.3 }}
           >
-            <span
-              className="absolute right-[15px] top-[3px] h-0.5 w-0.5 rounded-full bg-white/90"
-            />
-            <span
-              className="absolute right-[7px] top-[7px] h-0.5 w-0.5 rounded-full bg-white/70"
-            />
+            <span className="absolute right-[15px] top-[3px] h-0.5 w-0.5 rounded-full bg-white/90" />
+            <span className="absolute right-[7px] top-[7px] h-0.5 w-0.5 rounded-full bg-white/70" />
           </motion.span>
         </div>
       )}

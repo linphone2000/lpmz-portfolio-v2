@@ -5,12 +5,22 @@ import { useInView } from '@/hooks/useInView';
 import { DATA } from '@/lib/data';
 import { Card } from '@/components/Common/Card';
 import { Button } from '@/components/Common/Button';
-import { EnvelopeIcon, PhoneIcon, MapPinIcon } from '@heroicons/react/24/outline';
+import {
+  EnvelopeIcon,
+  PhoneIcon,
+  MapPinIcon,
+} from '@heroicons/react/24/outline';
 import { SectionDivider } from '@/components/Common/SectionDivider';
 
 export const Contact: React.FC = () => {
-  const [leftCardRef, leftCardInView] = useInView({ threshold: 0.1, triggerOnce: true });
-  const [rightCardRef, rightCardInView] = useInView({ threshold: 0.1, triggerOnce: true });
+  const [leftCardRef, leftCardInView] = useInView({
+    threshold: 0.1,
+    triggerOnce: true,
+  });
+  const [rightCardRef, rightCardInView] = useInView({
+    threshold: 0.1,
+    triggerOnce: true,
+  });
 
   return (
     <section className="relative pb-12">
@@ -31,7 +41,9 @@ export const Contact: React.FC = () => {
           <div
             ref={leftCardRef}
             className={`transition-all duration-500 ease-out ${
-              leftCardInView ? 'opacity-100 translate-x-0' : 'opacity-0 -translate-x-5'
+              leftCardInView
+                ? 'opacity-100 translate-x-0'
+                : 'opacity-0 -translate-x-5'
             }`}
           >
             <Card>
@@ -70,7 +82,9 @@ export const Contact: React.FC = () => {
           <div
             ref={rightCardRef}
             className={`transition-all duration-500 ease-out ${
-              rightCardInView ? 'opacity-100 translate-x-0' : 'opacity-0 translate-x-5'
+              rightCardInView
+                ? 'opacity-100 translate-x-0'
+                : 'opacity-0 translate-x-5'
             }`}
           >
             <Card>

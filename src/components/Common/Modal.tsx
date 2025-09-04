@@ -94,7 +94,7 @@ export const Modal: React.FC<ModalProps> = ({
   );
 
   // Use portal to render modal at document root
-  return typeof document !== 'undefined' 
+  return typeof document !== 'undefined'
     ? createPortal(modalContent, document.body)
     : modalContent;
 };

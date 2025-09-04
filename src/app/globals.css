@@ -235,7 +235,8 @@ body {
 
 /* Basic animations */
 @keyframes gradient-x {
-  0%, 100% {
+  0%,
+  100% {
     background-position: 0% 50%;
   }
   50% {
@@ -296,7 +297,8 @@ body {
 
 /* Blob animations */
 @keyframes blob-1 {
-  0%, 100% {
+  0%,
+  100% {
     transform: translate(0, 0);
   }
   25% {
@@ -311,7 +313,8 @@ body {
 }
 
 @keyframes blob-2 {
-  0%, 100% {
+  0%,
+  100% {
     transform: translate(0, 0);
   }
   25% {
@@ -403,26 +406,62 @@ body {
    ========================================================================== */
 
 /* Standard animation delays */
-.animation-delay-0 { animation-delay: 0ms; }
-.animation-delay-100 { animation-delay: 100ms; }
-.animation-delay-200 { animation-delay: 200ms; }
-.animation-delay-300 { animation-delay: 300ms; }
-.animation-delay-400 { animation-delay: 400ms; }
-.animation-delay-500 { animation-delay: 500ms; }
-.animation-delay-600 { animation-delay: 600ms; }
-.animation-delay-700 { animation-delay: 700ms; }
-.animation-delay-800 { animation-delay: 800ms; }
+.animation-delay-0 {
+  animation-delay: 0ms;
+}
+.animation-delay-100 {
+  animation-delay: 100ms;
+}
+.animation-delay-200 {
+  animation-delay: 200ms;
+}
+.animation-delay-300 {
+  animation-delay: 300ms;
+}
+.animation-delay-400 {
+  animation-delay: 400ms;
+}
+.animation-delay-500 {
+  animation-delay: 500ms;
+}
+.animation-delay-600 {
+  animation-delay: 600ms;
+}
+.animation-delay-700 {
+  animation-delay: 700ms;
+}
+.animation-delay-800 {
+  animation-delay: 800ms;
+}
 
 /* Blob delay utilities */
-.blob-delay-0 { animation-delay: 0s; }
-.blob-delay-1 { animation-delay: 1s; }
-.blob-delay-2 { animation-delay: 2s; }
-.blob-delay-3 { animation-delay: 3s; }
-.blob-delay-4 { animation-delay: 4s; }
-.blob-delay-5 { animation-delay: 5s; }
-.blob-delay-6 { animation-delay: 6s; }
-.blob-delay-7 { animation-delay: 7s; }
-.blob-delay-8 { animation-delay: 8s; }
+.blob-delay-0 {
+  animation-delay: 0s;
+}
+.blob-delay-1 {
+  animation-delay: 1s;
+}
+.blob-delay-2 {
+  animation-delay: 2s;
+}
+.blob-delay-3 {
+  animation-delay: 3s;
+}
+.blob-delay-4 {
+  animation-delay: 4s;
+}
+.blob-delay-5 {
+  animation-delay: 5s;
+}
+.blob-delay-6 {
+  animation-delay: 6s;
+}
+.blob-delay-7 {
+  animation-delay: 7s;
+}
+.blob-delay-8 {
+  animation-delay: 8s;
+}
 
 /* ==========================================================================
    COMPONENT STYLES
@@ -434,15 +473,29 @@ body {
 
 /* Complex gradient effects */
 .spotlight-gradient {
-  background: radial-gradient(60% 50% at 50% 0%, rgba(79,195,247,0.08) 0%, rgba(0,0,0,0) 70%);
+  background: radial-gradient(
+    60% 50% at 50% 0%,
+    rgba(79, 195, 247, 0.08) 0%,
+    rgba(0, 0, 0, 0) 70%
+  );
 }
 
 .sheen-effect {
-  background: linear-gradient(to right, transparent, rgba(255,255,255,0.3), transparent);
+  background: linear-gradient(
+    to right,
+    transparent,
+    rgba(255, 255, 255, 0.3),
+    transparent
+  );
 }
 
 .dark .sheen-effect {
-  background: linear-gradient(to right, transparent, rgba(255,255,255,0.1), transparent);
+  background: linear-gradient(
+    to right,
+    transparent,
+    rgba(255, 255, 255, 0.1),
+    transparent
+  );
 }
 
 /* ==========================================================================
@@ -460,10 +513,12 @@ body {
 }
 
 .project-preview-border {
-  background: linear-gradient(135deg, 
-    rgba(var(--primary-500), 0.4) 0%, 
-    rgba(var(--primary-300), 0.25) 50%, 
-    rgba(var(--secondary-400), 0.4) 100%);
+  background: linear-gradient(
+    135deg,
+    rgba(var(--primary-500), 0.4) 0%,
+    rgba(var(--primary-300), 0.25) 50%,
+    rgba(var(--secondary-400), 0.4) 100%
+  );
 }
 
 /* ==========================================================================
@@ -480,9 +535,11 @@ body {
 }
 
 .phone-glow {
-  background: linear-gradient(to right, 
-    rgba(59, 130, 246, 0.2), 
-    rgba(99, 102, 241, 0.2));
+  background: linear-gradient(
+    to right,
+    rgba(59, 130, 246, 0.2),
+    rgba(99, 102, 241, 0.2)
+  );
   border-radius: 1.5rem;
   filter: blur(1rem);
 }
@@ -493,7 +550,11 @@ body {
 
 /* Theme toggle styles */
 .theme-toggle-glow {
-  background: linear-gradient(135deg, rgba(255,88,120,0.25), rgba(255,200,64,0.25));
+  background: linear-gradient(
+    135deg,
+    rgba(255, 88, 120, 0.25),
+    rgba(255, 200, 64, 0.25)
+  );
   filter: blur(3px);
 }
 
