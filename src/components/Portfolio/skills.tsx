@@ -13,7 +13,7 @@ import {
   WrenchScrewdriverIcon, 
   CpuChipIcon, 
   UserGroupIcon 
-} from '@heroicons/react/24/outline';
+} from '@heroicons/react/24/outline';import { Contact } from '../Common/contact';
 
 export const Skills: React.FC = () => {
   const skillCategories = [
@@ -34,7 +34,6 @@ export const Skills: React.FC = () => {
 
   return (
     <section className="py-16 relative">
-
       <div className="max-w-5xl mx-auto px-4">
         <div className="text-center mb-12">
           <h2 className="text-3xl font-bold mb-4 text-neutral-900 dark:text-neutral-100">
@@ -46,10 +45,12 @@ export const Skills: React.FC = () => {
           </p>
         </div>
 
-        <div 
+        <div
           ref={containerRef}
           className={`grid md:grid-cols-2 lg:grid-cols-3 gap-6 transition-all duration-700 ease-out ${
-            isContainerInView ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-6'
+            isContainerInView
+              ? 'opacity-100 translate-y-0'
+              : 'opacity-0 translate-y-6'
           }`}
         >
           {skillCategories.map((category, index) => (
@@ -77,6 +78,9 @@ export const Skills: React.FC = () => {
           ))}
         </div>
       </div>
+
+      {/* Contact */}
+      <Contact />
     </section>
   );
 };

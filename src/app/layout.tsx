@@ -13,7 +13,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: 'Lin Phone Myint Zaw - Full-Stack Developer',
+  title: 'Lin Phone Myint Zaw',
   description:
     'Portfolio of Lin Phone Myint Zaw, a Full-Stack and React Native Developer based in Yangon, Myanmar.',
 };

@@ -14,7 +14,7 @@ export const Contact: React.FC = () => {
 
   return (
     <section className="relative pb-12">
-      <SectionDivider className="pt-10 pb-16" />
+      <SectionDivider className="py-16" />
 
       <div className="max-w-5xl mx-auto px-4">
         <div className="text-center mb-12">

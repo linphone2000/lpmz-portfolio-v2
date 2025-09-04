@@ -6,15 +6,17 @@ import { DATA } from '@/lib/data';
 import { Card } from '@/components/Common/Card';
 import { Badge } from '@/components/Common/Badge';
 import { SectionDivider } from '@/components/Common/SectionDivider';
-
+import { Contact } from '@/components/Common/contact';
 
 export const Experience: React.FC = () => {
-  const [containerRef, isInView] = useInView({ threshold: 0.1, triggerOnce: true });
+  const [containerRef, isInView] = useInView({
+    threshold: 0.1,
+    triggerOnce: true,
+  });
   return (
     <>
       <SectionDivider className="py-8" />
       <section className="py-10 relative">
-
         <div className="max-w-7xl mx-auto px-6">
           <div className="text-center mb-16">
             <h2 className="text-3xl font-bold mb-6 text-neutral-900 dark:text-neutral-100">
@@ -33,7 +35,10 @@ export const Experience: React.FC = () => {
             }`}
           >
             {DATA.experience.map((exp, index) => (
-              <div key={index} className={`transition-all duration-500 ease-out animation-delay-${index * 100}`}>
+              <div
+                key={index}
+                className={`transition-all duration-500 ease-out animation-delay-${index * 100}`}
+              >
                 <Card className="relative overflow-hidden">
                   <div className="absolute top-0 left-0 w-1 h-full bg-gradient-to-b from-primary-500 to-secondary-500" />
                   <div className="pl-8">
@@ -67,6 +72,9 @@ export const Experience: React.FC = () => {
             ))}
           </div>
         </div>
+
+        {/* Contact */}
+        <Contact />
       </section>
     </>
   );
