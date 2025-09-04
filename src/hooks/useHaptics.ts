@@ -12,13 +12,13 @@ export const useHaptics = () => {
       return;
     }
 
-    // Different vibration patterns for different feedback types
+    // Different vibration patterns for different feedback types - adjusted for pleasant feel
     const patterns = {
-      light: 50,           // Very light tap
-      medium: 100,         // Standard tap
-      heavy: 200,          // Strong tap
-      success: [100, 50, 100], // Success pattern
-      error: [200, 100, 200],  // Error pattern
+      light: 30,           // Very subtle tap
+      medium: 50,          // Gentle tap
+      heavy: 80,           // Noticeable but not jarring
+      success: [60, 30, 60], // Pleasant success pattern
+      error: [80, 40, 80],   // Gentle error pattern
     };
 
     const pattern = patterns[type];
@@ -28,7 +28,7 @@ export const useHaptics = () => {
       
       // Fallback: if vibration returns false, try a simple pattern
       if (result === false) {
-        navigator.vibrate(100);
+        navigator.vibrate(50);
       }
     } catch (error) {
       // Silent fallback - no console errors
