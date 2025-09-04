@@ -1,8 +1,9 @@
 'use client';
 
-import React, { useCallback } from 'react';
+import React, { useState, useEffect } from 'react';
+import { motion, useReducedMotion } from 'framer-motion';
 import { SunIcon, MoonIcon } from '@heroicons/react/24/solid';
-import { useReducedMotion } from '@/hooks/useReducedMotion';
+import { useHaptics } from '@/hooks/useHaptics';
 
 interface ThemeToggleProps {
   dark: boolean;
@@ -10,18 +11,29 @@ interface ThemeToggleProps {
   mounted: boolean;
 }
 
-export const ThemeToggle: React.FC<ThemeToggleProps> = React.memo(({
+export const ThemeToggle: React.FC<ThemeToggleProps> = ({
   dark,
   toggle,
   mounted,
 }) => {
   const prefersReducedMotion = useReducedMotion();
+  const [isMobile, setIsMobile] = useState(false);
+  const { hapticFeedback } = useHaptics();
 
-  const handleToggle = useCallback(() => {
+  useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth < 768);
+    };
+    
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
+
+  const handleToggle = () => {
+    hapticFeedback('heavy');
     toggle();
-  }, [toggle]);
-
-
+  };
 
   if (!mounted) {
     return (
@@ -30,40 +42,86 @@ export const ThemeToggle: React.FC<ThemeToggleProps> = React.memo(({
   }
 
   return (
-    <button
+    <motion.button
       type="button"
       onClick={handleToggle}
       role="switch"
       aria-checked={dark}
       aria-label="Toggle theme"
+      whileHover={{ scale: prefersReducedMotion ? 1 : 1.05 }}
+      whileTap={{ scale: prefersReducedMotion ? 1 : 0.95 }}
       className={[
-        'relative h-5 w-10 rounded-full transition-all duration-300',
-        'bg-white/80 dark:bg-neutral-900/80',
+        'relative h-5 w-10 rounded-full transition-colors duration-300',
+        'bg-white/70 dark:bg-neutral-900/70 backdrop-blur',
         'focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-1',
         'focus-visible:ring-rose-400 dark:focus-visible:ring-amber-300',
         'focus-visible:ring-offset-white dark:focus-visible:ring-offset-neutral-900',
         'border border-neutral-200/70 dark:border-neutral-700/70',
         'overflow-hidden',
-        // CSS animations for hover and tap
-        'hover:scale-105 active:scale-95',
-        prefersReducedMotion ? '' : 'transform-gpu',
       ].join(' ')}
     >
-      {/* Gradient background */}
-      <div
+      {/* Glow background */}
+      <motion.div
         aria-hidden="true"
-        className={`absolute inset-0 rounded-full transition-opacity duration-300 ${
-          dark 
-            ? 'bg-gradient-to-r from-blue-900/20 to-purple-900/20 opacity-100' 
-            : 'bg-gradient-to-r from-pink-400/20 to-orange-400/20 opacity-100'
-        }`}
+        className="absolute inset-0 rounded-full"
+        initial={false}
+        animate={{ opacity: dark ? 1 : 0 }}
+        transition={{ duration: 0.35 }}
+        style={{
+          background:
+            'linear-gradient(135deg, rgba(255,88,120,0.25), rgba(255,200,64,0.25))',
+          filter: 'blur(3px)',
+        }}
       />
 
+      {/* Sparkles & stars - only on desktop */}
+      {!isMobile && (
+        <div className="pointer-events-none absolute inset-0">
+          {/* Sun sparkles */}
+          <motion.span
+            initial={false}
+            animate={{ opacity: dark ? 0 : 1 }}
+            transition={{ duration: 0.3 }}
+            className="absolute left-[7px] top-1/2 -translate-y-1/2"
+          >
+            <span
+              className="absolute h-[7px] w-[1.5px] rounded-full bg-rose-400/70"
+              style={{ left: 14, top: -10 }}
+            />
+            <span
+              className="absolute h-[7px] w-[1.5px] rounded-full bg-amber-400/70"
+              style={{ left: 20, top: -1, transform: 'rotate(45deg)' }}
+            />
+          </motion.span>
+
+          {/* Moon stars */}
+          <motion.span
+            initial={false}
+            animate={{ opacity: dark ? 1 : 0 }}
+            transition={{ duration: 0.3 }}
+          >
+            <span
+              className="absolute right-[15px] top-[3px] h-0.5 w-0.5 rounded-full bg-white/90"
+            />
+            <span
+              className="absolute right-[7px] top-[7px] h-0.5 w-0.5 rounded-full bg-white/70"
+            />
+          </motion.span>
+        </div>
+      )}
+
       {/* Knob */}
-      <div
-        className={`absolute top-1/2 h-3.5 w-3.5 -translate-y-1/2 rounded-full bg-white dark:bg-gray-700 shadow-md transition-transform duration-300 ease-out ${
-          dark ? 'translate-x-[22px]' : 'translate-x-[2px]'
-        }`}
+      <motion.div
+        className="absolute left-0.5 top-1/2 h-3.5 w-3.5 -translate-y-1/2 rounded-full bg-white dark:bg-neutral-100 shadow-md"
+        initial={false}
+        animate={{
+          x: dark ? 22 : 0, // updated travel distance for larger size
+        }}
+        transition={
+          prefersReducedMotion
+            ? { duration: 0.2 }
+            : { type: 'spring', stiffness: 600, damping: 32 }
+        }
       >
         <div className="flex h-full w-full items-center justify-center">
           {dark ? (
@@ -72,9 +130,7 @@ export const ThemeToggle: React.FC<ThemeToggleProps> = React.memo(({
             <SunIcon className="h-3 w-3 text-rose-500 drop-shadow-[0_0_3px_rgba(255,88,120,0.6)]" />
           )}
         </div>
-      </div>
-    </button>
+      </motion.div>
+    </motion.button>
   );
-});
-
-ThemeToggle.displayName = 'ThemeToggle';
+};
