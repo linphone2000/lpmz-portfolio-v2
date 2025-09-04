@@ -6,7 +6,12 @@ import { DATA } from '@/lib/data';
 import { Badge } from '@/components/Common/Badge';
 import { Button } from '@/components/Common/Button';
 import { useInView } from '@/hooks/useInView';
-import { HeroStats, HeroTechSnapshot, HeroAchievements, HeroServices } from './index';
+import {
+  HeroStats,
+  HeroTechSnapshot,
+  HeroAchievements,
+  HeroServices,
+} from './index';
 
 export const Hero: React.FC = React.memo(() => {
   // Direct data access for simplicity
@@ -21,26 +26,26 @@ export const Hero: React.FC = React.memo(() => {
     name: DATA.name,
     summary: DATA.summary,
   };
-  
+
   const stats = {
     yearsExperience: DATA.about.yearsOfExperience,
     totalProjects: DATA.about.totalProjects,
     technologiesMastered: DATA.about.technologiesMastered,
     educationCount: DATA.education.length,
   };
-  
+
   // Use custom in-view hooks for performance-optimized animations
-  const [heroRef, isHeroInView] = useInView({ 
-    threshold: 0.1, 
-    triggerOnce: true 
+  const [heroRef, isHeroInView] = useInView({
+    threshold: 0.1,
+    triggerOnce: true,
   });
-  const [achievementsRef, isAchievementsInView] = useInView({ 
-    threshold: 0.1, 
-    triggerOnce: true 
+  const [achievementsRef, isAchievementsInView] = useInView({
+    threshold: 0.1,
+    triggerOnce: true,
   });
-  const [servicesRef, isServicesInView] = useInView({ 
-    threshold: 0.1, 
-    triggerOnce: true 
+  const [servicesRef, isServicesInView] = useInView({
+    threshold: 0.1,
+    triggerOnce: true,
   });
 
   // Memoized callbacks for performance
@@ -52,18 +57,15 @@ export const Hero: React.FC = React.memo(() => {
     window.open(heroData.links.github, '_blank');
   }, [heroData.links.github]);
 
-
-
   return (
-    <section
-      id="about"
-      className="relative min-h-screen flex items-center"
-    >
+    <section id="about" className="relative min-h-screen flex items-center">
       <div className="max-w-7xl mx-auto px-6 py-16 sm:py-16 w-full">
         <div
           ref={heroRef}
           className={`space-y-16 transition-all duration-700 ease-out ${
-            isHeroInView ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-6'
+            isHeroInView
+              ? 'opacity-100 translate-y-0'
+              : 'opacity-0 translate-y-6'
           }`}
         >
           {/* Main Hero Content */}
@@ -90,10 +92,7 @@ export const Hero: React.FC = React.memo(() => {
               </p>
               <div className="mt-8 flex flex-wrap gap-4">
                 <Button onClick={handleLinkedInClick}>LinkedIn</Button>
-                <Button
-                  onClick={handleGitHubClick}
-                  variant="ghost"
-                >
+                <Button onClick={handleGitHubClick} variant="ghost">
                   GitHub
                 </Button>
               </div>
@@ -108,7 +107,10 @@ export const Hero: React.FC = React.memo(() => {
 
           {/* Recent Achievements */}
           <div ref={achievementsRef}>
-            <HeroAchievements heroData={heroData} isInView={isAchievementsInView} />
+            <HeroAchievements
+              heroData={heroData}
+              isInView={isAchievementsInView}
+            />
           </div>
 
           {/* Call-to-Action Cards */}

@@ -11,12 +11,13 @@ export function useScrollProgress(options: UseScrollProgressOptions = {}) {
 
   const updateProgress = useCallback(() => {
     const now = Date.now();
-    
+
     if (now - lastCallRef.current >= throttleMs) {
       const scrollTop = window.scrollY;
-      const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+      const docHeight =
+        document.documentElement.scrollHeight - window.innerHeight;
       const scrollPercent = Math.min(Math.max(scrollTop / docHeight, 0), 1);
-      
+
       setProgress(scrollPercent);
       lastCallRef.current = now;
     }
@@ -28,7 +29,7 @@ export function useScrollProgress(options: UseScrollProgressOptions = {}) {
     };
 
     window.addEventListener('scroll', handleScroll, { passive: true });
-    
+
     // Initial calculation
     updateProgress();
 

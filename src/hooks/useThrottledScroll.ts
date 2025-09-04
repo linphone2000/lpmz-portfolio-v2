@@ -16,7 +16,7 @@ export function useThrottledScroll(
   const throttledCallback = useCallback(
     (scrollY: number) => {
       const now = Date.now();
-      
+
       if (now - lastCall.current >= throttleMs) {
         callback(scrollY);
         lastCall.current = now;
@@ -25,12 +25,15 @@ export function useThrottledScroll(
         if (timeoutRef.current) {
           clearTimeout(timeoutRef.current);
         }
-        
+
         // Schedule delayed execution
-        timeoutRef.current = setTimeout(() => {
-          callback(scrollY);
-          lastCall.current = Date.now();
-        }, throttleMs - (now - lastCall.current));
+        timeoutRef.current = setTimeout(
+          () => {
+            callback(scrollY);
+            lastCall.current = Date.now();
+          },
+          throttleMs - (now - lastCall.current)
+        );
       }
     },
     [callback, throttleMs]
@@ -42,7 +45,7 @@ export function useThrottledScroll(
     };
 
     window.addEventListener('scroll', handleScroll, { passive });
-    
+
     return () => {
       window.removeEventListener('scroll', handleScroll);
       if (timeoutRef.current) {

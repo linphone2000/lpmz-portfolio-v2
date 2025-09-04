@@ -30,7 +30,7 @@ export function useInView(options: UseInViewOptions = {}) {
     const observer = new IntersectionObserver(
       ([entry]) => {
         const isIntersecting = entry.isIntersecting;
-        
+
         if (triggerOnce && hasTriggered) {
           return;
         }

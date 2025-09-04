@@ -17,7 +17,7 @@ export function useExitAnimation(options: UseExitAnimationOptions = {}) {
 
   const hide = useCallback(() => {
     setIsExiting(true);
-    
+
     const timer = setTimeout(() => {
       setIsVisible(false);
       setIsExiting(false);

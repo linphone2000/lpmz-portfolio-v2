@@ -7,7 +7,6 @@ import { Badge } from '../Common/Badge';
 import { useInView } from '../../hooks/useInView';
 import { AcademicCapIcon } from '@heroicons/react/24/outline';
 
-
 export const Education: React.FC = () => {
   // Use custom in-view hook for animations
   const [containerRef, isContainerInView] = useInView({
@@ -17,7 +16,6 @@ export const Education: React.FC = () => {
 
   return (
     <section className="py-16 relative">
-
       <div className="max-w-5xl mx-auto px-4">
         <div className="text-center mb-12">
           <h2 className="text-3xl font-bold mb-4 text-neutral-900 dark:text-neutral-100">
@@ -29,10 +27,12 @@ export const Education: React.FC = () => {
           </p>
         </div>
 
-        <div 
+        <div
           ref={containerRef}
           className={`grid md:grid-cols-2 gap-6 transition-all duration-700 ease-out ${
-            isContainerInView ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-6'
+            isContainerInView
+              ? 'opacity-100 translate-y-0'
+              : 'opacity-0 translate-y-6'
           }`}
         >
           {DATA.education.map((edu, index) => (
