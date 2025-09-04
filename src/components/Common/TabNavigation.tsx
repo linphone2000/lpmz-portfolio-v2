@@ -11,7 +11,6 @@ import { Button } from '@/components/Common/Button';
 import { ThemeToggle } from '@/components/Common/ThemeToggle';
 import { cx } from '@/lib/utils';
 import { useThrottledScroll } from '@/hooks/useThrottledScroll';
-import { useHaptics } from '@/hooks/useHaptics';
 
 interface TabNavigationProps {
   activeTab: string;
@@ -31,7 +30,6 @@ export const TabNavigation: React.FC<TabNavigationProps> = React.memo(
   ({ activeTab, onTabChange, dark, toggle, mounted }) => {
     const [isVisible, setIsVisible] = useState(true);
     const [lastScrollY, setLastScrollY] = useState(0);
-    const { hapticFeedback } = useHaptics();
 
     // Memoize tabs array to prevent unnecessary re-renders
     const tabs: TabItem[] = useMemo(() => [
@@ -56,20 +54,17 @@ export const TabNavigation: React.FC<TabNavigationProps> = React.memo(
     const handleKeyDown = useCallback((e: React.KeyboardEvent, tabId: string) => {
       if (e.key === 'Enter' || e.key === ' ') {
         e.preventDefault();
-        hapticFeedback('heavy');
         onTabChange(tabId);
       }
-    }, [onTabChange, hapticFeedback]);
+    }, [onTabChange]);
 
     const handleTabClick = useCallback((tabId: string) => {
-      hapticFeedback('heavy');
       onTabChange(tabId);
-    }, [onTabChange, hapticFeedback]);
+    }, [onTabChange]);
 
     const handleLogoClick = useCallback(() => {
-      hapticFeedback('medium');
       handleTabClick('overview');
-    }, [handleTabClick, hapticFeedback]);
+    }, [handleTabClick]);
 
     // Throttled scroll handler for better performance
     const handleScroll = useCallback((currentScrollY: number) => {
