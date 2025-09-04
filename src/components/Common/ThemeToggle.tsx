@@ -3,7 +3,6 @@
 import React, { useState, useEffect } from 'react';
 import { motion, useReducedMotion } from 'framer-motion';
 import { SunIcon, MoonIcon } from '@heroicons/react/24/solid';
-import { useHaptics } from '@/hooks/useHaptics';
 
 interface ThemeToggleProps {
   dark: boolean;
@@ -18,7 +17,6 @@ export const ThemeToggle: React.FC<ThemeToggleProps> = ({
 }) => {
   const prefersReducedMotion = useReducedMotion();
   const [isMobile, setIsMobile] = useState(false);
-  const { hapticFeedback } = useHaptics();
 
   useEffect(() => {
     const checkMobile = () => {
@@ -31,7 +29,6 @@ export const ThemeToggle: React.FC<ThemeToggleProps> = ({
   }, []);
 
   const handleToggle = () => {
-    hapticFeedback('heavy');
     toggle();
   };
 
