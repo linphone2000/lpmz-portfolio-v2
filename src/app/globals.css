@@ -226,6 +226,10 @@ body {
 }
 
 /* ==========================================================================
+   ANIMATION SYSTEM
+   ========================================================================== */
+
+/* ==========================================================================
    ANIMATION KEYFRAMES
    ========================================================================== */
 
@@ -355,28 +359,6 @@ body {
   }
 }
 
-/* Mobile menu animations */
-@keyframes slideInLeft {
-  from {
-    opacity: 0;
-    transform: translateX(-20px);
-  }
-  to {
-    opacity: 1;
-    transform: translateX(0);
-  }
-}
-
-/* Image loading animations */
-@keyframes shimmer {
-  0% {
-    background-position: -200px 0;
-  }
-  100% {
-    background-position: calc(200px + 100%) 0;
-  }
-}
-
 /* ==========================================================================
    ANIMATION UTILITY CLASSES
    ========================================================================== */
@@ -416,7 +398,11 @@ body {
   animation: blob-2 24s ease-in-out infinite;
 }
 
-/* Animation delay utilities */
+/* ==========================================================================
+   ANIMATION DELAY UTILITIES
+   ========================================================================== */
+
+/* Standard animation delays */
 .animation-delay-0 { animation-delay: 0ms; }
 .animation-delay-100 { animation-delay: 100ms; }
 .animation-delay-200 { animation-delay: 200ms; }
@@ -438,15 +424,12 @@ body {
 .blob-delay-7 { animation-delay: 7s; }
 .blob-delay-8 { animation-delay: 8s; }
 
-/* Mobile menu delay utilities */
-.mobile-menu-delay-0 { animation-delay: 0ms; }
-.mobile-menu-delay-100 { animation-delay: 100ms; }
-.mobile-menu-delay-200 { animation-delay: 200ms; }
-.mobile-menu-delay-300 { animation-delay: 300ms; }
-.mobile-menu-delay-400 { animation-delay: 400ms; }
+/* ==========================================================================
+   COMPONENT STYLES
+   ========================================================================== */
 
 /* ==========================================================================
-   COMPONENT-SPECIFIC STYLES
+   GRADIENT & EFFECT STYLES
    ========================================================================== */
 
 /* Complex gradient effects */
@@ -461,6 +444,10 @@ body {
 .dark .sheen-effect {
   background: linear-gradient(to right, transparent, rgba(255,255,255,0.1), transparent);
 }
+
+/* ==========================================================================
+   PROJECT PREVIEW STYLES
+   ========================================================================== */
 
 /* Project preview styles */
 .project-preview-card {
@@ -479,6 +466,10 @@ body {
     rgba(var(--secondary-400), 0.4) 100%);
 }
 
+/* ==========================================================================
+   PHONE FRAME STYLES
+   ========================================================================== */
+
 /* Phone frame styles */
 .phone-frame-container {
   aspect-ratio: 9/16;
@@ -495,6 +486,10 @@ body {
   border-radius: 1.5rem;
   filter: blur(1rem);
 }
+
+/* ==========================================================================
+   THEME TOGGLE STYLES
+   ========================================================================== */
 
 /* Theme toggle styles */
 .theme-toggle-glow {
@@ -520,6 +515,10 @@ body {
   top: -1px;
   transform: rotate(45deg);
 }
+
+/* ==========================================================================
+   SCROLL PROGRESS STYLES
+   ========================================================================== */
 
 /* Scroll progress */
 .scroll-progress-bar {
