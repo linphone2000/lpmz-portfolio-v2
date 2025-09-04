@@ -2,8 +2,6 @@
 
 import React, { useState, useCallback, useMemo } from 'react';
 import {
-  Bars3Icon,
-  XMarkIcon,
   HomeIcon,
   BriefcaseIcon,
   AcademicCapIcon,
@@ -13,6 +11,7 @@ import { Button } from '@/components/Common/Button';
 import { ThemeToggle } from '@/components/Common/ThemeToggle';
 import { cx } from '@/lib/utils';
 import { useThrottledScroll } from '@/hooks/useThrottledScroll';
+import { useHaptics } from '@/hooks/useHaptics';
 
 interface TabNavigationProps {
   activeTab: string;
@@ -30,10 +29,9 @@ interface TabItem {
 
 export const TabNavigation: React.FC<TabNavigationProps> = React.memo(
   ({ activeTab, onTabChange, dark, toggle, mounted }) => {
-    const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-    const [isMenuVisible, setIsMenuVisible] = useState(false);
     const [isVisible, setIsVisible] = useState(true);
     const [lastScrollY, setLastScrollY] = useState(0);
+    const { hapticFeedback } = useHaptics();
 
     // Memoize tabs array to prevent unnecessary re-renders
     const tabs: TabItem[] = useMemo(() => [
@@ -58,33 +56,20 @@ export const TabNavigation: React.FC<TabNavigationProps> = React.memo(
     const handleKeyDown = useCallback((e: React.KeyboardEvent, tabId: string) => {
       if (e.key === 'Enter' || e.key === ' ') {
         e.preventDefault();
+        hapticFeedback('heavy');
         onTabChange(tabId);
       }
-    }, [onTabChange]);
+    }, [onTabChange, hapticFeedback]);
 
     const handleTabClick = useCallback((tabId: string) => {
+      hapticFeedback('heavy');
       onTabChange(tabId);
-      setIsMenuVisible(false);
-      setTimeout(() => setIsMobileMenuOpen(false), 200);
-    }, [onTabChange]);
+    }, [onTabChange, hapticFeedback]);
 
-    const handleMobileMenuToggle = useCallback(() => {
-      if (isMobileMenuOpen) {
-        setIsMenuVisible(false);
-        setTimeout(() => setIsMobileMenuOpen(false), 200);
-      } else {
-        setIsMobileMenuOpen(true);
-        // Small delay to ensure DOM is ready
-        setTimeout(() => setIsMenuVisible(true), 10);
-      }
-    }, [isMobileMenuOpen]);
-
-    const handleEscapeKey = useCallback((e: React.KeyboardEvent) => {
-      if (e.key === 'Escape') {
-        setIsMenuVisible(false);
-        setTimeout(() => setIsMobileMenuOpen(false), 200);
-      }
-    }, []);
+    const handleLogoClick = useCallback(() => {
+      hapticFeedback('medium');
+      handleTabClick('overview');
+    }, [handleTabClick, hapticFeedback]);
 
     // Throttled scroll handler for better performance
     const handleScroll = useCallback((currentScrollY: number) => {
@@ -108,16 +93,16 @@ export const TabNavigation: React.FC<TabNavigationProps> = React.memo(
       >
         <div className="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between">
           <button
-            onClick={() => handleTabClick('overview')}
+            onClick={handleLogoClick}
             className="font-extrabold tracking-tight text-lg text-neutral-900 dark:text-neutral-100 transform hover:scale-110 transition-transform duration-200"
             aria-label="Go to overview"
           >
             LPMZ<span className="text-primary-500">.</span>
           </button>
 
-          {/* Desktop Navigation */}
+          {/* Navigation Tabs - Desktop shows text, Mobile shows only icons */}
           <nav
-            className="hidden md:flex items-center gap-3"
+            className="flex items-center gap-3"
             role="tablist"
             aria-label="Portfolio sections"
           >
@@ -131,14 +116,15 @@ export const TabNavigation: React.FC<TabNavigationProps> = React.memo(
                 aria-controls={`tabpanel-${tab.id}`}
                 tabIndex={activeTab === tab.id ? 0 : -1}
                 className={cx(
-                  'px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200 flex items-center gap-2 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2',
+                  'px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200 flex items-center gap-2 focus:outline-none',
                   activeTab === tab.id
                     ? 'bg-primary-500 text-white shadow-lg'
                     : 'text-neutral-600 dark:text-neutral-300 hover:bg-neutral-100 dark:hover:bg-neutral-800'
                 )}
               >
                 <span>{tab.icon}</span>
-                {tab.label}
+                {/* Hide text on mobile, show on desktop */}
+                <span className="hidden md:inline">{tab.label}</span>
               </button>
             ))}
           </nav>
@@ -146,90 +132,14 @@ export const TabNavigation: React.FC<TabNavigationProps> = React.memo(
           <div className="flex items-center gap-4">
             <ThemeToggle dark={dark} toggle={toggle} mounted={mounted} />
 
-            {/* Desktop Download CV Button */}
-            <div className="hidden sm:block">
+            {/* Download CV Button - Hide on mobile, show on desktop */}
+            <div className="hidden md:block">
               <Button href="/lpmz-cv.pdf" download>
                 Download CV
               </Button>
             </div>
-
-            {/* Mobile Menu Button */}
-            <button
-              onClick={handleMobileMenuToggle}
-              onKeyDown={handleEscapeKey}
-              className="md:hidden p-2 rounded-lg text-neutral-600 dark:text-neutral-300 hover:bg-neutral-100 dark:hover:bg-neutral-800 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2"
-              aria-label="Toggle mobile menu"
-              aria-expanded={isMobileMenuOpen}
-              aria-controls="mobile-menu"
-            >
-              <div className="relative">
-                {isMobileMenuOpen ? (
-                  <div className="transform rotate-0 opacity-100 transition-all duration-200">
-                    <XMarkIcon className="h-6 w-6" />
-                  </div>
-                ) : (
-                  <div className="transform rotate-0 opacity-100 transition-all duration-200">
-                    <Bars3Icon className="h-6 w-6" />
-                  </div>
-                )}
-              </div>
-            </button>
           </div>
         </div>
-
-        {/* Mobile Menu Dropdown */}
-        {isMobileMenuOpen && (
-          <div
-            id="mobile-menu"
-            className={`md:hidden absolute top-16 right-4 z-40 transition-all duration-200 ease-out ${
-              isMenuVisible 
-                ? 'opacity-100 scale-100' 
-                : 'opacity-0 scale-95'
-            }`}
-          >
-            {/* Menu Content */}
-            <div className="bg-white/95 dark:bg-neutral-900/95 border border-neutral-200 dark:border-neutral-700 shadow-lg rounded-lg min-w-[200px]">
-              <div className="px-6 py-4 space-y-3">
-                {/* Mobile Navigation Tabs */}
-                <nav role="tablist" aria-label="Portfolio sections">
-                  {tabs.map((tab, index) => (
-                    <button
-                      key={tab.id}
-                      onClick={() => handleTabClick(tab.id)}
-                      onKeyDown={(e) => handleKeyDown(e, tab.id)}
-                      role="tab"
-                      aria-selected={activeTab === tab.id}
-                      aria-controls={`tabpanel-${tab.id}`}
-                      tabIndex={activeTab === tab.id ? 0 : -1}
-                      className={cx(
-                        'w-full text-left px-4 py-3 rounded-lg text-sm font-medium transition-all duration-150 flex items-center gap-2 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2',
-                        'opacity-0 animate-[fadeInUp_0.4s_ease-out_forwards]',
-                        `animation-delay-${index * 100}`,
-                        activeTab === tab.id
-                          ? 'bg-primary-500 text-white shadow-lg'
-                          : 'text-neutral-600 dark:text-neutral-300 hover:bg-neutral-100 dark:hover:bg-neutral-800'
-                      )}
-                    >
-                      <span>{tab.icon}</span>
-                      {tab.label}
-                    </button>
-                  ))}
-                </nav>
-
-                {/* Mobile Download CV Button */}
-                <div className="pt-2 opacity-0 animate-[fadeInUp_0.4s_ease-out_forwards] animation-delay-300">
-                  <Button
-                    href="/lpmz-cv.pdf"
-                    download
-                    className="w-full justify-center"
-                  >
-                    Download CV
-                  </Button>
-                </div>
-              </div>
-            </div>
-          </div>
-        )}
       </header>
     );
   }
