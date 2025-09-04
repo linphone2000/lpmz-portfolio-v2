@@ -192,7 +192,7 @@ export const TabNavigation: React.FC<TabNavigationProps> = React.memo(
               <div className="px-6 py-4 space-y-3">
                 {/* Mobile Navigation Tabs */}
                 <nav role="tablist" aria-label="Portfolio sections">
-                  {tabs.map((tab) => (
+                  {tabs.map((tab, index) => (
                     <button
                       key={tab.id}
                       onClick={() => handleTabClick(tab.id)}
@@ -203,6 +203,8 @@ export const TabNavigation: React.FC<TabNavigationProps> = React.memo(
                       tabIndex={activeTab === tab.id ? 0 : -1}
                       className={cx(
                         'w-full text-left px-4 py-3 rounded-lg text-sm font-medium transition-all duration-150 flex items-center gap-2 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2',
+                        'opacity-0 animate-[fadeInUp_0.4s_ease-out_forwards]',
+                        `animation-delay-${index * 100}`,
                         activeTab === tab.id
                           ? 'bg-primary-500 text-white shadow-lg'
                           : 'text-neutral-600 dark:text-neutral-300 hover:bg-neutral-100 dark:hover:bg-neutral-800'
@@ -215,7 +217,7 @@ export const TabNavigation: React.FC<TabNavigationProps> = React.memo(
                 </nav>
 
                 {/* Mobile Download CV Button */}
-                <div className="pt-2">
+                <div className="pt-2 opacity-0 animate-[fadeInUp_0.4s_ease-out_forwards] animation-delay-300">
                   <Button
                     href="/lpmz-cv.pdf"
                     download
