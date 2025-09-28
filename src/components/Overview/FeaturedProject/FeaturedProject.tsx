@@ -24,11 +24,11 @@ export const FeaturedProject: React.FC = React.memo(() => {
   // Use custom in-view hook
   const [headerRef, isHeaderInView] = useInView({
     threshold: 0.1,
-    triggerOnce: true,
+    triggerOnce: false,
   });
   const [containerRef, isContainerInView] = useInView({
     threshold: 0.1,
-    triggerOnce: true,
+    triggerOnce: false,
   });
 
   // Memoized callbacks

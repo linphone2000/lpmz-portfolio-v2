@@ -37,15 +37,15 @@ export const Hero: React.FC = React.memo(() => {
   // Use custom in-view hooks for performance-optimized animations
   const [heroRef, isHeroInView] = useInView({
     threshold: 0.1,
-    triggerOnce: true,
+    triggerOnce: false,
   });
   const [achievementsRef, isAchievementsInView] = useInView({
     threshold: 0.1,
-    triggerOnce: true,
+    triggerOnce: false,
   });
   const [servicesRef, isServicesInView] = useInView({
     threshold: 0.1,
-    triggerOnce: true,
+    triggerOnce: false,
   });
 
   // Memoized callbacks for performance

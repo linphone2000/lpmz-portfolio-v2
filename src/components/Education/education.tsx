@@ -11,7 +11,7 @@ export const Education: React.FC = () => {
   // Use custom in-view hook for animations
   const [containerRef, isContainerInView] = useInView({
     threshold: 0.1,
-    triggerOnce: true,
+    triggerOnce: false,
   });
 
   return (

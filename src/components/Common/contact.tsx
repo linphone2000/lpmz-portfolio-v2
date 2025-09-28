@@ -15,11 +15,11 @@ import { SectionDivider } from '@/components/Common/SectionDivider';
 export const Contact: React.FC = () => {
   const [leftCardRef, leftCardInView] = useInView({
     threshold: 0.1,
-    triggerOnce: true,
+    triggerOnce: false,
   });
   const [rightCardRef, rightCardInView] = useInView({
     threshold: 0.1,
-    triggerOnce: true,
+    triggerOnce: false,
   });
 
   return (

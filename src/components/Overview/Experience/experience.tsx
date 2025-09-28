@@ -11,7 +11,7 @@ import { Contact } from '@/components/Common/contact';
 export const Experience: React.FC = () => {
   const [containerRef, isInView] = useInView({
     threshold: 0.1,
-    triggerOnce: true,
+    triggerOnce: false,
   });
   return (
     <>
