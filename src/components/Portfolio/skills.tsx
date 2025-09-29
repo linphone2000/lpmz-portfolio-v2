@@ -193,7 +193,7 @@ export const Skills: React.FC = () => {
                 } as React.CSSProperties
               }
             >
-              {skillCategories.map((category, index) => (
+              {skillCategories.map((category) => (
                 <SwiperSlide key={category.title} className="!w-80">
                   <div
                     className="h-full"
@@ -226,7 +226,7 @@ export const Skills: React.FC = () => {
                       {/* Skills Grid - Fixed height with scroll */}
                       <div className="flex-1 overflow-hidden">
                         <div className="flex flex-wrap gap-2 max-h-48 overflow-y-auto scrollbar-thin scrollbar-thumb-neutral-300 dark:scrollbar-thumb-neutral-600 scrollbar-track-transparent">
-                          {category.skills.map((skill, skillIndex) => (
+                          {category.skills.map((skill) => (
                             <Badge
                               key={skill}
                               className="bg-white/80 dark:bg-neutral-800/80 text-sm hover:scale-110 hover:shadow-md transition-all duration-200 border border-white/40 dark:border-neutral-700/40"

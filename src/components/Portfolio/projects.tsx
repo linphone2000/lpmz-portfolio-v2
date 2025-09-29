@@ -2,6 +2,7 @@
 
 import React, { useState, useCallback, useMemo } from 'react';
 import { DATA } from '../../lib/data';
+import { Project } from '../../lib/types';
 import { Card } from '../Common/Card';
 import { Badge } from '../Common/Badge';
 import { Button } from '../Common/Button';
@@ -18,10 +19,15 @@ import {
 } from '@heroicons/react/24/outline';
 
 type SortOption = 'year' | 'name' | 'category';
-type FilterOption = 'all' | 'Mobile Development' | 'AI & Computer Vision' | 'Full-Stack Development' | 'Web Development';
+type FilterOption =
+  | 'all'
+  | 'Mobile Development'
+  | 'AI & Computer Vision'
+  | 'Full-Stack Development'
+  | 'Web Development';
 
 export const Projects: React.FC = () => {
-  const [selectedProject, setSelectedProject] = useState<any>(null);
+  const [selectedProject, setSelectedProject] = useState<Project | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [sortBy, setSortBy] = useState<SortOption>('year');
   const [filterBy, setFilterBy] = useState<FilterOption>('all');
@@ -36,12 +42,12 @@ export const Projects: React.FC = () => {
   // Memoized filtered and sorted projects
   const filteredAndSortedProjects = useMemo(() => {
     let filtered = DATA.projects;
-    
+
     // Filter by category
     if (filterBy !== 'all') {
-      filtered = filtered.filter(project => project.category === filterBy);
+      filtered = filtered.filter((project) => project.category === filterBy);
     }
-    
+
     // Sort projects
     return [...filtered].sort((a, b) => {
       switch (sortBy) {
@@ -59,12 +65,14 @@ export const Projects: React.FC = () => {
 
   // Get unique categories for filter
   const categories = useMemo(() => {
-    const uniqueCategories = Array.from(new Set(DATA.projects.map(p => p.category)));
+    const uniqueCategories = Array.from(
+      new Set(DATA.projects.map((p) => p.category))
+    );
     return uniqueCategories;
   }, []);
 
   // Memoized callbacks
-  const handleProjectClick = useCallback((project: any) => {
+  const handleProjectClick = useCallback((project: Project) => {
     setSelectedProject(project);
     setIsModalOpen(true);
   }, []);
@@ -107,17 +115,21 @@ export const Projects: React.FC = () => {
                 <FunnelIcon className="w-4 h-4" />
                 Filters
               </Button>
-              
+
               {showFilters && (
                 <div className="flex flex-wrap gap-2">
                   <select
                     value={filterBy}
-                    onChange={(e) => handleFilterChange(e.target.value as FilterOption)}
+                    onChange={(e) =>
+                      handleFilterChange(e.target.value as FilterOption)
+                    }
                     className="px-3 py-1 text-sm rounded-lg border border-neutral-200 dark:border-neutral-700 bg-white dark:bg-neutral-800 text-neutral-900 dark:text-neutral-100"
                   >
                     <option value="all">All Categories</option>
-                    {categories.map(category => (
-                      <option key={category} value={category}>{category}</option>
+                    {categories.map((category) => (
+                      <option key={category} value={category}>
+                        {category}
+                      </option>
                     ))}
                   </select>
                 </div>
@@ -172,11 +184,11 @@ export const Projects: React.FC = () => {
                       </Badge>
                     )}
                   </div>
-                  
+
                   <p className="text-neutral-600 dark:text-neutral-300 mb-4 text-sm leading-relaxed line-clamp-3">
                     {project.blurb}
                   </p>
-                  
+
                   <div className="flex items-center gap-2 mb-3 text-xs text-neutral-500 dark:text-neutral-400">
                     <CheckCircleIcon className="w-3 h-3" />
                     <span>{project.features.length} features</span>
@@ -184,7 +196,7 @@ export const Projects: React.FC = () => {
                     <CodeBracketIcon className="w-3 h-3" />
                     <span>{project.stack.length} technologies</span>
                   </div>
-                  
+
                   <div className="flex flex-wrap gap-1 mb-4">
                     {project.stack.slice(0, 4).map((tech) => (
                       <Badge
@@ -201,7 +213,7 @@ export const Projects: React.FC = () => {
                     )}
                   </div>
                 </div>
-                
+
                 <Button
                   onClick={() => handleProjectClick(project)}
                   className="w-full mt-auto group-hover:bg-primary-600 dark:group-hover:bg-primary-400 transition-colors"

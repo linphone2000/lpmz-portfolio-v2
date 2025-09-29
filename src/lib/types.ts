@@ -14,6 +14,24 @@ export interface Project {
   blurb: string;
   href?: string;
   highlight?: boolean;
+  category: string;
+  year: number;
+  status: string;
+  features: string[];
+  preview?: {
+    portfolioValue?: string;
+    dailyGain?: string;
+    platform?: string;
+    buysell?: string;
+    featurePills?: string[];
+    screenshot?: string;
+    screenshots?: Array<{
+      id: number;
+      src: string;
+      title: string;
+      description: string;
+    }>;
+  };
 }
 
 // Experience types

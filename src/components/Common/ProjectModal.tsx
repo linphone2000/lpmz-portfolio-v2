@@ -16,32 +16,7 @@ import {
   PhotoIcon,
 } from '@heroicons/react/24/outline';
 import { SectionDivider } from './SectionDivider';
-
-interface Project {
-  name: string;
-  stack: string[];
-  blurb: string;
-  href?: string;
-  highlight?: boolean;
-  category: string;
-  year: number;
-  status: string;
-  features: string[];
-  preview?: {
-    portfolioValue?: string;
-    dailyGain?: string;
-    platform?: string;
-    buysell?: string;
-    featurePills?: string[];
-    screenshot?: string;
-    screenshots?: Array<{
-      id: number;
-      src: string;
-      title: string;
-      description: string;
-    }>;
-  };
-}
+import { Project } from '../../lib/types';
 
 interface ProjectModalProps {
   isOpen: boolean;
