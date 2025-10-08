@@ -45,7 +45,7 @@ export default function Portfolio() {
           key={activeTab}
           className="animate-[fadeInUp_0.3s_ease-out_forwards]"
         >
-          <TabContent activeTab={activeTab} />
+          <TabContent activeTab={activeTab} onTabChange={handleTabChange} />
         </div>
 
         {/* Scroll to top */}

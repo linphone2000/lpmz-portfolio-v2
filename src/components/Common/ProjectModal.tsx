@@ -271,8 +271,12 @@ export const ProjectModal: React.FC<ProjectModalProps> = React.memo(
           {/* Screenshots Gallery Tab */}
           {activeTab === 'gallery' && (
             <div className="space-y-4">
-              {/* Gallery Grid */}
-              <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+              {/* Gallery Grid - 3 columns for web, 4 for mobile */}
+              <div className={`grid gap-4 ${
+                project.category === 'Mobile Development'
+                  ? 'grid-cols-2 md:grid-cols-3 lg:grid-cols-4'
+                  : 'grid-cols-1 md:grid-cols-2 lg:grid-cols-3'
+              }`}>
                 {project.preview?.screenshots?.map((screenshot, index) => (
                   <React.Fragment key={screenshot.id}>
                     <div
@@ -282,13 +286,23 @@ export const ProjectModal: React.FC<ProjectModalProps> = React.memo(
                         animation: 'fadeInUp 0.3s ease-out forwards',
                       }}
                     >
-                      {/* Phone screen */}
-                      <PhoneFrame
-                        src={screenshot.src}
-                        alt={`${project.name} - ${screenshot.title}`}
-                        className="mb-4"
-                        showHoverEffect={true}
-                      />
+                      {/* Conditional rendering: PhoneFrame for mobile, regular image for web */}
+                      {project.category === 'Mobile Development' ? (
+                        <PhoneFrame
+                          src={screenshot.src}
+                          alt={`${project.name} - ${screenshot.title}`}
+                          className="mb-4"
+                          showHoverEffect={true}
+                        />
+                      ) : (
+                        <div className="mb-4 rounded-lg overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300 border border-neutral-200 dark:border-neutral-700">
+                          <img
+                            src={screenshot.src}
+                            alt={`${project.name} - ${screenshot.title}`}
+                            className="w-full h-auto object-cover hover:scale-105 transition-transform duration-300"
+                          />
+                        </div>
+                      )}
 
                       <div className="text-center mb-4">
                         <h4 className="text-sm font-medium text-neutral-900 dark:text-neutral-100">
@@ -300,14 +314,22 @@ export const ProjectModal: React.FC<ProjectModalProps> = React.memo(
                       </div>
                     </div>
 
-                    {/* Add divider after every 4th item (4 columns) */}
-                    {(index + 1) % 4 === 0 &&
-                      index <
-                        (project.preview?.screenshots?.length || 0) - 1 && (
-                        <div className="col-span-full">
-                          <SectionDivider className="pb-4" />
-                        </div>
-                      )}
+                    {/* Add divider after every row */}
+                    {project.category === 'Mobile Development'
+                      ? (index + 1) % 4 === 0 &&
+                        index <
+                          (project.preview?.screenshots?.length || 0) - 1 && (
+                          <div className="col-span-full">
+                            <SectionDivider className="pb-4" />
+                          </div>
+                        )
+                      : (index + 1) % 3 === 0 &&
+                        index <
+                          (project.preview?.screenshots?.length || 0) - 1 && (
+                          <div className="col-span-full">
+                            <SectionDivider className="pb-4" />
+                          </div>
+                        )}
                   </React.Fragment>
                 ))}
               </div>
