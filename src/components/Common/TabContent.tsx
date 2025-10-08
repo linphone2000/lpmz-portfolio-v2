@@ -11,17 +11,18 @@ import { Certifications } from '../Education/certifications';
 
 interface TabContentProps {
   activeTab: string;
+  onTabChange: (tab: string) => void;
 }
 
 export const TabContent: React.FC<TabContentProps> = React.memo(
-  ({ activeTab }) => {
+  ({ activeTab, onTabChange }) => {
     // Memoize tab content to prevent unnecessary re-renders
     const tabContent = useMemo(() => {
       switch (activeTab) {
         case 'overview':
           return (
             <div>
-              <Hero />
+              <Hero onTabChange={onTabChange} />
               <FeaturedProject />
               <Experience />
             </div>
@@ -43,13 +44,13 @@ export const TabContent: React.FC<TabContentProps> = React.memo(
         default:
           return (
             <div>
-              <Hero />
+              <Hero onTabChange={onTabChange} />
               <FeaturedProject />
               <Experience />
             </div>
           );
       }
-    }, [activeTab]);
+    }, [activeTab, onTabChange]);
 
     return tabContent;
   }
