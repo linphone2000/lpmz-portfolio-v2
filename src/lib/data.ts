@@ -10,7 +10,7 @@ export const DATA = {
     github: 'https://github.com/linphone2000',
   },
   summary:
-    'Junior Software Engineer experienced in React Native, MERN, and backend (Node.js, Express). Passionate about building real products that solve problems, clean architecture, and AI.',
+    'Software Engineer experienced in React Native, MERN, and backend (Node.js, Express). Passionate about building real products that solve problems, clean architecture, and AI.',
   // Add more detailed personal info
   about: {
     tagline:
@@ -28,7 +28,7 @@ export const DATA = {
   experience: [
     {
       company: 'HighGround',
-      role: 'Junior Developer (Remote)',
+      role: 'Mobile Developer (Remote)',
       period: 'July 2025 – Present',
       location: 'Remote',
       type: 'Full-time',
