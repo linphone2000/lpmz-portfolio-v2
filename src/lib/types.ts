@@ -23,6 +23,7 @@ export interface Project {
     password: string;
   };
   liveUrl?: string;
+  startupNote?: string;
   preview?: {
     portfolioValue?: string;
     dailyGain?: string;

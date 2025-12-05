@@ -205,6 +205,11 @@ export const DATA = {
       category: 'AI & Computer Vision',
       year: 2024,
       status: 'Completed',
+      liveUrl: 'https://home-security-rho.vercel.app/',
+      demoAccount: {
+        email: 'test@gmail.com',
+        password: '123',
+      },
       features: [
         'Object Detection',
         'Face Recognition',
@@ -324,6 +329,12 @@ export const DATA = {
       category: 'Full-Stack Development',
       year: 2024,
       status: 'Completed',
+      liveUrl: 'https://pms-frontend-virid.vercel.app/',
+      demoAccount: {
+        email: 'test@gmail.com',
+        password: 'Test@123',
+      },
+      startupNote: 'The backend is hosted on Render free tier and may take 10-30 seconds to start up on first request.',
       features: [
         'Inventory Management',
         'Real-time Stock',
@@ -413,6 +424,11 @@ export const DATA = {
       category: 'Full-Stack Development',
       year: 2023,
       status: 'Completed',
+      liveUrl: 'https://scape-booking.vercel.app/',
+      demoAccount: {
+        email: 'test@gmail.com',
+        password: '123',
+      },
       features: [
         'Room Booking',
         'Hotel Management',
@@ -514,6 +530,11 @@ export const DATA = {
       category: 'Web Development',
       year: 2023,
       status: 'Completed',
+      liveUrl: 'https://travelscape-next.vercel.app/',
+      demoAccount: {
+        email: 'test@gmail.com',
+        password: '123',
+      },
       features: [
         'Advanced Filtering',
         'Media Storage',

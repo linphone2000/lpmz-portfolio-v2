@@ -14,6 +14,11 @@ import {
   UserGroupIcon,
   PlayIcon,
   PhotoIcon,
+  LinkIcon,
+  UserIcon,
+  KeyIcon,
+  CheckIcon,
+  InformationCircleIcon,
 } from '@heroicons/react/24/outline';
 import { SectionDivider } from './SectionDivider';
 import { Project } from '../../lib/types';
@@ -30,6 +35,9 @@ export const ProjectModal: React.FC<ProjectModalProps> = React.memo(
       'overview'
     );
     const [isVideoPlaying, setIsVideoPlaying] = useState(false);
+    const [copiedItem, setCopiedItem] = useState<'email' | 'password' | null>(
+      null
+    );
 
     // Memoized callbacks
     const handleTabChange = useCallback(
@@ -42,6 +50,19 @@ export const ProjectModal: React.FC<ProjectModalProps> = React.memo(
     const handleVideoToggle = useCallback(() => {
       setIsVideoPlaying((prev) => !prev);
     }, []);
+
+    const handleCopy = useCallback(
+      async (text: string, type: 'email' | 'password') => {
+        try {
+          await navigator.clipboard.writeText(text);
+          setCopiedItem(type);
+          setTimeout(() => setCopiedItem(null), 2000);
+        } catch (err) {
+          console.error('Failed to copy:', err);
+        }
+      },
+      []
+    );
 
     return (
       <Modal isOpen={isOpen} onClose={onClose} title={project.name} size="xl">
@@ -336,28 +357,156 @@ export const ProjectModal: React.FC<ProjectModalProps> = React.memo(
             </div>
           )}
 
+          {/* Try It Out Section - Moved to bottom */}
+          {(project.liveUrl || project.demoAccount) && (
+            <div className="p-5 rounded-lg bg-gradient-to-br from-primary-50 to-primary-100/50 dark:from-primary-900/20 dark:to-primary-800/10 border border-primary-200 dark:border-primary-800/50">
+              <h3 className="text-lg font-semibold text-neutral-900 dark:text-neutral-100 mb-4">
+                Try It Out
+              </h3>
+              <div className="space-y-4">
+                {project.liveUrl && (
+                  <div className="flex items-center gap-3">
+                    <div className="p-2 rounded-lg bg-primary-500/10 dark:bg-primary-400/10">
+                      <LinkIcon className="w-5 h-5 text-primary-600 dark:text-primary-400" />
+                    </div>
+                    <div className="flex-1">
+                      <p className="text-sm font-medium text-neutral-700 dark:text-neutral-300 mb-1">
+                        Live Website
+                      </p>
+                      <a
+                        href={project.liveUrl}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="text-primary-600 dark:text-primary-400 hover:text-primary-700 dark:hover:text-primary-300 text-sm break-all underline decoration-dotted underline-offset-2 transition-colors"
+                      >
+                        {project.liveUrl}
+                      </a>
+                    </div>
+                    <Button
+                      href={project.liveUrl}
+                      className="bg-primary-600 hover:bg-primary-700 text-white font-semibold py-2 px-4 rounded-lg shadow-sm hover:shadow-md transition-all duration-300 transform hover:-translate-y-0.5"
+                    >
+                      <GlobeAltIcon className="w-4 h-4 mr-2" />
+                      Visit Site
+                    </Button>
+                  </div>
+                )}
+                {project.startupNote && (
+                  <div className="flex items-center gap-1.5 text-xs text-neutral-500 dark:text-neutral-400">
+                    <InformationCircleIcon className="w-3.5 h-3.5 flex-shrink-0" />
+                    <span>{project.startupNote}</span>
+                  </div>
+                )}
+                {project.demoAccount && (
+                  <div className="pt-3 border-t border-primary-200 dark:border-primary-800/50">
+                    <div className="flex items-start gap-3">
+                      <div className="p-2 rounded-lg bg-green-500/10 dark:bg-green-400/10">
+                        <UserIcon className="w-5 h-5 text-green-600 dark:text-green-400" />
+                      </div>
+                      <div className="flex-1">
+                        <p className="text-sm font-medium text-neutral-700 dark:text-neutral-300 mb-2">
+                          Demo Account
+                        </p>
+                        <div className="space-y-2">
+                          <div className="flex items-center gap-2">
+                            <UserIcon className="w-4 h-4 text-neutral-500 dark:text-neutral-400" />
+                            <span className="text-sm text-neutral-600 dark:text-neutral-400">
+                              Email:
+                            </span>
+                            <code className="px-2 py-1 text-xs bg-neutral-100 dark:bg-neutral-800 rounded text-neutral-800 dark:text-neutral-200 font-mono">
+                              {project.demoAccount.email}
+                            </code>
+                            <button
+                              onClick={() =>
+                                handleCopy(project.demoAccount!.email, 'email')
+                              }
+                              className="ml-2 p-1 text-neutral-500 hover:text-neutral-700 dark:text-neutral-400 dark:hover:text-neutral-200 transition-colors relative"
+                              title="Copy email"
+                            >
+                              {copiedItem === 'email' ? (
+                                <CheckIcon className="w-4 h-4 text-green-600 dark:text-green-400" />
+                              ) : (
+                                <svg
+                                  className="w-4 h-4"
+                                  fill="none"
+                                  stroke="currentColor"
+                                  viewBox="0 0 24 24"
+                                >
+                                  <path
+                                    strokeLinecap="round"
+                                    strokeLinejoin="round"
+                                    strokeWidth={2}
+                                    d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"
+                                  />
+                                </svg>
+                              )}
+                            </button>
+                            {copiedItem === 'email' && (
+                              <span className="text-xs text-green-600 dark:text-green-400 font-medium ml-1">
+                                Copied!
+                              </span>
+                            )}
+                          </div>
+                          <div className="flex items-center gap-2">
+                            <KeyIcon className="w-4 h-4 text-neutral-500 dark:text-neutral-400" />
+                            <span className="text-sm text-neutral-600 dark:text-neutral-400">
+                              Password:
+                            </span>
+                            <code className="px-2 py-1 text-xs bg-neutral-100 dark:bg-neutral-800 rounded text-neutral-800 dark:text-neutral-200 font-mono">
+                              {project.demoAccount.password}
+                            </code>
+                            <button
+                              onClick={() =>
+                                handleCopy(
+                                  project.demoAccount!.password,
+                                  'password'
+                                )
+                              }
+                              className="ml-2 p-1 text-neutral-500 hover:text-neutral-700 dark:text-neutral-400 dark:hover:text-neutral-200 transition-colors relative"
+                              title="Copy password"
+                            >
+                              {copiedItem === 'password' ? (
+                                <CheckIcon className="w-4 h-4 text-green-600 dark:text-green-400" />
+                              ) : (
+                                <svg
+                                  className="w-4 h-4"
+                                  fill="none"
+                                  stroke="currentColor"
+                                  viewBox="0 0 24 24"
+                                >
+                                  <path
+                                    strokeLinecap="round"
+                                    strokeLinejoin="round"
+                                    strokeWidth={2}
+                                    d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"
+                                  />
+                                </svg>
+                              )}
+                            </button>
+                            {copiedItem === 'password' && (
+                              <span className="text-xs text-green-600 dark:text-green-400 font-medium ml-1">
+                                Copied!
+                              </span>
+                            )}
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                )}
+              </div>
+            </div>
+          )}
+
           {/* Call to Action */}
           <div className="flex justify-center pt-6 border-t border-neutral-200 dark:border-neutral-700">
-            <div className="flex flex-col sm:flex-row gap-4">
-              {project.href && project.href !== '#' && (
-                <Button
-                  href={project.href}
-                  className="bg-gradient-to-r from-green-500 to-emerald-600 hover:from-green-600 hover:to-emerald-700 text-white font-semibold py-3 px-8 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-0.5"
-                >
-                  <GlobeAltIcon className="w-5 h-5 mr-2" />
-                  {project.category === 'Mobile Development'
-                    ? 'Download App'
-                    : 'View Live Project'}
-                </Button>
-              )}
-              <Button
-                onClick={onClose}
-                variant="ghost"
-                className="bg-neutral-100 dark:bg-neutral-800 hover:bg-neutral-200 dark:hover:bg-neutral-700 text-neutral-700 dark:text-neutral-300 font-semibold py-3 px-8 rounded-xl border border-neutral-200 dark:border-neutral-700 transition-all duration-300 transform hover:-translate-y-0.5"
-              >
-                Close
-              </Button>
-            </div>
+            <Button
+              onClick={onClose}
+              variant="ghost"
+              className="bg-neutral-100 dark:bg-neutral-800 hover:bg-neutral-200 dark:hover:bg-neutral-700 text-neutral-700 dark:text-neutral-300 font-semibold py-3 px-8 rounded-xl border border-neutral-200 dark:border-neutral-700 transition-all duration-300 transform hover:-translate-y-0.5"
+            >
+              Close
+            </Button>
           </div>
         </div>
       </Modal>
