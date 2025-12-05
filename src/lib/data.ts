@@ -17,7 +17,7 @@ export const DATA = {
       'Building mobile-first experiences with strong API and data modeling foundations',
     availability: 'Available for freelance opportunities',
     yearsOfExperience: 2,
-    totalProjects: 5,
+    totalProjects: 6,
     technologiesMastered: 12,
     typewriterStrings: [
       'Full‑Stack / React Native Developer',
@@ -27,16 +27,31 @@ export const DATA = {
   },
   experience: [
     {
-      company: 'HighGround',
-      role: 'Mobile Developer (Remote)',
-      period: 'July 2025 – Present',
+      company: 'Technortal',
+      role: 'Backend Lead / Technical Project Manager',
+      period: 'October 2025 – Present',
       location: 'Remote',
       type: 'Full-time',
       bullets: [
-        'Developing cross‑platform mobile apps with React Native in an Agile environment.',
-        'Work on overseas projects with international clients.',
+        'Architected and developed complete backend infrastructure for EdTech platform using Node.js, Express.js, and PostgreSQL, implementing business logic for multi-role authentication, course management, and enrollment systems.',
+        'Managed project lifecycle in Jira: planned sprints, created epics/user stories, assigned tasks across backend, frontend, and design teams, and presented progress to stakeholders.',
+        'Configured CI/CD pipeline with automated unit/integration testings and established separate staging/production environments for safe deployments.',
+        'Integrated AWS S3 for file storage and created comprehensive technical documentation for API specifications and deployment procedures.',
       ],
-      technologies: ['React Native', 'TypeScript', 'Agile', 'Documentation'],
+      technologies: ['Node.js', 'Express.js', 'PostgreSQL', 'Jira', 'CI/CD', 'AWS S3', 'Project Management'],
+    },
+    {
+      company: 'HighGround',
+      role: 'Junior Developer (Remote)',
+      period: 'July 2025 – December 2025',
+      location: 'Remote',
+      type: 'Full-time',
+      bullets: [
+        'Developing cross-platform mobile applications using React Native Expo within an Agile/Scrum environment.',
+        'Worked on mobile streaming platform with web sockets.',
+        'Writing requirement documents from customer input to clarify scope and support the team.',
+      ],
+      technologies: ['React Native', 'TypeScript', 'Agile', 'Documentation', 'Expo'],
     },
     {
       company: 'NTT Data Myanmar',
@@ -155,6 +170,30 @@ export const DATA = {
             description: 'Administrative dashboard and controls',
           },
         ],
+      },
+    },
+    {
+      name: 'Minty – Personal Finance Management App',
+      stack: ['React Native', 'Expo', 'Express.js', 'JWT', 'AsyncStorage', 'Zustand'],
+      blurb:
+        'Cross-platform mobile app for expense tracking, savings goals, and multi-account management (cash, bank, credit). Features scalable Express.js backend with JWT authentication, offline/online synchronization, and responsive UI/UX patterns.',
+      href: '#',
+      highlight: false,
+      category: 'Mobile Development',
+      year: 2025,
+      status: 'Ongoing',
+      features: [
+        'Expense Tracking',
+        'Savings Goals',
+        'Multi-Account Management',
+        'Offline Sync',
+        'JWT Authentication',
+      ],
+      preview: {
+        platform: 'iOS & Android',
+        featurePills: ['Personal Finance', 'Offline Sync'],
+        screenshot: '/minty-project/minty1.png',
+        screenshots: [],
       },
     },
     {
@@ -650,9 +689,9 @@ export const DATA = {
   // Add achievements and milestones
   achievements: [
     {
-      title: 'Remote Developer Success',
+      title: 'Backend Lead at Technortal',
       description:
-        'Successfully working as a remote React Native developer at HighGround',
+        'Leading backend architecture and project management for EdTech platform, implementing CI/CD workflows and managing cross-functional teams',
       year: 2025,
       category: 'Professional',
     },

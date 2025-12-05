@@ -18,6 +18,11 @@ export interface Project {
   year: number;
   status: string;
   features: string[];
+  demoAccount?: {
+    email: string;
+    password: string;
+  };
+  liveUrl?: string;
   preview?: {
     portfolioValue?: string;
     dailyGain?: string;
