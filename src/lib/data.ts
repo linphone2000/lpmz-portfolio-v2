@@ -27,11 +27,11 @@ export const DATA = {
   },
   experience: [
     {
-      company: 'Technortal',
+      company: 'EdTech Platform (Client: Technortal)',
       role: 'Backend Lead / Technical Project Manager',
       period: 'October 2025 – Present',
       location: 'Yangon, Myanmar (Remote)',
-      type: 'Consulting',
+      type: 'Freelance',
       bullets: [
         'Architected and developed complete backend infrastructure for EdTech platform using Node.js, Express.js, and PostgreSQL, implementing business logic for multi-role authentication, course management, and enrollment systems.',
         'Managed project lifecycle in Jira: planned sprints, created epics/user stories, assigned tasks across backend, frontend, and design teams, and presented progress to stakeholders.',
