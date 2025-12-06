@@ -625,7 +625,7 @@ export const DATA = {
   skills: {
     frontend: ['React Native', 'React.js', 'Next.js', 'WordPress'],
     backend: ['Node.js', 'Express.js', 'Flask'],
-    databases: ['MongoDB', 'MySQL'],
+    databases: ['PostgreSQL', 'MongoDB', 'MySQL'],
     languages: ['TypeScript', 'JavaScript', 'Python', 'Java'],
     tools: [
       'Expo',
