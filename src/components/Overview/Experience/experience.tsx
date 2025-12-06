@@ -51,9 +51,16 @@ export const Experience: React.FC = () => {
                           {exp.company}
                         </p>
                       </div>
-                      <Badge className="bg-primary-500/10 text-primary-700 dark:text-primary-300 w-fit">
-                        {exp.period}
-                      </Badge>
+                      <div className="flex flex-col sm:flex-row gap-2 items-end sm:items-center">
+                        <Badge className="bg-primary-500/10 text-primary-700 dark:text-primary-300 w-fit">
+                          {exp.period}
+                        </Badge>
+                        {exp.type && exp.type !== 'Full-time' && (
+                          <Badge className="bg-blue-500/10 text-blue-700 dark:text-blue-300 w-fit border border-blue-500/20">
+                            {exp.type}
+                          </Badge>
+                        )}
+                      </div>
                     </div>
                     <ul className="space-y-3">
                       {exp.bullets.map((bullet, bulletIndex) => (
