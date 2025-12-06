@@ -710,7 +710,7 @@ export const DATA = {
   // Add achievements and milestones
   achievements: [
     {
-      title: 'Backend Lead at Technortal',
+      title: 'Backend Lead at EdTech Platform for Technortal',
       description:
         'Leading backend architecture and project management for EdTech platform, implementing CI/CD workflows and managing cross-functional teams',
       year: 2025,
