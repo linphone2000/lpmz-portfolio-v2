@@ -186,7 +186,7 @@ export const Hero: React.FC<HeroProps> = React.memo(({ onTabChange }) => {
                     {counts.years}+
                   </div>
                   <div className="text-xs text-neutral-600 dark:text-neutral-400">
-                    Years Experience
+                    {DATA.about.yearsLabel || 'Years Coding'}
                   </div>
                 </div>
                 <div>

@@ -16,7 +16,8 @@ export const DATA = {
     tagline:
       'Building mobile-first experiences with strong API and data modeling foundations',
     availability: 'Available for freelance opportunities',
-    yearsOfExperience: 2,
+    yearsOfExperience: 3, // Started learning JS frameworks in 2022
+    yearsLabel: 'Years Coding',
     totalProjects: 6,
     technologiesMastered: 12,
     typewriterStrings: [

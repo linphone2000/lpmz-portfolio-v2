@@ -17,7 +17,7 @@ export const HeroStats: React.FC<HeroStatsProps> = React.memo(({ stats }) => {
           {stats.yearsExperience}+
         </div>
         <div className="text-sm text-neutral-600 dark:text-neutral-400">
-          Years Experience
+          Years Coding
         </div>
       </div>
 

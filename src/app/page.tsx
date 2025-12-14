@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useCallback } from 'react';
+import React, { useState, useCallback, useEffect, useRef } from 'react';
 import { ScrollProgress, Blobs } from '@/components/Common/Effects';
 import { TabNavigation } from '@/components/Common/TabNavigation';
 import { ScrollToTop } from '@/components/Common/ScrollToTop';
@@ -13,11 +13,20 @@ import { useDarkMode } from '@/hooks/useDarkMode';
 export default function Portfolio() {
   const { dark, toggle, mounted } = useDarkMode();
   const [activeTab, setActiveTab] = useState('overview');
+  const prevTabRef = useRef<string>(activeTab);
 
   // Memoized callback to prevent unnecessary re-renders
   const handleTabChange = useCallback((tab: string) => {
     setActiveTab(tab);
   }, []);
+
+  // Scroll to top when tab changes
+  useEffect(() => {
+    if (prevTabRef.current !== activeTab) {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+      prevTabRef.current = activeTab;
+    }
+  }, [activeTab]);
 
   // Prevent hydration mismatch by not rendering until mounted
   if (!mounted) {
