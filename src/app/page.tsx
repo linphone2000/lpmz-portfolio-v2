@@ -5,6 +5,7 @@ import { ScrollProgress, Blobs } from '@/components/Common/Effects';
 import { TabNavigation } from '@/components/Common/TabNavigation';
 import { ScrollToTop } from '@/components/Common/ScrollToTop';
 import { TabContent } from '@/components/Common/TabContent';
+import { ChatBot } from '@/components/Common/ChatBot';
 
 import { ErrorBoundary } from '@/components/Common/ErrorBoundary';
 import { useDarkMode } from '@/hooks/useDarkMode';
@@ -50,6 +51,9 @@ export default function Portfolio() {
 
         {/* Scroll to top */}
         <ScrollToTop />
+
+        {/* AI Chat Bot */}
+        <ChatBot />
       </div>
     </ErrorBoundary>
   );
