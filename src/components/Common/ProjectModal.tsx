@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useState, useCallback } from 'react';
+import Image from 'next/image';
 import { Modal } from './Modal';
 import { Badge } from './Badge';
 import { Button } from './Button';
@@ -316,11 +317,14 @@ export const ProjectModal: React.FC<ProjectModalProps> = React.memo(
                           showHoverEffect={true}
                         />
                       ) : (
-                        <div className="mb-4 rounded-lg overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300 border border-neutral-200 dark:border-neutral-700">
-                          <img
+                        <div className="mb-4 rounded-lg overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300 border border-neutral-200 dark:border-neutral-700 relative">
+                          <Image
                             src={screenshot.src}
                             alt={`${project.name} - ${screenshot.title}`}
+                            width={1200}
+                            height={800}
                             className="w-full h-auto object-cover hover:scale-105 transition-transform duration-300"
+                            loading="lazy"
                           />
                         </div>
                       )}

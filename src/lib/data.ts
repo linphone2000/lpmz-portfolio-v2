@@ -39,7 +39,15 @@ export const DATA = {
         'Configured CI/CD pipeline with automated unit/integration testings and established separate staging/production environments for safe deployments.',
         'Integrated AWS S3 for file storage and created comprehensive technical documentation for API specifications and deployment procedures.',
       ],
-      technologies: ['Node.js', 'Express.js', 'PostgreSQL', 'Jira', 'CI/CD', 'AWS S3', 'Project Management'],
+      technologies: [
+        'Node.js',
+        'Express.js',
+        'PostgreSQL',
+        'Jira',
+        'CI/CD',
+        'AWS S3',
+        'Project Management',
+      ],
     },
     {
       company: 'HighGround',
@@ -52,7 +60,13 @@ export const DATA = {
         'Worked on mobile streaming platform with web sockets.',
         'Writing requirement documents from customer input to clarify scope and support the team.',
       ],
-      technologies: ['React Native', 'TypeScript', 'Agile', 'Documentation', 'Expo'],
+      technologies: [
+        'React Native',
+        'TypeScript',
+        'Agile',
+        'Documentation',
+        'Expo',
+      ],
     },
     {
       company: 'NTT Data Myanmar',
@@ -175,7 +189,14 @@ export const DATA = {
     },
     {
       name: 'Minty – Personal Finance Management App',
-      stack: ['React Native', 'Expo', 'Express.js', 'JWT', 'AsyncStorage', 'Zustand'],
+      stack: [
+        'React Native',
+        'Expo',
+        'Express.js',
+        'JWT',
+        'AsyncStorage',
+        'Zustand',
+      ],
       blurb:
         'Cross-platform mobile app for expense tracking, savings goals, and multi-account management (cash, bank, credit). Features scalable Express.js backend with JWT authentication, offline/online synchronization, and responsive UI/UX patterns.',
       href: '#',
@@ -250,49 +271,57 @@ export const DATA = {
             id: 2,
             src: '/home-security-project/hs2.png',
             title: 'Facial Data Creation',
-            description: 'Able to add new data for the system and edit existing data',
+            description:
+              'Able to add new data for the system and edit existing data',
           },
           {
             id: 3,
             src: '/home-security-project/hs3.png',
             title: 'Facial Data Management',
-            description: 'Able to add new data for the system and edit existing data',
+            description:
+              'Able to add new data for the system and edit existing data',
           },
           {
             id: 4,
             src: '/home-security-project/hs4.png',
             title: 'Test Facial Data Creation',
-            description: 'Page for capturing test data used to improve face recognition accuracy',
+            description:
+              'Page for capturing test data used to improve face recognition accuracy',
           },
           {
             id: 5,
             src: '/home-security-project/hs5.png',
             title: 'Test Facial Data Management',
-            description: 'Page for managing, and reviewing test data used to improve face recognition accuracy',
+            description:
+              'Page for managing, and reviewing test data used to improve face recognition accuracy',
           },
           {
             id: 6,
             src: '/home-security-project/hs6.png',
             title: 'Test Object Detection Creation',
-            description: 'Page for capturing and creating test data to train and evaluate object detection model',
+            description:
+              'Page for capturing and creating test data to train and evaluate object detection model',
           },
           {
             id: 7,
             src: '/home-security-project/hs7.png',
             title: 'Test Object Detection Management',
-            description: 'Page for managing test data to train and evaluate object detection model',
+            description:
+              'Page for managing test data to train and evaluate object detection model',
           },
           {
             id: 8,
             src: '/home-security-project/hs8.png',
             title: 'Face Recognition Evaluation Results',
-            description: 'Page for viewing the detailed metrics of the face recognition test',
+            description:
+              'Page for viewing the detailed metrics of the face recognition test',
           },
           {
             id: 9,
             src: '/home-security-project/hs9.png',
             title: 'Face Recognition Evaluation Results',
-            description: 'Page for viewing the detailed metrics of the face recognition test',
+            description:
+              'Page for viewing the detailed metrics of the face recognition test',
           },
           {
             id: 10,
@@ -310,13 +339,15 @@ export const DATA = {
             id: 12,
             src: '/home-security-project/hs12.png',
             title: 'Object Detection Evaluation Results',
-            description: 'Page for viewing the detailed metrics of the object detection test',
+            description:
+              'Page for viewing the detailed metrics of the object detection test',
           },
           {
             id: 13,
             src: '/home-security-project/hs13.png',
             title: 'Object Detection Evaluation Results',
-            description: 'Page for viewing the detailed metrics of the object detection test',
+            description:
+              'Page for viewing the detailed metrics of the object detection test',
           },
         ],
       },
@@ -335,7 +366,8 @@ export const DATA = {
         email: 'test@gmail.com',
         password: 'Test@123',
       },
-      startupNote: 'The backend is hosted on Render free tier and may take 10-30 seconds to start up on first request.',
+      startupNote:
+        'The backend is hosted on Render free tier and may take 10-30 seconds to start up on first request.',
       features: [
         'Inventory Management',
         'Real-time Stock',
@@ -381,7 +413,8 @@ export const DATA = {
             id: 6,
             src: '/pharmacy-management-system-project/pms5.png',
             title: 'Dashboard Overview',
-            description: 'Dashboard showing aggregated pharmacy statistics and inventory overview',
+            description:
+              'Dashboard showing aggregated pharmacy statistics and inventory overview',
           },
           {
             id: 7,
@@ -393,25 +426,29 @@ export const DATA = {
             id: 8,
             src: '/pharmacy-management-system-project/pms7.png',
             title: 'Supplier Management',
-            description: 'Manage supplier details, monitor orders, and maintain supplier relationships',
+            description:
+              'Manage supplier details, monitor orders, and maintain supplier relationships',
           },
           {
             id: 9,
             src: '/pharmacy-management-system-project/pms8.png',
             title: 'Invoice Receipt',
-            description: 'Invoice and receipt details for pharmacy transactions',
+            description:
+              'Invoice and receipt details for pharmacy transactions',
           },
           {
             id: 10,
             src: '/pharmacy-management-system-project/pms9.png',
             title: 'Creating Orders',
-            description: 'Page for creating orders with supplier details and order status tracking',
+            description:
+              'Page for creating orders with supplier details and order status tracking',
           },
           {
             id: 11,
             src: '/pharmacy-management-system-project/pms10.png',
             title: 'Showcasing Filters',
-            description: 'Demonstrates inventory filtering and advanced search functionalities',
+            description:
+              'Demonstrates inventory filtering and advanced search functionalities',
           },
         ],
       },
@@ -457,7 +494,8 @@ export const DATA = {
             id: 3,
             src: '/scape-booking-project/sb2.png',
             title: 'Hotel List and Detail Page',
-            description: 'Browse available hotels and view detailed hotel information',
+            description:
+              'Browse available hotels and view detailed hotel information',
           },
           {
             id: 4,
@@ -651,15 +689,17 @@ export const DATA = {
   education: [
     {
       school: 'Edinburgh Napier University',
-      credential: 'BSc (Hons) in Computing – Distinction',
+      credential: 'BSc (Hons) in Computing – First Class Honours',
       period: 'Aug 2023 – Mar 2025',
       location: 'Edinburgh, UK',
       gpa: 'Distinction',
       relevantCourses: [
         'Software Engineering',
+        'Project Management',
+        'AI & Machine Learning',
         'Database Systems',
         'Web Development',
-        'AI & Machine Learning',
+        'DevOps Practices',
       ],
     },
     {
@@ -673,6 +713,7 @@ export const DATA = {
         'Software Design',
         'Database Management',
         'System Analysis',
+        'Professional Practices',
       ],
     },
   ],
@@ -686,25 +727,25 @@ export const DATA = {
     {
       name: 'Basic Linux Skills',
       year: 2019,
-      issuer: 'Linux Foundation',
+      issuer: 'YMAX Education',
       description: 'Fundamental Linux system administration',
     },
     {
       name: 'Network Engineering',
       year: 2018,
-      issuer: 'Cisco',
+      issuer: 'Myanmar Business & Technology',
       description: 'Network infrastructure and protocols',
     },
     {
       name: 'Intermediate English',
       year: 2018,
-      issuer: 'Cambridge English',
+      issuer: 'Success English Academy',
       description: 'B2 level English proficiency',
     },
     {
       name: 'CompTIA A+',
       year: 2016,
-      issuer: 'CompTIA',
+      issuer: 'IMCS',
       description: 'IT fundamentals and hardware support',
     },
   ],
