@@ -10,10 +10,6 @@ import {
   CodeBracketIcon,
   TrophyIcon,
   ChartBarIcon,
-  BriefcaseIcon,
-  AcademicCapIcon,
-  EnvelopeIcon,
-  RocketLaunchIcon,
   MapPinIcon,
 } from '@heroicons/react/24/outline';
 
@@ -75,21 +71,6 @@ export const Hero: React.FC<HeroProps> = React.memo(({ onTabChange }) => {
     window.open(DATA.links.github, '_blank');
   }, []);
 
-  const handleQuickLinkClick = useCallback((link: string, e: React.MouseEvent) => {
-    e.preventDefault();
-    
-    if (link === 'Portfolio' && onTabChange) {
-      // Switch to Portfolio tab
-      onTabChange('portfolio');
-    } else if (link === 'Experience' || link === 'Contact') {
-      // Scroll to section within Overview tab
-      const sectionId = link.toLowerCase();
-      const element = document.getElementById(sectionId);
-      if (element) {
-        element.scrollIntoView({ behavior: 'smooth', block: 'start' });
-      }
-    }
-  }, [onTabChange]);
 
   // Top 6 skills for display
   const topSkills = [

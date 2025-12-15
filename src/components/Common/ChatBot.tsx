@@ -313,7 +313,7 @@ export const ChatBot: React.FC = () => {
                             }}
                             className="text-xs text-left px-3 py-2 rounded-lg bg-neutral-100 dark:bg-neutral-800 hover:bg-neutral-200 dark:hover:bg-neutral-700 text-neutral-700 dark:text-neutral-300 transition-colors"
                           >
-                            "{suggestion}"
+                            &quot;{suggestion}&quot;
                           </button>
                         ))}
                       </div>
