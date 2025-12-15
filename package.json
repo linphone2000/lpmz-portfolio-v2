@@ -6,10 +6,13 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint",
+    "lint": "next lint",
+    "lint:fix": "next lint --fix",
+    "type-check": "tsc --noEmit",
     "format": "prettier --write .",
     "analyze": "ANALYZE=true npm run build",
-    "optimize-images": "node scripts/optimize-images.js"
+    "optimize-images": "node scripts/optimize-images.js",
+    "check": "npm run lint && npm run type-check"
   },
   "dependencies": {
     "@emotion/react": "^11.14.0",

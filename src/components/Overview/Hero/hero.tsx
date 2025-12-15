@@ -17,7 +17,7 @@ interface HeroProps {
   onTabChange?: (tab: string) => void;
 }
 
-export const Hero: React.FC<HeroProps> = React.memo(({ onTabChange }) => {
+export const Hero: React.FC<HeroProps> = React.memo(({ onTabChange: _onTabChange }) => {
   const [heroRef, isHeroInView] = useInView({
     threshold: 0.1,
     triggerOnce: true,
