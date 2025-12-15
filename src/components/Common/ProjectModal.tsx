@@ -294,11 +294,13 @@ export const ProjectModal: React.FC<ProjectModalProps> = React.memo(
           {activeTab === 'gallery' && (
             <div className="space-y-4">
               {/* Gallery Grid - 3 columns for web, 4 for mobile */}
-              <div className={`grid gap-4 ${
-                project.category === 'Mobile Development'
-                  ? 'grid-cols-2 md:grid-cols-3 lg:grid-cols-4'
-                  : 'grid-cols-1 md:grid-cols-2 lg:grid-cols-3'
-              }`}>
+              <div
+                className={`grid gap-4 ${
+                  project.category === 'Mobile Development'
+                    ? 'grid-cols-2 md:grid-cols-3 lg:grid-cols-4'
+                    : 'grid-cols-1 md:grid-cols-2 lg:grid-cols-3'
+                }`}
+              >
                 {project.preview?.screenshots?.map((screenshot, index) => (
                   <React.Fragment key={screenshot.id}>
                     <div

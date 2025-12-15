@@ -27,8 +27,10 @@ async function optimizeImage(inputPath) {
   try {
     const stats = fs.statSync(inputPath);
     const originalSize = stats.size;
-    
-    console.log(`Optimizing: ${path.relative(publicDir, inputPath)} (${(originalSize / 1024).toFixed(2)} KB)`);
+
+    console.log(
+      `Optimizing: ${path.relative(publicDir, inputPath)} (${(originalSize / 1024).toFixed(2)} KB)`
+    );
 
     // Read the image
     const image = sharp(inputPath);
@@ -99,8 +101,12 @@ async function main() {
 
   console.log('\n' + '='.repeat(50));
   console.log('📊 Optimization Summary:');
-  console.log(`Total original size: ${(totalOriginalSize / 1024 / 1024).toFixed(2)} MB`);
-  console.log(`Total optimized size: ${(totalOptimizedSize / 1024 / 1024).toFixed(2)} MB`);
+  console.log(
+    `Total original size: ${(totalOriginalSize / 1024 / 1024).toFixed(2)} MB`
+  );
+  console.log(
+    `Total optimized size: ${(totalOptimizedSize / 1024 / 1024).toFixed(2)} MB`
+  );
   const totalSaved = totalOriginalSize - totalOptimizedSize;
   const totalSavedPercent = ((totalSaved / totalOriginalSize) * 100).toFixed(1);
   console.log(

@@ -17,7 +17,7 @@ interface HeroProps {
   onTabChange?: (tab: string) => void;
 }
 
-export const Hero: React.FC<HeroProps> = React.memo(({ onTabChange: _onTabChange }) => {
+export const Hero: React.FC<HeroProps> = React.memo(() => {
   const [heroRef, isHeroInView] = useInView({
     threshold: 0.1,
     triggerOnce: true,
@@ -71,7 +71,6 @@ export const Hero: React.FC<HeroProps> = React.memo(({ onTabChange: _onTabChange
     window.open(DATA.links.github, '_blank');
   }, []);
 
-
   // Top 6 skills for display
   const topSkills = [
     ...DATA.skills.frontend.slice(0, 2),
@@ -80,10 +79,7 @@ export const Hero: React.FC<HeroProps> = React.memo(({ onTabChange: _onTabChange
   ];
 
   return (
-    <section
-      id="about"
-      className="relative py-20 flex items-center"
-    >
+    <section id="about" className="relative py-20 flex items-center">
       <div className="max-w-7xl mx-auto px-6 w-full">
         <div
           ref={heroRef}

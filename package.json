@@ -10,6 +10,7 @@
     "lint:fix": "next lint --fix",
     "type-check": "tsc --noEmit",
     "format": "prettier --write .",
+    "format:check": "prettier --check .",
     "analyze": "ANALYZE=true npm run build",
     "optimize-images": "node scripts/optimize-images.js",
     "check": "npm run lint && npm run type-check"

@@ -28,7 +28,12 @@ export const ChatBot: React.FC = () => {
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
 
-  const { model, isLoading: isLoadingModel, error: modelError, findAnswer } = useQnAModel();
+  const {
+    model,
+    isLoading: isLoadingModel,
+    error: modelError,
+    findAnswer,
+  } = useQnAModel();
 
   // Cache portfolio passage to avoid regenerating on every query
   const portfolioPassage = useMemo(() => getPortfolioPassage(), []);
@@ -69,7 +74,7 @@ export const ChatBot: React.FC = () => {
 
     const question = inputValue.trim();
     const lowerQuestion = question.toLowerCase();
-    
+
     const userMessage: Message = {
       id: Date.now().toString(),
       text: question,
@@ -83,26 +88,42 @@ export const ChatBot: React.FC = () => {
 
     try {
       // Handle greetings and casual conversation
-      if (lowerQuestion.match(/^(hi|hello|hey|greetings|good morning|good afternoon|good evening|sup|what's up)/)) {
-        const greetingResponse = "Hello! 👋 I'm here to help you learn about this portfolio. Feel free to ask me about projects, experience, skills, education, or anything else you'd like to know!";
-        setMessages((prev) => [...prev, {
-          id: (Date.now() + 1).toString(),
-          text: greetingResponse,
-          sender: 'assistant',
-          timestamp: new Date(),
-        }]);
+      if (
+        lowerQuestion.match(
+          /^(hi|hello|hey|greetings|good morning|good afternoon|good evening|sup|what's up)/
+        )
+      ) {
+        const greetingResponse =
+          "Hello! 👋 I'm here to help you learn about this portfolio. Feel free to ask me about projects, experience, skills, education, or anything else you'd like to know!";
+        setMessages((prev) => [
+          ...prev,
+          {
+            id: (Date.now() + 1).toString(),
+            text: greetingResponse,
+            sender: 'assistant',
+            timestamp: new Date(),
+          },
+        ]);
         setIsTyping(false);
         return;
       }
 
-      if (lowerQuestion.match(/(bye|goodbye|see you|farewell|thanks|thank you|thank)/)) {
-        const goodbyeResponse = "You're welcome! Feel free to ask more questions anytime. Have a great day! 😊";
-        setMessages((prev) => [...prev, {
-          id: (Date.now() + 1).toString(),
-          text: goodbyeResponse,
-          sender: 'assistant',
-          timestamp: new Date(),
-        }]);
+      if (
+        lowerQuestion.match(
+          /(bye|goodbye|see you|farewell|thanks|thank you|thank)/
+        )
+      ) {
+        const goodbyeResponse =
+          "You're welcome! Feel free to ask more questions anytime. Have a great day! 😊";
+        setMessages((prev) => [
+          ...prev,
+          {
+            id: (Date.now() + 1).toString(),
+            text: goodbyeResponse,
+            sender: 'assistant',
+            timestamp: new Date(),
+          },
+        ]);
         setIsTyping(false);
         return;
       }
@@ -117,15 +138,31 @@ export const ChatBot: React.FC = () => {
       } else {
         // Provide helpful, friendly fallback responses
         if (lowerQuestion.includes('project')) {
-          responseText = "I've built several projects including PropertyApp (a trading dashboard), Minty (personal finance app), an Intelligent Home Surveillance System, Pharmacy Management System, Hotel Booking Platform, and a Peer-to-peer Rental Platform. Would you like to know more about any specific one?";
-        } else if (lowerQuestion.includes('experience') || lowerQuestion.includes('work') || lowerQuestion.includes('job')) {
-          responseText = "I have experience as a Backend Lead/Technical Project Manager at an EdTech platform, Junior Developer at HighGround working on React Native apps, and Junior System Engineer at NTT Data Myanmar on FinTech projects. Want details about any specific role?";
-        } else if (lowerQuestion.includes('skill') || lowerQuestion.includes('technolog')) {
-          responseText = "I work with React Native, React.js, Next.js, Node.js, Express.js, PostgreSQL, MongoDB, TypeScript, JavaScript, Python, and more! I'm experienced in both frontend and backend development. What would you like to know more about?";
-        } else if (lowerQuestion.includes('educat') || lowerQuestion.includes('school') || lowerQuestion.includes('degree')) {
-          responseText = "I graduated with a BSc (Hons) in Computing – First Class Honours from Edinburgh Napier University, and have a Higher National Diploma in Software Engineering from Info Myanmar College. Interested in my coursework or achievements?";
+          responseText =
+            "I've built several projects including PropertyApp (a trading dashboard), Minty (personal finance app), an Intelligent Home Surveillance System, Pharmacy Management System, Hotel Booking Platform, and a Peer-to-peer Rental Platform. Would you like to know more about any specific one?";
+        } else if (
+          lowerQuestion.includes('experience') ||
+          lowerQuestion.includes('work') ||
+          lowerQuestion.includes('job')
+        ) {
+          responseText =
+            'I have experience as a Backend Lead/Technical Project Manager at an EdTech platform, Junior Developer at HighGround working on React Native apps, and Junior System Engineer at NTT Data Myanmar on FinTech projects. Want details about any specific role?';
+        } else if (
+          lowerQuestion.includes('skill') ||
+          lowerQuestion.includes('technolog')
+        ) {
+          responseText =
+            "I work with React Native, React.js, Next.js, Node.js, Express.js, PostgreSQL, MongoDB, TypeScript, JavaScript, Python, and more! I'm experienced in both frontend and backend development. What would you like to know more about?";
+        } else if (
+          lowerQuestion.includes('educat') ||
+          lowerQuestion.includes('school') ||
+          lowerQuestion.includes('degree')
+        ) {
+          responseText =
+            'I graduated with a BSc (Hons) in Computing – First Class Honours from Edinburgh Napier University, and have a Higher National Diploma in Software Engineering from Info Myanmar College. Interested in my coursework or achievements?';
         } else {
-          responseText = "I'd be happy to help! You can ask me about my projects, work experience, skills and technologies, education, or anything else about my background. What would you like to know?";
+          responseText =
+            "I'd be happy to help! You can ask me about my projects, work experience, skills and technologies, education, or anything else about my background. What would you like to know?";
         }
       }
 
@@ -141,7 +178,7 @@ export const ChatBot: React.FC = () => {
       console.error('Error in handleSend:', error);
       const errorMessage: Message = {
         id: (Date.now() + 1).toString(),
-        text: "Sorry, I encountered an error processing your question. Could you try rephrasing it?",
+        text: 'Sorry, I encountered an error processing your question. Could you try rephrasing it?',
         sender: 'assistant',
         timestamp: new Date(),
       };
@@ -155,18 +192,18 @@ export const ChatBot: React.FC = () => {
   const formatAnswer = (text: string): string => {
     if (!text) return text;
     let formatted = text.trim();
-    
+
     // Capitalize first letter
     formatted = formatted.charAt(0).toUpperCase() + formatted.slice(1);
-    
+
     // Ensure it ends with punctuation
     if (!/[.!?]$/.test(formatted)) {
       formatted += '.';
     }
-    
+
     // Clean up common issues
     formatted = formatted.replace(/\s+/g, ' '); // Multiple spaces to single space
-    
+
     return formatted;
   };
 
@@ -200,7 +237,7 @@ export const ChatBot: React.FC = () => {
         {isOpen && (
           <motion.div
             initial={{ opacity: 0, y: 20, scale: 0.9 }}
-              animate={{
+            animate={{
               opacity: 1,
               y: 0,
               scale: 1,
@@ -227,7 +264,7 @@ export const ChatBot: React.FC = () => {
                 </div>
                 <div>
                   <h3 className="text-white font-semibold text-sm">
-                    AI Assistant
+                    AI Assistant (Beta)
                   </h3>
                   <p className="text-white/80 text-xs">Ask me anything</p>
                 </div>
@@ -294,16 +331,17 @@ export const ChatBot: React.FC = () => {
                         Hi! How can I help?
                       </h4>
                       <p className="text-sm text-neutral-600 dark:text-neutral-400 max-w-xs mb-4">
-                        Ask me anything about the portfolio, projects, experience, or skills!
+                        Ask me anything about the portfolio, projects,
+                        experience, or skills!
                       </p>
                       <div className="flex flex-col gap-2 mt-2 w-full max-w-xs">
                         <p className="text-xs text-neutral-500 dark:text-neutral-500 mb-1">
                           Try asking:
                         </p>
                         {[
-                          "What projects have you built?",
-                          "What technologies do you know?",
-                          "Tell me about your work experience"
+                          'What projects have you built?',
+                          'What technologies do you know?',
+                          'Tell me about your work experience',
                         ].map((suggestion, idx) => (
                           <button
                             key={idx}
@@ -321,7 +359,7 @@ export const ChatBot: React.FC = () => {
                   )}
 
                   {/* Messages */}
-                  {messages.length > 0 && (
+                  {messages.length > 0 &&
                     messages.map((message) => (
                       <motion.div
                         key={message.id}
@@ -362,8 +400,7 @@ export const ChatBot: React.FC = () => {
                           </span>
                         </div>
                       </motion.div>
-                    ))
-                  )}
+                    ))}
 
                   {/* Typing Indicator */}
                   {isTyping && (
@@ -374,9 +411,18 @@ export const ChatBot: React.FC = () => {
                     >
                       <div className="bg-white dark:bg-neutral-800 border border-neutral-200 dark:border-neutral-700 rounded-2xl px-4 py-2">
                         <div className="flex gap-1">
-                          <div className="w-2 h-2 bg-neutral-400 dark:bg-neutral-500 rounded-full animate-bounce" style={{ animationDelay: '0ms' }} />
-                          <div className="w-2 h-2 bg-neutral-400 dark:bg-neutral-500 rounded-full animate-bounce" style={{ animationDelay: '150ms' }} />
-                          <div className="w-2 h-2 bg-neutral-400 dark:bg-neutral-500 rounded-full animate-bounce" style={{ animationDelay: '300ms' }} />
+                          <div
+                            className="w-2 h-2 bg-neutral-400 dark:bg-neutral-500 rounded-full animate-bounce"
+                            style={{ animationDelay: '0ms' }}
+                          />
+                          <div
+                            className="w-2 h-2 bg-neutral-400 dark:bg-neutral-500 rounded-full animate-bounce"
+                            style={{ animationDelay: '150ms' }}
+                          />
+                          <div
+                            className="w-2 h-2 bg-neutral-400 dark:bg-neutral-500 rounded-full animate-bounce"
+                            style={{ animationDelay: '300ms' }}
+                          />
                         </div>
                       </div>
                     </motion.div>
@@ -390,7 +436,7 @@ export const ChatBot: React.FC = () => {
                   onSubmit={handleSend}
                   className="p-4 border-t border-neutral-200 dark:border-neutral-700 bg-white dark:bg-neutral-900"
                 >
-                  <div className="flex items-end gap-2">
+                  <div className="flex items-center gap-2">
                     <input
                       ref={inputRef}
                       type="text"
@@ -398,7 +444,7 @@ export const ChatBot: React.FC = () => {
                       onChange={(e) => setInputValue(e.target.value)}
                       placeholder="Type your message..."
                       className={cx(
-                        'flex-1 px-4 py-2',
+                        'flex-1 px-4 py-2 h-10',
                         'rounded-xl border border-neutral-300 dark:border-neutral-600',
                         'bg-neutral-50 dark:bg-neutral-800',
                         'text-neutral-900 dark:text-neutral-100',
@@ -409,15 +455,21 @@ export const ChatBot: React.FC = () => {
                     />
                     <button
                       type="submit"
-                      disabled={!inputValue.trim() || isTyping || isLoadingModel || !model}
+                      disabled={
+                        !inputValue.trim() ||
+                        isTyping ||
+                        isLoadingModel ||
+                        !model
+                      }
                       className={cx(
-                        'p-2 rounded-xl',
+                        'p-2 rounded-xl h-10 w-10',
                         'bg-primary-500 hover:bg-primary-600',
                         'dark:bg-primary-400 dark:hover:bg-primary-300',
                         'text-white dark:text-primary-950',
                         'disabled:opacity-50 disabled:cursor-not-allowed',
                         'transition-all duration-200',
-                        'hover:scale-110 active:scale-95'
+                        'hover:scale-110 active:scale-95',
+                        'flex items-center justify-center'
                       )}
                       aria-label="Send message"
                     >
@@ -433,4 +485,3 @@ export const ChatBot: React.FC = () => {
     </>
   );
 };
-

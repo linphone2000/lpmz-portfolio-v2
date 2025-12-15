@@ -7,10 +7,10 @@ export async function GET(
   try {
     const resolvedParams = await params;
     const path = resolvedParams.path.join('/');
-    
+
     // Determine the base URL based on the path
     let targetUrl: string;
-    
+
     if (path.includes('tfhub.dev')) {
       // Already includes full URL
       targetUrl = `https://${path}`;
@@ -21,7 +21,7 @@ export async function GET(
       // Assume TensorFlow Hub path
       targetUrl = `https://tfhub.dev/tensorflow/tfjs-model/${path}`;
     }
-    
+
     // Add query parameters from original request
     const searchParams = request.nextUrl.searchParams;
     const queryString = searchParams.toString();
@@ -32,7 +32,7 @@ export async function GET(
     // Fetch from the target URL
     const response = await fetch(targetUrl, {
       headers: {
-        'Accept': '*/*',
+        Accept: '*/*',
         'User-Agent': 'Mozilla/5.0',
       },
     });
@@ -44,7 +44,8 @@ export async function GET(
     }
 
     // Get the content type and body
-    const contentType = response.headers.get('content-type') || 'application/octet-stream';
+    const contentType =
+      response.headers.get('content-type') || 'application/octet-stream';
     const buffer = await response.arrayBuffer();
 
     // Return the proxied response with appropriate headers
@@ -74,4 +75,3 @@ export async function OPTIONS() {
     },
   });
 }
-

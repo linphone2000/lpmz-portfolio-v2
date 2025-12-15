@@ -56,9 +56,9 @@ export const DATA = {
       location: 'Remote',
       type: 'Full-time',
       bullets: [
-        'Developing cross-platform mobile applications using React Native Expo within an Agile/Scrum environment.',
+        'Developed cross-platform mobile applications using React Native Expo within an Agile/Scrum environment.',
         'Worked on mobile streaming platform with web sockets.',
-        'Writing requirement documents from customer input to clarify scope and support the team.',
+        'Written requirement documents from customer input to clarify scope and support the team.',
       ],
       technologies: [
         'React Native',

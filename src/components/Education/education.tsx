@@ -5,7 +5,11 @@ import { DATA } from '../../lib/data';
 import { Card } from '../Common/Card';
 import { Badge } from '../Common/Badge';
 import { useInView } from '../../hooks/useInView';
-import { AcademicCapIcon, MapPinIcon, TrophyIcon } from '@heroicons/react/24/outline';
+import {
+  AcademicCapIcon,
+  MapPinIcon,
+  TrophyIcon,
+} from '@heroicons/react/24/outline';
 
 export const Education: React.FC = () => {
   // Use custom in-view hook for animations
@@ -50,7 +54,7 @@ export const Education: React.FC = () => {
                 <p className="text-neutral-600 dark:text-neutral-300 mb-3">
                   {edu.credential}
                 </p>
-                
+
                 {/* Location and Period */}
                 <div className="flex flex-wrap gap-2 mb-3">
                   <Badge className="bg-primary-500/10 text-primary-700 dark:text-primary-300 flex items-center gap-1">

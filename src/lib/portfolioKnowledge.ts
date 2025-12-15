@@ -3,7 +3,7 @@ import { DATA } from './data';
 /**
  * Formats experience entry into a searchable passage
  */
-function formatExperience(exp: typeof DATA.experience[0]): string {
+function formatExperience(exp: (typeof DATA.experience)[0]): string {
   const bullets = exp.bullets.join(' ');
   const tech = exp.technologies.join(', ');
   return `${exp.role} at ${exp.company} (${exp.type}) from ${exp.period} in ${exp.location}. ${bullets} Technologies used: ${tech}.`;
@@ -12,7 +12,7 @@ function formatExperience(exp: typeof DATA.experience[0]): string {
 /**
  * Formats project into a searchable passage
  */
-function formatProject(project: typeof DATA.projects[0]): string {
+function formatProject(project: (typeof DATA.projects)[0]): string {
   const features = project.features?.join(', ') || '';
   const stack = project.stack.join(', ');
   return `${project.name} (${project.category}, ${project.year}, ${project.status}): ${project.blurb} Features: ${features}. Built with: ${stack}.`;
@@ -21,7 +21,7 @@ function formatProject(project: typeof DATA.projects[0]): string {
 /**
  * Formats education entry into a searchable passage
  */
-function formatEducation(edu: typeof DATA.education[0]): string {
+function formatEducation(edu: (typeof DATA.education)[0]): string {
   const courses = edu.relevantCourses?.join(', ') || '';
   return `${edu.credential} from ${edu.school} (${edu.period}) in ${edu.location}. GPA: ${edu.gpa}. Relevant courses: ${courses}.`;
 }
@@ -29,7 +29,7 @@ function formatEducation(edu: typeof DATA.education[0]): string {
 /**
  * Formats certification into a searchable passage
  */
-function formatCertification(cert: typeof DATA.certs[0]): string {
+function formatCertification(cert: (typeof DATA.certs)[0]): string {
   return `${cert.name} (${cert.year}) from ${cert.issuer}: ${cert.description}.`;
 }
 
@@ -85,4 +85,3 @@ export function getPortfolioPassage(): string {
 
   return sections.join('\n\n');
 }
-
