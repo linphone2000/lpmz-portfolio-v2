@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef, useEffect, useMemo } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
   ChatBubbleLeftRightIcon,
@@ -9,6 +9,8 @@ import {
   MinusIcon,
 } from '@heroicons/react/24/outline';
 import { cx } from '@/lib/utils';
+import { useQnAModel } from '@/hooks/useQnAModel';
+import { getPortfolioPassage } from '@/lib/portfolioKnowledge';
 
 interface Message {
   id: string;
@@ -22,8 +24,14 @@ export const ChatBot: React.FC = () => {
   const [isMinimized, setIsMinimized] = useState(false);
   const [messages, setMessages] = useState<Message[]>([]);
   const [inputValue, setInputValue] = useState('');
+  const [isTyping, setIsTyping] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
+
+  const { model, isLoading: isLoadingModel, error: modelError, findAnswer } = useQnAModel();
+
+  // Cache portfolio passage to avoid regenerating on every query
+  const portfolioPassage = useMemo(() => getPortfolioPassage(), []);
 
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
@@ -55,31 +63,111 @@ export const ChatBot: React.FC = () => {
     setIsMinimized(false);
   };
 
-  const handleSend = (e: React.FormEvent) => {
+  const handleSend = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!inputValue.trim()) return;
+    if (!inputValue.trim() || isTyping || isLoadingModel || !model) return;
 
+    const question = inputValue.trim();
+    const lowerQuestion = question.toLowerCase();
+    
     const userMessage: Message = {
       id: Date.now().toString(),
-      text: inputValue.trim(),
+      text: question,
       sender: 'user',
       timestamp: new Date(),
     };
 
     setMessages((prev) => [...prev, userMessage]);
     setInputValue('');
+    setIsTyping(true);
 
-    // TODO: Replace with actual AI model integration
-    // For now, just echo back a placeholder response
-    setTimeout(() => {
+    try {
+      // Handle greetings and casual conversation
+      if (lowerQuestion.match(/^(hi|hello|hey|greetings|good morning|good afternoon|good evening|sup|what's up)/)) {
+        const greetingResponse = "Hello! 👋 I'm here to help you learn about this portfolio. Feel free to ask me about projects, experience, skills, education, or anything else you'd like to know!";
+        setMessages((prev) => [...prev, {
+          id: (Date.now() + 1).toString(),
+          text: greetingResponse,
+          sender: 'assistant',
+          timestamp: new Date(),
+        }]);
+        setIsTyping(false);
+        return;
+      }
+
+      if (lowerQuestion.match(/(bye|goodbye|see you|farewell|thanks|thank you|thank)/)) {
+        const goodbyeResponse = "You're welcome! Feel free to ask more questions anytime. Have a great day! 😊";
+        setMessages((prev) => [...prev, {
+          id: (Date.now() + 1).toString(),
+          text: goodbyeResponse,
+          sender: 'assistant',
+          timestamp: new Date(),
+        }]);
+        setIsTyping(false);
+        return;
+      }
+
+      // Use QnA model for actual questions
+      const answer = await findAnswer(question, portfolioPassage);
+
+      let responseText: string;
+      if (answer && answer.text && answer.text.trim()) {
+        // Make the answer feel more conversational
+        responseText = formatAnswer(answer.text);
+      } else {
+        // Provide helpful, friendly fallback responses
+        if (lowerQuestion.includes('project')) {
+          responseText = "I've built several projects including PropertyApp (a trading dashboard), Minty (personal finance app), an Intelligent Home Surveillance System, Pharmacy Management System, Hotel Booking Platform, and a Peer-to-peer Rental Platform. Would you like to know more about any specific one?";
+        } else if (lowerQuestion.includes('experience') || lowerQuestion.includes('work') || lowerQuestion.includes('job')) {
+          responseText = "I have experience as a Backend Lead/Technical Project Manager at an EdTech platform, Junior Developer at HighGround working on React Native apps, and Junior System Engineer at NTT Data Myanmar on FinTech projects. Want details about any specific role?";
+        } else if (lowerQuestion.includes('skill') || lowerQuestion.includes('technolog')) {
+          responseText = "I work with React Native, React.js, Next.js, Node.js, Express.js, PostgreSQL, MongoDB, TypeScript, JavaScript, Python, and more! I'm experienced in both frontend and backend development. What would you like to know more about?";
+        } else if (lowerQuestion.includes('educat') || lowerQuestion.includes('school') || lowerQuestion.includes('degree')) {
+          responseText = "I graduated with a BSc (Hons) in Computing – First Class Honours from Edinburgh Napier University, and have a Higher National Diploma in Software Engineering from Info Myanmar College. Interested in my coursework or achievements?";
+        } else {
+          responseText = "I'd be happy to help! You can ask me about my projects, work experience, skills and technologies, education, or anything else about my background. What would you like to know?";
+        }
+      }
+
       const assistantMessage: Message = {
         id: (Date.now() + 1).toString(),
-        text: 'This is a placeholder response. AI integration will be added soon!',
+        text: responseText,
         sender: 'assistant',
         timestamp: new Date(),
       };
+
       setMessages((prev) => [...prev, assistantMessage]);
-    }, 500);
+    } catch (error) {
+      console.error('Error in handleSend:', error);
+      const errorMessage: Message = {
+        id: (Date.now() + 1).toString(),
+        text: "Sorry, I encountered an error processing your question. Could you try rephrasing it?",
+        sender: 'assistant',
+        timestamp: new Date(),
+      };
+      setMessages((prev) => [...prev, errorMessage]);
+    } finally {
+      setIsTyping(false);
+    }
+  };
+
+  // Format answer text to make it more conversational
+  const formatAnswer = (text: string): string => {
+    if (!text) return text;
+    let formatted = text.trim();
+    
+    // Capitalize first letter
+    formatted = formatted.charAt(0).toUpperCase() + formatted.slice(1);
+    
+    // Ensure it ends with punctuation
+    if (!/[.!?]$/.test(formatted)) {
+      formatted += '.';
+    }
+    
+    // Clean up common issues
+    formatted = formatted.replace(/\s+/g, ' '); // Multiple spaces to single space
+    
+    return formatted;
   };
 
   return (
@@ -166,20 +254,74 @@ export const ChatBot: React.FC = () => {
             {!isMinimized && (
               <>
                 <div className="flex-1 overflow-y-auto p-4 space-y-4 bg-neutral-50 dark:bg-neutral-950">
-                  {messages.length === 0 ? (
+                  {/* Model Loading State */}
+                  {isLoadingModel && messages.length === 0 && (
+                    <div className="flex flex-col items-center justify-center h-full text-center py-8">
+                      <div className="w-16 h-16 rounded-full bg-primary-100 dark:bg-primary-900/30 flex items-center justify-center mb-4">
+                        <div className="w-8 h-8 border-2 border-primary-500 dark:border-primary-400 border-t-transparent rounded-full animate-spin" />
+                      </div>
+                      <h4 className="text-lg font-semibold text-neutral-900 dark:text-neutral-100 mb-2">
+                        Loading AI model...
+                      </h4>
+                      <p className="text-sm text-neutral-600 dark:text-neutral-400 max-w-xs">
+                        Please wait while we load the AI assistant
+                      </p>
+                    </div>
+                  )}
+
+                  {/* Model Error State */}
+                  {modelError && messages.length === 0 && (
+                    <div className="flex flex-col items-center justify-center h-full text-center py-8">
+                      <div className="w-16 h-16 rounded-full bg-error-100 dark:bg-error-900/30 flex items-center justify-center mb-4">
+                        <XMarkIcon className="w-8 h-8 text-error-500 dark:text-error-400" />
+                      </div>
+                      <h4 className="text-lg font-semibold text-neutral-900 dark:text-neutral-100 mb-2">
+                        Failed to load AI model
+                      </h4>
+                      <p className="text-sm text-neutral-600 dark:text-neutral-400 max-w-xs">
+                        Please refresh the page to try again
+                      </p>
+                    </div>
+                  )}
+
+                  {/* Empty State - Only show when model is loaded and no messages */}
+                  {!isLoadingModel && !modelError && messages.length === 0 && (
                     <div className="flex flex-col items-center justify-center h-full text-center py-8">
                       <div className="w-16 h-16 rounded-full bg-primary-100 dark:bg-primary-900/30 flex items-center justify-center mb-4">
                         <ChatBubbleLeftRightIcon className="w-8 h-8 text-primary-500 dark:text-primary-400" />
                       </div>
                       <h4 className="text-lg font-semibold text-neutral-900 dark:text-neutral-100 mb-2">
-                        Start a conversation
+                        Hi! How can I help?
                       </h4>
-                      <p className="text-sm text-neutral-600 dark:text-neutral-400 max-w-xs">
-                        Ask me anything about my portfolio, projects, or
-                        experience!
+                      <p className="text-sm text-neutral-600 dark:text-neutral-400 max-w-xs mb-4">
+                        Ask me anything about the portfolio, projects, experience, or skills!
                       </p>
+                      <div className="flex flex-col gap-2 mt-2 w-full max-w-xs">
+                        <p className="text-xs text-neutral-500 dark:text-neutral-500 mb-1">
+                          Try asking:
+                        </p>
+                        {[
+                          "What projects have you built?",
+                          "What technologies do you know?",
+                          "Tell me about your work experience"
+                        ].map((suggestion, idx) => (
+                          <button
+                            key={idx}
+                            onClick={() => {
+                              setInputValue(suggestion);
+                              inputRef.current?.focus();
+                            }}
+                            className="text-xs text-left px-3 py-2 rounded-lg bg-neutral-100 dark:bg-neutral-800 hover:bg-neutral-200 dark:hover:bg-neutral-700 text-neutral-700 dark:text-neutral-300 transition-colors"
+                          >
+                            "{suggestion}"
+                          </button>
+                        ))}
+                      </div>
                     </div>
-                  ) : (
+                  )}
+
+                  {/* Messages */}
+                  {messages.length > 0 && (
                     messages.map((message) => (
                       <motion.div
                         key={message.id}
@@ -222,6 +364,24 @@ export const ChatBot: React.FC = () => {
                       </motion.div>
                     ))
                   )}
+
+                  {/* Typing Indicator */}
+                  {isTyping && (
+                    <motion.div
+                      initial={{ opacity: 0, y: 10 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      className="flex justify-start"
+                    >
+                      <div className="bg-white dark:bg-neutral-800 border border-neutral-200 dark:border-neutral-700 rounded-2xl px-4 py-2">
+                        <div className="flex gap-1">
+                          <div className="w-2 h-2 bg-neutral-400 dark:bg-neutral-500 rounded-full animate-bounce" style={{ animationDelay: '0ms' }} />
+                          <div className="w-2 h-2 bg-neutral-400 dark:bg-neutral-500 rounded-full animate-bounce" style={{ animationDelay: '150ms' }} />
+                          <div className="w-2 h-2 bg-neutral-400 dark:bg-neutral-500 rounded-full animate-bounce" style={{ animationDelay: '300ms' }} />
+                        </div>
+                      </div>
+                    </motion.div>
+                  )}
+
                   <div ref={messagesEndRef} />
                 </div>
 
@@ -249,7 +409,7 @@ export const ChatBot: React.FC = () => {
                     />
                     <button
                       type="submit"
-                      disabled={!inputValue.trim()}
+                      disabled={!inputValue.trim() || isTyping || isLoadingModel || !model}
                       className={cx(
                         'p-2 rounded-xl',
                         'bg-primary-500 hover:bg-primary-600',
