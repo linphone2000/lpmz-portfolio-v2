@@ -146,7 +146,7 @@ export const ChatBot: React.FC = () => {
           lowerQuestion.includes('job')
         ) {
           responseText =
-            'I have experience as a Backend Lead/Technical Project Manager at an EdTech platform, Junior Developer at HighGround working on React Native apps, and Junior System Engineer at NTT Data Myanmar on FinTech projects. Want details about any specific role?';
+            'I have experience as a Backend Lead/Technical Project Manager at an EdTech platform, Mobile Developer at HighGround working on React Native apps, and Junior System Engineer at NTT Data Myanmar on FinTech projects. Want details about any specific role?';
         } else if (
           lowerQuestion.includes('skill') ||
           lowerQuestion.includes('technolog')

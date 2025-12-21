@@ -51,7 +51,7 @@ export const DATA = {
     },
     {
       company: 'HighGround',
-      role: 'Junior Developer (Remote)',
+      role: 'Mobile Developer (Remote)',
       period: 'July 2025 – December 2025',
       location: 'Remote',
       type: 'Full-time',
