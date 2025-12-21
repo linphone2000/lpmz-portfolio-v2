@@ -29,7 +29,7 @@ export const DATA = {
   experience: [
     {
       company: 'EdTech Platform (Client: Technortal)',
-      role: 'Backend Lead / Technical Project Manager',
+      role: 'Core Backend Developer',
       period: 'October 2025 – Present',
       location: 'Yangon, Myanmar (Remote)',
       type: 'Freelance',
@@ -87,12 +87,45 @@ export const DATA = {
   ],
   projects: [
     {
+      name: 'Chat Chin POS – Mobile Inventory & Checkout System',
+      stack: ['React Native', 'Expo', 'TypeScript', 'Zustand', 'AsyncStorage'],
+      blurb:
+        'Mobile-first inventory & checkout system with smart tracking. Features QR code-based stock management, dual-mode checkout (QR scan & manual search), real-time inventory tracking, and thermal receipt printing.',
+      href: '#',
+      highlight: true,
+      category: 'Mobile Development',
+      year: 2025,
+      status: 'In Development',
+      features: [
+        'QR Code Stock Management',
+        'Dual-Mode Checkout',
+        'Real-time Inventory Tracking',
+        'Thermal Receipt Printing',
+        'Offline Support',
+        'Low Stock Alerts',
+      ],
+      preview: {
+        platform: 'iOS & Android',
+        featurePills: ['QR Integration', 'Mobile POS'],
+        screenshot: '/ongoing/ongoing.jpeg',
+        screenshots: [
+          {
+            id: 1,
+            src: '/ongoing/ongoing.jpeg',
+            title: 'Home Dashboard',
+            description:
+              'Main dashboard showing revenue, active batches, stock alerts, and priority batches',
+          },
+        ],
+      },
+    },
+    {
       name: 'PropertyApp – Advanced Trading & Investment Dashboard',
       stack: ['React Native', 'Expo', 'TypeScript', 'Zustand', 'AsyncStorage'],
       blurb:
         'Sophisticated property investment platform with real-time trading, live P&L tracking, 7-day performance charts, buy/sell functionality, and advanced portfolio analytics. Features market simulation, transaction history, and professional-grade trading interfaces.',
       href: '#',
-      highlight: true,
+      highlight: false,
       category: 'Mobile Development',
       year: 2025,
       status: 'Completed',
@@ -752,7 +785,7 @@ export const DATA = {
   // Add achievements and milestones
   achievements: [
     {
-      title: 'Backend Lead at EdTech Platform for Technortal',
+      title: 'Core Backend Developer at EdTech Platform for Technortal',
       description:
         'Leading backend architecture and project management for EdTech platform, implementing CI/CD workflows and managing cross-functional teams',
       year: 2025,

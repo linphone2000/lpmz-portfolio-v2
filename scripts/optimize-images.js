@@ -4,8 +4,8 @@ const path = require('path');
 
 const publicDir = path.join(__dirname, '..', 'public');
 
-// Function to get all PNG files recursively
-function getAllPngFiles(dir, fileList = []) {
+// Function to get all image files recursively (PNG, JPEG, JPG)
+function getAllImageFiles(dir, fileList = []) {
   const files = fs.readdirSync(dir);
 
   files.forEach((file) => {
@@ -13,9 +13,16 @@ function getAllPngFiles(dir, fileList = []) {
     const stat = fs.statSync(filePath);
 
     if (stat.isDirectory()) {
-      getAllPngFiles(filePath, fileList);
-    } else if (file.toLowerCase().endsWith('.png')) {
-      fileList.push(filePath);
+      getAllImageFiles(filePath, fileList);
+    } else {
+      const ext = file.toLowerCase();
+      if (
+        ext.endsWith('.png') ||
+        ext.endsWith('.jpg') ||
+        ext.endsWith('.jpeg')
+      ) {
+        fileList.push(filePath);
+      }
     }
   });
 
@@ -28,26 +35,40 @@ async function optimizeImage(inputPath) {
     const stats = fs.statSync(inputPath);
     const originalSize = stats.size;
 
+    const relativePath = path.relative(publicDir, inputPath);
     console.log(
-      `Optimizing: ${path.relative(publicDir, inputPath)} (${(originalSize / 1024).toFixed(2)} KB)`
+      `Optimizing: ${relativePath} (${(originalSize / 1024).toFixed(2)} KB)`
     );
 
     // Read the image
     const image = sharp(inputPath);
     const metadata = await image.metadata();
+    const ext = path.extname(inputPath).toLowerCase();
 
-    // Optimize the image
-    // - Reduce quality for PNG (compression level 9)
-    // - Strip metadata
-    // - Use pngquant-like compression
-    await image
-      .png({
-        quality: 85,
-        compressionLevel: 9,
-        adaptiveFiltering: true,
-        palette: true, // Use palette if possible for smaller files
-      })
-      .toFile(inputPath + '.tmp');
+    // Optimize based on file type
+    if (ext === '.png') {
+      // PNG optimization
+      await image
+        .png({
+          quality: 85,
+          compressionLevel: 9,
+          adaptiveFiltering: true,
+          palette: true, // Use palette if possible for smaller files
+        })
+        .toFile(inputPath + '.tmp');
+    } else if (ext === '.jpg' || ext === '.jpeg') {
+      // JPEG optimization
+      await image
+        .jpeg({
+          quality: 85,
+          mozjpeg: true, // Use mozjpeg for better compression
+          progressive: true, // Progressive JPEG for better perceived performance
+        })
+        .toFile(inputPath + '.tmp');
+    } else {
+      console.log(`  - Unsupported file type: ${ext}`);
+      return { saved: 0, originalSize, optimizedSize: originalSize };
+    }
 
     // Check if optimized version is smaller
     const optimizedStats = fs.statSync(inputPath + '.tmp');
@@ -80,20 +101,49 @@ async function optimizeImage(inputPath) {
 
 // Main function
 async function main() {
-  console.log('🔍 Finding PNG images in public folder...\n');
-  const pngFiles = getAllPngFiles(publicDir);
+  // Check if a specific file path was provided as argument
+  const filePathArg = process.argv[2];
 
-  if (pngFiles.length === 0) {
-    console.log('No PNG files found.');
-    return;
+  let filesToOptimize = [];
+
+  if (filePathArg) {
+    // If a file path is provided, use it (resolve relative to current directory or use absolute path)
+    const targetPath = path.isAbsolute(filePathArg)
+      ? filePathArg
+      : path.join(process.cwd(), filePathArg);
+
+    if (!fs.existsSync(targetPath)) {
+      console.error(`Error: File not found: ${targetPath}`);
+      process.exit(1);
+    }
+
+    const stat = fs.statSync(targetPath);
+    if (!stat.isFile()) {
+      console.error(`Error: Path is not a file: ${targetPath}`);
+      process.exit(1);
+    }
+
+    filesToOptimize = [targetPath];
+    console.log(
+      `🎯 Optimizing specific file: ${path.relative(process.cwd(), targetPath)}\n`
+    );
+  } else {
+    // Otherwise, find all image files recursively
+    console.log('🔍 Finding images in public folder...\n');
+    filesToOptimize = getAllImageFiles(publicDir);
+
+    if (filesToOptimize.length === 0) {
+      console.log('No image files found.');
+      return;
+    }
+
+    console.log(`Found ${filesToOptimize.length} image file(s) to optimize.\n`);
   }
-
-  console.log(`Found ${pngFiles.length} PNG file(s) to optimize.\n`);
 
   let totalOriginalSize = 0;
   let totalOptimizedSize = 0;
 
-  for (const file of pngFiles) {
+  for (const file of filesToOptimize) {
     const result = await optimizeImage(file);
     totalOriginalSize += result.originalSize;
     totalOptimizedSize += result.optimizedSize;
@@ -116,4 +166,3 @@ async function main() {
 }
 
 main().catch(console.error);
-

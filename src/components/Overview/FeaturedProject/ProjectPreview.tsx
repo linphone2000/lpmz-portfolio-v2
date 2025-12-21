@@ -73,7 +73,7 @@ export const ProjectPreview: React.FC<ProjectPreviewProps> = React.memo(
                   <div className="relative w-30 h-64 sm:w-34 sm:h-72">
                     <PhoneFrame
                       src={screenshotSrc}
-                      alt="PropertyApp Screenshot"
+                      alt="Chat Chin POS Screenshot"
                       showHoverEffect={false}
                     />
                   </div>
@@ -85,14 +85,14 @@ export const ProjectPreview: React.FC<ProjectPreviewProps> = React.memo(
                 {/* Title */}
                 <h4 className="font-semibold text-neutral-900 dark:text-neutral-100 mb-2 tracking-tight text-sm sm:text-base text-center">
                   {project.category === 'Mobile Development'
-                    ? 'Property Investment App'
+                    ? 'Chat Chin POS'
                     : 'Live Demo Available'}
                 </h4>
 
                 {/* Copy */}
                 <p className="text-xs sm:text-sm text-neutral-600 dark:text-neutral-400 mb-4 max-w-md text-center">
                   {project.category === 'Mobile Development'
-                    ? 'Advanced trading platform with real-time P&L tracking and portfolio analytics.'
+                    ? 'Mobile-first inventory & checkout system with QR code integration and real-time stock tracking.'
                     : 'Experience the full functionality with interactive features.'}
                 </p>
 
