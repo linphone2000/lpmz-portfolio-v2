@@ -112,7 +112,7 @@ export const DATA = {
           {
             id: 1,
             src: '/chatchin-project/cc1.png',
-            title: 'Home',
+            title: 'Home (Dashboard) Screen',
             description:
               'Main dashboard showing revenue, active batches, stock alerts, and priority batches',
           },
@@ -126,9 +126,9 @@ export const DATA = {
           {
             id: 3,
             src: '/chatchin-project/cc3.png',
-            title: 'History Screen',
+            title: 'Manual Checkout Screen',
             description:
-              'Transaction history and activity log for all past operations',
+              'Manual checkout interface for processing transactions without QR scanning',
           },
           {
             id: 4,
@@ -140,20 +140,62 @@ export const DATA = {
           {
             id: 5,
             src: '/chatchin-project/cc5.png',
-            title: 'Settings',
-            description: 'Application settings and configuration interface',
+            title: 'QR Checkout Screen',
+            description:
+              'QR code-based checkout interface for quick product scanning',
           },
           {
             id: 6,
             src: '/chatchin-project/cc6.png',
-            title: 'Register',
-            description: 'User registration screen for creating new accounts',
+            title: 'Cart Modal',
+            description:
+              'Shopping cart modal showing selected items before checkout',
           },
           {
             id: 7,
             src: '/chatchin-project/cc7.png',
-            title: 'Login',
-            description: 'User authentication and login screen',
+            title: 'Confirm Checkout Modal',
+            description:
+              'Checkout confirmation modal with transaction details and summary',
+          },
+          {
+            id: 8,
+            src: '/chatchin-project/cc8.png',
+            title: 'Checkout Success Modal',
+            description:
+              'Success confirmation modal after completing a transaction',
+          },
+          {
+            id: 9,
+            src: '/chatchin-project/cc9.png',
+            title: 'Checkout History List Screen',
+            description:
+              'List view of all past transactions and checkout history',
+          },
+          {
+            id: 10,
+            src: '/chatchin-project/cc10.png',
+            title: 'Checkout History Detail Modal',
+            description:
+              'Detailed view of a specific transaction with full information',
+          },
+          {
+            id: 11,
+            src: '/chatchin-project/cc11.png',
+            title: 'Settings Screen',
+            description: 'Application settings and configuration interface',
+          },
+          {
+            id: 12,
+            src: '/chatchin-project/cc12.png',
+            title: 'Login Screen',
+            description: 'User authentication and login interface',
+          },
+          {
+            id: 13,
+            src: '/chatchin-project/cc13.png',
+            title: 'Register Screen',
+            description: 'User registration screen for creating new accounts',
           },
         ],
       },
