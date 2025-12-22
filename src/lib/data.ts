@@ -107,14 +107,35 @@ export const DATA = {
       preview: {
         platform: 'iOS & Android',
         featurePills: ['QR Integration', 'Mobile POS'],
-        screenshot: '/ongoing/ongoing.jpeg',
+        screenshot: '/chatchin-project/cc1.png',
         screenshots: [
           {
             id: 1,
-            src: '/ongoing/ongoing.jpeg',
+            src: '/chatchin-project/cc1.png',
             title: 'Home Dashboard',
             description:
               'Main dashboard showing revenue, active batches, stock alerts, and priority batches',
+          },
+          {
+            id: 2,
+            src: '/chatchin-project/cc2.png',
+            title: 'Settings',
+            description:
+              'Application settings and configuration interface',
+          },
+          {
+            id: 3,
+            src: '/chatchin-project/cc3.png',
+            title: 'Sign Up',
+            description:
+              'User registration screen for creating new accounts',
+          },
+          {
+            id: 4,
+            src: '/chatchin-project/cc4.png',
+            title: 'Sign In',
+            description:
+              'User authentication and login screen',
           },
         ],
       },
