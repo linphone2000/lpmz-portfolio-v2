@@ -282,11 +282,11 @@ export const ProjectModal: React.FC<ProjectModalProps> = React.memo(
                   </div>
                 )}
               </div>
-              <p className="text-sm text-neutral-600 dark:text-neutral-400">
+              {/* <p className="text-sm text-neutral-600 dark:text-neutral-400">
                 Watch a comprehensive demo of PropertyApp&apos;s key features
                 including real-time trading, P&amp;L tracking, and portfolio
                 analytics.
-              </p>
+              </p> */}
             </div>
           )}
 
