@@ -112,30 +112,48 @@ export const DATA = {
           {
             id: 1,
             src: '/chatchin-project/cc1.png',
-            title: 'Home Dashboard',
+            title: 'Home',
             description:
               'Main dashboard showing revenue, active batches, stock alerts, and priority batches',
           },
           {
             id: 2,
             src: '/chatchin-project/cc2.png',
-            title: 'Settings',
+            title: 'Stock Screen',
             description:
-              'Application settings and configuration interface',
+              'Stock management interface with inventory tracking and QR code integration',
           },
           {
             id: 3,
             src: '/chatchin-project/cc3.png',
-            title: 'Sign Up',
+            title: 'History Screen',
             description:
-              'User registration screen for creating new accounts',
+              'Transaction history and activity log for all past operations',
           },
           {
             id: 4,
             src: '/chatchin-project/cc4.png',
-            title: 'Sign In',
+            title: 'Stats Screen',
             description:
-              'User authentication and login screen',
+              'Analytics and statistics dashboard with performance metrics',
+          },
+          {
+            id: 5,
+            src: '/chatchin-project/cc5.png',
+            title: 'Settings',
+            description: 'Application settings and configuration interface',
+          },
+          {
+            id: 6,
+            src: '/chatchin-project/cc6.png',
+            title: 'Register',
+            description: 'User registration screen for creating new accounts',
+          },
+          {
+            id: 7,
+            src: '/chatchin-project/cc7.png',
+            title: 'Login',
+            description: 'User authentication and login screen',
           },
         ],
       },
