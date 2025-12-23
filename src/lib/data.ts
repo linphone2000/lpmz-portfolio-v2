@@ -100,8 +100,7 @@ export const DATA = {
         'QR Code Stock Management',
         'Dual-Mode Checkout',
         'Real-time Inventory Tracking',
-        'Thermal Receipt Printing',
-        'Offline Support',
+        'Receipt Printing',
         'Low Stock Alerts',
       ],
       preview: {
