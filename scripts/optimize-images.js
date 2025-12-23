@@ -107,42 +107,26 @@ async function main() {
   let filesToOptimize = [];
 
   if (filePathArg) {
-    // If a file or folder path is provided, use it (resolve relative to current directory or use absolute path)
+    // If a file path is provided, use it (resolve relative to current directory or use absolute path)
     const targetPath = path.isAbsolute(filePathArg)
       ? filePathArg
       : path.join(process.cwd(), filePathArg);
 
     if (!fs.existsSync(targetPath)) {
-      console.error(`Error: Path not found: ${targetPath}`);
+      console.error(`Error: File not found: ${targetPath}`);
       process.exit(1);
     }
 
     const stat = fs.statSync(targetPath);
-    if (stat.isDirectory()) {
-      // If it's a directory, get all images in that directory
-      console.log(
-        `📁 Optimizing all images in folder: ${path.relative(process.cwd(), targetPath)}\n`
-      );
-      filesToOptimize = getAllImageFiles(targetPath);
-      if (filesToOptimize.length === 0) {
-        console.log('No image files found in the specified folder.');
-        return;
-      }
-      console.log(
-        `Found ${filesToOptimize.length} image file(s) to optimize.\n`
-      );
-    } else if (stat.isFile()) {
-      // If it's a file, optimize just that file
-      filesToOptimize = [targetPath];
-      console.log(
-        `🎯 Optimizing specific file: ${path.relative(process.cwd(), targetPath)}\n`
-      );
-    } else {
-      console.error(
-        `Error: Path is neither a file nor a directory: ${targetPath}`
-      );
+    if (!stat.isFile()) {
+      console.error(`Error: Path is not a file: ${targetPath}`);
       process.exit(1);
     }
+
+    filesToOptimize = [targetPath];
+    console.log(
+      `🎯 Optimizing specific file: ${path.relative(process.cwd(), targetPath)}\n`
+    );
   } else {
     // Otherwise, find all image files recursively
     console.log('🔍 Finding images in public folder...\n');
