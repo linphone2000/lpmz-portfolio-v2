@@ -28,16 +28,15 @@ export const DATA = {
   },
   experience: [
     {
-      company: 'EdTech Platform (Client: Technortal)',
-      role: 'Core Backend Developer',
-      period: 'October 2025 – Present',
-      location: 'Yangon, Myanmar (Remote)',
+      company: 'Freelance',
+      role: 'Full-Stack Developer',
+      period: 'April 2023 – Present',
+      location: 'Yangon, Myanmar',
       type: 'Freelance',
       bullets: [
-        'Architected and developed complete backend infrastructure for EdTech platform using Node.js, Express.js, and PostgreSQL, implementing business logic for multi-role authentication, course management, and enrollment systems.',
-        'Managed project lifecycle in Jira: planned sprints, created epics/user stories, assigned tasks across backend, frontend, and design teams, and presented progress to stakeholders.',
-        'Configured CI/CD pipeline with automated unit/integration testings and established separate staging/production environments for safe deployments.',
-        'Integrated AWS S3 for file storage and created comprehensive technical documentation for API specifications and deployment procedures.',
+        'Ecommerce App (Client: Yoyic): Developing a cross-platform app with React Native Expo, integrating backendAPIs and automated testing workflows.',
+        'EdTech Platform (Client: Technortal): Built core backend using Node.js and PostgreSQL, implementing automated testing and CI/CD pipelines for stable deployment.',
+        'Info Smart Campus: Managed the complete Apple App Store release process, handling certification, provisioning, and successful submission for Info Myanmar College.',
       ],
       technologies: [
         'Node.js',
