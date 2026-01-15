@@ -1,10 +1,12 @@
 'use client';
 
 import React, { useState, useCallback, useMemo } from 'react';
+import Link from 'next/link';
 import {
   HomeIcon,
   BriefcaseIcon,
   AcademicCapIcon,
+  BuildingOffice2Icon,
 } from '@heroicons/react/24/outline';
 
 import { Button } from '@/components/Common/Button';
@@ -14,7 +16,6 @@ import { useThrottledScroll } from '@/hooks/useThrottledScroll';
 
 interface TabNavigationProps {
   activeTab: string;
-  onTabChange: (tab: string) => void;
   dark: boolean;
   toggle: () => void;
   mounted: boolean;
@@ -24,10 +25,11 @@ interface TabItem {
   id: string;
   label: string;
   icon: React.ReactNode;
+  href: string;
 }
 
 export const TabNavigation: React.FC<TabNavigationProps> = React.memo(
-  ({ activeTab, onTabChange, dark, toggle, mounted }) => {
+  ({ activeTab, dark, toggle, mounted }) => {
     const [isVisible, setIsVisible] = useState(true);
     const [lastScrollY, setLastScrollY] = useState(0);
 
@@ -35,46 +37,34 @@ export const TabNavigation: React.FC<TabNavigationProps> = React.memo(
     const tabs: TabItem[] = useMemo(
       () => [
         {
-          id: 'overview',
-          label: 'Overview',
+          id: 'home',
+          label: 'Home',
           icon: <HomeIcon className="h-4 w-4" />,
+          href: '/',
+        },
+        {
+          id: 'experience',
+          label: 'Experience',
+          icon: <BuildingOffice2Icon className="h-4 w-4" />,
+          href: '/overview',
         },
         {
           id: 'portfolio',
           label: 'Portfolio',
           icon: <BriefcaseIcon className="h-4 w-4" />,
+          href: '/portfolio',
         },
         {
           id: 'education',
           label: 'Education',
           icon: <AcademicCapIcon className="h-4 w-4" />,
+          href: '/education',
         },
       ],
       []
     );
 
     // Memoized callbacks to prevent unnecessary re-renders
-    const handleKeyDown = useCallback(
-      (e: React.KeyboardEvent, tabId: string) => {
-        if (e.key === 'Enter' || e.key === ' ') {
-          e.preventDefault();
-          onTabChange(tabId);
-        }
-      },
-      [onTabChange]
-    );
-
-    const handleTabClick = useCallback(
-      (tabId: string) => {
-        onTabChange(tabId);
-      },
-      [onTabChange]
-    );
-
-    const handleLogoClick = useCallback(() => {
-      handleTabClick('overview');
-    }, [handleTabClick]);
-
     // Throttled scroll handler for better performance
     const handleScroll = useCallback(
       (currentScrollY: number) => {
@@ -99,29 +89,21 @@ export const TabNavigation: React.FC<TabNavigationProps> = React.memo(
         }`}
       >
         <div className="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between">
-          <button
-            onClick={handleLogoClick}
+          <Link
+            href="/"
             className="font-extrabold tracking-tight text-lg text-neutral-900 dark:text-neutral-100 transform hover:scale-110 transition-transform duration-200"
             aria-label="Go to overview"
           >
             LPMZ<span className="text-primary-500">.</span>
-          </button>
+          </Link>
 
           {/* Navigation Tabs - Desktop shows text, Mobile shows only icons */}
-          <nav
-            className="flex items-center gap-3"
-            role="tablist"
-            aria-label="Portfolio sections"
-          >
+          <nav className="flex items-center gap-3" aria-label="Site sections">
             {tabs.map((tab) => (
-              <button
+              <Link
                 key={tab.id}
-                onClick={() => handleTabClick(tab.id)}
-                onKeyDown={(e) => handleKeyDown(e, tab.id)}
-                role="tab"
-                aria-selected={activeTab === tab.id}
-                aria-controls={`tabpanel-${tab.id}`}
-                tabIndex={activeTab === tab.id ? 0 : -1}
+                href={tab.href}
+                aria-current={activeTab === tab.id ? 'page' : undefined}
                 className={cx(
                   'px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200 flex items-center gap-2 focus:outline-none',
                   activeTab === tab.id
@@ -132,7 +114,7 @@ export const TabNavigation: React.FC<TabNavigationProps> = React.memo(
                 <span>{tab.icon}</span>
                 {/* Hide text on mobile, show on desktop */}
                 <span className="hidden md:inline">{tab.label}</span>
-              </button>
+              </Link>
             ))}
           </nav>
 

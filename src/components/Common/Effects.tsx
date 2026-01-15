@@ -31,6 +31,8 @@ export const Blobs: React.FC<BlobsProps> = React.memo(
     // Determine which blobs to show based on active tab
     const getVisibleBlobs = () => {
       switch (activeTab) {
+        case 'home':
+          return [0, 1, 2, 3, 4, 5, 6];
         case 'overview':
           return [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]; // All 10 blobs
         case 'portfolio':
