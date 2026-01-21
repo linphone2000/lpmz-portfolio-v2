@@ -10,7 +10,7 @@ interface BlobsProps {
 
 // Global animated background blobs
 export const Blobs: React.FC<BlobsProps> = React.memo(
-  ({ activeTab = 'overview' }) => {
+  ({ activeTab = 'home' }) => {
     const prefersReducedMotion = useReducedMotion();
 
     // Performance optimization: disable animations on mobile/low-power devices
@@ -32,15 +32,15 @@ export const Blobs: React.FC<BlobsProps> = React.memo(
     const getVisibleBlobs = () => {
       switch (activeTab) {
         case 'home':
-          return [0, 1, 2, 3, 4, 5, 6];
-        case 'overview':
           return [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]; // All 10 blobs
+        case 'services':
+          return [0, 1, 2, 3, 4, 5, 6]; // 7 blobs
         case 'portfolio':
           return [0, 1, 2, 3, 4, 5]; // 6 blobs
-        case 'education':
+        case 'about':
           return [0, 1, 2, 3]; // 4 blobs
         default:
-          return [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]; // Default to all
+          return [0, 1, 2, 3, 4, 5, 6]; // Fall back to services-style blobs
       }
     };
 

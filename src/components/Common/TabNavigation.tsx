@@ -43,10 +43,10 @@ export const TabNavigation: React.FC<TabNavigationProps> = React.memo(
           href: '/',
         },
         {
-          id: 'experience',
-          label: 'Experience',
+          id: 'services',
+          label: 'Services',
           icon: <BuildingOffice2Icon className="h-4 w-4" />,
-          href: '/overview',
+          href: '/services',
         },
         {
           id: 'portfolio',
@@ -55,8 +55,8 @@ export const TabNavigation: React.FC<TabNavigationProps> = React.memo(
           href: '/portfolio',
         },
         {
-          id: 'education',
-          label: 'Education',
+          id: 'about',
+          label: 'About Me',
           icon: <AcademicCapIcon className="h-4 w-4" />,
           href: '/education',
         },
@@ -92,7 +92,7 @@ export const TabNavigation: React.FC<TabNavigationProps> = React.memo(
           <Link
             href="/"
             className="font-extrabold tracking-tight text-lg text-neutral-900 dark:text-neutral-100 transform hover:scale-110 transition-transform duration-200"
-            aria-label="Go to overview"
+            aria-label="Go to home"
           >
             LPMZ<span className="text-primary-500">.</span>
           </Link>

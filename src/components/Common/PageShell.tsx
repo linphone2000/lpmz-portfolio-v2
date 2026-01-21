@@ -13,10 +13,11 @@ interface PageShellProps {
 }
 
 const getActiveTab = (pathname: string) => {
+  if (pathname === '/' || pathname.startsWith('/overview')) return 'home';
+  if (pathname.startsWith('/services')) return 'services';
   if (pathname.startsWith('/portfolio')) return 'portfolio';
-  if (pathname.startsWith('/education')) return 'education';
-  if (pathname.startsWith('/overview')) return 'experience';
-  // home and any service-related paths
+  if (pathname.startsWith('/education')) return 'about';
+  // default to home so unknown paths keep nav highlighted
   return 'home';
 };
 

@@ -8,6 +8,7 @@ import { Projects } from '../Portfolio/projects';
 import { Skills } from '../Portfolio/skills';
 import { Education } from '../Education/education';
 import { Certifications } from '../Education/certifications';
+import { ServicesContent } from '../Services/ServicesContent';
 
 interface TabContentProps {
   activeTab: string;
@@ -19,12 +20,18 @@ export const TabContent: React.FC<TabContentProps> = React.memo(
     // Memoize tab content to prevent unnecessary re-renders
     const tabContent = useMemo(() => {
       switch (activeTab) {
-        case 'overview':
+        case 'home':
           return (
             <div>
               <Hero onTabChange={onTabChange} />
               <FeaturedProject />
               <Experience />
+            </div>
+          );
+        case 'services':
+          return (
+            <div>
+              <ServicesContent />
             </div>
           );
         case 'portfolio':
@@ -34,7 +41,7 @@ export const TabContent: React.FC<TabContentProps> = React.memo(
               <Skills />
             </div>
           );
-        case 'education':
+        case 'about':
           return (
             <div>
               <Education />
@@ -44,9 +51,7 @@ export const TabContent: React.FC<TabContentProps> = React.memo(
         default:
           return (
             <div>
-              <Hero onTabChange={onTabChange} />
-              <FeaturedProject />
-              <Experience />
+              <ServicesContent />
             </div>
           );
       }

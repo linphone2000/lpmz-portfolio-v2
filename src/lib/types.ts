@@ -1,5 +1,5 @@
 // Tab types
-export type TabId = 'home' | 'experience' | 'portfolio' | 'education';
+export type TabId = 'home' | 'services' | 'portfolio' | 'about';
 
 export interface Tab {
   id: TabId;
