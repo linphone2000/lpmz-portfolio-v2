@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useCallback } from 'react';
+import Link from 'next/link';
 import { cx } from '../../lib/utils';
 
 interface ButtonProps {
@@ -29,6 +30,18 @@ export const Button: React.FC<ButtonProps> = React.memo(
     }, [onClick]);
 
     if (href) {
+      // Check if it's an internal route (starts with /) or external URL
+      const isInternalRoute = href.startsWith('/');
+
+      if (isInternalRoute) {
+        return (
+          <Link href={href} className={base}>
+            {children}
+          </Link>
+        );
+      }
+
+      // External link
       return (
         <a
           className={base}

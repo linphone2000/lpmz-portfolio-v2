@@ -125,19 +125,22 @@ export const Hero: React.FC<HeroProps> = React.memo(() => {
                   </div>
                 </div>
 
-                {/* Summary */}
+                {/* Value Proposition */}
                 <p className="text-neutral-600 dark:text-neutral-400 leading-relaxed">
-                  {DATA.summary}
+                  {DATA.about.valueProposition || DATA.summary}
                 </p>
 
                 {/* Action Buttons */}
                 <div className="flex flex-wrap gap-3 pt-2">
                   <Button
-                    onClick={handleLinkedInClick}
+                    href="/services"
                     className="group/btn relative overflow-hidden"
                   >
-                    <span className="relative z-10">LinkedIn →</span>
+                    <span className="relative z-10">View Services →</span>
                     <div className="absolute inset-0 bg-gradient-to-r from-primary-600 to-primary-500 opacity-0 group-hover/btn:opacity-100 transition-opacity" />
+                  </Button>
+                  <Button onClick={handleLinkedInClick} variant="ghost">
+                    LinkedIn →
                   </Button>
                   <Button onClick={handleGitHubClick} variant="ghost">
                     GitHub →
@@ -266,7 +269,7 @@ export const Hero: React.FC<HeroProps> = React.memo(() => {
                 {DATA.location}
               </div>
               <div className="text-xs text-neutral-600 dark:text-neutral-400">
-                Remote & On-site
+                On-site & Remote
               </div>
             </div>
           </div>

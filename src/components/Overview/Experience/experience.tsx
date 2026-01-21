@@ -5,8 +5,6 @@ import { useInView } from '@/hooks/useInView';
 import { DATA } from '@/lib/data';
 import { Card } from '@/components/Common/Card';
 import { Badge } from '@/components/Common/Badge';
-import { SectionDivider } from '@/components/Common/SectionDivider';
-import { Contact } from '@/components/Common/contact';
 
 export const Experience: React.FC = () => {
   const [containerRef, isInView] = useInView({
@@ -15,10 +13,9 @@ export const Experience: React.FC = () => {
   });
   return (
     <>
-      <SectionDivider className="py-8" />
-      <section className="py-10 relative">
+      <section className="py-16 relative">
         <div className="max-w-7xl mx-auto px-6">
-          <div className="text-center mb-16">
+          <div className="text-center mb-8">
             <h2 className="text-3xl font-bold mb-6 text-neutral-900 dark:text-neutral-100">
               Experience
             </h2>
@@ -79,9 +76,6 @@ export const Experience: React.FC = () => {
             ))}
           </div>
         </div>
-
-        {/* Contact */}
-        <Contact />
       </section>
     </>
   );

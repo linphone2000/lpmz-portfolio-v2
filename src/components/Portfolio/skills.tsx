@@ -16,7 +16,6 @@ import {
   UserGroupIcon,
   SparklesIcon,
 } from '@heroicons/react/24/outline';
-import { Contact } from '../Common/contact';
 
 // Import Swiper styles
 import 'swiper/css';
@@ -249,9 +248,6 @@ export const Skills: React.FC = () => {
           </div>
         </div>
       </div>
-
-      {/* Contact */}
-      <Contact />
     </section>
   );
 };

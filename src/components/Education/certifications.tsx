@@ -3,7 +3,6 @@
 import React from 'react';
 import { DATA } from '@/lib/data';
 import { Card } from '@/components/Common/Card';
-import { Contact } from '../Common/contact';
 import { TrophyIcon } from '@heroicons/react/24/outline';
 
 export const Certifications: React.FC = () => {
@@ -42,9 +41,6 @@ export const Certifications: React.FC = () => {
           ))}
         </div>
       </div>
-
-      {/* Contact */}
-      <Contact />
     </section>
   );
 };

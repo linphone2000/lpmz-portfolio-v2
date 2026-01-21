@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import { PageShell } from '@/components/Common/PageShell';
 import { Projects } from '@/components/Portfolio/projects';
 import { Skills } from '@/components/Portfolio/skills';
+import { Contact } from '@/components/Common/contact';
 
 export const metadata: Metadata = {
   title: 'Portfolio – Lin Phone Myint Zaw',
@@ -13,6 +14,7 @@ export default function PortfolioPage() {
     <PageShell>
       <Projects />
       <Skills />
+      <Contact />
     </PageShell>
   );
 }

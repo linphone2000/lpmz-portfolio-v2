@@ -10,19 +10,22 @@ export const DATA = {
     github: 'https://github.com/linphone2000',
   },
   summary:
-    'Software Engineer experienced in React Native, MERN, and backend (Node.js, Express). Passionate about building real products that solve problems, clean architecture, and AI.',
+    'Software Engineer experienced in React Native, MERN, Next.js, and backend (Node.js, Express). Passionate about building real products that solve problems, clean architecture, and AI.',
   // Add more detailed personal info
   about: {
+    valueProposition:
+      'Helping businesses build scalable mobile and web applications that deliver real value to users. From concept to deployment, focusing on clean architecture, maintainable code, and solutions that grow with your business.',
     tagline:
       'Building mobile-first experiences with strong API and data modeling foundations',
-    availability: 'Available for freelance opportunities',
+    availability: 'Open to new projects',
     yearsOfExperience: 3, // Started learning JS frameworks in 2022
     yearsLabel: 'Years Coding',
     totalProjects: 6,
     technologiesMastered: 12,
     typewriterStrings: [
-      'Full‑Stack / React Native Developer',
-      'Graduate from Edinburgh Napier University',
+      'Full‑Stack Developer',
+      'Mobile Developer',
+      'React Native Developer',
       'Building real products with clean code',
     ],
   },
@@ -864,9 +867,9 @@ export const DATA = {
   // Add achievements and milestones
   achievements: [
     {
-      title: 'Core Backend Developer at EdTech Platform for Technortal',
+      title: 'Delivered a comprehensive learning platform for Technortal',
       description:
-        'Leading backend architecture and project management for EdTech platform, implementing CI/CD workflows and managing cross-functional teams',
+        'Architected the complete backend infrastructure, managed project delivery, and coordinated development tasks with the frontend team',
       year: 2025,
       category: 'Professional',
     },
