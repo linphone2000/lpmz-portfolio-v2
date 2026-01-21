@@ -23,7 +23,7 @@ export const Certifications: React.FC = () => {
               key={index}
               className={`transition-all duration-500 ease-out animation-delay-${index * 100} opacity-0 translate-y-5 animate-[fadeInUp_0.5s_ease-out_forwards]`}
             >
-              <Card className="text-center">
+              <Card className="text-center px-8 py-4">
                 <div className="text-2xl mb-3 text-primary-500">
                   <TrophyIcon className="w-8 h-8 mx-auto" />
                 </div>

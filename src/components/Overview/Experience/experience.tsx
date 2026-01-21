@@ -36,9 +36,9 @@ export const Experience: React.FC = () => {
                 key={index}
                 className={`transition-all duration-500 ease-out animation-delay-${index * 100}`}
               >
-                <Card className="relative overflow-hidden">
+                <Card className="relative overflow-hidden px-8 py-4">
                   <div className="absolute top-0 left-0 w-1 h-full bg-gradient-to-b from-primary-500 to-secondary-500" />
-                  <div className="pl-8">
+                  <div className="">
                     <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-6">
                       <div>
                         <h3 className="text-xl font-bold mb-2 text-neutral-900 dark:text-neutral-100">

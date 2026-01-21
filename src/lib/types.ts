@@ -30,7 +30,14 @@ export interface Project {
     platform?: string;
     buysell?: string;
     featurePills?: string[];
-    screenshot?: string;
+    screenshot?:
+      | string
+      | Array<{
+          id: number;
+          src: string;
+          title: string;
+          description: string;
+        }>;
     screenshots?: Array<{
       id: number;
       src: string;

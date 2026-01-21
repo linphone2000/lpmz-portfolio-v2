@@ -46,7 +46,7 @@ export const Contact: React.FC = () => {
                 : 'opacity-0 -translate-x-5'
             }`}
           >
-            <Card>
+            <Card className="px-8 py-4">
               <h3 className="text-xl font-bold mb-4 text-neutral-900 dark:text-neutral-100">
                 Contact Information
               </h3>
@@ -87,7 +87,7 @@ export const Contact: React.FC = () => {
                 : 'opacity-0 translate-x-5'
             }`}
           >
-            <Card>
+            <Card className="px-8 py-4">
               <h3 className="text-xl font-bold mb-4 text-neutral-900 dark:text-neutral-100">
                 Social Links
               </h3>

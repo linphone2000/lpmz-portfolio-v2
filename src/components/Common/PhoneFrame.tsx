@@ -10,16 +10,24 @@ interface PhoneFrameProps {
   className?: string;
   showHoverEffect?: boolean;
   onClick?: () => void;
+  thinBorder?: boolean;
 }
 
 export const PhoneFrame: React.FC<PhoneFrameProps> = React.memo(
-  ({ src, alt, className = '', showHoverEffect = true, onClick }) => {
+  ({
+    src,
+    alt,
+    className = '',
+    showHoverEffect = true,
+    onClick,
+    thinBorder = false,
+  }) => {
     const [isLoading, setIsLoading] = useState(true);
 
     return (
       <div className={`relative group ${className}`}>
         <div
-          className={`w-full overflow-hidden bg-neutral-900 rounded-2xl p-1 shadow-xl hover:shadow-lg transition-all duration-300 ${
+          className={`w-full overflow-hidden bg-neutral-900 rounded-2xl ${thinBorder ? 'p-0.5' : 'p-1'} shadow-xl hover:shadow-lg transition-all duration-300 ${
             onClick ? 'cursor-pointer' : ''
           }`}
           onClick={onClick}

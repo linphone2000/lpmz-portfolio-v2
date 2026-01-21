@@ -13,7 +13,7 @@ export const Card: React.FC<
     <div
       ref={ref}
       className={cx(
-        'rounded-2xl border border-neutral-200 dark:border-neutral-700 bg-white/80 dark:bg-neutral-900/5 backdrop-blur p-5 shadow-lg',
+        'rounded-2xl border border-neutral-200 dark:border-neutral-700 bg-white/80 dark:bg-neutral-900/5 backdrop-blur shadow-lg',
         'text-neutral-900 dark:text-neutral-100',
         'transition-all duration-600 ease-out',
         isInView ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10',

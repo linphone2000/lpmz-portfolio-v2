@@ -41,10 +41,23 @@ export const FeaturedProject: React.FC = React.memo(() => {
   }, []);
 
   // Memoize screenshot source to avoid re-computation
-  const screenshotSrc = useMemo(
-    () => featuredProject?.preview?.screenshot || '/property-project/home1.png',
-    [featuredProject?.preview?.screenshot]
-  );
+  const screenshotSrc = useMemo(() => {
+    const screenshot = featuredProject?.preview?.screenshot;
+    if (typeof screenshot === 'string') {
+      return screenshot;
+    } else if (Array.isArray(screenshot) && screenshot.length > 0) {
+      return screenshot[0].src;
+    } else if (
+      featuredProject?.preview?.screenshots &&
+      featuredProject.preview.screenshots.length > 0
+    ) {
+      return featuredProject.preview.screenshots[0].src;
+    }
+    return '/property-project/home1.png';
+  }, [
+    featuredProject?.preview?.screenshot,
+    featuredProject?.preview?.screenshots,
+  ]);
 
   return (
     <>

@@ -44,7 +44,7 @@ export const Education: React.FC = () => {
               key={index}
               className={`transition-all duration-500 ease-out animation-delay-${index * 100}`}
             >
-              <Card className="h-full flex flex-col">
+              <Card className="h-full flex flex-col px-8 py-4">
                 <div className="text-2xl mb-3 text-primary-500">
                   <AcademicCapIcon className="w-8 h-8" />
                 </div>

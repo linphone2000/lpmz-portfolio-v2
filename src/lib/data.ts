@@ -329,8 +329,57 @@ export const DATA = {
       preview: {
         platform: 'iOS & Android',
         featurePills: ['Personal Finance', 'Offline Sync'],
-        screenshot: '/minty-project/minty1.png',
-        screenshots: [],
+        screenshot: [
+          {
+            id: 1,
+            src: '/minty-project/minty1.png',
+            title: 'Dashboard',
+            description:
+              'Overview dashboard showing account balances, total expenses, and savings progress at a glance.',
+          },
+          {
+            id: 2,
+            src: '/minty-project/minty2.png',
+            title: 'Transactions',
+            description:
+              'Detailed view of all past transactions categorized by type, date, and account.',
+          },
+          {
+            id: 3,
+            src: '/minty-project/minty3.png',
+            title: 'Settings',
+            description:
+              'User settings screen to customize app preferences and manage notification options.',
+          },
+          {
+            id: 4,
+            src: '/minty-project/minty4.png',
+            title: 'Add Transaction',
+            description:
+              'Form interface for adding new income entries including amount, category, and notes.',
+          },
+          {
+            id: 5,
+            src: '/minty-project/minty5.png',
+            title: 'Add Transaction',
+            description:
+              'Easy input screen for recording new expenses with category selection and amount.',
+          },
+          {
+            id: 6,
+            src: '/minty-project/minty6.png',
+            title: 'Notification',
+            description:
+              'In-app notifications for transaction reminders, goal updates, or account alerts.',
+          },
+          {
+            id: 7,
+            src: '/minty-project/minty7.png',
+            title: 'Authentication',
+            description:
+              'Secure login and registration screens for accessing and protecting user data.',
+          },
+        ],
       },
     },
     {
@@ -867,7 +916,7 @@ export const DATA = {
   // Add achievements and milestones
   achievements: [
     {
-      title: 'Delivered a comprehensive learning platform for Technortal',
+      title: 'Delivered a comprehensive learning platform for \"Technortal\"',
       description:
         'Architected the complete backend infrastructure, managed project delivery, and coordinated development tasks with the frontend team',
       year: 2025,
