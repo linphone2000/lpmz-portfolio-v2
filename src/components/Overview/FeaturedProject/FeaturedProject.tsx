@@ -45,9 +45,19 @@ export const FeaturedProject: React.FC = React.memo(() => {
     const screenshot = featuredProject?.preview?.screenshot;
     if (typeof screenshot === 'string') {
       return screenshot;
-    } else if (Array.isArray(screenshot) && screenshot.length > 0) {
-      return screenshot[0].src;
-    } else if (
+    } else if (screenshot && Array.isArray(screenshot)) {
+      // Type guard: TypeScript now knows screenshot is an array
+      const screenshotArray = screenshot as Array<{
+        id: number;
+        src: string;
+        title: string;
+        description: string;
+      }>;
+      if (screenshotArray.length > 0) {
+        return screenshotArray[0].src;
+      }
+    }
+    if (
       featuredProject?.preview?.screenshots &&
       featuredProject.preview.screenshots.length > 0
     ) {

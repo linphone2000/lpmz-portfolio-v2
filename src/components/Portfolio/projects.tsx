@@ -18,6 +18,8 @@ import {
   FunnelIcon,
   ArrowsUpDownIcon,
   PhotoIcon,
+  ChevronLeftIcon,
+  ChevronRightIcon,
 } from '@heroicons/react/24/outline';
 import { PhoneFrame } from '../Common/PhoneFrame';
 
@@ -35,6 +37,8 @@ export const Projects: React.FC = () => {
   const [sortBy, setSortBy] = useState<SortOption>('year');
   const [filterBy, setFilterBy] = useState<FilterOption>('all');
   const [showFilters, setShowFilters] = useState(false);
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 3;
 
   // Use custom in-view hook for animations
   const [containerRef, isContainerInView] = useInView({
@@ -66,6 +70,33 @@ export const Projects: React.FC = () => {
     });
   }, [sortBy, filterBy]);
 
+  // Reset to page 1 when filters or sort changes
+  React.useEffect(() => {
+    setCurrentPage(1);
+  }, [sortBy, filterBy]);
+
+  // Calculate pagination
+  const totalPages = Math.ceil(filteredAndSortedProjects.length / itemsPerPage);
+  const startIndex = (currentPage - 1) * itemsPerPage;
+  const endIndex = startIndex + itemsPerPage;
+  const paginatedProjects = filteredAndSortedProjects.slice(
+    startIndex,
+    endIndex
+  );
+
+  // Pagination handlers
+  const handlePreviousPage = useCallback(() => {
+    setCurrentPage((prev) => Math.max(1, prev - 1));
+  }, []);
+
+  const handleNextPage = useCallback(() => {
+    setCurrentPage((prev) => Math.min(totalPages, prev + 1));
+  }, [totalPages]);
+
+  const handlePageChange = useCallback((page: number) => {
+    setCurrentPage(page);
+  }, []);
+
   // Get unique categories for filter
   const categories = useMemo(() => {
     const uniqueCategories = Array.from(
@@ -91,6 +122,7 @@ export const Projects: React.FC = () => {
 
   const handleFilterChange = useCallback((newFilter: FilterOption) => {
     setFilterBy(newFilter);
+    setCurrentPage(1);
   }, []);
 
   return (
@@ -162,7 +194,7 @@ export const Projects: React.FC = () => {
               : 'opacity-0 translate-y-6'
           }`}
         >
-          {filteredAndSortedProjects.map((project, index) => {
+          {paginatedProjects.map((project, index) => {
             const isMobileProject = project.category === 'Mobile Development';
 
             // For mobile projects, get first 3 images; for web, get first image
@@ -170,35 +202,12 @@ export const Projects: React.FC = () => {
             let firstImage: string | undefined;
 
             if (isMobileProject) {
-              // Get first 3 images from screenshots array or use screenshot + screenshots
+              // Always use screenshots array, get up to 4 images
               const allScreenshots = project.preview?.screenshots || [];
-              const screenshot = project.preview?.screenshot;
-
-              if (screenshot) {
-                if (typeof screenshot === 'string') {
-                  mobileImages = [
-                    screenshot,
-                    ...allScreenshots.slice(0, 3).map((s) => s.src),
-                  ].slice(0, 4);
-                } else {
-                  // screenshot is an array
-                  mobileImages = [
-                    ...screenshot.map((s) => s.src),
-                    ...allScreenshots.slice(0, 3).map((s) => s.src),
-                  ].slice(0, 4);
-                }
-              } else {
-                mobileImages = allScreenshots.slice(0, 3).map((s) => s.src);
-              }
+              mobileImages = allScreenshots.slice(0, 4).map((s) => s.src);
             } else {
-              const screenshot = project.preview?.screenshot;
-              if (typeof screenshot === 'string') {
-                firstImage = screenshot;
-              } else if (Array.isArray(screenshot) && screenshot.length > 0) {
-                firstImage = screenshot[0].src;
-              } else {
-                firstImage = project.preview?.screenshots?.[0]?.src;
-              }
+              // Always use screenshots array, get first image
+              firstImage = project.preview?.screenshot || undefined;
             }
 
             return (
@@ -220,6 +229,81 @@ export const Projects: React.FC = () => {
             <p className="text-neutral-500 dark:text-neutral-400">
               No projects found matching the selected filters.
             </p>
+          </div>
+        )}
+
+        {/* Pagination Controls */}
+        {filteredAndSortedProjects.length > itemsPerPage && (
+          <div className="mt-12 flex flex-col sm:flex-row items-center justify-center gap-4">
+            <Button
+              onClick={handlePreviousPage}
+              disabled={currentPage === 1}
+              variant="ghost"
+              className="flex items-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
+            >
+              <ChevronLeftIcon className="w-4 h-4" />
+              Previous
+            </Button>
+
+            <div className="flex items-center gap-2">
+              {Array.from({ length: totalPages }, (_, i) => i + 1).map(
+                (page) => {
+                  // Show first page, last page, current page, and pages around current
+                  const showPage =
+                    page === 1 ||
+                    page === totalPages ||
+                    (page >= currentPage - 1 && page <= currentPage + 1);
+
+                  if (!showPage) {
+                    // Show ellipsis
+                    if (page === currentPage - 2 || page === currentPage + 2) {
+                      return (
+                        <span
+                          key={page}
+                          className="px-2 text-neutral-500 dark:text-neutral-400"
+                        >
+                          ...
+                        </span>
+                      );
+                    }
+                    return null;
+                  }
+
+                  return (
+                    <button
+                      key={page}
+                      onClick={() => handlePageChange(page)}
+                      className={`px-3 py-1.5 rounded-lg text-sm font-medium transition-all duration-200 ${
+                        currentPage === page
+                          ? 'bg-primary-500 text-white shadow-lg'
+                          : 'text-neutral-600 dark:text-neutral-300 hover:bg-neutral-100 dark:hover:bg-neutral-800'
+                      }`}
+                    >
+                      {page}
+                    </button>
+                  );
+                }
+              )}
+            </div>
+
+            <Button
+              onClick={handleNextPage}
+              disabled={currentPage === totalPages}
+              variant="ghost"
+              className="flex items-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
+            >
+              Next
+              <ChevronRightIcon className="w-4 h-4" />
+            </Button>
+          </div>
+        )}
+
+        {/* Page Info */}
+        {filteredAndSortedProjects.length > 0 && (
+          <div className="mt-4 text-center text-sm text-neutral-500 dark:text-neutral-400">
+            Showing {startIndex + 1}-
+            {Math.min(endIndex, filteredAndSortedProjects.length)} of{' '}
+            {filteredAndSortedProjects.length} projects
           </div>
         )}
       </div>

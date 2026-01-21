@@ -329,7 +329,8 @@ export const DATA = {
       preview: {
         platform: 'iOS & Android',
         featurePills: ['Personal Finance', 'Offline Sync'],
-        screenshot: [
+        screenshot: '/minty-project/minty1.png',
+        screenshots: [
           {
             id: 1,
             src: '/minty-project/minty1.png',
