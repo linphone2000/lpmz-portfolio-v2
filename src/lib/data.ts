@@ -37,9 +37,10 @@ export const DATA = {
       location: 'Yangon, Myanmar',
       type: 'Freelance',
       bullets: [
-        'Ecommerce App (Client: Yoyic): Developing a cross-platform app with React Native Expo, integrating backendAPIs and automated testing workflows.',
-        'EdTech Platform (Client: Technortal): Built core backend using Node.js and PostgreSQL, implementing automated testing and CI/CD pipelines for stable deployment.',
-        'Info Smart Campus: Managed the complete Apple App Store release process, handling certification, provisioning, and successful submission for Info Myanmar College.',
+        'Mobile First POS System: Currently building a cross-platform POS app using React Native Expo and Nest.js. developing the mobile app and contributing to the backend, while collaborating with stakeholders to secure funding for launch.',
+        'E-Commerce App (Client: Yoyic): Developing an E-Commerce mobile app with React Native and Express.js.Established CI/CD pipelines for automated testing and deployment, and coordinated with frontend developer to ensure data integration between client app and admin panel.',
+        'EdTech Platform (Client: Technortal): Built the core backend using Express.js and PostgreSQL. Implemented business logic for multi-role authentication, course enrollment, a gamified community forum (XP/Point system), and payment verification. Managed the SDLC by defining sprints and tasks for the frontend team of developer and designer.',
+        'Info Smart Campus (Info Myanmar College): Managed the complete Apple App Store release process for Info Myanmar College, handling certification requirements, provisioning profiles, and ongoing version updates.',
       ],
       technologies: [
         'Node.js',
@@ -58,9 +59,10 @@ export const DATA = {
       location: 'Remote',
       type: 'Full-time',
       bullets: [
-        'Developed cross-platform mobile applications using React Native Expo within an Agile/Scrum environment.',
-        'Worked on mobile streaming platform with web sockets.',
-        'Written requirement documents from customer input to clarify scope and support the team.',
+        'Developed cross-platform mobile applications using React Native Expo within an Agile environment.',
+        'Golf Ecosystem App: Built features for a golf store management app, including course reservations, user statistics visualization, and event management.',
+        'Real-Time Streaming App: Implemented real-time features for a mobile streaming platform using WebSockets.',
+        'Documentation: Wrote technical documentation to translate business requirements to development requirements.',
       ],
       technologies: [
         'React Native',
@@ -77,8 +79,9 @@ export const DATA = {
       location: 'Yangon, Myanmar',
       type: 'Full-time',
       bullets: [
-        'Contributed to a FinTech project, focused on backend.',
-        'Hands‑on requirement gathering and documentation within a large organization.',
+        'Contributed to development for a major FinTech system renewal project.',
+        'Participated in system design phases (External/Internal Design), implementation, unit testing, and integration testing.',
+        'Executed documentation and development within a structured enterprise environment.',
       ],
       technologies: [
         'Backend Development',
