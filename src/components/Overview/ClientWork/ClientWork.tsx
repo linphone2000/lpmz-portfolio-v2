@@ -126,10 +126,10 @@ export const ClientWork: React.FC = () => {
 
   return (
     <>
-      <SectionDivider className="py-8" />
-      <section className="py-16 relative">
+      <SectionDivider className="py-6" />
+      <section className="py-12 relative">
         <div className="max-w-5xl mx-auto px-6">
-          <div className="text-center mb-12">
+          <div className="text-center mb-10">
             <h2 className="text-3xl font-bold mb-4 text-neutral-900 dark:text-neutral-100">
               Client Work
             </h2>
@@ -150,14 +150,14 @@ export const ClientWork: React.FC = () => {
               aria-hidden
             />
 
-            <div className="space-y-12 md:space-y-16">
+            <div className="space-y-2 md:space-y-4">
               {clientProjects.map((project, index) => {
                 const IconComponent = project.icon;
                 const isLeft = index % 2 === 0;
                 return (
                   <div
                     key={index}
-                    className={`relative md:grid md:grid-cols-2 md:items-center md:gap-8 lg:gap-12 transition-all duration-500 ease-out animation-delay-${index * 100}`}
+                    className={`relative md:grid md:grid-cols-2 md:items-center md:gap-6 lg:gap-10 transition-all duration-500 ease-out animation-delay-${index * 100}`}
                   >
                     {/* Timeline dot */}
                     <div className="absolute left-[22px] md:left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2">
@@ -184,7 +184,7 @@ export const ClientWork: React.FC = () => {
                         aria-hidden
                       />
 
-                      <Card className="relative overflow-hidden px-6 py-5 md:px-8 md:py-6 hover:shadow-xl transition-shadow duration-300">
+                      <Card className="relative overflow-hidden px-5 py-5 md:px-7 md:py-5 hover:shadow-xl transition-shadow duration-300">
                         <div className="flex items-start gap-4">
                           {/* Icon */}
                           <div className="flex-shrink-0 mt-1">

@@ -10,7 +10,7 @@ interface SectionDividerProps {
 export const SectionDivider: React.FC<SectionDividerProps> = ({
   className = '',
 }) => {
-  const [ref, isInView] = useInView({ threshold: 0.1, triggerOnce: true });
+  const [ref, isInView] = useInView({ threshold: 0.1, triggerOnce: false });
 
   return (
     <div className={`w-full ${className}`}>
