@@ -184,7 +184,7 @@ export const ClientWork: React.FC = () => {
                         aria-hidden
                       />
 
-                      <Card className="relative overflow-hidden px-5 py-5 md:px-7 md:py-5 hover:shadow-xl transition-shadow duration-300">
+                      <Card className="relative overflow-hidden px-5 py-5 md:px-7 md:py-5 hover:shadow-xl transition-all duration-300 cursor-pointer transform hover:-translate-y-1">
                         <div className="flex items-start gap-4">
                           {/* Icon */}
                           <div className="flex-shrink-0 mt-1">

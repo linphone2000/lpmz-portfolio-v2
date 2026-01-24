@@ -76,7 +76,7 @@ export const Modal: React.FC<ModalProps> = ({
               </h2>
               <button
                 onClick={onClose}
-                className="p-2 rounded-lg text-neutral-500 hover:text-neutral-700 dark:text-neutral-400 dark:hover:text-neutral-200 hover:bg-neutral-100 dark:hover:bg-neutral-800 transition-colors"
+                className="p-2 rounded-lg text-neutral-500 hover:text-neutral-700 dark:text-neutral-400 dark:hover:text-neutral-200 hover:bg-neutral-100 dark:hover:bg-neutral-800 transition-colors cursor-pointer"
                 aria-label="Close modal"
               >
                 <XMarkIcon className="w-5 h-5" />

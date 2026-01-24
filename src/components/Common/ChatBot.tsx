@@ -225,6 +225,7 @@ export const ChatBot: React.FC = () => {
           'transition-all duration-200',
           'flex items-center justify-center',
           'group',
+          'cursor-pointer',
           isOpen && 'hidden'
         )}
         aria-label="Open chat"
@@ -349,7 +350,7 @@ export const ChatBot: React.FC = () => {
                               setInputValue(suggestion);
                               inputRef.current?.focus();
                             }}
-                            className="text-xs text-left px-3 py-2 rounded-lg bg-neutral-100 dark:bg-neutral-800 hover:bg-neutral-200 dark:hover:bg-neutral-700 text-neutral-700 dark:text-neutral-300 transition-colors"
+                            className="text-xs text-left px-3 py-2 rounded-lg bg-neutral-100 dark:bg-neutral-800 hover:bg-neutral-200 dark:hover:bg-neutral-700 text-neutral-700 dark:text-neutral-300 transition-colors cursor-pointer"
                           >
                             &quot;{suggestion}&quot;
                           </button>

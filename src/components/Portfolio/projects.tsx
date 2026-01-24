@@ -145,7 +145,7 @@ export const Projects: React.FC = () => {
               <Button
                 onClick={() => setShowFilters(!showFilters)}
                 variant="ghost"
-                className="flex items-center gap-2"
+                className="flex items-center gap-2 cursor-pointer"
               >
                 <FunnelIcon className="w-4 h-4" />
                 Filters
@@ -239,7 +239,7 @@ export const Projects: React.FC = () => {
               onClick={handlePreviousPage}
               disabled={currentPage === 1}
               variant="ghost"
-              className="flex items-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
+              className="flex items-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer"
             >
               <ChevronLeftIcon className="w-4 h-4" />
               Previous
@@ -273,7 +273,7 @@ export const Projects: React.FC = () => {
                     <button
                       key={page}
                       onClick={() => handlePageChange(page)}
-                      className={`px-3 py-1.5 rounded-lg text-sm font-medium transition-all duration-200 ${
+                      className={`px-3 py-1.5 rounded-lg text-sm font-medium transition-all duration-200 cursor-pointer ${
                         currentPage === page
                           ? 'bg-primary-500 text-white shadow-lg'
                           : 'text-neutral-600 dark:text-neutral-300 hover:bg-neutral-100 dark:hover:bg-neutral-800'
@@ -290,7 +290,7 @@ export const Projects: React.FC = () => {
               onClick={handleNextPage}
               disabled={currentPage === totalPages}
               variant="ghost"
-              className="flex items-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
+              className="flex items-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer"
             >
               Next
               <ChevronRightIcon className="w-4 h-4" />
@@ -460,7 +460,7 @@ const ProjectCard: React.FC<{
         <div className="px-5 pb-5">
           <Button
             onClick={() => handleProjectClick(project)}
-            className="w-full group-hover:bg-primary-600 dark:group-hover:bg-primary-400 transition-colors"
+            className="w-full group-hover:bg-primary-600 dark:group-hover:bg-primary-400 transition-colors cursor-pointer"
           >
             <EyeIcon className="w-4 h-4 mr-2" />
             View Details

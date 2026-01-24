@@ -218,7 +218,7 @@ export default function ContactForm() {
       <button
         type="submit"
         disabled={status.type === 'loading'}
-        className="w-full px-6 py-3 bg-blue-600 text-white font-semibold rounded-lg hover:bg-blue-700 disabled:bg-gray-400 disabled:cursor-not-allowed transition-colors"
+        className="w-full px-6 py-3 bg-blue-600 text-white font-semibold rounded-lg hover:bg-blue-700 disabled:bg-gray-400 disabled:cursor-not-allowed transition-colors cursor-pointer"
       >
         {status.type === 'loading' ? 'Sending...' : 'Get a quote'}
       </button>

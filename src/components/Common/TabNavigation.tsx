@@ -91,7 +91,7 @@ export const TabNavigation: React.FC<TabNavigationProps> = React.memo(
         <div className="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between">
           <Link
             href="/"
-            className="font-extrabold tracking-tight text-lg text-neutral-900 dark:text-neutral-100 transform hover:scale-110 transition-transform duration-200"
+            className="font-extrabold tracking-tight text-lg text-neutral-900 dark:text-neutral-100 transform hover:scale-110 transition-transform duration-200 cursor-pointer"
             aria-label="Go to home"
           >
             LPMZ<span className="text-primary-500">.</span>

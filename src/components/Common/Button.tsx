@@ -26,7 +26,7 @@ export const Button: React.FC<ButtonProps> = React.memo(
   }) => {
     const base = cx(
       'inline-flex items-center gap-2 rounded-xl px-4 py-2 text-sm font-semibold transition-all duration-200 ease-out',
-      !disabled && 'transform hover:scale-105 active:scale-95',
+      !disabled && 'transform hover:scale-105 active:scale-95 cursor-pointer',
       variant === 'solid' &&
         'bg-primary-500 text-white hover:bg-primary-600 dark:bg-primary-400 dark:text-primary-950 dark:hover:bg-primary-300',
       variant === 'ghost' &&

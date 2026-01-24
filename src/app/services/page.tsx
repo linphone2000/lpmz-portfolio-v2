@@ -1,6 +1,6 @@
 import type { Metadata } from 'next';
 import { PageShell } from '@/components/Common/PageShell';
-// import { ServicesContent } from '@/components/Services/ServicesContent';
+import { ServicesContent } from '@/components/Services/ServicesContent';
 
 export const metadata: Metadata = {
   title: 'Services – Lin Phone Myint Zaw',
@@ -16,18 +16,7 @@ export const metadata: Metadata = {
 export default function ServicesPage() {
   return (
     <PageShell>
-      {/* <ServicesContent /> */}
-      <section className="py-32 flex items-center justify-center min-h-[60vh]">
-        <div className="text-center">
-          <h1 className="text-4xl sm:text-5xl font-bold mb-4 text-neutral-900 dark:text-neutral-100">
-            Coming Soon
-          </h1>
-          <p className="text-lg text-neutral-600 dark:text-neutral-400 max-w-md mx-auto">
-            This page is under construction. Check back soon for details about
-            my services.
-          </p>
-        </div>
-      </section>
+      <ServicesContent />
     </PageShell>
   );
 }

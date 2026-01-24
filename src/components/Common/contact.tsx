@@ -55,7 +55,7 @@ export const Contact: React.FC = () => {
                   <EnvelopeIcon className="w-5 h-5 text-primary-500" />
                   <a
                     href={`mailto:${DATA.email}`}
-                    className="text-neutral-600 dark:text-neutral-300 hover:text-primary-500 transition-colors"
+                    className="text-neutral-600 dark:text-neutral-300 hover:text-primary-500 transition-colors cursor-pointer"
                   >
                     {DATA.email}
                   </a>
@@ -64,7 +64,7 @@ export const Contact: React.FC = () => {
                   <PhoneIcon className="w-5 h-5 text-primary-500" />
                   <a
                     href={`tel:${DATA.phone.replace(/\s/g, '')}`}
-                    className="text-neutral-600 dark:text-neutral-300 hover:text-primary-500 transition-colors"
+                    className="text-neutral-600 dark:text-neutral-300 hover:text-primary-500 transition-colors cursor-pointer"
                   >
                     {DATA.phone}
                   </a>

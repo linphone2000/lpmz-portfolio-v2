@@ -122,7 +122,7 @@ export const FeaturedProject: React.FC = React.memo(() => {
                     {/* Call to Action */}
                     <Button
                       onClick={handleOpenModal}
-                      className="w-full md:w-auto"
+                      className="w-full md:w-auto cursor-pointer"
                     >
                       View Project Details →
                     </Button>

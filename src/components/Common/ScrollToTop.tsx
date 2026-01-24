@@ -20,7 +20,8 @@ export const ScrollToTop: React.FC = () => {
         'shadow-sm hover:shadow-md',
         'transition-all duration-200',
         'flex items-center justify-center',
-        'hover:scale-110 active:scale-95'
+        'hover:scale-110 active:scale-95',
+        'cursor-pointer'
       )}
       aria-label="Back to top"
     >

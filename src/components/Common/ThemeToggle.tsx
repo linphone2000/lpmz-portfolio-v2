@@ -55,6 +55,7 @@ export const ThemeToggle: React.FC<ThemeToggleProps> = ({
         'focus-visible:ring-offset-white dark:focus-visible:ring-offset-neutral-900',
         'border border-neutral-200/70 dark:border-neutral-700/70',
         'overflow-hidden',
+        'cursor-pointer',
       ].join(' ')}
     >
       {/* Glow background */}

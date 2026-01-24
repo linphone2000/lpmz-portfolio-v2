@@ -25,7 +25,9 @@ export const PhoneFrame: React.FC<PhoneFrameProps> = React.memo(
     const [isLoading, setIsLoading] = useState(true);
 
     return (
-      <div className={`relative group ${className}`}>
+      <div
+        className={`relative group ${className} ${onClick ? 'cursor-pointer' : ''}`}
+      >
         <div
           className={`w-full overflow-hidden bg-neutral-900 rounded-2xl ${thinBorder ? 'p-0.5' : 'p-1'} shadow-xl hover:shadow-lg transition-all duration-300 ${
             onClick ? 'cursor-pointer' : ''
