@@ -140,14 +140,12 @@ export const FeaturedProject: React.FC = React.memo(() => {
         </div>
       </section>
 
-      {/* Project Modal */}
-      {isModalOpen && (
-        <ProjectModal
-          isOpen={isModalOpen}
-          onClose={handleCloseModal}
-          project={featuredProject}
-        />
-      )}
+      {/* Project Modal: keep mounted to allow close animation */}
+      <ProjectModal
+        isOpen={isModalOpen}
+        onClose={handleCloseModal}
+        project={featuredProject}
+      />
     </>
   );
 });

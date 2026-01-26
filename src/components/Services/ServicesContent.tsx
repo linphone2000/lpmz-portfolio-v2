@@ -2,113 +2,30 @@
 
 import React, { useState } from 'react';
 import Link from 'next/link';
-import ContactForm from '@/components/Common/ContactForm';
 import { Badge } from '@/components/Common/Badge';
 import { Modal } from '@/components/Common/Modal';
 import {
-  GlobeAltIcon,
-  DevicePhoneMobileIcon,
-  ArrowRightIcon,
   CheckCircleIcon,
-  EnvelopeIcon,
-  PhoneIcon,
-  MapPinIcon,
   CurrencyDollarIcon,
   SparklesIcon,
+  GlobeAltIcon,
+  DevicePhoneMobileIcon,
 } from '@heroicons/react/24/outline';
+import { pricingData } from '@/lib/pricing';
 
 type PricingTab = 'web' | 'mobile';
 
 export const ServicesContent = () => {
-  const [isContactOpen, setIsContactOpen] = useState(false);
+  const [isCheckoutOpen, setIsCheckoutOpen] = useState(false);
   const [pricingTab, setPricingTab] = useState<PricingTab>('web');
-
-  const pricingData = {
-    web: [
-      {
-        title: 'Landing Page',
-        price: '500K-1M',
-        desc: 'Perfect for marketing campaigns or personal portfolios.',
-        bullets: [
-          'Single page design',
-          'Responsive + SEO basics',
-          'Contact form integration',
-          'Fast loading speed',
-          'Social media links',
-          '1 week delivery',
-        ],
-      },
-      {
-        title: 'Custom Website',
-        price: '1.5M-2.5M',
-        highlight: true,
-        desc: 'A complete professional presence for your company.',
-        bullets: [
-          'Up to 7 custom pages',
-          'CMS (Content Management)',
-          'Advanced SEO setup',
-          'Blog / News section',
-          'Google Analytics setup',
-          '2-3 weeks delivery',
-        ],
-      },
-      {
-        title: 'Web Application',
-        price: '3M++',
-        desc: 'Complex functionality like e-commerce, dashboards, or SaaS.',
-        bullets: [
-          'User Authentication',
-          'Database design & setup',
-          'Payment gateway integration',
-          'Admin dashboard panel',
-          'API development',
-          '4-8 weeks delivery',
-        ],
-      },
-    ],
-    mobile: [
-      {
-        title: 'App MVP / Prototype',
-        price: '750K-1M',
-        desc: 'Validate your idea quickly with a functional prototype.',
-        bullets: [
-          'Core feature implementation',
-          'Up to 5 main screens',
-          'Basic API integration',
-          'Local data storage',
-          'iOS & Android builds',
-          '2-3 weeks delivery',
-        ],
-      },
-      {
-        title: 'Interactive App',
-        price: '2M-3M',
-        highlight: true,
-        desc: 'Engage customers with a dedicated mobile experience.',
-        bullets: [
-          'User profiles & Auth',
-          'Real-time content feed',
-          'Push notifications',
-          'In-app search & filter',
-          'App Store submission',
-          '4-6 weeks delivery',
-        ],
-      },
-      {
-        title: 'Full-Scale Product',
-        price: '4M++',
-        desc: 'Complex applications with advanced features.',
-        bullets: [
-          'Complex state management',
-          'Payment gateway integration',
-          'Real-time chat/messaging',
-          'Location/Maps services',
-          'Advanced animations',
-          'App Store & Play Store',
-        ],
-      },
-    ],
-  };
+  const [selectedPlan, setSelectedPlan] = useState<string | null>(null);
+  const [customerName, setCustomerName] = useState('');
+  const [customerEmail, setCustomerEmail] = useState('');
+  const [customerPhone, setCustomerPhone] = useState('');
+  const [sending, setSending] = useState(false);
+  const [sendError, setSendError] = useState<string | null>(null);
+  const [sendSuccess, setSendSuccess] = useState(false);
+  const [isHurayOpen, setIsHurayOpen] = useState(false);
 
   const formatPrice = (price: string) => {
     if (price.includes('++')) {
@@ -137,6 +54,108 @@ export const ServicesContent = () => {
     return price;
   };
 
+  const resetForm = () => {
+    setCustomerName('');
+    setCustomerEmail('');
+    setCustomerPhone('');
+    setSendError(null);
+    setSendSuccess(false);
+  };
+
+  const openCheckout = (planLabel: string) => {
+    resetForm();
+    setSelectedPlan(`${pricingTab.toUpperCase()} - ${planLabel}`);
+    setIsCheckoutOpen(true);
+  };
+
+  const handleCheckoutSubmit = async () => {
+    if (!customerName || !customerEmail || !customerPhone) {
+      setSendError('Please fill in all fields.');
+      return;
+    }
+
+    setSending(true);
+    setSendError(null);
+    setSendSuccess(false);
+
+    try {
+      const SERVICE_ID = process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID as string;
+      const TEMPLATE_ID_USER = process.env
+        .NEXT_PUBLIC_EMAILJS_TEMPLATE_ID_USER as string;
+      const TEMPLATE_ID_ADMIN = process.env
+        .NEXT_PUBLIC_EMAILJS_TEMPLATE_ID_ADMIN as string;
+      const PUBLIC_KEY = process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY as string;
+      const ADMIN_EMAIL =
+        (process.env.NEXT_PUBLIC_EMAILJS_ADMIN_EMAIL as string) ||
+        'linphonem@gmail.com';
+
+      if (
+        !SERVICE_ID ||
+        !TEMPLATE_ID_USER ||
+        !TEMPLATE_ID_ADMIN ||
+        !PUBLIC_KEY
+      ) {
+        throw new Error('Email is not configured');
+      }
+
+      const details = selectedPlan
+        ? `Selected plan: ${selectedPlan}`
+        : `Selected category: ${pricingTab}`;
+
+      const endpoint = 'https://api.emailjs.com/api/v1.0/email/send';
+      const sendEmail = async (
+        templateId: string,
+        to_email: string,
+        to_name: string
+      ) => {
+        const res = await fetch(endpoint, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            service_id: SERVICE_ID,
+            template_id: templateId,
+            user_id: PUBLIC_KEY,
+            template_params: {
+              to_email,
+              to_name,
+              user_name: customerName.trim(),
+              user_email: customerEmail.trim(),
+              user_phone: customerPhone.trim(),
+              details,
+              from_name: 'Portfolio Inquiry',
+            },
+          }),
+        });
+        if (!res.ok) {
+          const t = await res.text();
+          throw new Error(`EmailJS ${res.status}: ${t}`);
+        }
+      };
+
+      // Send to user
+      await sendEmail(
+        TEMPLATE_ID_USER,
+        customerEmail.trim(),
+        customerName.trim()
+      );
+      // Send to admin
+      await sendEmail(TEMPLATE_ID_ADMIN, ADMIN_EMAIL, 'Lin');
+
+      // Close checkout and show success (Huray) modal
+      setIsCheckoutOpen(false);
+      setCustomerName('');
+      setCustomerEmail('');
+      setCustomerPhone('');
+      setSendSuccess(false);
+      setIsHurayOpen(true);
+    } catch (error) {
+      console.error('Service checkout confirmation failed', error);
+      setSendError('Unable to send confirmation. Please try again.');
+    } finally {
+      setSending(false);
+    }
+  };
+
   return (
     <div className="min-h-screen space-y-24 pb-24">
       {/* Header Section */}
@@ -163,12 +182,12 @@ export const ServicesContent = () => {
           </p>
 
           <div className="flex flex-wrap justify-center gap-4 opacity-0 animate-[fadeInUp_0.6s_ease-out_0.3s_forwards]">
-            <button
-              onClick={() => setIsContactOpen(true)}
+            <Link
+              href="/services/estimate"
               className="px-8 py-3.5 bg-primary-600 text-white font-semibold rounded-full hover:bg-primary-500 hover:scale-105 transition-all duration-300 shadow-lg shadow-primary-500/20 cursor-pointer"
             >
-              Start a project
-            </button>
+              Customize your project
+            </Link>
             <Link
               href="#pricing"
               className="px-8 py-3.5 bg-white dark:bg-neutral-800 border border-neutral-200 dark:border-neutral-700 text-neutral-900 dark:text-white font-semibold rounded-full hover:border-primary-500 hover:text-primary-600 dark:hover:text-primary-300 hover:scale-105 transition-all duration-300 cursor-pointer"
@@ -250,93 +269,7 @@ export const ServicesContent = () => {
         </div>
       </section>
 
-      {/* Spotlights Section */}
-      <section className="px-4" id="spotlights">
-        <div className="container mx-auto max-w-6xl grid lg:grid-cols-2 gap-8">
-          {/* Web Capabilities */}
-          <div className="rounded-3xl p-8 bg-white/60 dark:bg-neutral-900/60 border border-neutral-200/50 dark:border-neutral-800/50 backdrop-blur shadow-lg">
-            <div className="flex items-center justify-between mb-6">
-              <h3 className="text-xl font-bold text-neutral-900 dark:text-white flex items-center gap-2">
-                <GlobeAltIcon className="h-5 w-5 text-primary-500" />
-                Web Capabilities
-              </h3>
-              <ArrowRightIcon className="h-5 w-5 text-neutral-400" />
-            </div>
-            <div className="grid sm:grid-cols-2 gap-4">
-              {[
-                {
-                  title: 'Frontend',
-                  desc: 'React, Next.js, TypeScript, Tailwind',
-                },
-                {
-                  title: 'Backend',
-                  desc: 'Node/Express APIs, auth, databases',
-                },
-                {
-                  title: 'Use cases',
-                  desc: 'Landing pages, CMS sites, dashboards',
-                },
-                {
-                  title: 'Process',
-                  desc: 'Discovery → Design → Build → Launch',
-                },
-              ].map((item) => (
-                <div
-                  key={item.title}
-                  className="rounded-xl border border-neutral-200/50 dark:border-neutral-700/50 p-4 bg-white/50 dark:bg-neutral-800/30"
-                >
-                  <h4 className="font-semibold text-neutral-900 dark:text-white mb-1.5 text-sm">
-                    {item.title}
-                  </h4>
-                  <p className="text-xs text-neutral-500 dark:text-neutral-400 leading-relaxed">
-                    {item.desc}
-                  </p>
-                </div>
-              ))}
-            </div>
-          </div>
-
-          {/* Mobile Capabilities */}
-          <div className="rounded-3xl p-8 bg-white/60 dark:bg-neutral-900/60 border border-neutral-200/50 dark:border-neutral-800/50 backdrop-blur shadow-lg">
-            <div className="flex items-center justify-between mb-6">
-              <h3 className="text-xl font-bold text-neutral-900 dark:text-white flex items-center gap-2">
-                <DevicePhoneMobileIcon className="h-5 w-5 text-primary-500" />
-                Mobile Capabilities
-              </h3>
-              <ArrowRightIcon className="h-5 w-5 text-neutral-400" />
-            </div>
-            <div className="grid sm:grid-cols-2 gap-4">
-              {[
-                { title: 'Tech', desc: 'React Native, TypeScript, Expo' },
-                {
-                  title: 'Features',
-                  desc: 'Push, camera, maps, payments, offline',
-                },
-                {
-                  title: 'Use cases',
-                  desc: 'E-commerce, booking, field tools',
-                },
-                {
-                  title: 'Process',
-                  desc: 'Requirements → Build → Test → Store',
-                },
-              ].map((item) => (
-                <div
-                  key={item.title}
-                  className="rounded-xl border border-neutral-200/50 dark:border-neutral-700/50 p-4 bg-white/50 dark:bg-neutral-800/30"
-                >
-                  <h4 className="font-semibold text-neutral-900 dark:text-white mb-1.5 text-sm">
-                    {item.title}
-                  </h4>
-                  <p className="text-xs text-neutral-500 dark:text-neutral-400 leading-relaxed">
-                    {item.desc}
-                  </p>
-                </div>
-              ))}
-            </div>
-          </div>
-        </div>
-      </section>
+      {/* Spotlights removed — technical capability sections are omitted for client focus */}
 
       {/* Pricing Section */}
       <section className="px-4 py-8" id="pricing">
@@ -425,7 +358,9 @@ export const ServicesContent = () => {
                 </div>
 
                 <button
-                  onClick={() => setIsContactOpen(true)}
+                  onClick={() =>
+                    openCheckout(`${card.title} (${card.price} MMK)`)
+                  }
                   className={`block w-full text-center px-6 py-3.5 font-bold rounded-xl transition-all duration-300 cursor-pointer ${
                     card.highlight
                       ? 'bg-primary-600 text-white hover:bg-primary-500 shadow-lg shadow-primary-500/25'
@@ -442,7 +377,7 @@ export const ServicesContent = () => {
             <p className="text-neutral-600 dark:text-neutral-400">
               Need a custom solution?{' '}
               <button
-                onClick={() => setIsContactOpen(true)}
+                onClick={() => openCheckout('Custom solution')}
                 className="text-primary-600 dark:text-primary-400 font-semibold hover:underline cursor-pointer"
               >
                 Contact me
@@ -455,87 +390,119 @@ export const ServicesContent = () => {
 
       {/* Contact Modal */}
       <Modal
-        isOpen={isContactOpen}
-        onClose={() => setIsContactOpen(false)}
-        title="Start a Project"
-        size="xl"
+        isOpen={isCheckoutOpen}
+        onClose={() => {
+          setIsCheckoutOpen(false);
+          resetForm();
+        }}
+        title="Confirm your details"
+        size="md"
       >
-        <div className="grid lg:grid-cols-2 gap-8 items-start">
-          <div>
-            <p className="text-neutral-600 dark:text-neutral-400 mb-6">
-              I usually respond within 24 hours. The more detail you share, the
-              better I can help.
+        <div className="space-y-6">
+          <div className="rounded-xl border border-neutral-200 dark:border-neutral-800 bg-neutral-50 dark:bg-neutral-900/60 p-4">
+            <p className="text-sm text-neutral-700 dark:text-neutral-200 font-semibold">
+              {selectedPlan || 'No plan selected yet'}
             </p>
-            <ContactForm />
+            <p className="text-xs text-neutral-500 dark:text-neutral-400 mt-1">
+              I&apos;ll send a confirmation to you and CC linphonem@gmail.com.
+            </p>
           </div>
 
-          <div className="space-y-6 lg:border-l lg:border-neutral-200 lg:dark:border-neutral-700 lg:pl-8">
-            <div className="prose dark:prose-invert">
-              <h3 className="text-xl font-bold text-neutral-900 dark:text-white mb-4">
-                Let&apos;s build something great
-              </h3>
-              <p className="text-neutral-600 dark:text-neutral-400">
-                Whether you have a clear vision or just an idea, I&apos;m here
-                to help you turn it into reality. Reach out via the form or
-                through the channels below.
-              </p>
-            </div>
+          <div className="grid gap-4">
+            <label className="space-y-1 text-sm font-medium text-neutral-700 dark:text-neutral-200">
+              Full name
+              <input
+                value={customerName}
+                onChange={(e) => setCustomerName(e.target.value)}
+                className="w-full rounded-lg border border-neutral-300 dark:border-neutral-700 bg-white dark:bg-neutral-900 px-3 py-2 focus:border-primary-500 focus:ring-2 focus:ring-primary-200 dark:focus:ring-primary-800"
+                placeholder="Your name"
+              />
+            </label>
 
-            <div className="space-y-4">
-              {[
-                {
-                  title: 'Email',
-                  value: 'linphonem@gmail.com',
-                  href: 'mailto:linphonem@gmail.com',
-                  icon: <EnvelopeIcon className="h-6 w-6" />,
-                  color: 'text-blue-500',
-                  bg: 'bg-blue-50 dark:bg-blue-900/20',
-                },
-                {
-                  title: 'Phone',
-                  value: '+95 9967 658 131',
-                  href: 'tel:+959967658131',
-                  icon: <PhoneIcon className="h-6 w-6" />,
-                  color: 'text-green-500',
-                  bg: 'bg-green-50 dark:bg-green-900/20',
-                },
-                {
-                  title: 'Location',
-                  value: 'Yangon, Myanmar',
-                  icon: <MapPinIcon className="h-6 w-6" />,
-                  color: 'text-purple-500',
-                  bg: 'bg-purple-50 dark:bg-purple-900/20',
-                },
-              ].map((item) => (
-                <div
-                  key={item.title}
-                  className="group flex items-center gap-4 p-5 rounded-2xl border border-neutral-200/60 dark:border-neutral-800/80 bg-white/60 dark:bg-neutral-900/60 backdrop-blur hover:shadow-lg transition-all duration-300 hover:-translate-y-1 cursor-pointer"
-                >
-                  <div
-                    className={`p-3 rounded-xl ${item.bg} ${item.color} group-hover:scale-110 transition-transform duration-300`}
-                  >
-                    {item.icon}
-                  </div>
-                  <div>
-                    <div className="text-sm font-medium text-neutral-500 dark:text-neutral-400">
-                      {item.title}
-                    </div>
-                    {item.href ? (
-                      <a
-                        href={item.href}
-                        className="text-lg font-semibold text-neutral-900 dark:text-white hover:text-primary-600 dark:hover:text-primary-400 transition-colors cursor-pointer"
-                      >
-                        {item.value}
-                      </a>
-                    ) : (
-                      <div className="text-lg font-semibold text-neutral-900 dark:text-white">
-                        {item.value}
-                      </div>
-                    )}
-                  </div>
-                </div>
-              ))}
-            </div>
+            <label className="space-y-1 text-sm font-medium text-neutral-700 dark:text-neutral-200">
+              Email
+              <input
+                type="email"
+                value={customerEmail}
+                onChange={(e) => setCustomerEmail(e.target.value)}
+                className="w-full rounded-lg border border-neutral-300 dark:border-neutral-700 bg-white dark:bg-neutral-900 px-3 py-2 focus:border-primary-500 focus:ring-2 focus:ring-primary-200 dark:focus:ring-primary-800"
+                placeholder="you@example.com"
+              />
+            </label>
+
+            <label className="space-y-1 text-sm font-medium text-neutral-700 dark:text-neutral-200">
+              Phone
+              <input
+                value={customerPhone}
+                onChange={(e) => setCustomerPhone(e.target.value)}
+                className="w-full rounded-lg border border-neutral-300 dark:border-neutral-700 bg-white dark:bg-neutral-900 px-3 py-2 focus:border-primary-500 focus:ring-2 focus:ring-primary-200 dark:focus:ring-primary-800"
+                placeholder="09xxxxxxxxx"
+              />
+            </label>
+          </div>
+
+          {sendError && <p className="text-sm text-red-500">{sendError}</p>}
+          {sendSuccess && (
+            <p className="text-sm text-green-600">
+              Confirmation sent. I&apos;ll follow up shortly.
+            </p>
+          )}
+
+          <div className="flex justify-end gap-3">
+            <button
+              onClick={() => {
+                setIsCheckoutOpen(false);
+                resetForm();
+              }}
+              className="px-4 py-2 rounded-lg border border-neutral-300 dark:border-neutral-700 text-neutral-800 dark:text-neutral-100 hover:border-primary-400 cursor-pointer"
+              disabled={sending}
+            >
+              Cancel
+            </button>
+            <button
+              onClick={handleCheckoutSubmit}
+              className="px-4 py-2 rounded-lg bg-primary-600 text-white font-semibold hover:bg-primary-500 disabled:opacity-60 cursor-pointer"
+              disabled={sending}
+            >
+              {sending ? (
+                <span className="inline-flex items-center">
+                  <span className="inline-block h-4 w-4 rounded-full border-2 border-white/80 border-t-transparent animate-spin mr-2" />
+                  Sending...
+                </span>
+              ) : (
+                'Send confirmation'
+              )}
+            </button>
+          </div>
+        </div>
+      </Modal>
+
+      {/* Huray Success Modal */}
+      <Modal
+        isOpen={isHurayOpen}
+        onClose={() => setIsHurayOpen(false)}
+        title="Huray!"
+        size="sm"
+      >
+        <div className="flex flex-col items-center text-center gap-4">
+          <div className="rounded-full bg-green-100 dark:bg-green-900/30 p-3">
+            <CheckCircleIcon className="h-8 w-8 text-green-600 dark:text-green-400" />
+          </div>
+          <div>
+            <h3 className="text-lg font-semibold text-neutral-900 dark:text-neutral-100">
+              Your request was sent successfully
+            </h3>
+            <p className="text-sm text-neutral-600 dark:text-neutral-400 mt-1">
+              I’ll reach out shortly via your provided contact details. Thanks!
+            </p>
+          </div>
+          <div className="pt-2">
+            <button
+              onClick={() => setIsHurayOpen(false)}
+              className="px-4 py-2 rounded-lg bg-primary-600 text-white font-semibold hover:bg-primary-500 cursor-pointer"
+            >
+              Great!
+            </button>
           </div>
         </div>
       </Modal>

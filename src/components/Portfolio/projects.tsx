@@ -112,8 +112,10 @@ export const Projects: React.FC = () => {
   }, []);
 
   const handleCloseModal = useCallback(() => {
+    // Trigger close animation first
     setIsModalOpen(false);
-    setSelectedProject(null);
+    // Delay unmounting the ProjectModal content to allow exit animation
+    setTimeout(() => setSelectedProject(null), 320);
   }, []);
 
   const handleSortChange = useCallback((newSort: SortOption) => {
@@ -311,8 +313,8 @@ export const Projects: React.FC = () => {
       {/* Section Divider */}
       <SectionDivider className="pt-16" />
 
-      {/* Project Modal */}
-      {isModalOpen && selectedProject && (
+      {/* Project Modal: keep mounted while animating out */}
+      {selectedProject && (
         <ProjectModal
           isOpen={isModalOpen}
           onClose={handleCloseModal}
