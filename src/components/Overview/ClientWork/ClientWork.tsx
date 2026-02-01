@@ -11,6 +11,7 @@ import {
   DevicePhoneMobileIcon,
   AcademicCapIcon,
   ShoppingBagIcon,
+  ArrowTopRightOnSquareIcon,
 } from '@heroicons/react/24/outline';
 
 interface ClientProject {
@@ -18,6 +19,7 @@ interface ClientProject {
   projectType: string;
   description: string;
   icon: React.ComponentType<{ className?: string }>;
+  liveUrl?: string;
 }
 
 export const ClientWork: React.FC = () => {
@@ -110,11 +112,16 @@ export const ClientWork: React.FC = () => {
           });
         }
       } else {
+        const liveUrl =
+          'clientWorkLinks' in DATA && DATA.clientWorkLinks
+            ? (DATA.clientWorkLinks as Record<string, string>)[clientName]
+            : undefined;
         projects.push({
           clientName,
           projectType,
           description,
           icon,
+          liveUrl,
         });
       }
     });
@@ -208,6 +215,17 @@ export const ClientWork: React.FC = () => {
                             <p className="text-neutral-600 dark:text-neutral-300 leading-relaxed">
                               {project.description}
                             </p>
+                            {project.liveUrl && (
+                              <a
+                                href={project.liveUrl}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="inline-flex items-center gap-2 mt-3 text-sm font-semibold text-primary-600 dark:text-primary-400 hover:text-primary-700 dark:hover:text-primary-300 transition-colors cursor-pointer group/link"
+                              >
+                                <ArrowTopRightOnSquareIcon className="w-4 h-4 group-hover/link:translate-x-0.5 group-hover/link:-translate-y-0.5 transition-transform" />
+                                Visit website
+                              </a>
+                            )}
                           </div>
                         </div>
                       </Card>

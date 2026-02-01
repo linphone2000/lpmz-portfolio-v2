@@ -90,6 +90,10 @@ export const DATA = {
       ],
     },
   ],
+  /** Optional live URLs for client work entries (keyed by client/project name as in experience bullets). */
+  clientWorkLinks: {
+    Technortal: 'https://technortal.com',
+  },
   projects: [
     {
       name: 'Chat Chin POS – Mobile Inventory & Checkout System',
@@ -200,6 +204,97 @@ export const DATA = {
             src: '/chatchin-project/cc13.png',
             title: 'Register Screen',
             description: 'User registration screen for creating new accounts',
+          },
+        ],
+      },
+    },
+    {
+      name: 'Technortal – EdTech Learning Platform Backend',
+      stack: [
+        'Node.js',
+        'Express.js',
+        'PostgreSQL',
+        'Sequelize',
+        'JWT',
+        'Joi',
+        'Winston',
+        'AWS S3',
+      ],
+      blurb:
+        'REST API backend for a learning platform: course enrollment & progress, live classes with payment verification (KPay/AyaPay), gamified community forum (XP/leaderboard), mentorship bookings, bootcamps & cohorts, and exams with certificates.',
+      href: '#',
+      highlight: false,
+      category: 'Full-Stack Development',
+      year: 2025,
+      status: 'Completed',
+      features: [
+        'Multi-role Auth (learner, instructor, mentor, admin)',
+        'Course CRUD, enrollment & lesson progress',
+        'Forum with posts, comments, XP & leaderboard',
+        'Mentorship profiles, availability & bookings',
+        'Bootcamps, cohorts & applications',
+        'Exams & certificate issuance',
+      ],
+      preview: {
+        platform: 'REST API',
+        featurePills: ['EdTech', 'PostgreSQL', 'JWT'],
+        screenshot: '/technortal-project/tec1.png',
+        screenshots: [
+          {
+            id: 1,
+            src: '/technortal-project/tec1.png',
+            title: 'Landing Page & Welcome',
+            description:
+              'A clean and inviting entryway highlighting the platform’s main features and navigation options.',
+          },
+          {
+            id: 2,
+            src: '/technortal-project/tec2.png',
+            title: 'Courses Overview',
+            description:
+              'Browse all available courses with filtering, sorting, and quick access to course details.',
+          },
+          {
+            id: 3,
+            src: '/technortal-project/tec3.png',
+            title: 'Course Details',
+            description:
+              'See course structure, all included sections and lessons, and easy enrollment options.',
+          },
+          {
+            id: 4,
+            src: '/technortal-project/tec4.png',
+            title: 'Forum & Community',
+            description:
+              'Interact with posts, comments, categories, and join the XP-based gamified community.',
+          },
+          {
+            id: 5,
+            src: '/technortal-project/tec5.png',
+            title: 'Live and On-site Classes',
+            description:
+              'View details and schedules for both virtual and on-site classes, including payment status.',
+          },
+          {
+            id: 6,
+            src: '/technortal-project/tec6.png',
+            title: 'Mentorship & Bookings',
+            description:
+              'Search for mentors, view profiles and availability, and easily book mentorship sessions.',
+          },
+          {
+            id: 7,
+            src: '/technortal-project/tec7.png',
+            title: 'Exams & Certificates',
+            description:
+              'Take exams, submit answers, and receive certificates upon successful completion.',
+          },
+          {
+            id: 8,
+            src: '/technortal-project/tec8.png',
+            title: 'Admin Dashboard',
+            description:
+              'Administrative panel for managing users, content, and monitoring platform activity.',
           },
         ],
       },
