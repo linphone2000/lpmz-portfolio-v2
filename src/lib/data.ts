@@ -725,11 +725,6 @@ export const DATA = {
       category: 'Full-Stack Development',
       year: 2023,
       status: 'Completed',
-      liveUrl: 'https://scape-booking.vercel.app/',
-      demoAccount: {
-        email: 'test@gmail.com',
-        password: '123',
-      },
       features: [
         'Room Booking',
         'Hotel Management',
