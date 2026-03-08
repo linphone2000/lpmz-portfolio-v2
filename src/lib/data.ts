@@ -222,11 +222,12 @@ export const DATA = {
       ],
       blurb:
         'REST API backend for a learning platform: course enrollment & progress, live classes with payment verification (KPay/AyaPay), gamified community forum (XP/leaderboard), mentorship bookings, bootcamps & cohorts, and exams with certificates.',
-      href: '#',
+      href: 'https://technortal.com',
       highlight: false,
       category: 'Full-Stack Development',
       year: 2025,
       status: 'Completed',
+      liveUrl: 'https://technortal.com',
       features: [
         'Multi-role Auth (learner, instructor, mentor, admin)',
         'Course CRUD, enrollment & lesson progress',
