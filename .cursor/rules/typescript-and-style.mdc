@@ -1,0 +1,39 @@
+---
+description: TypeScript strictness and formatting consistency
+globs: **/*.{ts,tsx}
+alwaysApply: false
+---
+
+# TypeScript And Style
+
+- Keep strict typing: avoid `any`; use explicit interfaces/types for reusable domain shapes.
+- Narrow `unknown` errors with `instanceof Error` before reading `.message`.
+- Prefer small typed helpers in `lib` for reusable transforms instead of repeating inline logic.
+- Use existing formatter/lint conventions: single quotes, semicolons, trailing commas, 80-char wrap.
+- Prefer stable return types (`T | null`, discriminated unions) over ambiguous implicit `undefined`.
+
+## Example
+
+```ts
+// ❌ BAD
+function parse(input: any) {
+  try {
+    return JSON.parse(input);
+  } catch (e) {
+    throw new Error(e.message);
+  }
+}
+
+// ✅ GOOD
+type ParsedPayload = Record<string, unknown>;
+
+function parse(input: string): ParsedPayload {
+  try {
+    return JSON.parse(input) as ParsedPayload;
+  } catch (error) {
+    throw new Error(
+      `Failed to parse payload: ${error instanceof Error ? error.message : 'Unknown error'}`
+    );
+  }
+}
+```

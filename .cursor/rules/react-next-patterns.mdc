@@ -1,0 +1,38 @@
+---
+description: React and Next.js App Router implementation patterns
+globs: src/**/*.{ts,tsx}
+alwaysApply: false
+---
+
+# React Next.js Patterns
+
+- Use server components by default; add `'use client'` only when browser APIs, stateful hooks, or event handlers are required.
+- Keep App Router pages focused on composition and metadata, moving reusable UI into `components`.
+- Reuse existing primitives in `src/components/Common` and existing hooks in `src/hooks` before adding new abstractions.
+- Keep hooks side-effect safe: cleanup listeners/subscriptions and guard browser-only logic (`typeof window !== 'undefined'`).
+- Prefer clear prop interfaces and small focused components over multi-purpose monolith components.
+
+## Example
+
+```tsx
+// ❌ BAD: page contains heavy UI logic and no metadata
+export default function Page() {
+  const [open, setOpen] = useState(false);
+  return <button onClick={() => setOpen(!open)}>Toggle</button>;
+}
+
+// ✅ GOOD: page composes; client logic lives in component/hook
+import type { Metadata } from 'next';
+import { PageShell } from '@/components/Common/PageShell';
+import { ServicesContent } from '@/components/Services/ServicesContent';
+
+export const metadata: Metadata = { title: 'Services' };
+
+export default function ServicesPage() {
+  return (
+    <PageShell>
+      <ServicesContent />
+    </PageShell>
+  );
+}
+```
