@@ -114,7 +114,9 @@ export const FeaturedProject: React.FC = React.memo(() => {
                     </p>
 
                     {/* Project Features */}
-                    <ProjectFeatures features={featuredProject.features} />
+                    <ProjectFeatures
+                      features={featuredProject.features.slice(0, 8)}
+                    />
 
                     {/* Tech Stack */}
                     <ProjectTechStack stack={featuredProject.stack} />

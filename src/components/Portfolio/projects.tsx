@@ -197,7 +197,10 @@ export const Projects: React.FC = () => {
           }`}
         >
           {paginatedProjects.map((project, index) => {
-            const isMobileProject = project.category === 'Mobile Development';
+            const isMobileProject =
+              project.category === 'Mobile Development' ||
+              project.stack.includes('React Native') ||
+              project.stack.includes('Expo');
 
             // For mobile projects, get first 3 images; for web, get first image
             let mobileImages: string[] = [];

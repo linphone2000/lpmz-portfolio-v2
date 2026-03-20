@@ -101,7 +101,7 @@ export const DATA = {
       blurb:
         'Mobile-first inventory & checkout system with smart tracking. Features QR code-based stock management, dual-mode checkout (QR scan & manual search), real-time inventory tracking, and thermal receipt printing.',
       href: '#',
-      highlight: true,
+      highlight: false,
       category: 'Mobile Development',
       year: 2025,
       status: 'In Development',
@@ -204,6 +204,211 @@ export const DATA = {
             src: '/chatchin-project/cc13.png',
             title: 'Register Screen',
             description: 'User registration screen for creating new accounts',
+          },
+        ],
+      },
+    },
+    {
+      name: 'Yoyic – Mobile E-Commerce (Customer + Seller/Admin + API)',
+      stack: [
+        'React Native',
+        'Expo',
+        'TypeScript',
+        'Node.js',
+        'Express.js',
+        'PostgreSQL',
+        'JWT',
+        'AWS S3',
+        'Firebase (Expo base)',
+      ],
+      blurb:
+        'Full-stack e-commerce system with a customer mobile app, role-based seller/admin web portal, and Node/Express backend powering authentication, catalog browsing, cart/checkout, order tracking, payments (manual/COD), reviews, and admin analytics hooks.',
+      href: '#',
+      highlight: true,
+      category: 'Full-Stack Development',
+      year: 2025,
+      status: 'In Development',
+      features: [
+        'Auth: register/login + social login + token security',
+        'Profile & account: avatar upload, password change, logout',
+        'Product discovery: categories + search + suggestions + filters/sort/pagination',
+        'Product detail: gallery, variants, stock status, wishlist',
+        'Cart: quantity controls, swipe remove, totals (incl. tax/shipping)',
+        'Checkout: multi-step address + payment, coupon input, confirmation',
+        'Orders: history + status timeline, detail & tracking, cancel flow',
+        'Payments: Manual Transfer & COD, transfer/screenshot/TxID, pending',
+        'Reviews & ratings: submit + view product/shop reviews',
+        'Settings & notifications: preferences, language, about/terms, Expo push test',
+        'Seller/Admin portal: RBAC (admin/seller), protected routes, dashboards',
+        'Admin workflows: KYC review, catalog + order tools, coupons & payment verification',
+      ],
+      preview: {
+        platform: 'Mobile + Web + REST API',
+        featurePills: [
+          'Customer App',
+          'Seller/Admin Portal',
+          'Node/Express API',
+          'Payments (Manual/COD)',
+          'Auth + Roles',
+        ],
+        screenshot: '/yoyic-mobile/home.png',
+        screenshots: [
+          {
+            id: 1,
+            src: '/yoyic-mobile/home.png',
+            title: 'Home & Product Discovery',
+            description:
+              'Featured/trending, categories, and fast browsing with search suggestions.',
+          },
+          {
+            id: 2,
+            src: '/yoyic-mobile/welcome%20carousel.png',
+            title: 'Welcome Carousel',
+            description:
+              'Intro/onboarding carousel for the customer experience.',
+          },
+          {
+            id: 3,
+            src: '/yoyic-mobile/multiple%20sign%20in.png',
+            title: 'Authentication (Social/Register/Login)',
+            description:
+              'Register/login with social login and authentication scaffolding flows.',
+          },
+          {
+            id: 4,
+            src: '/yoyic-mobile/multiple%20language.png',
+            title: 'Language & Settings',
+            description: 'Language selection and settings UI entry.',
+          },
+          {
+            id: 5,
+            src: '/yoyic-mobile/shop%20details.png',
+            title: 'Shop & Product Detail',
+            description:
+              'Product detail gallery, variants, and stock status presentation.',
+          },
+          {
+            id: 6,
+            src: '/yoyic-mobile/cart.png',
+            title: 'Cart & Quantity Controls',
+            description:
+              'Cart item management with quantity controls, swipe remove, and totals.',
+          },
+          {
+            id: 7,
+            src: '/yoyic-mobile/checkout.png',
+            title: 'Multi-step Checkout',
+            description:
+              'Address selection, coupon input, payment method, and order summary.',
+          },
+          {
+            id: 8,
+            src: '/yoyic-mobile/orders.png',
+            title: 'Order History',
+            description:
+              'Order list with status badges/timeline and quick navigation to details.',
+          },
+          {
+            id: 9,
+            src: '/yoyic-mobile/order%20details.png',
+            title: 'Order Detail & Tracking',
+            description:
+              'Tracking info, order items, and cancel flow entry points.',
+          },
+          {
+            id: 10,
+            src: '/yoyic-mobile/wishlist.png',
+            title: 'Wishlist',
+            description: 'Wishlist toggle and saved items browsing.',
+          },
+          {
+            id: 11,
+            src: '/yoyic-mobile/reviews.png',
+            title: 'Reviews & Ratings',
+            description: 'Submit and view product/shop reviews with rating UI.',
+          },
+          {
+            id: 12,
+            src: '/yoyic-mobile/settings.png',
+            title: 'Notification & Account Settings',
+            description:
+              'Notification preferences, about, terms/privacy, and account tools.',
+          },
+          {
+            id: 13,
+            src: '/yoyic-mobile/notification.png',
+            title: 'Push Notifications',
+            description:
+              'Expo-based notification receive flow (Android test working).',
+          },
+          {
+            id: 14,
+            src: '/yoyic-admin/login.png',
+            title: 'Admin/Seller Login',
+            description: 'Role-based access entry for admin and seller users.',
+          },
+          {
+            id: 15,
+            src: '/yoyic-admin/dashboard.png',
+            title: 'Dashboard Layout (Admin/Seller)',
+            description:
+              'Protected dashboard layout with quick entry to key management modules.',
+          },
+          {
+            id: 16,
+            src: '/yoyic-admin/shop.png',
+            title: 'Shop Onboarding & KYC Review',
+            description:
+              'Shop registration form, document upload, and review queue/status dashboard.',
+          },
+          {
+            id: 17,
+            src: '/yoyic-admin/product.png',
+            title: 'Product Management',
+            description:
+              'Product CRUD, variants/SKUs, stock controls, and CSV bulk upload.',
+          },
+          {
+            id: 18,
+            src: '/yoyic-admin/order.png',
+            title: 'Order Management',
+            description:
+              'Order filters, status updates, customer/order item views, and tracking updates.',
+          },
+          {
+            id: 19,
+            src: '/yoyic-admin/order%20detail.png',
+            title: 'Order Detail (Seller Tools)',
+            description:
+              'Accept/reject workflow, shipment tracking, and delivery updates.',
+          },
+          {
+            id: 20,
+            src: '/yoyic-admin/payment.png',
+            title: 'Payment Verification Queue',
+            description:
+              'Pending transfers list with approve/reject actions and notes.',
+          },
+          {
+            id: 21,
+            src: '/yoyic-admin/noti%20center.png',
+            title: 'Notification Center (Skeleton)',
+            description:
+              'Notification sending/scheduling/history UI scaffold (analytics pending).',
+          },
+          {
+            id: 22,
+            src: '/yoyic-admin/carousel.png',
+            title: 'Banner/Carousel Management',
+            description:
+              'Create/edit/schedule homepage promotional banners and carousels.',
+          },
+          {
+            id: 23,
+            src: '/yoyic-admin/banner.png',
+            title: 'Homepage Promotion (Banner)',
+            description:
+              'Dedicated banner management view for promotional campaigns.',
           },
         ],
       },
