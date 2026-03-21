@@ -2,6 +2,7 @@
 
 import type { PortfolioCMSData } from '@/lib/portfolio-content-shared';
 import { Field, SectionCard, TextArea } from '@/components/admin/AdminFields';
+import { parseTextareaLines } from '@/lib/admin-textarea-lines';
 
 type Props = {
   data: PortfolioCMSData;
@@ -30,10 +31,7 @@ export function SkillsSection({ data, setData }: Props) {
   const skills = data.skills;
 
   const setGroup = (key: keyof PortfolioCMSData['skills'], lines: string) => {
-    const arr = lines
-      .split('\n')
-      .map((s) => s.trim())
-      .filter(Boolean);
+    const arr = parseTextareaLines(lines);
     setData((prev) => ({
       ...prev,
       skills: { ...prev.skills, [key]: arr },
@@ -44,10 +42,7 @@ export function SkillsSection({ data, setData }: Props) {
     level: keyof PortfolioCMSData['skills']['proficiency'],
     lines: string
   ) => {
-    const arr = lines
-      .split('\n')
-      .map((s) => s.trim())
-      .filter(Boolean);
+    const arr = parseTextareaLines(lines);
     setData((prev) => ({
       ...prev,
       skills: {

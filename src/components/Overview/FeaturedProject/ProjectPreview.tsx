@@ -14,20 +14,13 @@ interface ProjectPreviewProps {
 export const ProjectPreview: React.FC<ProjectPreviewProps> = React.memo(
   ({ project, screenshotSrc }) => {
     // Memoize feature pills
-    const featurePills = useMemo(
-      () =>
-        project.preview?.featurePills?.map((pill: string, index: number) => (
-          <span
-            key={index}
-            className={`px-2 py-1 text-xs rounded-full ${
-              index === 0
-                ? 'bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-300'
-                : 'bg-blue-100 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300'
-            }`}
-          >
-            {pill}
-          </span>
-        )) || (
+    const featurePills = useMemo(() => {
+      const pills =
+        project.preview?.featurePills?.filter(
+          (pill: string) => pill.length > 0
+        ) ?? [];
+      if (pills.length === 0) {
+        return (
           <>
             <span className="px-2 py-1 bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-300 text-xs rounded-full">
               Real-time Trading
@@ -36,9 +29,21 @@ export const ProjectPreview: React.FC<ProjectPreviewProps> = React.memo(
               Portfolio Analytics
             </span>
           </>
-        ),
-      [project.preview?.featurePills]
-    );
+        );
+      }
+      return pills.map((pill: string, index: number) => (
+        <span
+          key={index}
+          className={`px-2 py-1 text-xs rounded-full ${
+            index === 0
+              ? 'bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-300'
+              : 'bg-blue-100 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300'
+          }`}
+        >
+          {pill}
+        </span>
+      ));
+    }, [project.preview?.featurePills]);
 
     return (
       <div className="hidden md:block h-full">

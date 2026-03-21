@@ -1,14 +1,15 @@
 'use client';
 
 import type { PortfolioCMSData } from '@/lib/portfolio-content-shared';
-
-type ClientWorkLinks = PortfolioCMSData['about']['clientWorkLinks'];
 import {
   Field,
   SectionCard,
   TextArea,
   TextInput,
 } from '@/components/admin/AdminFields';
+import { parseTextareaLines } from '@/lib/admin-textarea-lines';
+
+type ClientWorkLinks = PortfolioCMSData['about']['clientWorkLinks'];
 
 type Props = {
   data: PortfolioCMSData;
@@ -184,10 +185,7 @@ export function ProfileSection({ data, setData }: Props) {
             value={a.about.typewriterStrings.join('\n')}
             onChange={(e) =>
               setNestedAbout({
-                typewriterStrings: e.target.value
-                  .split('\n')
-                  .map((s) => s.trim())
-                  .filter(Boolean),
+                typewriterStrings: parseTextareaLines(e.target.value),
               })
             }
           />

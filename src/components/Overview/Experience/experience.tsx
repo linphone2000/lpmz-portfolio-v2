@@ -63,15 +63,17 @@ export const Experience: React.FC = () => {
                       </div>
                     </div>
                     <ul className="space-y-3">
-                      {exp.bullets.map((bullet, bulletIndex) => (
-                        <li
-                          key={bulletIndex}
-                          className="flex items-start gap-2 text-neutral-600 dark:text-neutral-300"
-                        >
-                          <span className="text-primary-500 mt-1.5">•</span>
-                          <span>{bullet}</span>
-                        </li>
-                      ))}
+                      {exp.bullets
+                        .filter((bullet) => bullet.length > 0)
+                        .map((bullet, bulletIndex) => (
+                          <li
+                            key={bulletIndex}
+                            className="flex items-start gap-2 text-neutral-600 dark:text-neutral-300"
+                          >
+                            <span className="text-primary-500 mt-1.5">•</span>
+                            <span>{bullet}</span>
+                          </li>
+                        ))}
                     </ul>
                   </div>
                 </Card>

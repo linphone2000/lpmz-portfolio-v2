@@ -1,9 +1,7 @@
 ---
 description: TypeScript strictness and formatting consistency
-globs: **/*.{ts,tsx}
 alwaysApply: false
 ---
-
 # TypeScript And Style
 
 - Keep strict typing: avoid `any`; use explicit interfaces/types for reusable domain shapes.

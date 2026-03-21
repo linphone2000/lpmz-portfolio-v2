@@ -8,6 +8,7 @@ import {
   TextArea,
   TextInput,
 } from '@/components/admin/AdminFields';
+import { parseTextareaLines } from '@/lib/admin-textarea-lines';
 
 type Props = {
   data: PortfolioCMSData;
@@ -141,16 +142,14 @@ export function EstimateFeaturesSection({ data, setData }: Props) {
                   }
                 />
               </Field>
-              <Field label="Tags (comma-separated)">
-                <TextInput
-                  value={(feat.tags ?? []).join(', ')}
+              <Field label="Tags (one per line)">
+                <TextArea
+                  className="min-h-[72px]"
+                  value={(feat.tags ?? []).join('\n')}
                   onChange={(e) =>
                     updateFeature(product, index, {
                       ...feat,
-                      tags: e.target.value
-                        .split(',')
-                        .map((t) => t.trim())
-                        .filter(Boolean),
+                      tags: parseTextareaLines(e.target.value),
                     })
                   }
                 />

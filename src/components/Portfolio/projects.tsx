@@ -23,7 +23,7 @@ import {
 import { PhoneFrame } from '../Common/PhoneFrame';
 import { usePortfolioData } from '@/providers/PortfolioDataProvider';
 
-type SortOption = 'year' | 'name' | 'category';
+type SortOption = 'order' | 'year' | 'name' | 'category';
 type FilterOption =
   | 'all'
   | 'Mobile Development'
@@ -37,7 +37,7 @@ export const Projects: React.FC = () => {
   } = usePortfolioData();
   const [selectedProject, setSelectedProject] = useState<Project | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [sortBy, setSortBy] = useState<SortOption>('year');
+  const [sortBy, setSortBy] = useState<SortOption>('order');
   const [filterBy, setFilterBy] = useState<FilterOption>('all');
   const [showFilters, setShowFilters] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
@@ -61,6 +61,8 @@ export const Projects: React.FC = () => {
     // Sort projects
     return [...filtered].sort((a, b) => {
       switch (sortBy) {
+        case 'order':
+          return projects.indexOf(a) - projects.indexOf(b);
         case 'year':
           return b.year - a.year; // Newest first
         case 'name':
@@ -183,6 +185,7 @@ export const Projects: React.FC = () => {
                 onChange={(e) => handleSortChange(e.target.value as SortOption)}
                 className="px-3 py-1 text-sm rounded-lg border border-neutral-200 dark:border-neutral-700 bg-white dark:bg-neutral-800 text-neutral-900 dark:text-neutral-100"
               >
+                <option value="order">CMS order</option>
                 <option value="year">Sort by Year</option>
                 <option value="name">Sort by Name</option>
                 <option value="category">Sort by Category</option>

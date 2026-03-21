@@ -151,18 +151,20 @@ export const ProjectModal: React.FC<ProjectModalProps> = React.memo(
                           Key Highlights
                         </h4>
                         <div className="flex flex-col sm:flex-row sm:flex-wrap gap-2">
-                          {project.preview.featurePills.map((pill, index) => (
-                            <span
-                              key={index}
-                              className={`px-3 py-2 sm:py-1 text-sm rounded-full text-center sm:text-left ${
-                                index === 0
-                                  ? 'bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-300'
-                                  : 'bg-blue-100 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300'
-                              }`}
-                            >
-                              {pill}
-                            </span>
-                          ))}
+                          {project.preview.featurePills
+                            .filter((pill) => pill.length > 0)
+                            .map((pill, index) => (
+                              <span
+                                key={index}
+                                className={`px-3 py-2 sm:py-1 text-sm rounded-full text-center sm:text-left ${
+                                  index === 0
+                                    ? 'bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-300'
+                                    : 'bg-blue-100 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300'
+                                }`}
+                              >
+                                {pill}
+                              </span>
+                            ))}
                         </div>
                       </div>
                     )}
@@ -175,21 +177,23 @@ export const ProjectModal: React.FC<ProjectModalProps> = React.memo(
                   Key Features
                 </h3>
                 <div className="grid md:grid-cols-2 gap-3">
-                  {project.features.map((feature, index) => (
-                    <div
-                      key={index}
-                      className="flex items-center gap-3 p-3 rounded-lg bg-neutral-50 dark:bg-neutral-800/50 transition-all duration-300 ease-out"
-                      style={{
-                        animationDelay: `${index * 100}ms`,
-                        animation: 'fadeInSlide 0.3s ease-out forwards',
-                      }}
-                    >
-                      <CheckCircleIcon className="w-5 h-5 text-green-500 flex-shrink-0" />
-                      <span className="text-neutral-700 dark:text-neutral-300">
-                        {feature}
-                      </span>
-                    </div>
-                  ))}
+                  {project.features
+                    .filter((feature) => feature.length > 0)
+                    .map((feature, index) => (
+                      <div
+                        key={index}
+                        className="flex items-center gap-3 p-3 rounded-lg bg-neutral-50 dark:bg-neutral-800/50 transition-all duration-300 ease-out"
+                        style={{
+                          animationDelay: `${index * 100}ms`,
+                          animation: 'fadeInSlide 0.3s ease-out forwards',
+                        }}
+                      >
+                        <CheckCircleIcon className="w-5 h-5 text-green-500 flex-shrink-0" />
+                        <span className="text-neutral-700 dark:text-neutral-300">
+                          {feature}
+                        </span>
+                      </div>
+                    ))}
                 </div>
               </div>
 

@@ -1,6 +1,7 @@
 'use client';
 
-import { useState } from 'react';
+import { ArrowDownIcon, ArrowUpIcon } from '@heroicons/react/24/outline';
+import { useEffect, useState } from 'react';
 import type { PortfolioCMSData } from '@/lib/portfolio-content-shared';
 import {
   CheckboxField,
@@ -9,6 +10,11 @@ import {
   TextArea,
   TextInput,
 } from '@/components/admin/AdminFields';
+import {
+  parseStackOrCommaLines,
+  parseTextareaLines,
+} from '@/lib/admin-textarea-lines';
+import { cx } from '@/lib/utils';
 
 type Project = PortfolioCMSData['projects'][number];
 
@@ -39,6 +45,25 @@ function defaultProject(): Project {
 }
 
 export function ProjectsSection({ data, setData }: Props) {
+  /** Stable keys per row so reordering does not swap React state between projects. */
+  const [rowIds, setRowIds] = useState<string[]>([]);
+
+  useEffect(() => {
+    const n = data.projects.length;
+    setRowIds((prev) => {
+      if (prev.length === n) return prev;
+      if (n === 0) return [];
+      if (prev.length < n) {
+        const extra = n - prev.length;
+        return [
+          ...prev,
+          ...Array.from({ length: extra }, () => crypto.randomUUID()),
+        ];
+      }
+      return prev.slice(0, n);
+    });
+  }, [data.projects.length]);
+
   const updateAt = (index: number, next: Project) => {
     setData((prev) => ({
       ...prev,
@@ -47,6 +72,7 @@ export function ProjectsSection({ data, setData }: Props) {
   };
 
   const add = () => {
+    setRowIds((prev) => [...prev, crypto.randomUUID()]);
     setData((prev) => ({
       ...prev,
       projects: [...prev.projects, defaultProject()],
@@ -54,25 +80,63 @@ export function ProjectsSection({ data, setData }: Props) {
   };
 
   const remove = (index: number) => {
+    setRowIds((prev) => prev.filter((_, i) => i !== index));
     setData((prev) => ({
       ...prev,
       projects: prev.projects.filter((_, i) => i !== index),
     }));
   };
 
+  const moveUp = (index: number) => {
+    if (index <= 0) return;
+    setData((prev) => {
+      const next = [...prev.projects];
+      [next[index - 1], next[index]] = [next[index], next[index - 1]];
+      return { ...prev, projects: next };
+    });
+    setRowIds((prev) => {
+      const next = [...prev];
+      [next[index - 1], next[index]] = [next[index], next[index - 1]];
+      return next;
+    });
+  };
+
+  const moveDown = (index: number) => {
+    setData((prev) => {
+      if (index >= prev.projects.length - 1) return prev;
+      const next = [...prev.projects];
+      [next[index], next[index + 1]] = [next[index + 1], next[index]];
+      return { ...prev, projects: next };
+    });
+    setRowIds((prev) => {
+      if (index >= prev.length - 1) return prev;
+      const next = [...prev];
+      [next[index], next[index + 1]] = [next[index + 1], next[index]];
+      return next;
+    });
+  };
+
+  const total = data.projects.length;
+
   return (
     <div className="space-y-6">
       <p className="text-sm text-neutral-600 dark:text-neutral-400">
-        Edit each project in its own card. Stack and feature pills use commas.
-        Screenshots support gallery + modal on the public site.
+        Edit each project in its own card. Use <strong>Move up / down</strong>{' '}
+        to set display order. On the public Projects page, choose{' '}
+        <strong>CMS order</strong> in the sort menu (default) to match this
+        list. Stack and feature pills use commas. Screenshots support gallery +
+        modal on the public site.
       </p>
       {data.projects.map((project, index) => (
         <ProjectEditor
-          key={index}
+          key={rowIds[index] ?? `project-${index}`}
           index={index}
+          total={total}
           project={project}
           onChange={(next) => updateAt(index, next)}
           onRemove={() => remove(index)}
+          onMoveUp={() => moveUp(index)}
+          onMoveDown={() => moveDown(index)}
         />
       ))}
       <button
@@ -88,16 +152,24 @@ export function ProjectsSection({ data, setData }: Props) {
 
 function ProjectEditor({
   index,
+  total,
   project,
   onChange,
   onRemove,
+  onMoveUp,
+  onMoveDown,
 }: {
   index: number;
+  total: number;
   project: Project;
   onChange: (p: Project) => void;
   onRemove: () => void;
+  onMoveUp: () => void;
+  onMoveDown: () => void;
 }) {
   const [open, setOpen] = useState(index === 0);
+  const canMoveUp = index > 0;
+  const canMoveDown = index < total - 1;
   const preview = (project.preview ?? {}) as Record<string, unknown>;
   const screenshots =
     (preview.screenshots as
@@ -122,6 +194,46 @@ function ProjectEditor({
       title={`${index + 1}. ${project.name || 'Untitled project'}`}
       description="Expand to edit details, features, and media."
     >
+      <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between sm:gap-3">
+        <p className="text-xs text-neutral-500 dark:text-neutral-400">
+          Order {index + 1} of {total} · public list follows this order
+        </p>
+        <div className="flex flex-wrap items-center gap-1.5">
+          <button
+            type="button"
+            onClick={onMoveUp}
+            disabled={!canMoveUp}
+            title="Move earlier in list"
+            aria-label="Move project up"
+            className={cx(
+              'inline-flex items-center gap-1 rounded-lg border px-2.5 py-1.5 text-xs font-semibold transition-colors',
+              canMoveUp
+                ? 'border-neutral-300 bg-white text-neutral-800 hover:bg-neutral-50 dark:border-neutral-600 dark:bg-neutral-800 dark:text-neutral-100 dark:hover:bg-neutral-700'
+                : 'cursor-not-allowed border-neutral-200 text-neutral-400 opacity-60 dark:border-neutral-700 dark:text-neutral-600'
+            )}
+          >
+            <ArrowUpIcon className="h-4 w-4" />
+            Up
+          </button>
+          <button
+            type="button"
+            onClick={onMoveDown}
+            disabled={!canMoveDown}
+            title="Move later in list"
+            aria-label="Move project down"
+            className={cx(
+              'inline-flex items-center gap-1 rounded-lg border px-2.5 py-1.5 text-xs font-semibold transition-colors',
+              canMoveDown
+                ? 'border-neutral-300 bg-white text-neutral-800 hover:bg-neutral-50 dark:border-neutral-600 dark:bg-neutral-800 dark:text-neutral-100 dark:hover:bg-neutral-700'
+                : 'cursor-not-allowed border-neutral-200 text-neutral-400 opacity-60 dark:border-neutral-700 dark:text-neutral-600'
+            )}
+          >
+            <ArrowDownIcon className="h-4 w-4" />
+            Down
+          </button>
+        </div>
+      </div>
+
       <button
         type="button"
         onClick={() => setOpen(!open)}
@@ -208,16 +320,17 @@ function ProjectEditor({
             }
           />
 
-          <Field label="Stack (comma-separated)">
-            <TextInput
-              value={project.stack.join(', ')}
+          <Field
+            label="Stack"
+            hint="One technology per line, or a single comma-separated line."
+          >
+            <TextArea
+              className="min-h-[80px]"
+              value={project.stack.join('\n')}
               onChange={(e) =>
                 onChange({
                   ...project,
-                  stack: e.target.value
-                    .split(',')
-                    .map((s) => s.trim())
-                    .filter(Boolean),
+                  stack: parseStackOrCommaLines(e.target.value),
                 } as Project)
               }
             />
@@ -238,10 +351,7 @@ function ProjectEditor({
               onChange={(e) =>
                 onChange({
                   ...project,
-                  features: e.target.value
-                    .split('\n')
-                    .map((s) => s.trim())
-                    .filter(Boolean),
+                  features: parseTextareaLines(e.target.value),
                 } as Project)
               }
             />
@@ -317,19 +427,17 @@ function ProjectEditor({
                   onChange={(e) => mergePreview({ platform: e.target.value })}
                 />
               </Field>
-              <Field label="Feature pills (comma-separated)">
-                <TextInput
+              <Field label="Feature pills (one per line)">
+                <TextArea
+                  className="min-h-[72px]"
                   value={
                     Array.isArray(preview.featurePills)
-                      ? (preview.featurePills as string[]).join(', ')
+                      ? (preview.featurePills as string[]).join('\n')
                       : ''
                   }
                   onChange={(e) =>
                     mergePreview({
-                      featurePills: e.target.value
-                        .split(',')
-                        .map((s) => s.trim())
-                        .filter(Boolean),
+                      featurePills: parseTextareaLines(e.target.value),
                     })
                   }
                 />

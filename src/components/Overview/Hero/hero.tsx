@@ -125,7 +125,9 @@ export const Hero: React.FC<HeroProps> = React.memo(() => {
                   <div className="text-xl text-neutral-600 dark:text-neutral-300 min-h-[32px]">
                     <Typewriter
                       options={{
-                        strings: portfolio.about.typewriterStrings,
+                        strings: portfolio.about.typewriterStrings.filter(
+                          (s) => s.length > 0
+                        ),
                         autoStart: true,
                         loop: true,
                       }}

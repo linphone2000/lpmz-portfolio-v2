@@ -7,6 +7,7 @@ import {
   TextArea,
   TextInput,
 } from '@/components/admin/AdminFields';
+import { parseTextareaLines } from '@/lib/admin-textarea-lines';
 
 type Props = {
   data: PortfolioCMSData;
@@ -91,10 +92,7 @@ export function ServicesSection({ data, setData }: Props) {
                 ...s,
                 web: {
                   ...s.web,
-                  bullets: e.target.value
-                    .split('\n')
-                    .map((l) => l.trim())
-                    .filter(Boolean),
+                  bullets: parseTextareaLines(e.target.value),
                 },
               })
             }
@@ -133,10 +131,7 @@ export function ServicesSection({ data, setData }: Props) {
                 ...s,
                 mobile: {
                   ...s.mobile,
-                  bullets: e.target.value
-                    .split('\n')
-                    .map((l) => l.trim())
-                    .filter(Boolean),
+                  bullets: parseTextareaLines(e.target.value),
                 },
               })
             }

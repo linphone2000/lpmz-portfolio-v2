@@ -7,6 +7,10 @@ import {
   TextArea,
   TextInput,
 } from '@/components/admin/AdminFields';
+import {
+  parseStackOrCommaLines,
+  parseTextareaLines,
+} from '@/lib/admin-textarea-lines';
 
 type Props = {
   data: PortfolioCMSData;
@@ -113,24 +117,22 @@ export function ExperienceSection({ data, setData }: Props) {
               onChange={(e) =>
                 updateAt(index, {
                   ...exp,
-                  bullets: e.target.value
-                    .split('\n')
-                    .map((s) => s.trim())
-                    .filter(Boolean),
+                  bullets: parseTextareaLines(e.target.value),
                 })
               }
             />
           </Field>
-          <Field label="Technologies (comma-separated)">
-            <TextInput
-              value={exp.technologies.join(', ')}
+          <Field
+            label="Technologies"
+            hint="One per line, or a single comma-separated line."
+          >
+            <TextArea
+              className="min-h-[72px]"
+              value={exp.technologies.join('\n')}
               onChange={(e) =>
                 updateAt(index, {
                   ...exp,
-                  technologies: e.target.value
-                    .split(',')
-                    .map((s) => s.trim())
-                    .filter(Boolean),
+                  technologies: parseStackOrCommaLines(e.target.value),
                 })
               }
             />

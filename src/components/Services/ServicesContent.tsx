@@ -216,12 +216,14 @@ export const ServicesContent = () => {
               </p>
 
               <ul className="space-y-3 text-neutral-600 dark:text-neutral-300">
-                {services.web.bullets.map((item) => (
-                  <li key={item} className="flex items-start gap-3">
-                    <CheckCircleIcon className="h-5 w-5 text-blue-500 shrink-0 mt-0.5" />
-                    <span>{item}</span>
-                  </li>
-                ))}
+                {services.web.bullets
+                  .filter((item) => item.length > 0)
+                  .map((item) => (
+                    <li key={item} className="flex items-start gap-3">
+                      <CheckCircleIcon className="h-5 w-5 text-blue-500 shrink-0 mt-0.5" />
+                      <span>{item}</span>
+                    </li>
+                  ))}
               </ul>
             </div>
           </div>
@@ -243,12 +245,14 @@ export const ServicesContent = () => {
               </p>
 
               <ul className="space-y-3 text-neutral-600 dark:text-neutral-300">
-                {services.mobile.bullets.map((item) => (
-                  <li key={item} className="flex items-start gap-3">
-                    <CheckCircleIcon className="h-5 w-5 text-purple-500 shrink-0 mt-0.5" />
-                    <span>{item}</span>
-                  </li>
-                ))}
+                {services.mobile.bullets
+                  .filter((item) => item.length > 0)
+                  .map((item) => (
+                    <li key={item} className="flex items-start gap-3">
+                      <CheckCircleIcon className="h-5 w-5 text-purple-500 shrink-0 mt-0.5" />
+                      <span>{item}</span>
+                    </li>
+                  ))}
               </ul>
             </div>
           </div>
@@ -330,17 +334,19 @@ export const ServicesContent = () => {
                 </div>
 
                 <div className="space-y-4 mb-8">
-                  {card.bullets.map((b) => (
-                    <div
-                      key={b}
-                      className="flex items-start gap-3 text-sm text-neutral-700 dark:text-neutral-300"
-                    >
-                      <CheckCircleIcon
-                        className={`h-5 w-5 shrink-0 ${card.highlight ? 'text-primary-600 dark:text-primary-400' : 'text-neutral-400'}`}
-                      />
-                      <span>{b}</span>
-                    </div>
-                  ))}
+                  {card.bullets
+                    .filter((b) => b.length > 0)
+                    .map((b) => (
+                      <div
+                        key={b}
+                        className="flex items-start gap-3 text-sm text-neutral-700 dark:text-neutral-300"
+                      >
+                        <CheckCircleIcon
+                          className={`h-5 w-5 shrink-0 ${card.highlight ? 'text-primary-600 dark:text-primary-400' : 'text-neutral-400'}`}
+                        />
+                        <span>{b}</span>
+                      </div>
+                    ))}
                 </div>
 
                 <button

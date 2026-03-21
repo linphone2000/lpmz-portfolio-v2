@@ -1,9 +1,6 @@
 ---
-description: React and Next.js App Router implementation patterns
-globs: src/**/*.{ts,tsx}
-alwaysApply: false
+alwaysApply: true
 ---
-
 # React Next.js Patterns
 
 - Use server components by default; add `'use client'` only when browser APIs, stateful hooks, or event handlers are required.

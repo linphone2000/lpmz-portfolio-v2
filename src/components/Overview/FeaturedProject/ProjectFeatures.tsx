@@ -10,15 +10,17 @@ export const ProjectFeatures: React.FC<ProjectFeaturesProps> = React.memo(
     // Memoize project features for rendering
     const projectFeatures = useMemo(
       () =>
-        features.map((feature: string, index: number) => (
-          <div
-            key={index}
-            className="flex items-center gap-2 text-sm text-neutral-600 dark:text-neutral-400"
-          >
-            <CheckCircleIcon className="w-4 h-4 text-green-500 flex-shrink-0" />
-            <span>{feature}</span>
-          </div>
-        )),
+        features
+          .filter((feature) => feature.length > 0)
+          .map((feature: string, index: number) => (
+            <div
+              key={index}
+              className="flex items-center gap-2 text-sm text-neutral-600 dark:text-neutral-400"
+            >
+              <CheckCircleIcon className="w-4 h-4 text-green-500 flex-shrink-0" />
+              <span>{feature}</span>
+            </div>
+          )),
       [features]
     );
 

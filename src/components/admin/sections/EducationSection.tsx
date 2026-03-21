@@ -7,6 +7,7 @@ import {
   TextArea,
   TextInput,
 } from '@/components/admin/AdminFields';
+import { parseTextareaLines } from '@/lib/admin-textarea-lines';
 
 type Props = {
   data: PortfolioCMSData;
@@ -108,10 +109,7 @@ export function EducationSection({ data, setData }: Props) {
               onChange={(e) =>
                 updateAt(index, {
                   ...ed,
-                  relevantCourses: e.target.value
-                    .split('\n')
-                    .map((s) => s.trim())
-                    .filter(Boolean),
+                  relevantCourses: parseTextareaLines(e.target.value),
                 })
               }
             />
