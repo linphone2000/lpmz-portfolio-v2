@@ -6,6 +6,7 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
+    "seed:portfolio": "tsx scripts/seed-portfolio.ts",
     "lint": "next lint",
     "lint:fix": "next lint --fix",
     "type-check": "tsc --noEmit",
@@ -26,7 +27,9 @@
     "@tensorflow/tfjs-backend-cpu": "^4.22.0",
     "@tensorflow/tfjs-backend-webgl": "^4.22.0",
     "@tensorflow/tfjs-core": "^4.22.0",
+    "dotenv": "^17.3.1",
     "framer-motion": "^12.23.12",
+    "mongodb": "^7.1.0",
     "next": "15.5.7",
     "react": "19.1.2",
     "react-dom": "19.1.2",
@@ -45,6 +48,7 @@
     "prettier": "^3.6.2",
     "sharp": "^0.34.5",
     "tailwindcss": "^4",
+    "tsx": "^4.21.0",
     "typescript": "^5"
   }
 }

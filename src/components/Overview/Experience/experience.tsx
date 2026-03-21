@@ -2,11 +2,14 @@
 
 import React from 'react';
 import { useInView } from '@/hooks/useInView';
-import { DATA } from '@/lib/data';
 import { Card } from '@/components/Common/Card';
 import { Badge } from '@/components/Common/Badge';
+import { usePortfolioData } from '@/providers/PortfolioDataProvider';
 
 export const Experience: React.FC = () => {
+  const {
+    data: { experience },
+  } = usePortfolioData();
   const [containerRef, isInView] = useInView({
     threshold: 0.1,
     triggerOnce: false,
@@ -31,7 +34,7 @@ export const Experience: React.FC = () => {
               isInView ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-6'
             }`}
           >
-            {DATA.experience.map((exp, index) => (
+            {experience.map((exp, index) => (
               <div
                 key={index}
                 className={`transition-all duration-500 ease-out animation-delay-${index * 100}`}

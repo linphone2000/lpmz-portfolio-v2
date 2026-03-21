@@ -7,6 +7,7 @@ import { TabNavigation } from '@/components/Common/TabNavigation';
 import { ScrollToTop } from '@/components/Common/ScrollToTop';
 import { ErrorBoundary } from '@/components/Common/ErrorBoundary';
 import { useDarkMode } from '@/hooks/useDarkMode';
+import { PortfolioDataProvider } from '@/providers/PortfolioDataProvider';
 
 interface PageShellProps {
   children: React.ReactNode;
@@ -40,23 +41,25 @@ export const PageShell: React.FC<PageShellProps> = ({ children }) => {
 
   return (
     <ErrorBoundary>
-      <div className="min-h-screen relative bg-neutral-50 dark:bg-neutral-900 text-neutral-900 dark:text-neutral-100">
-        <ScrollProgress />
-        <Blobs activeTab={activeTab} />
+      <PortfolioDataProvider>
+        <div className="min-h-screen relative bg-neutral-50 dark:bg-neutral-900 text-neutral-900 dark:text-neutral-100">
+          <ScrollProgress />
+          <Blobs activeTab={activeTab} />
 
-        <TabNavigation
-          activeTab={activeTab}
-          dark={dark}
-          toggle={toggle}
-          mounted={mounted}
-        />
+          <TabNavigation
+            activeTab={activeTab}
+            dark={dark}
+            toggle={toggle}
+            mounted={mounted}
+          />
 
-        <div className="animate-[fadeInUp_0.3s_ease-out_forwards]">
-          {children}
+          <div className="animate-[fadeInUp_0.3s_ease-out_forwards]">
+            {children}
+          </div>
+
+          <ScrollToTop />
         </div>
-
-        <ScrollToTop />
-      </div>
+      </PortfolioDataProvider>
     </ErrorBoundary>
   );
 };

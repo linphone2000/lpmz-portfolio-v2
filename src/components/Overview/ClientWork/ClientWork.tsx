@@ -2,7 +2,6 @@
 
 import React, { useMemo } from 'react';
 import { useInView } from '@/hooks/useInView';
-import { DATA } from '@/lib/data';
 import { Card } from '@/components/Common/Card';
 import { Badge } from '@/components/Common/Badge';
 import { SectionDivider } from '@/components/Common/SectionDivider';
@@ -13,6 +12,7 @@ import {
   ShoppingBagIcon,
   ArrowTopRightOnSquareIcon,
 } from '@heroicons/react/24/outline';
+import { usePortfolioData } from '@/providers/PortfolioDataProvider';
 
 interface ClientProject {
   clientName: string;
@@ -23,6 +23,9 @@ interface ClientProject {
 }
 
 export const ClientWork: React.FC = () => {
+  const {
+    data: { about: portfolio, experience },
+  } = usePortfolioData();
   const [containerRef, isInView] = useInView({
     threshold: 0.1,
     triggerOnce: false,
@@ -30,9 +33,7 @@ export const ClientWork: React.FC = () => {
 
   // Extract and parse client data from freelance experience
   const clientProjects = useMemo(() => {
-    const freelanceExp = DATA.experience.find(
-      (exp) => exp.type === 'Freelance'
-    );
+    const freelanceExp = experience.find((exp) => exp.type === 'Freelance');
     if (!freelanceExp || !freelanceExp.bullets) return [];
 
     const projects: ClientProject[] = [];
@@ -113,8 +114,8 @@ export const ClientWork: React.FC = () => {
         }
       } else {
         const liveUrl =
-          'clientWorkLinks' in DATA && DATA.clientWorkLinks
-            ? (DATA.clientWorkLinks as Record<string, string>)[clientName]
+          'clientWorkLinks' in portfolio && portfolio.clientWorkLinks
+            ? (portfolio.clientWorkLinks as Record<string, string>)[clientName]
             : undefined;
         projects.push({
           clientName,
@@ -127,7 +128,7 @@ export const ClientWork: React.FC = () => {
     });
 
     return projects;
-  }, []);
+  }, [experience, portfolio]);
 
   if (clientProjects.length === 0) return null;
 

@@ -2,7 +2,6 @@
 
 import React from 'react';
 import { useInView } from '@/hooks/useInView';
-import { DATA } from '@/lib/data';
 import { Card } from '@/components/Common/Card';
 import { Button } from '@/components/Common/Button';
 import {
@@ -11,8 +10,12 @@ import {
   MapPinIcon,
 } from '@heroicons/react/24/outline';
 import { SectionDivider } from '@/components/Common/SectionDivider';
+import { usePortfolioData } from '@/providers/PortfolioDataProvider';
 
 export const Contact: React.FC = () => {
+  const {
+    data: { about: portfolio },
+  } = usePortfolioData();
   const [leftCardRef, leftCardInView] = useInView({
     threshold: 0.1,
     triggerOnce: false,
@@ -54,25 +57,25 @@ export const Contact: React.FC = () => {
                 <div className="flex items-center gap-3">
                   <EnvelopeIcon className="w-5 h-5 text-primary-500" />
                   <a
-                    href={`mailto:${DATA.email}`}
+                    href={`mailto:${portfolio.email}`}
                     className="text-neutral-600 dark:text-neutral-300 hover:text-primary-500 transition-colors cursor-pointer"
                   >
-                    {DATA.email}
+                    {portfolio.email}
                   </a>
                 </div>
                 <div className="flex items-center gap-3">
                   <PhoneIcon className="w-5 h-5 text-primary-500" />
                   <a
-                    href={`tel:${DATA.phone.replace(/\s/g, '')}`}
+                    href={`tel:${portfolio.phone.replace(/\s/g, '')}`}
                     className="text-neutral-600 dark:text-neutral-300 hover:text-primary-500 transition-colors cursor-pointer"
                   >
-                    {DATA.phone}
+                    {portfolio.phone}
                   </a>
                 </div>
                 <div className="flex items-center gap-3">
                   <MapPinIcon className="w-5 h-5 text-primary-500" />
                   <span className="text-neutral-600 dark:text-neutral-300">
-                    {DATA.location}
+                    {portfolio.location}
                   </span>
                 </div>
               </div>
@@ -92,18 +95,18 @@ export const Contact: React.FC = () => {
                 Social Links
               </h3>
               <div className="space-y-3">
-                <Button href={`mailto:${DATA.email}`} className="w-full">
+                <Button href={`mailto:${portfolio.email}`} className="w-full">
                   Send Email
                 </Button>
                 <Button
-                  href={DATA.links.linkedin}
+                  href={portfolio.links.linkedin}
                   variant="ghost"
                   className="w-full"
                 >
                   Connect on LinkedIn
                 </Button>
                 <Button
-                  href={DATA.links.github}
+                  href={portfolio.links.github}
                   variant="ghost"
                   className="w-full"
                 >

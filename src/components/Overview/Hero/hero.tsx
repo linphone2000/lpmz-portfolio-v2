@@ -2,10 +2,10 @@
 
 import React, { useCallback, useState, useEffect } from 'react';
 import Typewriter from 'typewriter-effect';
-import { DATA } from '@/lib/data';
 import { Badge } from '@/components/Common/Badge';
 import { Button } from '@/components/Common/Button';
 import { useInView } from '@/hooks/useInView';
+import { usePortfolioData } from '@/providers/PortfolioDataProvider';
 import {
   CodeBracketIcon,
   TrophyIcon,
@@ -18,6 +18,9 @@ interface HeroProps {
 }
 
 export const Hero: React.FC<HeroProps> = React.memo(() => {
+  const {
+    data: { about: portfolio, skills, achievements },
+  } = usePortfolioData();
   const [heroRef, isHeroInView] = useInView({
     threshold: 0.1,
     triggerOnce: true,
@@ -37,9 +40,9 @@ export const Hero: React.FC<HeroProps> = React.memo(() => {
       const stepDuration = duration / steps;
 
       const targets = {
-        years: DATA.about.yearsOfExperience,
-        projects: DATA.about.totalProjects,
-        tech: DATA.about.technologiesMastered,
+        years: portfolio.about.yearsOfExperience,
+        projects: portfolio.about.totalProjects,
+        tech: portfolio.about.technologiesMastered,
       };
 
       let currentStep = 0;
@@ -61,21 +64,26 @@ export const Hero: React.FC<HeroProps> = React.memo(() => {
 
       return () => clearInterval(interval);
     }
-  }, [isHeroInView]);
+  }, [
+    isHeroInView,
+    portfolio.about.technologiesMastered,
+    portfolio.about.totalProjects,
+    portfolio.about.yearsOfExperience,
+  ]);
 
   const handleLinkedInClick = useCallback(() => {
-    window.open(DATA.links.linkedin, '_blank');
-  }, []);
+    window.open(portfolio.links.linkedin, '_blank');
+  }, [portfolio.links.linkedin]);
 
   const handleGitHubClick = useCallback(() => {
-    window.open(DATA.links.github, '_blank');
-  }, []);
+    window.open(portfolio.links.github, '_blank');
+  }, [portfolio.links.github]);
 
   // Top 6 skills for display
   const topSkills = [
-    ...DATA.skills.frontend.slice(0, 2),
-    ...DATA.skills.backend.slice(0, 2),
-    ...DATA.skills.databases.slice(0, 2),
+    ...skills.frontend.slice(0, 2),
+    ...skills.backend.slice(0, 2),
+    ...skills.databases.slice(0, 2),
   ];
 
   return (
@@ -102,22 +110,22 @@ export const Hero: React.FC<HeroProps> = React.memo(() => {
                 {/* Badges */}
                 <div className="flex items-center gap-3 flex-wrap">
                   <Badge className="bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-300 border-green-200 dark:border-green-800">
-                    {DATA.about.availability}
+                    {portfolio.about.availability}
                   </Badge>
                   <Badge className="bg-blue-100 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300 border-blue-200 dark:border-blue-800">
-                    📍 {DATA.location}
+                    📍 {portfolio.location}
                   </Badge>
                 </div>
 
                 {/* Name */}
                 <div className="space-y-3">
                   <h1 className="text-4xl sm:text-5xl font-black leading-tight tracking-tight text-neutral-900 dark:text-neutral-100">
-                    {DATA.name}
+                    {portfolio.name}
                   </h1>
                   <div className="text-xl text-neutral-600 dark:text-neutral-300 min-h-[32px]">
                     <Typewriter
                       options={{
-                        strings: DATA.about.typewriterStrings,
+                        strings: portfolio.about.typewriterStrings,
                         autoStart: true,
                         loop: true,
                       }}
@@ -127,7 +135,7 @@ export const Hero: React.FC<HeroProps> = React.memo(() => {
 
                 {/* Value Proposition */}
                 <p className="text-neutral-600 dark:text-neutral-400 leading-relaxed">
-                  {DATA.about.valueProposition || DATA.summary}
+                  {portfolio.about.valueProposition || portfolio.summary}
                 </p>
 
                 {/* Action Buttons */}
@@ -166,7 +174,7 @@ export const Hero: React.FC<HeroProps> = React.memo(() => {
                     {counts.years}+
                   </div>
                   <div className="text-xs text-neutral-600 dark:text-neutral-400">
-                    {DATA.about.yearsLabel || 'Years Coding'}
+                    {portfolio.about.yearsLabel || 'Years Coding'}
                   </div>
                 </div>
                 <div>
@@ -219,10 +227,10 @@ export const Hero: React.FC<HeroProps> = React.memo(() => {
               </div>
               <div>
                 <div className="text-sm font-semibold text-neutral-900 dark:text-neutral-100 mb-1">
-                  {DATA.achievements[0]?.title}
+                  {achievements[0]?.title}
                 </div>
                 <div className="text-xs text-neutral-600 dark:text-neutral-400">
-                  {DATA.achievements[0]?.description}.
+                  {achievements[0]?.description}.
                 </div>
               </div>
             </div>
@@ -266,7 +274,7 @@ export const Hero: React.FC<HeroProps> = React.memo(() => {
                 </h3>
               </div>
               <div className="text-2xl font-bold text-neutral-900 dark:text-neutral-100 mb-1">
-                {DATA.location}
+                {portfolio.location}
               </div>
               <div className="text-xs text-neutral-600 dark:text-neutral-400">
                 On-site & Remote

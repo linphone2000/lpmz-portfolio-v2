@@ -1,11 +1,14 @@
 'use client';
 
 import React from 'react';
-import { DATA } from '@/lib/data';
 import { Card } from '@/components/Common/Card';
 import { TrophyIcon } from '@heroicons/react/24/outline';
+import { usePortfolioData } from '@/providers/PortfolioDataProvider';
 
 export const Certifications: React.FC = () => {
+  const {
+    data: { certs },
+  } = usePortfolioData();
   return (
     <section className="py-16">
       <div className="max-w-5xl mx-auto px-4">
@@ -18,7 +21,7 @@ export const Certifications: React.FC = () => {
           </p>
         </div>
         <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
-          {DATA.certs.map((cert, index) => (
+          {certs.map((cert, index) => (
             <div
               key={index}
               className={`transition-all duration-500 ease-out animation-delay-${index * 100} opacity-0 translate-y-5 animate-[fadeInUp_0.5s_ease-out_forwards]`}

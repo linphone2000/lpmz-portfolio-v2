@@ -1,11 +1,11 @@
 'use client';
 
 import React, { useState, useCallback, useMemo } from 'react';
-import { DATA } from '@/lib/data';
 import { Button } from '@/components/Common/Button';
 import { SectionDivider } from '@/components/Common/SectionDivider';
 
 import { useInView } from '@/hooks/useInView';
+import { usePortfolioData } from '@/providers/PortfolioDataProvider';
 import {
   ProjectHeader,
   ProjectFeatures,
@@ -15,11 +15,13 @@ import {
 import { ProjectModal } from '@/components/Common/ProjectModal';
 
 export const FeaturedProject: React.FC = React.memo(() => {
+  const {
+    data: { projects },
+  } = usePortfolioData();
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   // Direct data access for simplicity
-  const featuredProject =
-    DATA.projects.find((p) => p.highlight) || DATA.projects[0];
+  const featuredProject = projects.find((p) => p.highlight) || projects[0];
 
   // Use custom in-view hook
   const [headerRef, isHeaderInView] = useInView({

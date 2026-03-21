@@ -11,11 +11,14 @@ import {
   GlobeAltIcon,
   DevicePhoneMobileIcon,
 } from '@heroicons/react/24/outline';
-import { pricingData } from '@/lib/pricing';
+import { usePortfolioData } from '@/providers/PortfolioDataProvider';
 
 type PricingTab = 'web' | 'mobile';
 
 export const ServicesContent = () => {
+  const {
+    data: { pricing, services },
+  } = usePortfolioData();
   const [isCheckoutOpen, setIsCheckoutOpen] = useState(false);
   const [pricingTab, setPricingTab] = useState<PricingTab>('web');
   const [selectedPlan, setSelectedPlan] = useState<string | null>(null);
@@ -164,21 +167,16 @@ export const ServicesContent = () => {
           <div className="flex justify-center mb-6 animate-[fadeInUp_0.6s_ease-out_forwards]">
             <Badge className="bg-primary-100/50 dark:bg-primary-900/20 text-primary-700 dark:text-primary-300 border-primary-200 dark:border-primary-800">
               <SparklesIcon className="w-3.5 h-3.5 mr-1.5" />
-              Services & Solutions
+              {services.hero.badge}
             </Badge>
           </div>
 
           <h1 className="text-4xl md:text-6xl font-black text-neutral-900 dark:text-white leading-tight tracking-tight mb-6 opacity-0 animate-[fadeInUp_0.6s_ease-out_0.1s_forwards]">
-            Build your web or mobile product{' '}
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary-600 to-secondary-600 dark:from-primary-400 dark:to-secondary-400">
-              with confidence
-            </span>
+            {services.hero.title}
           </h1>
 
           <p className="text-lg md:text-xl text-neutral-600 dark:text-neutral-300 max-w-3xl mx-auto mb-10 opacity-0 animate-[fadeInUp_0.6s_ease-out_0.2s_forwards]">
-            One partner for strategy, design, and development. I craft scalable
-            web platforms and cross-platform mobile apps tailored to your
-            business needs.
+            {services.hero.description}
           </p>
 
           <div className="flex flex-wrap justify-center gap-4 opacity-0 animate-[fadeInUp_0.6s_ease-out_0.3s_forwards]">
@@ -211,20 +209,14 @@ export const ServicesContent = () => {
               </div>
 
               <h2 className="text-2xl font-bold text-neutral-900 dark:text-white mb-4">
-                Web Development
+                {services.web.title}
               </h2>
               <p className="text-neutral-600 dark:text-neutral-400 mb-8 leading-relaxed">
-                React and Next.js for fast, SEO-friendly experiences. From
-                high-conversion marketing sites to complex data-rich dashboards.
+                {services.web.description}
               </p>
 
               <ul className="space-y-3 text-neutral-600 dark:text-neutral-300">
-                {[
-                  'Business websites & landing pages',
-                  'E-commerce platforms',
-                  'Admin dashboards & internal tools',
-                  'Custom web applications',
-                ].map((item) => (
+                {services.web.bullets.map((item) => (
                   <li key={item} className="flex items-start gap-3">
                     <CheckCircleIcon className="h-5 w-5 text-blue-500 shrink-0 mt-0.5" />
                     <span>{item}</span>
@@ -244,20 +236,14 @@ export const ServicesContent = () => {
               </div>
 
               <h2 className="text-2xl font-bold text-neutral-900 dark:text-white mb-4">
-                Mobile App Development
+                {services.mobile.title}
               </h2>
               <p className="text-neutral-600 dark:text-neutral-400 mb-8 leading-relaxed">
-                React Native apps for iOS and Android with one codebase.
-                Production-ready performance, native gestures, and premium UX.
+                {services.mobile.description}
               </p>
 
               <ul className="space-y-3 text-neutral-600 dark:text-neutral-300">
-                {[
-                  'E-commerce and booking flows',
-                  'Business & productivity apps',
-                  'Push notifications, maps, payments',
-                  'MVPs to validate quickly',
-                ].map((item) => (
+                {services.mobile.bullets.map((item) => (
                   <li key={item} className="flex items-start gap-3">
                     <CheckCircleIcon className="h-5 w-5 text-purple-500 shrink-0 mt-0.5" />
                     <span>{item}</span>
@@ -312,7 +298,7 @@ export const ServicesContent = () => {
           </div>
 
           <div className="grid md:grid-cols-3 gap-6">
-            {pricingData[pricingTab].map((card) => (
+            {pricing[pricingTab].map((card) => (
               <div
                 key={card.title}
                 className={`relative p-8 rounded-3xl border transition-all duration-300 ${

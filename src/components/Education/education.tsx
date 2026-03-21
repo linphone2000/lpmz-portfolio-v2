@@ -1,7 +1,6 @@
 'use client';
 
 import React from 'react';
-import { DATA } from '../../lib/data';
 import { Card } from '../Common/Card';
 import { Badge } from '../Common/Badge';
 import { useInView } from '../../hooks/useInView';
@@ -10,8 +9,12 @@ import {
   MapPinIcon,
   TrophyIcon,
 } from '@heroicons/react/24/outline';
+import { usePortfolioData } from '@/providers/PortfolioDataProvider';
 
 export const Education: React.FC = () => {
+  const {
+    data: { education },
+  } = usePortfolioData();
   // Use custom in-view hook for animations
   const [containerRef, isContainerInView] = useInView({
     threshold: 0.1,
@@ -39,7 +42,7 @@ export const Education: React.FC = () => {
               : 'opacity-0 translate-y-6'
           }`}
         >
-          {DATA.education.map((edu, index) => (
+          {education.map((edu, index) => (
             <div
               key={index}
               className={`transition-all duration-500 ease-out animation-delay-${index * 100}`}

@@ -2,7 +2,6 @@
 
 import React, { useState, useCallback, useMemo } from 'react';
 import Image from 'next/image';
-import { DATA } from '../../lib/data';
 import { Project } from '../../lib/types';
 import { Card } from '../Common/Card';
 import { Badge } from '../Common/Badge';
@@ -22,6 +21,7 @@ import {
   ChevronRightIcon,
 } from '@heroicons/react/24/outline';
 import { PhoneFrame } from '../Common/PhoneFrame';
+import { usePortfolioData } from '@/providers/PortfolioDataProvider';
 
 type SortOption = 'year' | 'name' | 'category';
 type FilterOption =
@@ -32,6 +32,9 @@ type FilterOption =
   | 'Web Development';
 
 export const Projects: React.FC = () => {
+  const {
+    data: { projects },
+  } = usePortfolioData();
   const [selectedProject, setSelectedProject] = useState<Project | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [sortBy, setSortBy] = useState<SortOption>('year');
@@ -48,7 +51,7 @@ export const Projects: React.FC = () => {
 
   // Memoized filtered and sorted projects
   const filteredAndSortedProjects = useMemo(() => {
-    let filtered = DATA.projects;
+    let filtered = projects;
 
     // Filter by category
     if (filterBy !== 'all') {
@@ -68,7 +71,7 @@ export const Projects: React.FC = () => {
           return 0;
       }
     });
-  }, [sortBy, filterBy]);
+  }, [sortBy, filterBy, projects]);
 
   // Reset to page 1 when filters or sort changes
   React.useEffect(() => {
@@ -100,10 +103,10 @@ export const Projects: React.FC = () => {
   // Get unique categories for filter
   const categories = useMemo(() => {
     const uniqueCategories = Array.from(
-      new Set(DATA.projects.map((p) => p.category))
+      new Set(projects.map((p) => p.category))
     );
     return uniqueCategories;
-  }, []);
+  }, [projects]);
 
   // Memoized callbacks
   const handleProjectClick = useCallback((project: Project) => {

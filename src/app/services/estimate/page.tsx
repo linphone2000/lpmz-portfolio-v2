@@ -3,9 +3,10 @@
 import React, { useState } from 'react';
 import { PageShell } from '@/components/Common/PageShell';
 import { Badge } from '@/components/Common/Badge';
-import { ProductType, featuresCatalog } from '@/lib/features';
+import { ProductType } from '@/lib/features';
 import { Modal } from '@/components/Common/Modal';
 import { CheckCircleIcon } from '@heroicons/react/24/outline';
+import { usePortfolioData } from '@/providers/PortfolioDataProvider';
 
 type SelectedFeature = {
   id: string;
@@ -23,6 +24,9 @@ const formatMMK = (value: number) => {
 };
 
 export default function EstimatePage() {
+  const {
+    data: { estimateFeatures: featuresCatalog },
+  } = usePortfolioData();
   const [tab, setTab] = useState<ProductType>('web');
   const [features, setFeatures] = useState<SelectedFeature[]>([]);
   const [step, setStep] = useState<1 | 2 | 3>(1);

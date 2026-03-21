@@ -3,7 +3,6 @@
 import React, { useState, useMemo } from 'react';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Autoplay, Navigation, Pagination } from 'swiper/modules';
-import { DATA } from '../../lib/data';
 import { Badge } from '../Common/Badge';
 import { useInView } from '../../hooks/useInView';
 import {
@@ -16,6 +15,7 @@ import {
   UserGroupIcon,
   SparklesIcon,
 } from '@heroicons/react/24/outline';
+import { usePortfolioData } from '@/providers/PortfolioDataProvider';
 
 // Import Swiper styles
 import 'swiper/css';
@@ -23,6 +23,9 @@ import 'swiper/css/navigation';
 import 'swiper/css/pagination';
 
 export const Skills: React.FC = () => {
+  const {
+    data: { skills },
+  } = usePortfolioData();
   const [hoveredCategory, setHoveredCategory] = useState<string | null>(null);
 
   // Enhanced skill categories with more creative styling
@@ -31,7 +34,7 @@ export const Skills: React.FC = () => {
       {
         title: 'Frontend',
         subtitle: 'User Experience',
-        skills: DATA.skills.frontend,
+        skills: skills.frontend,
         icon: <PaintBrushIcon className="w-8 h-8" />,
         color: 'text-blue-500',
         bgColor:
@@ -44,7 +47,7 @@ export const Skills: React.FC = () => {
       {
         title: 'Backend',
         subtitle: 'Server Logic',
-        skills: DATA.skills.backend,
+        skills: skills.backend,
         icon: <CogIcon className="w-8 h-8" />,
         color: 'text-green-500',
         bgColor:
@@ -57,7 +60,7 @@ export const Skills: React.FC = () => {
       {
         title: 'Databases',
         subtitle: 'Data Management',
-        skills: DATA.skills.databases,
+        skills: skills.databases,
         icon: <ServerIcon className="w-8 h-8" />,
         color: 'text-purple-500',
         bgColor:
@@ -70,7 +73,7 @@ export const Skills: React.FC = () => {
       {
         title: 'Languages',
         subtitle: 'Code Foundation',
-        skills: DATA.skills.languages,
+        skills: skills.languages,
         icon: <CodeBracketIcon className="w-8 h-8" />,
         color: 'text-orange-500',
         bgColor:
@@ -83,7 +86,7 @@ export const Skills: React.FC = () => {
       {
         title: 'Tools',
         subtitle: 'Development Arsenal',
-        skills: DATA.skills.tools,
+        skills: skills.tools,
         icon: <WrenchScrewdriverIcon className="w-8 h-8" />,
         color: 'text-red-500',
         bgColor:
@@ -96,7 +99,7 @@ export const Skills: React.FC = () => {
       {
         title: 'AI/ML',
         subtitle: 'Future Tech',
-        skills: DATA.skills.aiml,
+        skills: skills.aiml,
         icon: <CpuChipIcon className="w-8 h-8" />,
         color: 'text-indigo-500',
         bgColor:
@@ -109,7 +112,7 @@ export const Skills: React.FC = () => {
       {
         title: 'Soft Skills',
         subtitle: 'Human Touch',
-        skills: DATA.skills.soft,
+        skills: skills.soft,
         icon: <UserGroupIcon className="w-8 h-8" />,
         color: 'text-pink-500',
         bgColor:
@@ -122,7 +125,7 @@ export const Skills: React.FC = () => {
     ];
 
     return categories;
-  }, []);
+  }, [skills]);
 
   // Use custom in-view hook for animations
   const [containerRef, isContainerInView] = useInView({
