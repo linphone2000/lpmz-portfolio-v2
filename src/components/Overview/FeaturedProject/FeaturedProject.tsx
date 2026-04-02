@@ -13,6 +13,7 @@ import {
   ProjectPreview,
 } from './index';
 import { ProjectModal } from '@/components/Common/ProjectModal';
+import type { ProjectPreviewScreenshot } from '@/lib/types';
 
 export const FeaturedProject: React.FC = React.memo(() => {
   const {
@@ -59,11 +60,15 @@ export const FeaturedProject: React.FC = React.memo(() => {
         return screenshotArray[0].src;
       }
     }
-    if (
-      featuredProject?.preview?.screenshots &&
-      featuredProject.preview.screenshots.length > 0
-    ) {
-      return featuredProject.preview.screenshots[0].src;
+    const gallery = featuredProject?.preview?.screenshots as
+      | ProjectPreviewScreenshot[]
+      | undefined;
+    if (gallery && gallery.length > 0) {
+      const preferred =
+        gallery.find((s) => s.presentation === 'mobile') ??
+        gallery.find((s) => s.presentation !== 'web') ??
+        gallery[0];
+      return preferred.src;
     }
     return '/property-project/home1.png';
   }, [

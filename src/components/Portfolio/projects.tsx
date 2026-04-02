@@ -2,7 +2,7 @@
 
 import React, { useState, useCallback, useMemo } from 'react';
 import Image from 'next/image';
-import { Project } from '../../lib/types';
+import { Project, type ProjectPreviewScreenshot } from '../../lib/types';
 import { Card } from '../Common/Card';
 import { Badge } from '../Common/Badge';
 import { Button } from '../Common/Button';
@@ -213,9 +213,14 @@ export const Projects: React.FC = () => {
             let firstImage: string | undefined;
 
             if (isMobileProject) {
-              // Always use screenshots array, get up to 4 images
-              const allScreenshots = project.preview?.screenshots || [];
-              mobileImages = allScreenshots.slice(0, 4).map((s) => s.src);
+              const allScreenshots = (project.preview?.screenshots ||
+                []) as ProjectPreviewScreenshot[];
+              const mobileOnly = allScreenshots.filter(
+                (s) => s.presentation !== 'web'
+              );
+              const forCollage =
+                mobileOnly.length > 0 ? mobileOnly : allScreenshots;
+              mobileImages = forCollage.slice(0, 4).map((s) => s.src);
             } else {
               // Always use screenshots array, get first image
               firstImage = project.preview?.screenshot || undefined;

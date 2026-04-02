@@ -37,15 +37,24 @@ export interface Project {
           src: string;
           title: string;
           description: string;
+          presentation?: 'mobile' | 'web';
         }>;
     screenshots?: Array<{
       id: number;
       src: string;
       title: string;
       description: string;
+      /** When set, gallery uses phone frame (mobile) or flat web layout (web). */
+      presentation?: 'mobile' | 'web';
     }>;
+    /** Modal gallery: max columns at large breakpoints (default: 4 if all mobile shots, else 3). */
+    galleryLgColumns?: 3 | 4;
   };
 }
+
+export type ProjectPreviewScreenshot = NonNullable<
+  NonNullable<Project['preview']>['screenshots']
+>[number];
 
 // Experience types
 export interface Experience {

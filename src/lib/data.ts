@@ -96,7 +96,7 @@ export const DATA = {
   },
   projects: [
     {
-      name: 'SchoolFlow - Mobile School Operating System',
+      name: 'SchoolFlow - Mobile School Management System',
       stack: [
         'React Native',
         'Expo',
@@ -132,57 +132,57 @@ export const DATA = {
         screenshots: [
           {
             id: 1,
-            src: '/schoolflow-project/splash.png',
-            title: 'Splash',
-            description: 'Initial loading and branding screen.',
+            src: '/schoolflow-project/student home.png',
+            title: 'Student Home',
+            description: 'Student dashboard with daily learning highlights.',
           },
           {
             id: 2,
-            src: '/schoolflow-project/role select.png',
-            title: 'Role Select',
-            description: 'Entry point for selecting student or parent flow.',
-          },
-          {
-            id: 3,
-            src: '/schoolflow-project/school search.png',
-            title: 'School Search',
-            description: 'Find and connect to a school account.',
-          },
-          {
-            id: 4,
-            src: '/schoolflow-project/parent login.png',
-            title: 'Parent Login',
-            description: 'Authentication screen for parent users.',
-          },
-          {
-            id: 5,
             src: '/schoolflow-project/parent home.png',
             title: 'Parent Home',
             description: 'Parent dashboard with core quick actions.',
           },
           {
+            id: 3,
+            src: '/schoolflow-project/student course list.png',
+            title: 'Student Course List',
+            description: 'Course catalog and enrolled subjects.',
+          },
+          {
+            id: 4,
+            src: '/schoolflow-project/student course detail.png',
+            title: 'Student Course Detail',
+            description: 'Course detail with lesson and content access.',
+          },
+          {
+            id: 5,
+            src: '/schoolflow-project/student course detail lesson.png',
+            title: 'Student Course Lesson',
+            description: 'Detailed lesson screen inside a course.',
+          },
+          {
             id: 6,
-            src: '/schoolflow-project/parent chat list.png',
-            title: 'Parent Chat List',
-            description: 'Conversation list for parent communication.',
+            src: '/schoolflow-project/student assignments.png',
+            title: 'Student Assignments',
+            description: 'Assignment list and submission progress view.',
           },
           {
             id: 7,
-            src: '/schoolflow-project/parent chat detail.png',
-            title: 'Parent Chat Detail',
-            description: 'Detailed conversation view with message thread.',
+            src: '/schoolflow-project/student schedule.png',
+            title: 'Student Schedule',
+            description: 'Timetable and daily class schedule screen.',
           },
           {
             id: 8,
-            src: '/schoolflow-project/parent payment 1.png',
-            title: 'Parent Payment Overview',
-            description: 'Payment summary and fee tracking view.',
+            src: '/schoolflow-project/parent view child grade list.png',
+            title: 'Parent Child Grade List',
+            description: 'Grade listing and performance snapshot.',
           },
           {
             id: 9,
-            src: '/schoolflow-project/parent payment 2.png',
-            title: 'Parent Payment Detail',
-            description: 'Detailed fee/payment information screen.',
+            src: '/schoolflow-project/parent view child report card.png',
+            title: 'Parent Child Report Card',
+            description: 'Report card view for term-based results.',
           },
           {
             id: 10,
@@ -198,105 +198,105 @@ export const DATA = {
           },
           {
             id: 12,
-            src: '/schoolflow-project/parent view child grade list.png',
-            title: 'Parent Child Grade List',
-            description: 'Grade listing and performance snapshot.',
-          },
-          {
-            id: 13,
-            src: '/schoolflow-project/parent view child report card.png',
-            title: 'Parent Child Report Card',
-            description: 'Report card view for term-based results.',
-          },
-          {
-            id: 14,
-            src: '/schoolflow-project/parent submit child leave request 1.png',
-            title: 'Parent Leave Request Form',
-            description: 'Create a leave request for a child.',
-          },
-          {
-            id: 15,
-            src: '/schoolflow-project/parent submit child leave request 2.png',
-            title: 'Parent Leave Request Confirmation',
-            description: 'Review and submit leave request details.',
-          },
-          {
-            id: 16,
-            src: '/schoolflow-project/parent profile.png',
-            title: 'Parent Profile',
-            description: 'Parent account and profile management.',
-          },
-          {
-            id: 17,
-            src: '/schoolflow-project/student home.png',
-            title: 'Student Home',
-            description: 'Student dashboard with daily learning highlights.',
-          },
-          {
-            id: 18,
-            src: '/schoolflow-project/student schedule.png',
-            title: 'Student Schedule',
-            description: 'Timetable and daily class schedule screen.',
-          },
-          {
-            id: 19,
-            src: '/schoolflow-project/student assignments.png',
-            title: 'Student Assignments',
-            description: 'Assignment list and submission progress view.',
-          },
-          {
-            id: 20,
-            src: '/schoolflow-project/student course list.png',
-            title: 'Student Course List',
-            description: 'Course catalog and enrolled subjects.',
-          },
-          {
-            id: 21,
-            src: '/schoolflow-project/student course detail.png',
-            title: 'Student Course Detail',
-            description: 'Course detail with lesson and content access.',
-          },
-          {
-            id: 22,
-            src: '/schoolflow-project/student course detail lesson.png',
-            title: 'Student Course Lesson',
-            description: 'Detailed lesson screen inside a course.',
-          },
-          {
-            id: 23,
             src: '/schoolflow-project/student attendance submit.png',
             title: 'Student Attendance Submit',
             description: 'Attendance submission and confirmation flow.',
           },
           {
-            id: 24,
+            id: 13,
+            src: '/schoolflow-project/parent payment 1.png',
+            title: 'Parent Payment Overview',
+            description: 'Payment summary and fee tracking view.',
+          },
+          {
+            id: 14,
+            src: '/schoolflow-project/parent payment 2.png',
+            title: 'Parent Payment Detail',
+            description: 'Detailed fee/payment information screen.',
+          },
+          {
+            id: 15,
+            src: '/schoolflow-project/parent chat list.png',
+            title: 'Parent Chat List',
+            description: 'Conversation list for parent communication.',
+          },
+          {
+            id: 16,
+            src: '/schoolflow-project/parent chat detail.png',
+            title: 'Parent Chat Detail',
+            description: 'Detailed conversation view with message thread.',
+          },
+          {
+            id: 17,
+            src: '/schoolflow-project/parent submit child leave request 1.png',
+            title: 'Parent Leave Request Form',
+            description: 'Create a leave request for a child.',
+          },
+          {
+            id: 18,
+            src: '/schoolflow-project/parent submit child leave request 2.png',
+            title: 'Parent Leave Request Confirmation',
+            description: 'Review and submit leave request details.',
+          },
+          {
+            id: 19,
+            src: '/schoolflow-project/parent profile.png',
+            title: 'Parent Profile',
+            description: 'Parent account and profile management.',
+          },
+          {
+            id: 20,
             src: '/schoolflow-project/student profile.png',
             title: 'Student Profile',
             description: 'Student account and profile settings.',
           },
           {
-            id: 25,
+            id: 21,
             src: '/schoolflow-project/kid home.png',
             title: 'Kid Home',
             description: 'Kid-focused home screen experience.',
           },
           {
-            id: 26,
+            id: 22,
             src: '/schoolflow-project/kid classes.png',
             title: 'Kid Classes',
             description: 'Class list and session navigation for kids.',
           },
           {
-            id: 27,
+            id: 23,
             src: '/schoolflow-project/kid profile.png',
             title: 'Kid Profile',
             description: 'Kid profile and basic account information.',
           },
           {
-            id: 28,
+            id: 24,
             src: '/schoolflow-project/kid star.png',
             title: 'Kid Star',
             description: 'Rewards or achievement-oriented kid screen.',
+          },
+          {
+            id: 25,
+            src: '/schoolflow-project/splash.png',
+            title: 'Splash',
+            description: 'Initial loading and branding screen.',
+          },
+          {
+            id: 26,
+            src: '/schoolflow-project/role select.png',
+            title: 'Role Select',
+            description: 'Entry point for selecting student or parent flow.',
+          },
+          {
+            id: 27,
+            src: '/schoolflow-project/school search.png',
+            title: 'School Search',
+            description: 'Find and connect to a school account.',
+          },
+          {
+            id: 28,
+            src: '/schoolflow-project/parent login.png',
+            title: 'Parent Login',
+            description: 'Authentication screen for parent users.',
           },
         ],
       },
@@ -449,6 +449,7 @@ export const DATA = {
         'Admin workflows: KYC review, catalog + order tools, coupons & payment verification',
       ],
       preview: {
+        galleryLgColumns: 4 as const,
         platform: 'Mobile + Web + REST API',
         featurePills: [
           'Customer App',
@@ -465,6 +466,7 @@ export const DATA = {
             title: 'Home & Product Discovery',
             description:
               'Featured/trending, categories, and fast browsing with search suggestions.',
+            presentation: 'mobile' as const,
           },
           {
             id: 2,
@@ -472,6 +474,7 @@ export const DATA = {
             title: 'Welcome Carousel',
             description:
               'Intro/onboarding carousel for the customer experience.',
+            presentation: 'mobile' as const,
           },
           {
             id: 3,
@@ -479,12 +482,14 @@ export const DATA = {
             title: 'Authentication (Social/Register/Login)',
             description:
               'Register/login with social login and authentication scaffolding flows.',
+            presentation: 'mobile' as const,
           },
           {
             id: 4,
             src: '/yoyic-mobile/multiple%20language.png',
             title: 'Language & Settings',
             description: 'Language selection and settings UI entry.',
+            presentation: 'mobile' as const,
           },
           {
             id: 5,
@@ -492,6 +497,7 @@ export const DATA = {
             title: 'Shop & Product Detail',
             description:
               'Product detail gallery, variants, and stock status presentation.',
+            presentation: 'mobile' as const,
           },
           {
             id: 6,
@@ -499,6 +505,7 @@ export const DATA = {
             title: 'Cart & Quantity Controls',
             description:
               'Cart item management with quantity controls, swipe remove, and totals.',
+            presentation: 'mobile' as const,
           },
           {
             id: 7,
@@ -506,6 +513,7 @@ export const DATA = {
             title: 'Multi-step Checkout',
             description:
               'Address selection, coupon input, payment method, and order summary.',
+            presentation: 'mobile' as const,
           },
           {
             id: 8,
@@ -513,6 +521,7 @@ export const DATA = {
             title: 'Order History',
             description:
               'Order list with status badges/timeline and quick navigation to details.',
+            presentation: 'mobile' as const,
           },
           {
             id: 9,
@@ -520,18 +529,21 @@ export const DATA = {
             title: 'Order Detail & Tracking',
             description:
               'Tracking info, order items, and cancel flow entry points.',
+            presentation: 'mobile' as const,
           },
           {
             id: 10,
             src: '/yoyic-mobile/wishlist.png',
             title: 'Wishlist',
             description: 'Wishlist toggle and saved items browsing.',
+            presentation: 'mobile' as const,
           },
           {
             id: 11,
             src: '/yoyic-mobile/reviews.png',
             title: 'Reviews & Ratings',
             description: 'Submit and view product/shop reviews with rating UI.',
+            presentation: 'mobile' as const,
           },
           {
             id: 12,
@@ -539,6 +551,7 @@ export const DATA = {
             title: 'Notification & Account Settings',
             description:
               'Notification preferences, about, terms/privacy, and account tools.',
+            presentation: 'mobile' as const,
           },
           {
             id: 13,
@@ -546,12 +559,14 @@ export const DATA = {
             title: 'Push Notifications',
             description:
               'Expo-based notification receive flow (Android test working).',
+            presentation: 'mobile' as const,
           },
           {
             id: 14,
             src: '/yoyic-admin/login.png',
             title: 'Admin/Seller Login',
             description: 'Role-based access entry for admin and seller users.',
+            presentation: 'web' as const,
           },
           {
             id: 15,
@@ -559,6 +574,7 @@ export const DATA = {
             title: 'Dashboard Layout (Admin/Seller)',
             description:
               'Protected dashboard layout with quick entry to key management modules.',
+            presentation: 'web' as const,
           },
           {
             id: 16,
@@ -566,6 +582,7 @@ export const DATA = {
             title: 'Shop Onboarding & KYC Review',
             description:
               'Shop registration form, document upload, and review queue/status dashboard.',
+            presentation: 'web' as const,
           },
           {
             id: 17,
@@ -573,6 +590,7 @@ export const DATA = {
             title: 'Product Management',
             description:
               'Product CRUD, variants/SKUs, stock controls, and CSV bulk upload.',
+            presentation: 'web' as const,
           },
           {
             id: 18,
@@ -580,6 +598,7 @@ export const DATA = {
             title: 'Order Management',
             description:
               'Order filters, status updates, customer/order item views, and tracking updates.',
+            presentation: 'web' as const,
           },
           {
             id: 19,
@@ -587,6 +606,7 @@ export const DATA = {
             title: 'Order Detail (Seller Tools)',
             description:
               'Accept/reject workflow, shipment tracking, and delivery updates.',
+            presentation: 'web' as const,
           },
           {
             id: 20,
@@ -594,6 +614,7 @@ export const DATA = {
             title: 'Payment Verification Queue',
             description:
               'Pending transfers list with approve/reject actions and notes.',
+            presentation: 'web' as const,
           },
           {
             id: 21,
@@ -601,6 +622,7 @@ export const DATA = {
             title: 'Notification Center (Skeleton)',
             description:
               'Notification sending/scheduling/history UI scaffold (analytics pending).',
+            presentation: 'web' as const,
           },
           {
             id: 22,
@@ -608,6 +630,7 @@ export const DATA = {
             title: 'Banner/Carousel Management',
             description:
               'Create/edit/schedule homepage promotional banners and carousels.',
+            presentation: 'web' as const,
           },
           {
             id: 23,
@@ -615,6 +638,7 @@ export const DATA = {
             title: 'Homepage Promotion (Banner)',
             description:
               'Dedicated banner management view for promotional campaigns.',
+            presentation: 'web' as const,
           },
         ],
       },

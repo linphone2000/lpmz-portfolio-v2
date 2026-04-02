@@ -24,6 +24,37 @@ import {
 import { SectionDivider } from './SectionDivider';
 import { Project } from '../../lib/types';
 
+type PreviewScreenshot = NonNullable<
+  NonNullable<Project['preview']>['screenshots']
+>[number];
+
+function getScreenshotPresentation(
+  project: Project,
+  shot: PreviewScreenshot
+): 'mobile' | 'web' {
+  if (shot.presentation === 'mobile' || shot.presentation === 'web') {
+    return shot.presentation;
+  }
+  return project.category === 'Mobile Development' ? 'mobile' : 'web';
+}
+
+function galleryUsesMobileGrid(
+  project: Project,
+  shots: PreviewScreenshot[] | undefined
+): boolean {
+  if (!shots?.length) return false;
+  return shots.every((s) => getScreenshotPresentation(project, s) === 'mobile');
+}
+
+function getGalleryLgColumnCount(
+  project: Project,
+  shots: PreviewScreenshot[] | undefined
+): 3 | 4 {
+  const explicit = project.preview?.galleryLgColumns;
+  if (explicit === 3 || explicit === 4) return explicit;
+  return galleryUsesMobileGrid(project, shots) ? 4 : 3;
+}
+
 interface ProjectModalProps {
   isOpen: boolean;
   onClose: () => void;
@@ -64,6 +95,9 @@ export const ProjectModal: React.FC<ProjectModalProps> = React.memo(
       },
       []
     );
+
+    const galleryShots = project.preview?.screenshots;
+    const galleryLgCols = getGalleryLgColumnCount(project, galleryShots);
 
     return (
       <Modal isOpen={isOpen} onClose={onClose} title={project.name} size="xl">
@@ -297,15 +331,15 @@ export const ProjectModal: React.FC<ProjectModalProps> = React.memo(
           {/* Screenshots Gallery Tab */}
           {activeTab === 'gallery' && (
             <div className="space-y-4">
-              {/* Gallery Grid - 3 columns for web, 4 for mobile */}
+              {/* Gallery Grid - 3 or 4 columns at lg (override via preview.galleryLgColumns) */}
               <div
                 className={`grid gap-4 ${
-                  project.category === 'Mobile Development'
+                  galleryLgCols === 4
                     ? 'grid-cols-2 md:grid-cols-3 lg:grid-cols-4'
                     : 'grid-cols-1 md:grid-cols-2 lg:grid-cols-3'
                 }`}
               >
-                {project.preview?.screenshots?.map((screenshot, index) => (
+                {galleryShots?.map((screenshot, index) => (
                   <React.Fragment key={screenshot.id}>
                     <div
                       className="transition-all duration-300 ease-out"
@@ -314,8 +348,9 @@ export const ProjectModal: React.FC<ProjectModalProps> = React.memo(
                         animation: 'fadeInUp 0.3s ease-out forwards',
                       }}
                     >
-                      {/* Conditional rendering: PhoneFrame for mobile, regular image for web */}
-                      {project.category === 'Mobile Development' ? (
+                      {/* Per-screenshot presentation, or fall back from project category */}
+                      {getScreenshotPresentation(project, screenshot) ===
+                      'mobile' ? (
                         <PhoneFrame
                           src={screenshot.src}
                           alt={`${project.name} - ${screenshot.title}`}
@@ -346,21 +381,12 @@ export const ProjectModal: React.FC<ProjectModalProps> = React.memo(
                     </div>
 
                     {/* Add divider after every row */}
-                    {project.category === 'Mobile Development'
-                      ? (index + 1) % 4 === 0 &&
-                        index <
-                          (project.preview?.screenshots?.length || 0) - 1 && (
-                          <div className="col-span-full">
-                            <SectionDivider className="pb-4" />
-                          </div>
-                        )
-                      : (index + 1) % 3 === 0 &&
-                        index <
-                          (project.preview?.screenshots?.length || 0) - 1 && (
-                          <div className="col-span-full">
-                            <SectionDivider className="pb-4" />
-                          </div>
-                        )}
+                    {(index + 1) % galleryLgCols === 0 &&
+                      index < (galleryShots?.length || 0) - 1 && (
+                        <div className="col-span-full">
+                          <SectionDivider className="pb-4" />
+                        </div>
+                      )}
                   </React.Fragment>
                 ))}
               </div>
