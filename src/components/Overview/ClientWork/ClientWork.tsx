@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useMemo } from 'react';
+import React, { useMemo, useState } from 'react';
 import { useInView } from '@/hooks/useInView';
 import { Card } from '@/components/Common/Card';
 import { Badge } from '@/components/Common/Badge';
@@ -26,6 +26,9 @@ export const ClientWork: React.FC = () => {
   const {
     data: { about: portfolio, experience },
   } = usePortfolioData();
+  const [expandedDescriptions, setExpandedDescriptions] = useState<
+    Record<number, boolean>
+  >({});
   const [containerRef, isInView] = useInView({
     threshold: 0.1,
     triggerOnce: false,
@@ -75,11 +78,6 @@ export const ClientWork: React.FC = () => {
       }
       // Remove project name prefix if it appears in description
       description = description.replace(/^[^:]+:\s*/, '').trim();
-
-      // Truncate description to reasonable length
-      if (description.length > 150) {
-        description = description.substring(0, 150) + '...';
-      }
 
       // Determine icon based on project type
       let icon: React.ComponentType<{ className?: string }> =
@@ -162,6 +160,8 @@ export const ClientWork: React.FC = () => {
               {clientProjects.map((project, index) => {
                 const IconComponent = project.icon;
                 const isLeft = index % 2 === 0;
+                const isExpanded = Boolean(expandedDescriptions[index]);
+                const needsToggle = project.description.length > 135;
                 return (
                   <div
                     key={index}
@@ -192,44 +192,97 @@ export const ClientWork: React.FC = () => {
                         aria-hidden
                       />
 
-                      <Card className="relative overflow-hidden px-5 py-5 md:px-7 md:py-5 hover:shadow-xl transition-all duration-300 cursor-pointer transform hover:-translate-y-1">
-                        <div className="flex items-start gap-4">
-                          {/* Icon */}
-                          <div className="flex-shrink-0 mt-1">
-                            <div className="w-12 h-12 rounded-xl bg-primary-500/10 dark:bg-primary-900/30 flex items-center justify-center">
-                              <IconComponent className="w-6 h-6 text-primary-600 dark:text-primary-400" />
-                            </div>
-                          </div>
-
-                          {/* Content */}
-                          <div className="flex-1">
-                            <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 mb-3">
-                              <div>
-                                <h3 className="text-xl font-bold mb-1 text-neutral-900 dark:text-neutral-100">
-                                  {project.clientName}
-                                </h3>
-                                <Badge className="bg-primary-500/10 text-primary-700 dark:text-primary-300 w-fit">
-                                  {project.projectType}
-                                </Badge>
+                      <div
+                        className={needsToggle ? 'cursor-pointer' : ''}
+                        onClick={() => {
+                          if (!needsToggle) return;
+                          setExpandedDescriptions((prev) => ({
+                            ...prev,
+                            [index]: !prev[index],
+                          }));
+                        }}
+                        role={needsToggle ? 'button' : undefined}
+                        tabIndex={needsToggle ? 0 : undefined}
+                        onKeyDown={(
+                          event: React.KeyboardEvent<HTMLDivElement>
+                        ) => {
+                          if (!needsToggle) return;
+                          if (event.key === 'Enter' || event.key === ' ') {
+                            event.preventDefault();
+                            setExpandedDescriptions((prev) => ({
+                              ...prev,
+                              [index]: !prev[index],
+                            }));
+                          }
+                        }}
+                        aria-expanded={needsToggle ? isExpanded : undefined}
+                      >
+                        <Card className="relative overflow-hidden px-5 py-5 md:px-7 md:py-5 hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1">
+                          <div
+                            className={`flex items-start gap-4 ${
+                              isLeft ? 'md:flex-row-reverse md:text-right' : ''
+                            }`}
+                          >
+                            {/* Icon */}
+                            <div className="shrink-0 mt-1">
+                              <div className="w-12 h-12 rounded-xl bg-primary-500/10 dark:bg-primary-900/30 flex items-center justify-center">
+                                <IconComponent className="w-6 h-6 text-primary-600 dark:text-primary-400" />
                               </div>
                             </div>
-                            <p className="text-neutral-600 dark:text-neutral-300 leading-relaxed">
-                              {project.description}
-                            </p>
-                            {project.liveUrl && (
-                              <a
-                                href={project.liveUrl}
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                className="inline-flex items-center gap-2 mt-3 text-sm font-semibold text-primary-600 dark:text-primary-400 hover:text-primary-700 dark:hover:text-primary-300 transition-colors cursor-pointer group/link"
+
+                            {/* Content */}
+                            <div className="flex-1">
+                              <div
+                                className={`flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 mb-3 ${
+                                  isLeft ? 'md:justify-end' : ''
+                                }`}
                               >
-                                <ArrowTopRightOnSquareIcon className="w-4 h-4 group-hover/link:translate-x-0.5 group-hover/link:-translate-y-0.5 transition-transform" />
-                                Visit website
-                              </a>
-                            )}
+                                <div
+                                  className={
+                                    isLeft
+                                      ? 'md:flex md:flex-col md:items-end'
+                                      : ''
+                                  }
+                                >
+                                  <h3 className="text-xl font-bold mb-1 text-neutral-900 dark:text-neutral-100">
+                                    {project.clientName}
+                                  </h3>
+                                  <Badge className="bg-primary-500/10 text-primary-700 dark:text-primary-300 w-fit">
+                                    {project.projectType}
+                                  </Badge>
+                                </div>
+                              </div>
+                              <div className="relative">
+                                <div
+                                  className="overflow-hidden transition-all duration-300 ease-in-out"
+                                  style={{
+                                    maxHeight: isExpanded ? '220px' : '92px',
+                                    opacity: 1,
+                                  }}
+                                >
+                                  <p className="text-neutral-600 dark:text-neutral-300 leading-relaxed">
+                                    {project.description}
+                                  </p>
+                                </div>
+                                {!isExpanded && needsToggle && (
+                                  <div className="pointer-events-none absolute inset-x-0 bottom-0 h-8 bg-linear-to-t from-white to-transparent dark:from-neutral-900/95 dark:to-transparent" />
+                                )}
+                              </div>
+                              {project.liveUrl && (
+                                <a
+                                  href={project.liveUrl}
+                                  target="_blank"
+                                  rel="noopener noreferrer"
+                                  className="inline-flex items-center gap-2 mt-3 text-sm font-semibold text-primary-600 dark:text-primary-400 hover:text-primary-700 dark:hover:text-primary-300 transition-colors cursor-pointer group/link"
+                                >
+                                  <ArrowTopRightOnSquareIcon className="w-4 h-4 group-hover/link:translate-x-0.5 group-hover/link:-translate-y-0.5 transition-transform" />
+                                  Visit website
+                                </a>
+                              )}
+                            </div>
                           </div>
-                        </div>
-                      </Card>
+                        </Card>
+                      </div>
                     </div>
                   </div>
                 );

@@ -1,12 +1,6 @@
 'use client';
 
-import React, {
-  createContext,
-  useContext,
-  useEffect,
-  useMemo,
-  useState,
-} from 'react';
+import React, { createContext, useContext, useMemo } from 'react';
 
 import {
   fallbackPortfolioContent,
@@ -28,36 +22,10 @@ export const PortfolioDataProvider = ({
 }: {
   children: React.ReactNode;
 }) => {
-  const [data, setData] = useState<PortfolioCMSData>(fallbackPortfolioContent);
-  const [isLoading, setIsLoading] = useState(true);
-
-  useEffect(() => {
-    let mounted = true;
-
-    const load = async () => {
-      try {
-        const response = await fetch('/api/portfolio');
-        if (!response.ok) return;
-        const json = (await response.json()) as PortfolioCMSData;
-        if (mounted) {
-          setData(json);
-        }
-      } catch {
-        // Keep fallback state.
-      } finally {
-        if (mounted) {
-          setIsLoading(false);
-        }
-      }
-    };
-
-    load();
-    return () => {
-      mounted = false;
-    };
-  }, []);
-
-  const value = useMemo(() => ({ data, isLoading }), [data, isLoading]);
+  const value = useMemo(
+    () => ({ data: fallbackPortfolioContent, isLoading: false }),
+    []
+  );
   return (
     <PortfolioDataContext.Provider value={value}>
       {children}
