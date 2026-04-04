@@ -40,7 +40,7 @@ export const DATA = {
         'School Management System (Client: SchoolFlow): Delivered a completed mobile app experience for students, parents, and schools with attendance, assignments, schedule, grades, payments, chat, leave requests, and role-based dashboards.',
         'Multi-vendor E-Commerce Platform (Client: Yoyic): Developing an E-Commerce mobile app with React Native and Express.js.Established CI/CD pipelines for automated testing and deployment, and coordinated with frontend developer to ensure data integration between client app and admin panel.',
         'Education Platform (Client: Technortal): Built the core backend using Express.js and PostgreSQL. Implemented business logic for multi-role authentication, course enrollment, a gamified community forum (XP/Point system), and payment verification. Managed the SDLC by defining sprints and tasks for the frontend team of developer and designer.',
-        'Info Smart Campus (Client: Info Myanmar College): Managed the complete Apple App Store release process for Info Myanmar College, handling certification requirements, provisioning profiles, and ongoing version updates.',
+        'School Management System (Client: Info Smart Campus): Managed the complete Apple App Store release process for Info Myanmar College, handling certification requirements, provisioning profiles, and ongoing version updates.',
       ],
       technologies: [
         'Node.js',
