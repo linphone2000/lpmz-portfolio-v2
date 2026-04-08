@@ -69,7 +69,7 @@ export const ProjectsControls = ({
     }`;
 
   return (
-    <div className="rounded-2xl bg-white/70 dark:bg-neutral-900/30 p-3 sm:p-4">
+    <div className="rounded-2xl bg-white/80 dark:bg-neutral-900/70 border border-neutral-200/80 dark:border-neutral-700/90 shadow-sm dark:shadow-black/20 p-3 sm:p-1.5">
       <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 sm:items-center sm:justify-between">
         <div className="relative grid grid-cols-3 gap-1 rounded-xl p-1 bg-transparent min-w-[220px]">
           <span
@@ -96,16 +96,10 @@ export const ProjectsControls = ({
 
         <div className="flex sm:justify-end">
           <div ref={dropdownRef} className="relative min-w-[180px]">
-            <span
-              className="inline-flex items-center gap-1.5 text-xs font-semibold text-neutral-500 dark:text-neutral-400 mb-1"
-              aria-hidden
-            >
-              Order
-            </span>
             <button
               type="button"
               onClick={() => setIsSortOpen((prev) => !prev)}
-              className="w-full inline-flex items-center justify-between gap-2 rounded-xl bg-white dark:bg-neutral-800 px-3 py-2 text-sm font-semibold text-neutral-800 dark:text-neutral-100 transition-colors duration-200 hover:bg-neutral-50 dark:hover:bg-neutral-700"
+              className="w-full inline-flex items-center justify-between gap-2 rounded-xl bg-white dark:bg-neutral-800 px-3 py-2 text-sm font-semibold text-neutral-800 dark:text-neutral-100 border border-neutral-200/80 dark:border-neutral-700 transition-colors duration-200 hover:bg-neutral-50 dark:hover:bg-neutral-700"
               aria-expanded={isSortOpen}
               aria-haspopup="listbox"
             >
@@ -121,7 +115,7 @@ export const ProjectsControls = ({
             </button>
 
             <div
-              className={`absolute right-0 mt-2 w-full origin-top rounded-xl bg-white dark:bg-neutral-900 p-1.5 shadow-lg z-20 transition-all duration-150 ${
+              className={`absolute right-0 mt-2 w-full origin-top rounded-xl bg-white dark:bg-neutral-900 border border-neutral-200/80 dark:border-neutral-700 p-1.5 shadow-lg z-20 transition-all duration-150 ${
                 isSortOpen
                   ? 'opacity-100 scale-100 translate-y-0 pointer-events-auto'
                   : 'opacity-0 scale-95 -translate-y-1 pointer-events-none'
