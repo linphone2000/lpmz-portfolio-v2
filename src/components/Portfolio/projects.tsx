@@ -12,22 +12,21 @@ import { useInView } from '../../hooks/useInView';
 import {
   CodeBracketIcon,
   EyeIcon,
-  FunnelIcon,
-  ArrowsUpDownIcon,
   PhotoIcon,
   ChevronLeftIcon,
   ChevronRightIcon,
 } from '@heroicons/react/24/outline';
 import { PhoneFrame } from '../Common/PhoneFrame';
 import { usePortfolioData } from '@/providers/PortfolioDataProvider';
+import { ProjectsControls } from './projects-controls';
 
-type SortOption = 'order' | 'year' | 'name' | 'category';
-type FilterOption =
-  | 'all'
-  | 'Mobile Development'
-  | 'AI & Computer Vision'
-  | 'Full-Stack Development'
-  | 'Web Development';
+type SortOption = 'order' | 'year' | 'name';
+type FilterOption = 'all' | 'mobile' | 'web';
+
+const isMobileProject = (project: Pick<Project, 'category' | 'stack'>) =>
+  project.category === 'Mobile Development' ||
+  project.stack.includes('React Native') ||
+  project.stack.includes('Expo');
 
 export const Projects = () => {
   const {
@@ -37,7 +36,6 @@ export const Projects = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [sortBy, setSortBy] = useState<SortOption>('order');
   const [filterBy, setFilterBy] = useState<FilterOption>('all');
-  const [showFilters, setShowFilters] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 3;
 
@@ -51,9 +49,11 @@ export const Projects = () => {
   const filteredAndSortedProjects = useMemo(() => {
     let filtered = projects;
 
-    // Filter by category
-    if (filterBy !== 'all') {
-      filtered = filtered.filter((project) => project.category === filterBy);
+    // Filter by project platform type
+    if (filterBy === 'mobile') {
+      filtered = filtered.filter((project) => isMobileProject(project));
+    } else if (filterBy === 'web') {
+      filtered = filtered.filter((project) => !isMobileProject(project));
     }
 
     // Sort projects
@@ -65,8 +65,6 @@ export const Projects = () => {
           return b.year - a.year; // Newest first
         case 'name':
           return a.name.localeCompare(b.name);
-        case 'category':
-          return a.category.localeCompare(b.category);
         default:
           return 0;
       }
@@ -99,14 +97,6 @@ export const Projects = () => {
   const handlePageChange = useCallback((page: number) => {
     setCurrentPage(page);
   }, []);
-
-  // Get unique categories for filter
-  const categories = useMemo(() => {
-    const uniqueCategories = Array.from(
-      new Set(projects.map((p) => p.category))
-    );
-    return uniqueCategories;
-  }, [projects]);
 
   // Memoized callbacks
   const handleProjectClick = useCallback((project: Project) => {
@@ -145,51 +135,12 @@ export const Projects = () => {
 
         {/* Filter and Sort Controls */}
         <div className="mb-8">
-          <div className="flex flex-col sm:flex-row gap-4 items-center justify-between">
-            <div className="flex items-center gap-4">
-              <Button
-                onClick={() => setShowFilters(!showFilters)}
-                variant="ghost"
-                className="flex items-center gap-2 cursor-pointer"
-              >
-                <FunnelIcon className="w-4 h-4" />
-                Filters
-              </Button>
-
-              {showFilters && (
-                <div className="flex flex-wrap gap-2">
-                  <select
-                    value={filterBy}
-                    onChange={(e) =>
-                      handleFilterChange(e.target.value as FilterOption)
-                    }
-                    className="px-3 py-1 text-sm rounded-lg border border-neutral-200 dark:border-neutral-700 bg-white dark:bg-neutral-800 text-neutral-900 dark:text-neutral-100"
-                  >
-                    <option value="all">All Categories</option>
-                    {categories.map((category) => (
-                      <option key={category} value={category}>
-                        {category}
-                      </option>
-                    ))}
-                  </select>
-                </div>
-              )}
-            </div>
-
-            <div className="flex items-center gap-2">
-              <ArrowsUpDownIcon className="w-4 h-4 text-neutral-500" />
-              <select
-                value={sortBy}
-                onChange={(e) => handleSortChange(e.target.value as SortOption)}
-                className="px-3 py-1 text-sm rounded-lg border border-neutral-200 dark:border-neutral-700 bg-white dark:bg-neutral-800 text-neutral-900 dark:text-neutral-100"
-              >
-                <option value="order">CMS order</option>
-                <option value="year">Sort by Year</option>
-                <option value="name">Sort by Name</option>
-                <option value="category">Sort by Category</option>
-              </select>
-            </div>
-          </div>
+          <ProjectsControls
+            filterBy={filterBy}
+            sortBy={sortBy}
+            onFilterChange={handleFilterChange}
+            onSortChange={handleSortChange}
+          />
         </div>
 
         <div
@@ -201,16 +152,13 @@ export const Projects = () => {
           }`}
         >
           {paginatedProjects.map((project, index) => {
-            const isMobileProject =
-              project.category === 'Mobile Development' ||
-              project.stack.includes('React Native') ||
-              project.stack.includes('Expo');
+            const mobileProject = isMobileProject(project);
 
             // For mobile projects, get first 3 images; for web, get first image
             let mobileImages: string[] = [];
             let firstImage: string | undefined;
 
-            if (isMobileProject) {
+            if (mobileProject) {
               const allScreenshots = (project.preview?.screenshots ||
                 []) as ProjectPreviewScreenshot[];
               const mobileOnly = allScreenshots.filter(
@@ -229,7 +177,7 @@ export const Projects = () => {
                 key={index}
                 project={project}
                 index={index}
-                isMobileProject={isMobileProject}
+                isMobileProject={mobileProject}
                 mobileImages={mobileImages}
                 firstImage={firstImage}
                 handleProjectClick={handleProjectClick}
