@@ -10,9 +10,7 @@ import { ProjectModal } from '../Common/ProjectModal';
 import { SectionDivider } from '../Common/SectionDivider';
 import { useInView } from '../../hooks/useInView';
 import {
-  CalendarIcon,
   CodeBracketIcon,
-  CheckCircleIcon,
   EyeIcon,
   FunnelIcon,
   ArrowsUpDownIcon,
@@ -381,12 +379,12 @@ const ProjectCard: React.FC<{
             ))}
             {project.highlight && (
               <div className="absolute top-3 right-3 z-10">
-                <Badge className="!bg-primary-500 !text-white !text-sm !font-bold !px-3 !py-1.5 !shadow-xl !border-0">
+                <Badge className="bg-primary-500! text-white! text-sm! font-bold! px-3! py-1.5! shadow-xl! border-0!">
                   Featured
                 </Badge>
               </div>
             )}
-            <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-0" />
+            <div className="absolute inset-0 bg-linear-to-t from-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-0" />
           </div>
         ) : firstImage ? (
           <div className="relative w-full h-48 overflow-hidden bg-neutral-100 dark:bg-neutral-800">
@@ -411,15 +409,15 @@ const ProjectCard: React.FC<{
             )}
             {project.highlight && (
               <div className="absolute top-3 right-3 z-20">
-                <Badge className="!bg-primary-500 !text-white !text-sm !font-bold !px-3 !py-1.5 !shadow-xl !border-0">
+                <Badge className="bg-primary-500! text-white! text-sm! font-bold! px-3! py-1.5! shadow-xl! border-0!">
                   Featured
                 </Badge>
               </div>
             )}
-            <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-0" />
+            <div className="absolute inset-0 bg-linear-to-t from-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-0" />
           </div>
         ) : (
-          <div className="relative w-full h-48 overflow-hidden bg-gradient-to-br from-neutral-100 to-neutral-200 dark:from-neutral-800 dark:to-neutral-900 flex items-center justify-center">
+          <div className="relative w-full h-48 overflow-hidden bg-linear-to-br from-neutral-100 to-neutral-200 dark:from-neutral-800 dark:to-neutral-900 flex items-center justify-center">
             <CodeBracketIcon className="w-12 h-12 text-neutral-400 dark:text-neutral-600" />
             {project.highlight && (
               <div className="absolute top-3 right-3">
@@ -431,46 +429,13 @@ const ProjectCard: React.FC<{
           </div>
         )}
 
-        <div className="flex-1 p-5">
-          <div className="mb-3">
-            <h3 className="text-lg font-bold text-neutral-900 dark:text-neutral-100 group-hover:text-primary-600 dark:group-hover:text-primary-400 transition-colors mb-2">
-              {project.name}
-            </h3>
-            <div className="flex items-center gap-2 text-xs text-neutral-500 dark:text-neutral-400">
-              <CalendarIcon className="w-3 h-3" />
-              <span>{project.year}</span>
-              <span>•</span>
-              <span>{project.category}</span>
-            </div>
-          </div>
-
-          <p className="text-neutral-600 dark:text-neutral-300 mb-4 text-sm leading-relaxed line-clamp-3">
+        <div className="flex-1 p-5 flex flex-col">
+          <h3 className="text-lg font-bold text-neutral-900 dark:text-neutral-100 group-hover:text-primary-600 dark:group-hover:text-primary-400 transition-colors mb-2">
+            {project.name}
+          </h3>
+          <p className="text-neutral-600 dark:text-neutral-300 text-sm leading-relaxed line-clamp-2 mb-4">
             {project.blurb}
           </p>
-
-          <div className="flex items-center gap-2 mb-4 text-xs text-neutral-500 dark:text-neutral-400">
-            <CheckCircleIcon className="w-3 h-3" />
-            <span>{project.features.length} features</span>
-            <span>•</span>
-            <CodeBracketIcon className="w-3 h-3" />
-            <span>{project.stack.length} technologies</span>
-          </div>
-
-          <div className="flex flex-wrap gap-1">
-            {project.stack.slice(0, 3).map((tech) => (
-              <Badge
-                key={tech}
-                className="text-xs bg-neutral-100 dark:bg-neutral-800 hover:bg-primary-100 dark:hover:bg-primary-900/30 transition-colors"
-              >
-                {tech}
-              </Badge>
-            ))}
-            {project.stack.length > 3 && (
-              <Badge className="text-xs bg-neutral-100 dark:bg-neutral-800">
-                +{project.stack.length - 3} more
-              </Badge>
-            )}
-          </div>
         </div>
 
         <div className="px-5 pb-5">

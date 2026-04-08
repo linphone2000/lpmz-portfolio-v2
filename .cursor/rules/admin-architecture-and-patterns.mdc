@@ -1,0 +1,155 @@
+---
+alwaysApply: true
+---
+
+# Architecture & Patterns (yoyic-admin)
+
+Project setup, API services, state management, authentication, navigation, and code quality. Single source of truth for data flow and backend integration.
+
+---
+
+## Project Setup
+
+### Tech Stack
+- Next.js 16, React 19, TypeScript (strict mode)
+- Tailwind CSS, React Query (TanStack Query), Zustand, JWT authentication
+
+### Architecture Flow
+```
+UI Components → React Query Hooks → API Services → API Client → Network
+                                     ↓
+                                 Zustand Store
+```
+
+### Folder Structure
+- `/app` – Next.js App Router pages and layouts
+- `/components` – UI components
+- `/services` – API services (pure async functions)
+- `/stores` – Zustand stores (synchronous state)
+- `/hooks` – React Query and custom hooks
+- `/utils` – Helper functions
+- `/types` – TypeScript interfaces
+- `/lib` – Shared logic (apiClient, etc.)
+
+### Path Alias & TypeScript
+- Always use `@/` alias (never relative paths)
+- Never use `any`; define interfaces in `/types`; use type inference where possible
+
+---
+
+## API Service Patterns
+
+### API Client
+- Use axios. Base URL: `NEXT_PUBLIC_API_BASE_URL` (host root only). `apiClient` appends `/api/`. Use `NEXT_PUBLIC_API_BASE_URL` directly for health checks (e.g. `${NEXT_PUBLIC_API_BASE_URL}/health`).
+- Auth: `Authorization: Bearer <token>` (Postman Bearer auth type). Read token from cookie or localStorage on each request (client-side).
+- Return `ApiResponse<T>` with `{ resCode, message, data }`; throw plain `Error`. On 401/403: delete token, call `onAuthError?.()`, throw.
+
+### API Paths
+- Source of truth: `docs/Yoyic E-Commerce API.postman_collection.json`. Path constants: `services/apiPaths.ts` (`API_PATHS`). Use these in services so paths stay in sync with Postman.
+
+### Services
+- Location: `/services/[resource]Service.ts`. Pure async functions; no React, hooks, or Zustand. Never update UI or global state; return data only. Use `apiClient` and `API_PATHS`; return `ApiResponse<T>`. Server Components can call services directly (no hooks).
+
+```typescript
+export const userService = {
+  getUsers: async (params?: GetUsersParams): Promise<ApiResponse<{ users: User[] }>> => {
+    return await apiClient.get<{ users: User[] }>("/users", params);
+  },
+};
+```
+
+### React Query Hooks
+- **Use directly in components when:** simple wrapper, single use, no Zustand, no complex cache.
+- **Create separate hook files (`/hooks`) when:** Zustand updates, token storage, query invalidation/cache, reuse, or complex logic.
+
+```typescript
+// Direct use (simple case)
+const { mutate, isPending } = useMutation({
+  mutationFn: async (data) => {
+    const response = await transferService.submitTransfer(data);
+    return response.data;
+  },
+});
+
+// Separate hook file (needs Zustand or reuse)
+export function useDeleteUser() {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: async (id: number) => {
+      const response = await userService.deleteUser(id);
+      return response.data;
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["users"] });
+    },
+  });
+}
+```
+
+### Error Handling & Filtering
+- Use `handleApiError()` for user-facing messages; apiClient throws plain `Error`. Never show technical errors to users.
+- **Server-side filtering:** Always prefer API query params for search, status, filters. Do not fetch all data and filter in the browser (except tiny static sets).
+
+---
+
+## State Management (Zustand)
+
+- Location: `/stores`. Pure synchronous state (no service imports, no async). State + setters only; updated by React Query hooks.
+- Use selectors: `useAuthStore((state) => state.user)`. For computed arrays/objects use `useMemo` in components; avoid selectors that return new arrays/objects (infinite loops).
+- Use stores only in Client Components (`"use client"`). Server Components: pass data as props or fetch in component.
+
+```typescript
+interface MyStore {
+  items: Item[];
+  isLoading: boolean;
+  setItems: (items: Item[]) => void;
+  setIsLoading: (value: boolean) => void;
+  clearStore: () => void;
+}
+```
+
+---
+
+## Authentication
+
+- **Token:** cookie or localStorage (prefer cookie for middleware). apiClient reads token each request; on 401/403 deletes token, calls `onAuthError?.()`. Use `js-cookie` or `document.cookie` for middleware.
+- **Auth service:** `/services/authService.ts` – pure async; return `ApiResponse<T>` only. Methods: `login`, `register`, `getCurrentUser`.
+- **Auth store:** `user`, `isAuthenticated`, `isLoading`; setters and `clearAuth()`; updated by hooks only.
+- **Hooks:** `/hooks/useAuth.ts` – `useLogin`, `useRegister`, `useLogout`, `useCheckAuth`, `useGetCurrentUser`; handle token in cookie/localStorage; update Zustand on success.
+- Set `onAuthError` in root layout to call `clearAuth()`. Use `middleware.ts` for path redirects: unauthenticated → `/login`, authenticated from `/login` → `/dashboard`.
+
+```typescript
+const { mutateAsync: login, isPending } = useLogin();
+await login(credentials, {
+  onSuccess: () => router.replace("/dashboard"),
+  onError: (error) => toast.error(handleApiError(error)),
+});
+```
+
+---
+
+## Navigation (Next.js App Router)
+
+- **Public:** `(auth)/login` (and register). **Protected:** `(dashboard)/` with layout (sidebar, header). Check `isLoading` before `isAuthenticated` to prevent flash.
+- **Root layout:** Providers (QueryClientProvider, setOnAuthError for clearAuth). Route groups: `(auth)` login/register; `(dashboard)` protected with sidebar/header.
+- **Guards:** Middleware checks cookie/token; redirects as above. Layouts can use `useCheckAuth()` for client-side fallback.
+- **Modals:** `(modal)` route group or Radix Dialog; intercepting routes e.g. `@modal/(.)dashboard/product/[id]` for parallel modals.
+
+---
+
+## Code Quality
+
+- **Principles:** Start simple; avoid premature abstractions (wait for 3+ use cases). Prefer explicit over clever. Type everything; no `any`. Keep components small. Run `npm run check` for linter/type/format only at the end when needed.
+- **Imports:** `@/` only; order: React → third-party → internal (`@/` grouped by type).
+- **Components:** `export default function`; Tailwind only; `useCallback`/`useMemo` for expensive work; avoid inline functions in render.
+- **Performance:** Use virtualization (`@tanstack/react-virtual`) for long lists; check `useEffect` dependencies to avoid loops.
+
+---
+
+## Industrial Best Practices
+
+- **API layer:** One client, one response shape (`ApiResponse<T>`), one error path (plain `Error` + `handleApiError`). Keep paths in constants to avoid drift from backend/Postman.
+- **State:** Clear separation: services (async, no UI), hooks (orchestrate + update stores), stores (sync state only). No business logic in stores.
+- **Auth:** Token in one place (cookie or localStorage); single `onAuthError` contract; middleware for route protection so behavior is predictable and testable.
+- **Navigation:** Route groups and middleware as single source of truth for protected vs public; avoid duplicating auth checks in every page.
+- **Maintainability:** Prefer consistent patterns (e.g. when to put hooks in component vs `/hooks`) so the codebase stays predictable as it grows.

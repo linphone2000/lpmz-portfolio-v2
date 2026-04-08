@@ -1447,9 +1447,16 @@ export const DATA = {
   // Add achievements and milestones
   achievements: [
     {
-      title: 'Delivered a comprehensive learning platform for \"Technortal\"',
+      title: 'Delivered SchoolFlow mobile platform',
       description:
-        'Architected the complete backend infrastructure, managed project delivery, and coordinated development tasks with the frontend team',
+        'Completed a school management app experience for students, parents, and schools with attendance, assignments, schedule, grades, payments, chat, and leave workflows',
+      year: 2026,
+      category: 'Professional',
+    },
+    {
+      title: 'Building Yoyic multi-vendor commerce system',
+      description:
+        'Developing customer mobile app, seller/admin workflows, and backend APIs with CI/CD and coordinated integration across client and admin products',
       year: 2025,
       category: 'Professional',
     },

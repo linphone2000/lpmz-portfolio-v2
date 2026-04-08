@@ -1,0 +1,110 @@
+---
+alwaysApply: true
+---
+
+# UI & Components (yoyic-admin)
+
+Components, UI/UX patterns, theming, confirmation modals, and tooltips. Central source of truth for visual and interaction consistency.
+
+---
+
+## Component Guidelines
+
+### Server vs Client
+- **Server Components:** default, no `"use client"`, can async fetch; no hooks or browser APIs.
+- **Client Components:** add `"use client"` when using hooks, browser APIs, or event handlers. Data flow: Server passes data to Client as props.
+
+### Component Pattern
+- `export default function` (not arrow functions); props interface `ComponentNameProps`. Tailwind only (no inline styles). `useCallback`/`useMemo` for expensive work in Client Components. Split or extract helpers if file exceeds ~300 lines.
+
+### Page Structure
+- Semantic layout: `<main>`, `<header>`, `<nav>`, `<article>`. Admin: sidebar, header, content. Tailwind: `min-h-screen`, `p-4`, `space-y-4`, `container`; `bg-background` or `bg-zinc-50 dark:bg-zinc-900`. Content: `p-4` or `px-4 py-6`.
+
+### Forms & React Query
+- Use `<form>` with `onSubmit`; Client Components for form state and validation. Use React Query in Client: `isPending`/`isLoading`, `error`, navigation in `onSuccess`/`onError`; show loading until data arrives.
+
+### Modals
+- Location: `components/Modals/` by feature. Radix Dialog or portal. Screen owns visibility (`open`, `onClose`, data); modal owns form state, validation, mutations.
+- **Modals** for: critical confirmations, irreversible actions, complex/multi-step flows. **Toasts** for: success feedback, non-critical updates, non-blocking errors.
+
+### Loading
+- **ListLoading** (`@/components/Loading/ListLoading`): list/table pages (Shops, Products, Categories, Orders, Coupons, Refunds, Reviews, Payment Methods, Users). Table-style shimmer.
+- **DetailsLoading** (`@/components/Loading/DetailsLoading`): detail/form pages (order detail, product form edit, profile, shop detail, etc.). Card-style shimmer. Do not use ad-hoc "Loading…" or lone spinners for list/detail content.
+
+---
+
+## Theming
+
+- Theme in `app/globals.css`: `:root` and `.dark`; variables `--background`, `--foreground`, `--card`, `--primary`, `--destructive`, `--border`, `--muted`. Use `dark:` prefix; optional theme store + cookie. **Always use theme colors (never hardcoded hex).**
+- Status: emerald / amber / rose / indigo with `/10` background and border for glass look (e.g. `bg-emerald-500/10 text-emerald-600 border-emerald-500/20`).
+
+---
+
+## UI/UX Guidelines
+
+### Core Principles
+1. **Consistency:** Semantic utility classes (e.g. `.text-h1`, `.text-overline`); no arbitrary font sizes.
+2. **Hierarchy:** Typography and color (foreground vs muted).
+3. **Feedback:** Hover/active states and transitions; all clickable elements MUST have `cursor-pointer`.
+4. **Accessibility:** Sufficient contrast, semantic HTML, ARIA where needed.
+
+### Typography (strict scale)
+
+| Element        | Class            | Usage                          |
+|----------------|------------------|--------------------------------|
+| Display        | `.text-display`  | Marketing headers, major stats |
+| Page Title     | `.text-h1`       | Page main headings             |
+| Section Title  | `.text-h2`       | Card headers, modal titles     |
+| Subsection     | `.text-h3`       | Inner card sections            |
+| Body           | `.text-body`     | Default paragraph text         |
+| Small          | `.text-small`    | Helper text, secondary info    |
+| Overline       | `.text-overline` | Labels, column headers, badges  |
+| Mono           | `.font-mono`     | IDs, SKUs, code                |
+
+### Colors & Spacing
+- **Backgrounds:** `bg-background`, `bg-card`, `bg-muted`. **Text:** `text-foreground`, `text-muted-foreground`, `text-primary`, `text-destructive`. **Borders:** `border-border`, `border-input-border`.
+- **Page:** `p-4 space-y-6 md:p-6`. **Card:** `p-4` or `p-6`. **Gap:** `gap-2`–`gap-6`. **Radius:** `rounded-xl` (cards/inputs), `rounded-2xl` (modals), `rounded-lg` (inner). **Shadows:** `shadow-sm`, `shadow-md`, `shadow-xl`.
+
+### Component Patterns
+- **Buttons:** `h-10` or `h-8`; primary/secondary/ghost/icon; `cursor-pointer`. Primary action (header): `h-10 px-5 py-2.5 rounded-full`, `shadow-sm`, PlusIcon for create.
+- **Inputs:** `w-full rounded-xl border border-input-border bg-background px-4 py-2.5`; focus ring `focus:border-primary focus:ring-2 focus:ring-primary/10 outline-none`. Label: `text-sm font-medium text-foreground mb-1.5`.
+- **Cards:** `bg-card border border-border rounded-xl shadow-sm`; header `border-b border-border p-4`; content `p-4` or `p-6`.
+- **Modals:** Overlay `bg-black/40 backdrop-blur-sm fixed inset-0 z-50`; container `bg-card border border-border shadow-xl rounded-2xl max-w-lg`; use `animate-modal-in` and `animate-overlay-in`.
+- **Status badges:** `inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-medium border`; transparent-glass (`/10` bg) with border; emerald/amber/rose/blue for status.
+
+### Tables & Listings
+- **Layout:** `<main className="space-y-6">`; header flex `justify-between items-center`; container `.rounded-2xl border border-border bg-card/80 p-5`; table wrapper `.overflow-x-auto rounded-xl border border-border bg-background/40`.
+- **Filter row:** `mb-6 flex flex-wrap items-end gap-3`. Order: search → filters → clear (icon only when `hasActiveFilters`) → spacer `flex-1 min-w-4` → refresh. Clear: icon only, `XMarkIcon`, `title="Clear filters"`. Refresh: `ArrowPathIcon`, spin when fetching, `title="Refresh …"`.
+- **Table:** Header `.text-[0.65rem] uppercase tracking-[0.2em] text-muted-foreground`; rows `hover:bg-muted/50`; cells `px-4 py-3`. **Never** combine image and name in one cell; use separate image column (e.g. `w-16`). Empty: single row with `colSpan`. Actions: Eye/Pencil/Trash with hover.
+- **Pagination:** Use **PageNavigation** (`@/components/Pagination/PageNavigation`) with **default props** (no custom `label`/`variant`). Pass `currentPage` and `totalPages` from API `meta` when available; only render when `totalPages > 1`.
+
+---
+
+## Confirmation Modals (ConfirmModal)
+
+Use **ConfirmModal** (`@/components/Feedback/ConfirmModal`) only for destructive, irreversible, or consequential actions.
+
+- **Use for:** Delete (category, product, coupon, user deactivation, etc.), cancel order, reject payment; status changes that end a flow (e.g. mark order cancelled/returned); bulk/admin actions (approve/reject shop, moderate review).
+- **Do not use for:** Normal create/edit (use toasts); navigation/filters; reversible actions with undo.
+
+**Pattern:** Local state for visibility (e.g. `confirmAction: null | "cancelled"`). Pass `title`, `message`, `confirmLabel`, `cancelLabel`, `onConfirm`, `onCancel`, `variant="destructive"` for destructive. In `onConfirm`: run mutation, toast, then clear state to close.
+
+---
+
+## Tooltips
+
+Use **Tooltip** (`@/components/Feedback/Tooltip`) to clarify without cluttering. Radix-based; Geist-style placement/delay.
+
+- **Use for:** Icon-only buttons (pair with `aria-label` and same text in tooltip); truncated text or abbreviations (full text in tooltip); secondary controls (e.g. "Copy ID").
+- **Do not use for:** Buttons/links with visible text; critical info that must always be visible.
+
+**Pattern:** `<Tooltip content="Label text">` wrapping trigger; default `side="top"`, `sideOffset={6}`, `delayDuration={300}`. Keep `aria-label` and tooltip `content` in sync for icon buttons.
+
+---
+
+## Industrial Best Practices
+
+- **Design system:** One typography scale, one color token set, one spacing/radius/shadow system. Avoid one-off values so the UI stays consistent and theming stays maintainable.
+- **Accessibility:** Semantic HTML first; sufficient contrast; focus states and keyboard flow; icon-only controls get visible labels (tooltip + aria-label). Test with keyboard and screen reader when adding new patterns.
+- **Tables:** Same structure and filter row order on every list page so behavior is predictable and components can be reused. Server-side filtering and pagination only; no frontend-only filtering of large datasets.
+- **Feedback:** Clear rule: modals for high-stakes confirmations, toasts for result feedback. Use ListLoading/DetailsLoading instead of ad-hoc spinners so loading UX is consistent.
