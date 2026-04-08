@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useCallback, useMemo } from 'react';
+import { useState, useCallback, useMemo, useEffect } from 'react';
 import Image from 'next/image';
 import { Project, type ProjectPreviewScreenshot } from '../../lib/types';
 import { Card } from '../Common/Card';
@@ -29,7 +29,7 @@ type FilterOption =
   | 'Full-Stack Development'
   | 'Web Development';
 
-export const Projects: React.FC = () => {
+export const Projects = () => {
   const {
     data: { projects },
   } = usePortfolioData();
@@ -74,7 +74,7 @@ export const Projects: React.FC = () => {
   }, [sortBy, filterBy, projects]);
 
   // Reset to page 1 when filters or sort changes
-  React.useEffect(() => {
+  useEffect(() => {
     setCurrentPage(1);
   }, [sortBy, filterBy]);
 
@@ -338,20 +338,20 @@ export const Projects: React.FC = () => {
 };
 
 // Separate component for project cards to handle loading state properly
-const ProjectCard: React.FC<{
-  project: Project;
-  index: number;
-  isMobileProject: boolean;
-  mobileImages: string[];
-  firstImage?: string;
-  handleProjectClick: (project: Project) => void;
-}> = ({
+const ProjectCard = ({
   project,
   index,
   isMobileProject,
   mobileImages,
   firstImage,
   handleProjectClick,
+}: {
+  project: Project;
+  index: number;
+  isMobileProject: boolean;
+  mobileImages: string[];
+  firstImage?: string;
+  handleProjectClick: (project: Project) => void;
 }) => {
   const [isImageLoading, setIsImageLoading] = useState(true);
 

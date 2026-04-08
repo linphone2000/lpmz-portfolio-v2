@@ -1,21 +1,17 @@
 'use client';
 
-import React, { useState, useCallback, useMemo } from 'react';
+import { useState, useCallback, useMemo } from 'react';
 import { Button } from '@/components/Common/Button';
 import { SectionDivider } from '@/components/Common/SectionDivider';
+import { Badge } from '@/components/Common/Badge';
 
 import { useInView } from '@/hooks/useInView';
 import { usePortfolioData } from '@/providers/PortfolioDataProvider';
-import {
-  ProjectHeader,
-  ProjectFeatures,
-  ProjectTechStack,
-  ProjectPreview,
-} from './index';
+import { ProjectPreview } from './ProjectPreview';
 import { ProjectModal } from '@/components/Common/ProjectModal';
 import type { ProjectPreviewScreenshot } from '@/lib/types';
 
-export const FeaturedProject: React.FC = React.memo(() => {
+export const FeaturedProject = () => {
   const {
     data: { projects },
   } = usePortfolioData();
@@ -107,39 +103,55 @@ export const FeaturedProject: React.FC = React.memo(() => {
             }`}
           >
             {/* Animated border container */}
-            <div className="relative rounded-2xl p-[2px] bg-gradient-to-r from-primary-500 to-secondary-500 animate-gradient-x">
+            <div className="relative rounded-2xl p-[2px] bg-linear-to-r from-primary-500 to-secondary-500 animate-gradient-x">
               <div className="bg-white dark:bg-neutral-900 rounded-2xl p-10">
-                <div className="grid md:grid-cols-[1.2fr_.8fr] gap-12">
+                <div className="grid md:grid-cols-[1.15fr_.85fr] gap-10 items-center">
                   {/* Left side - Project details */}
                   <div>
-                    {/* Project Header */}
-                    <ProjectHeader project={featuredProject} />
+                    <div className="flex items-center gap-2 mb-4">
+                      <Badge className="bg-primary-500/10 text-primary-700 dark:text-primary-300 text-xs">
+                        {featuredProject.category}
+                      </Badge>
+                      <span className="text-xs text-neutral-500 dark:text-neutral-400">
+                        {featuredProject.year}
+                      </span>
+                    </div>
 
-                    {/* Project Description */}
-                    <p className="text-sm sm:text-base text-neutral-600 dark:text-neutral-300 mb-4 sm:mb-6 leading-relaxed">
+                    <h3 className="text-2xl sm:text-3xl font-bold tracking-tight text-neutral-900 dark:text-neutral-100 mb-3">
+                      {featuredProject.name}
+                    </h3>
+                    <p className="text-sm sm:text-base text-neutral-600 dark:text-neutral-300 mb-6 leading-relaxed line-clamp-2">
                       {featuredProject.blurb}
                     </p>
 
-                    {/* Project Features */}
-                    <ProjectFeatures
-                      features={featuredProject.features.slice(0, 8)}
-                    />
-
-                    {/* Tech Stack */}
-                    <ProjectTechStack stack={featuredProject.stack} />
+                    <div className="flex flex-wrap gap-2 mb-8">
+                      {featuredProject.stack.slice(0, 3).map((tech) => (
+                        <Badge
+                          key={tech}
+                          className="bg-neutral-100 dark:bg-neutral-800 text-xs"
+                        >
+                          {tech}
+                        </Badge>
+                      ))}
+                    </div>
 
                     {/* Call to Action */}
-                    <Button
-                      onClick={handleOpenModal}
-                      className="w-full md:w-auto cursor-pointer"
-                    >
-                      View Project Details →
-                    </Button>
+                    <div className="flex flex-col sm:flex-row sm:items-center gap-3">
+                      <Button
+                        onClick={handleOpenModal}
+                        className="w-full sm:w-auto cursor-pointer"
+                      >
+                        View Project Details →
+                      </Button>
+                      <span className="text-xs text-neutral-500 dark:text-neutral-400">
+                        Open full case study in modal
+                      </span>
+                    </div>
                   </div>
 
                   {/* Right side - Project Preview */}
                   <ProjectPreview
-                    project={featuredProject}
+                    projectName={featuredProject.name}
                     screenshotSrc={screenshotSrc}
                   />
                 </div>
@@ -157,6 +169,6 @@ export const FeaturedProject: React.FC = React.memo(() => {
       />
     </>
   );
-});
+};
 
 FeaturedProject.displayName = 'FeaturedProject';

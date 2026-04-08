@@ -1,6 +1,5 @@
 'use client';
 
-import React from 'react';
 import { useInView } from '@/hooks/useInView';
 import { Card } from '@/components/Common/Card';
 import { Button } from '@/components/Common/Button';
@@ -12,7 +11,7 @@ import {
 import { SectionDivider } from '@/components/Common/SectionDivider';
 import { usePortfolioData } from '@/providers/PortfolioDataProvider';
 
-export const Contact: React.FC = () => {
+export const Contact = () => {
   const {
     data: { about: portfolio },
   } = usePortfolioData();

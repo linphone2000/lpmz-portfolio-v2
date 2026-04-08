@@ -1,12 +1,17 @@
 'use client';
 
-import React from 'react';
+import type { CSSProperties, PropsWithChildren } from 'react';
 import { useInView } from '@/hooks/useInView';
 import { cx } from '@/lib/utils';
 
-export const Card: React.FC<
-  React.PropsWithChildren<{ className?: string; style?: React.CSSProperties }>
-> = ({ className, style, children }) => {
+export const Card = ({
+  className,
+  style,
+  children,
+}: PropsWithChildren<{
+  className?: string;
+  style?: CSSProperties;
+}>) => {
   const [ref, isInView] = useInView({ threshold: 0.1, triggerOnce: true });
 
   return (

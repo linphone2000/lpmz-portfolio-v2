@@ -1154,7 +1154,7 @@ export const DATA = {
     },
     {
       name: 'Hotel Booking Web Application',
-      stack: ['Flask', 'React.js', 'Admin Dashboard'],
+      stack: ['Flask', 'React JS', 'Admin Dashboard'],
       blurb:
         'Responsive booking platform with room/hotel management and a simple admin portal.',
       href: '#',
@@ -1357,8 +1357,8 @@ export const DATA = {
     },
   ],
   skills: {
-    frontend: ['React Native', 'React.js', 'Next.js', 'WordPress'],
-    backend: ['Node.js', 'Express.js', 'Flask'],
+    frontend: ['React Native', 'React JS', 'Next.js', 'WordPress'],
+    backend: ['Node.js', 'Express.js', 'Nest.js', 'Flask'],
     databases: ['PostgreSQL', 'MongoDB', 'MySQL'],
     languages: ['TypeScript', 'JavaScript', 'Python', 'Java'],
     tools: [
@@ -1376,7 +1376,7 @@ export const DATA = {
     // Add skill proficiency levels
     proficiency: {
       expert: ['React Native', 'TypeScript', 'JavaScript'],
-      advanced: ['React.js', 'Node.js', 'Express.js', 'MongoDB'],
+      advanced: ['React JS', 'Node.js', 'Express.js', 'MongoDB'],
       intermediate: ['Next.js', 'Python', 'MySQL', 'TensorFlow.js'],
       beginner: ['Java', 'Docker', 'OpenCV'],
     },

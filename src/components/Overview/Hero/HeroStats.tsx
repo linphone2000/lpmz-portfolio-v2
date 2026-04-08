@@ -1,5 +1,3 @@
-import React from 'react';
-
 interface HeroStatsProps {
   stats: {
     yearsExperience: number;
@@ -9,7 +7,7 @@ interface HeroStatsProps {
   };
 }
 
-export const HeroStats: React.FC<HeroStatsProps> = React.memo(({ stats }) => {
+export const HeroStats = ({ stats }: HeroStatsProps) => {
   return (
     <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
       <div className="text-center">
@@ -49,6 +47,6 @@ export const HeroStats: React.FC<HeroStatsProps> = React.memo(({ stats }) => {
       </div>
     </div>
   );
-});
+};
 
 HeroStats.displayName = 'HeroStats';

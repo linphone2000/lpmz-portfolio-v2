@@ -1,10 +1,9 @@
 'use client';
 
-import React from 'react';
 import { ArrowUpIcon } from '@heroicons/react/24/outline';
 import { cx } from '@/lib/utils';
 
-export const ScrollToTop: React.FC = () => {
+export const ScrollToTop = () => {
   return (
     <button
       onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}

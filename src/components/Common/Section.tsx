@@ -1,14 +1,16 @@
 'use client';
 
-import React from 'react';
+import type { PropsWithChildren } from 'react';
 
 // Utility function for conditional classes
 const cx = (...cls: Array<string | undefined | false>) =>
   cls.filter(Boolean).join(' ');
 
-export const Section: React.FC<
-  React.PropsWithChildren<{ title: string; className?: string }>
-> = ({ title, className, children }) => (
+export const Section = ({
+  title,
+  className,
+  children,
+}: PropsWithChildren<{ title: string; className?: string }>) => (
   <section className={cx('py-16', className)}>
     <div className="max-w-5xl mx-auto px-4">
       <div className="flex items-end justify-between gap-4 mb-8">

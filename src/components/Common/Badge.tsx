@@ -1,14 +1,19 @@
 'use client';
 
-import React from 'react';
+import type { CSSProperties, PropsWithChildren } from 'react';
 
 // Utility function for conditional classes
 const cx = (...cls: Array<string | undefined | false>) =>
   cls.filter(Boolean).join(' ');
 
-export const Badge: React.FC<
-  React.PropsWithChildren<{ className?: string; style?: React.CSSProperties }>
-> = ({ className, style, children }) => (
+export const Badge = ({
+  className,
+  style,
+  children,
+}: PropsWithChildren<{
+  className?: string;
+  style?: CSSProperties;
+}>) => (
   <span
     className={cx(
       'inline-flex items-center rounded-full border border-neutral-200 dark:border-neutral-700 px-3 py-1 text-xs font-medium',

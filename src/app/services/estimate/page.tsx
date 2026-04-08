@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { PageShell } from '@/components/Common/PageShell';
 import { Badge } from '@/components/Common/Badge';
 import { ProductType } from '@/lib/features';

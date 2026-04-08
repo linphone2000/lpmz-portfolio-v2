@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useEffect, useMemo, useRef } from 'react';
+import { useEffect, useMemo, useRef, type ReactNode } from 'react';
 import { usePathname } from 'next/navigation';
 import { ScrollProgress, Blobs } from '@/components/Common/Effects';
 import { TabNavigation } from '@/components/Common/TabNavigation';
@@ -10,7 +10,7 @@ import { useDarkMode } from '@/hooks/useDarkMode';
 import { PortfolioDataProvider } from '@/providers/PortfolioDataProvider';
 
 interface PageShellProps {
-  children: React.ReactNode;
+  children: ReactNode;
 }
 
 const getActiveTab = (pathname: string) => {
@@ -22,7 +22,7 @@ const getActiveTab = (pathname: string) => {
   return 'home';
 };
 
-export const PageShell: React.FC<PageShellProps> = ({ children }) => {
+export const PageShell = ({ children }: PageShellProps) => {
   const { dark, toggle, mounted } = useDarkMode();
   const pathname = usePathname();
   const activeTab = useMemo(() => getActiveTab(pathname), [pathname]);

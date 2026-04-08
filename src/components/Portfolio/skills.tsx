@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useMemo } from 'react';
+import { useState, useMemo, type CSSProperties } from 'react';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Autoplay, Navigation, Pagination } from 'swiper/modules';
 import { Badge } from '../Common/Badge';
@@ -22,7 +22,7 @@ import 'swiper/css';
 import 'swiper/css/navigation';
 import 'swiper/css/pagination';
 
-export const Skills: React.FC = () => {
+export const Skills = () => {
   const {
     data: { skills },
   } = usePortfolioData();
@@ -192,7 +192,7 @@ export const Skills: React.FC = () => {
                 {
                   '--swiper-navigation-color': '#0ea5e9',
                   '--swiper-pagination-color': '#0ea5e9',
-                } as React.CSSProperties
+                } as CSSProperties
               }
             >
               {skillCategories.map((category) => (

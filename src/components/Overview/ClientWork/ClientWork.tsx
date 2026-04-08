@@ -1,6 +1,11 @@
 'use client';
 
-import React, { useMemo, useState } from 'react';
+import {
+  useMemo,
+  useState,
+  type ComponentType,
+  type KeyboardEvent,
+} from 'react';
 import { useInView } from '@/hooks/useInView';
 import { Card } from '@/components/Common/Card';
 import { Badge } from '@/components/Common/Badge';
@@ -18,11 +23,11 @@ interface ClientProject {
   clientName: string;
   projectType: string;
   description: string;
-  icon: React.ComponentType<{ className?: string }>;
+  icon: ComponentType<{ className?: string }>;
   liveUrl?: string;
 }
 
-export const ClientWork: React.FC = () => {
+export const ClientWork = () => {
   const {
     data: { about: portfolio, experience },
   } = usePortfolioData();
@@ -80,8 +85,7 @@ export const ClientWork: React.FC = () => {
       description = description.replace(/^[^:]+:\s*/, '').trim();
 
       // Determine icon based on project type
-      let icon: React.ComponentType<{ className?: string }> =
-        BuildingOfficeIcon;
+      let icon: ComponentType<{ className?: string }> = BuildingOfficeIcon;
       if (
         projectType.toLowerCase().includes('e-commerce') ||
         projectType.toLowerCase().includes('commerce')
@@ -203,9 +207,7 @@ export const ClientWork: React.FC = () => {
                         }}
                         role={needsToggle ? 'button' : undefined}
                         tabIndex={needsToggle ? 0 : undefined}
-                        onKeyDown={(
-                          event: React.KeyboardEvent<HTMLDivElement>
-                        ) => {
+                        onKeyDown={(event: KeyboardEvent<HTMLDivElement>) => {
                           if (!needsToggle) return;
                           if (event.key === 'Enter' || event.key === ' ') {
                             event.preventDefault();

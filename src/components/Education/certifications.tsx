@@ -1,11 +1,10 @@
 'use client';
 
-import React from 'react';
 import { Card } from '@/components/Common/Card';
 import { TrophyIcon } from '@heroicons/react/24/outline';
 import { usePortfolioData } from '@/providers/PortfolioDataProvider';
 
-export const Certifications: React.FC = () => {
+export const Certifications = () => {
   const {
     data: { certs },
   } = usePortfolioData();

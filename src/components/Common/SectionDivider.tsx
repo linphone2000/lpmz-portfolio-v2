@@ -1,15 +1,12 @@
 'use client';
 
-import React from 'react';
 import { useInView } from '@/hooks/useInView';
 
 interface SectionDividerProps {
   className?: string;
 }
 
-export const SectionDivider: React.FC<SectionDividerProps> = ({
-  className = '',
-}) => {
+export const SectionDivider = ({ className = '' }: SectionDividerProps) => {
   const [ref, isInView] = useInView({ threshold: 0.1, triggerOnce: false });
 
   return (

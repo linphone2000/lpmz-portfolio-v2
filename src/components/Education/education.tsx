@@ -1,6 +1,5 @@
 'use client';
 
-import React from 'react';
 import { Card } from '../Common/Card';
 import { Badge } from '../Common/Badge';
 import { useInView } from '../../hooks/useInView';
@@ -11,7 +10,7 @@ import {
 } from '@heroicons/react/24/outline';
 import { usePortfolioData } from '@/providers/PortfolioDataProvider';
 
-export const Education: React.FC = () => {
+export const Education = () => {
   const {
     data: { education },
   } = usePortfolioData();

@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useCallback, useState, useEffect } from 'react';
+import { useCallback, useState, useEffect } from 'react';
 import Typewriter from 'typewriter-effect';
 import { Badge } from '@/components/Common/Badge';
 import { Button } from '@/components/Common/Button';
@@ -13,11 +13,7 @@ import {
   MapPinIcon,
 } from '@heroicons/react/24/outline';
 
-interface HeroProps {
-  onTabChange?: (tab: string) => void;
-}
-
-export const Hero: React.FC<HeroProps> = React.memo(() => {
+export const Hero = () => {
   const {
     data: { about: portfolio, skills, achievements },
   } = usePortfolioData();
@@ -287,6 +283,6 @@ export const Hero: React.FC<HeroProps> = React.memo(() => {
       </div>
     </section>
   );
-});
+};
 
 Hero.displayName = 'Hero';

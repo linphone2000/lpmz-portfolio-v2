@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useRef, useEffect, useMemo } from 'react';
+import { useState, useRef, useEffect, useMemo, type FormEvent } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
   ChatBubbleLeftRightIcon,
@@ -19,7 +19,7 @@ interface Message {
   timestamp: Date;
 }
 
-export const ChatBot: React.FC = () => {
+export const ChatBot = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [isMinimized, setIsMinimized] = useState(false);
   const [messages, setMessages] = useState<Message[]>([]);
@@ -68,7 +68,7 @@ export const ChatBot: React.FC = () => {
     setIsMinimized(false);
   };
 
-  const handleSend = async (e: React.FormEvent) => {
+  const handleSend = async (e: FormEvent) => {
     e.preventDefault();
     if (!inputValue.trim() || isTyping || isLoadingModel || !model) return;
 
@@ -152,7 +152,7 @@ export const ChatBot: React.FC = () => {
           lowerQuestion.includes('technolog')
         ) {
           responseText =
-            "I work with React Native, React.js, Next.js, Node.js, Express.js, PostgreSQL, MongoDB, TypeScript, JavaScript, Python, and more! I'm experienced in both frontend and backend development. What would you like to know more about?";
+            "I work with React Native, React JS, Next.js, Node.js, Express.js, PostgreSQL, MongoDB, TypeScript, JavaScript, Python, and more! I'm experienced in both frontend and backend development. What would you like to know more about?";
         } else if (
           lowerQuestion.includes('educat') ||
           lowerQuestion.includes('school') ||

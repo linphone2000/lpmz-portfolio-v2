@@ -1,6 +1,6 @@
 'use client';
 
-import React, { createContext, useContext, useMemo } from 'react';
+import { createContext, useContext, useMemo, type ReactNode } from 'react';
 
 import {
   fallbackPortfolioContent,
@@ -20,7 +20,7 @@ const PortfolioDataContext = createContext<PortfolioDataContextValue>({
 export const PortfolioDataProvider = ({
   children,
 }: {
-  children: React.ReactNode;
+  children: ReactNode;
 }) => {
   const value = useMemo(
     () => ({ data: fallbackPortfolioContent, isLoading: false }),

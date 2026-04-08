@@ -12,6 +12,7 @@ alwaysApply: true
 - Handle failures explicitly (return typed fallbacks, throw meaningful errors, or return proper responses).
 - Write comments only when they explain non-obvious reasoning, not obvious mechanics.
 - Keep changes scoped; avoid mixing refactors with feature or bug-fix logic in one patch.
+- Avoid `React.` namespace usage in code. Import hooks and React types directly (e.g. `useEffect`, `ReactNode`, `PropsWithChildren`, `CSSProperties`, `FormEvent`) instead of `React.useEffect` or `React.ReactNode`.
 
 ## Example
 

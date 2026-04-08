@@ -1,12 +1,11 @@
 'use client';
 
-import React from 'react';
 import { useInView } from '@/hooks/useInView';
 import { Card } from '@/components/Common/Card';
 import { Badge } from '@/components/Common/Badge';
 import { usePortfolioData } from '@/providers/PortfolioDataProvider';
 
-export const Experience: React.FC = () => {
+export const Experience = () => {
   const {
     data: { experience },
   } = usePortfolioData();

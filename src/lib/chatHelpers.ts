@@ -47,7 +47,7 @@ export function getFallbackResponse(question: string): string | null {
       ...DATA.skills.frontend.slice(0, 3),
       ...DATA.skills.backend.slice(0, 2),
     ].join(', ');
-    return `Key technologies include: ${mainSkills}. There's expertise in frontend (React Native, React.js, Next.js), backend (Node.js, Express.js), and databases (PostgreSQL, MongoDB). Want to know more about a specific technology?`;
+    return `Key technologies include: ${mainSkills}. There's expertise in frontend (React Native, React JS, Next.js), backend (Node.js, Express.js), and databases (PostgreSQL, MongoDB). Want to know more about a specific technology?`;
   }
 
   // Experience questions

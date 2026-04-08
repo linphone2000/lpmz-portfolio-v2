@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { motion, useReducedMotion } from 'framer-motion';
 import { SunIcon, MoonIcon } from '@heroicons/react/24/solid';
 
@@ -10,11 +10,7 @@ interface ThemeToggleProps {
   mounted: boolean;
 }
 
-export const ThemeToggle: React.FC<ThemeToggleProps> = ({
-  dark,
-  toggle,
-  mounted,
-}) => {
+export const ThemeToggle = ({ dark, toggle, mounted }: ThemeToggleProps) => {
   const prefersReducedMotion = useReducedMotion();
   const [isMobile, setIsMobile] = useState(false);
 
