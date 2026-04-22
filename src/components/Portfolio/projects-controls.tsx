@@ -62,7 +62,7 @@ export const ProjectsControls = ({
   }, []);
 
   const segmentButtonClass = (isActive: boolean) =>
-    `group relative z-10 inline-flex items-center justify-center gap-1.5 rounded-xl px-3 py-2 text-xs sm:text-sm font-semibold transition-all duration-300 ${
+    `group relative z-10 inline-flex items-center justify-center gap-1.5 rounded-xl px-3 py-2 text-xs sm:text-sm font-semibold transition-all duration-300 cursor-pointer ${
       isActive
         ? 'text-white'
         : 'text-neutral-600 dark:text-neutral-300 hover:text-neutral-900 dark:hover:text-neutral-100'
@@ -99,7 +99,7 @@ export const ProjectsControls = ({
             <button
               type="button"
               onClick={() => setIsSortOpen((prev) => !prev)}
-              className="w-full inline-flex items-center justify-between gap-2 rounded-xl bg-white dark:bg-neutral-800 px-3 py-2 text-sm font-semibold text-neutral-800 dark:text-neutral-100 border border-neutral-200/80 dark:border-neutral-700 transition-colors duration-200 hover:bg-neutral-50 dark:hover:bg-neutral-700"
+              className="w-full inline-flex items-center justify-between gap-2 rounded-xl bg-white dark:bg-neutral-800 px-3 py-2 text-sm font-semibold text-neutral-800 dark:text-neutral-100 border border-neutral-200/80 dark:border-neutral-700 transition-colors duration-200 hover:bg-neutral-50 dark:hover:bg-neutral-700 cursor-pointer"
               aria-expanded={isSortOpen}
               aria-haspopup="listbox"
             >
@@ -132,7 +132,7 @@ export const ProjectsControls = ({
                       onSortChange(option.id);
                       setIsSortOpen(false);
                     }}
-                    className={`w-full rounded-lg px-3 py-2 text-left text-sm transition-colors duration-150 flex items-center justify-between ${
+                    className={`w-full rounded-lg px-3 py-2 text-left text-sm transition-colors duration-150 flex items-center justify-between cursor-pointer ${
                       isActive
                         ? 'bg-primary-500/10 text-primary-700 dark:text-primary-300 font-semibold'
                         : 'text-neutral-700 dark:text-neutral-200 hover:bg-neutral-100 dark:hover:bg-neutral-800'

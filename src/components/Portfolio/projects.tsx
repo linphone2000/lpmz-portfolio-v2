@@ -2,6 +2,7 @@
 
 import { useState, useCallback, useMemo, useEffect } from 'react';
 import Image from 'next/image';
+import { AnimatePresence, motion } from 'framer-motion';
 import { Project, type ProjectPreviewScreenshot } from '../../lib/types';
 import { Card } from '../Common/Card';
 import { Badge } from '../Common/Badge';
@@ -37,6 +38,7 @@ export const Projects = () => {
   const [sortBy, setSortBy] = useState<SortOption>('order');
   const [filterBy, setFilterBy] = useState<FilterOption>('all');
   const [currentPage, setCurrentPage] = useState(1);
+  const [pageDirection, setPageDirection] = useState(0);
   const itemsPerPage = 3;
 
   // Use custom in-view hook for animations
@@ -87,16 +89,22 @@ export const Projects = () => {
 
   // Pagination handlers
   const handlePreviousPage = useCallback(() => {
+    setPageDirection(-1);
     setCurrentPage((prev) => Math.max(1, prev - 1));
   }, []);
 
   const handleNextPage = useCallback(() => {
+    setPageDirection(1);
     setCurrentPage((prev) => Math.min(totalPages, prev + 1));
   }, [totalPages]);
 
-  const handlePageChange = useCallback((page: number) => {
-    setCurrentPage(page);
-  }, []);
+  const handlePageChange = useCallback(
+    (page: number) => {
+      setPageDirection(page > currentPage ? 1 : -1);
+      setCurrentPage(page);
+    },
+    [currentPage]
+  );
 
   // Memoized callbacks
   const handleProjectClick = useCallback((project: Project) => {
@@ -117,8 +125,33 @@ export const Projects = () => {
 
   const handleFilterChange = useCallback((newFilter: FilterOption) => {
     setFilterBy(newFilter);
+    setPageDirection(1);
     setCurrentPage(1);
   }, []);
+
+  const pageTransitionVariants = {
+    enter: (direction: number) => ({
+      opacity: 0,
+      x: direction >= 0 ? 56 : -56,
+      scale: 0.985,
+    }),
+    center: {
+      opacity: 1,
+      x: 0,
+      scale: 1,
+      transition: {
+        duration: 0.45,
+      },
+    },
+    exit: (direction: number) => ({
+      opacity: 0,
+      x: direction >= 0 ? -56 : 56,
+      scale: 0.985,
+      transition: {
+        duration: 0.32,
+      },
+    }),
+  };
 
   return (
     <section className="py-16 relative">
@@ -145,45 +178,57 @@ export const Projects = () => {
 
         <div
           ref={containerRef}
-          className={`grid md:grid-cols-3 gap-6 transition-all duration-700 ease-out ${
+          className={`relative transition-all duration-700 ease-out ${
             isContainerInView
               ? 'opacity-100 translate-y-0'
               : 'opacity-0 translate-y-6'
           }`}
         >
-          {paginatedProjects.map((project, index) => {
-            const mobileProject = isMobileProject(project);
+          <AnimatePresence mode="wait" custom={pageDirection}>
+            <motion.div
+              key={`${filterBy}-${sortBy}-${currentPage}`}
+              custom={pageDirection}
+              variants={pageTransitionVariants}
+              initial="enter"
+              animate="center"
+              exit="exit"
+              className="grid md:grid-cols-3 gap-6"
+            >
+              {paginatedProjects.map((project, index) => {
+                const mobileProject = isMobileProject(project);
 
-            // For mobile projects, get first 3 images; for web, get first image
-            let mobileImages: string[] = [];
-            let firstImage: string | undefined;
+                // For mobile projects, get first 3 images; for web, get first image
+                let mobileImages: string[] = [];
+                let firstImage: string | undefined;
 
-            if (mobileProject) {
-              const allScreenshots = (project.preview?.screenshots ||
-                []) as ProjectPreviewScreenshot[];
-              const mobileOnly = allScreenshots.filter(
-                (s) => s.presentation !== 'web'
-              );
-              const forCollage =
-                mobileOnly.length > 0 ? mobileOnly : allScreenshots;
-              mobileImages = forCollage.slice(0, 4).map((s) => s.src);
-            } else {
-              // Always use screenshots array, get first image
-              firstImage = project.preview?.screenshot || undefined;
-            }
+                if (mobileProject) {
+                  const allScreenshots = (project.preview?.screenshots ||
+                    []) as ProjectPreviewScreenshot[];
+                  const mobileOnly = allScreenshots.filter(
+                    (s) => s.presentation !== 'web'
+                  );
+                  const forCollage =
+                    mobileOnly.length > 0 ? mobileOnly : allScreenshots;
+                  mobileImages = forCollage.slice(0, 4).map((s) => s.src);
+                } else {
+                  // Always use screenshots array, get first image
+                  firstImage = project.preview?.screenshot || undefined;
+                }
 
-            return (
-              <ProjectCard
-                key={index}
-                project={project}
-                index={index}
-                isMobileProject={mobileProject}
-                mobileImages={mobileImages}
-                firstImage={firstImage}
-                handleProjectClick={handleProjectClick}
-              />
-            );
-          })}
+                return (
+                  <ProjectCard
+                    key={`${project.name}-${project.year}`}
+                    project={project}
+                    index={index}
+                    isMobileProject={mobileProject}
+                    mobileImages={mobileImages}
+                    firstImage={firstImage}
+                    handleProjectClick={handleProjectClick}
+                  />
+                );
+              })}
+            </motion.div>
+          </AnimatePresence>
         </div>
 
         {filteredAndSortedProjects.length === 0 && (
@@ -303,6 +348,12 @@ const ProjectCard = ({
 }) => {
   const [isImageLoading, setIsImageLoading] = useState(true);
 
+  useEffect(() => {
+    if (isMobileProject) return;
+    if (!firstImage) return;
+    setIsImageLoading(true);
+  }, [firstImage, isMobileProject, project.name]);
+
   return (
     <div
       className={`transition-all duration-500 ease-out animation-delay-${index * 100}`}
@@ -337,6 +388,7 @@ const ProjectCard = ({
         ) : firstImage ? (
           <div className="relative w-full h-48 overflow-hidden bg-neutral-100 dark:bg-neutral-800">
             <Image
+              key={firstImage}
               src={firstImage}
               alt={project.name}
               fill

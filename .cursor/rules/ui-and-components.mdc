@@ -47,6 +47,7 @@ Components, UI/UX patterns, theming, confirmation modals, and tooltips. Central 
 2. **Hierarchy:** Typography and color (foreground vs muted).
 3. **Feedback:** Hover/active states and transitions; all clickable elements MUST have `cursor-pointer`.
 4. **Accessibility:** Sufficient contrast, semantic HTML, ARIA where needed.
+5. **Clickable Elements:** All clickable elements MUST have `cursor-pointer`.
 
 ### Typography (strict scale)
 

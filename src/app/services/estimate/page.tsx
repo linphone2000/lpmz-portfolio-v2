@@ -1,17 +1,30 @@
 'use client';
 
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { PageShell } from '@/components/Common/PageShell';
 import { Badge } from '@/components/Common/Badge';
 import { ProductType } from '@/lib/features';
 import { Modal } from '@/components/Common/Modal';
-import { CheckCircleIcon } from '@heroicons/react/24/outline';
+import { CheckCircleIcon, LinkIcon } from '@heroicons/react/24/outline';
 import { usePortfolioData } from '@/providers/PortfolioDataProvider';
+import {
+  getEstimateSharePath,
+  getEstimateShareUrl,
+  getSharedEstimateSelection,
+  trackEstimateShareEvent,
+} from '@/lib/estimateShare';
 
 type SelectedFeature = {
   id: string;
   name: string;
   baseCost: number; // MMK
+};
+
+type ShareableEstimateSnapshot = {
+  tab: ProductType;
+  featureIds: string[];
+  featureCount: number;
+  estimatedTotal: number;
 };
 
 const formatMMK = (value: number) => {
@@ -27,6 +40,8 @@ export default function EstimatePage() {
   const {
     data: { estimateFeatures: featuresCatalog },
   } = usePortfolioData();
+  const hasHydratedFromUrl = useRef(false);
+  const hasTrackedSharedOpen = useRef(false);
   const [tab, setTab] = useState<ProductType>('web');
   const [features, setFeatures] = useState<SelectedFeature[]>([]);
   const [step, setStep] = useState<1 | 2 | 3>(1);
@@ -37,6 +52,12 @@ export default function EstimatePage() {
   const [sendError, setSendError] = useState<string | null>(null);
   const [sendSuccess, setSendSuccess] = useState(false);
   const [isHurayOpen, setIsHurayOpen] = useState(false);
+  const [lastSharedEstimate, setLastSharedEstimate] =
+    useState<ShareableEstimateSnapshot | null>(null);
+  const [shareState, setShareState] = useState<{
+    type: 'idle' | 'success' | 'error';
+    message: string;
+  }>({ type: 'idle', message: '' });
 
   const resetContactForm = () => {
     setContactName('');
@@ -62,10 +83,124 @@ export default function EstimatePage() {
 
   const subtotal = features.reduce((sum, f) => sum + f.baseCost, 0);
   const estimatedLabel = `${formatMMK(subtotal)} MMK`;
+  const shareFeatureIds = features.map((feature) => feature.id);
 
   const canProceedStep1 = true;
   const canProceedStep2 = features.length > 0;
   const canSubmitStep3 = Boolean(contactName && contactEmail && contactPhone);
+
+  useEffect(() => {
+    if (typeof window === 'undefined' || hasHydratedFromUrl.current) {
+      return;
+    }
+
+    const selection = getSharedEstimateSelection(
+      new URLSearchParams(window.location.search),
+      featuresCatalog
+    );
+    const hydratedFeatures = selection.featureIds
+      .map((id) =>
+        featuresCatalog[selection.tab].find((feature) => feature.id === id)
+      )
+      .filter((feature): feature is NonNullable<typeof feature> =>
+        Boolean(feature)
+      )
+      .map((feature) => ({
+        id: feature.id,
+        name: feature.name,
+        baseCost: feature.baseCost,
+      }));
+
+    setTab(selection.tab);
+    setFeatures(hydratedFeatures);
+    setStep(hydratedFeatures.length > 0 ? 3 : 1);
+    hasHydratedFromUrl.current = true;
+
+    if (selection.isShared && !hasTrackedSharedOpen.current) {
+      hasTrackedSharedOpen.current = true;
+      const estimatedTotal = hydratedFeatures.reduce(
+        (sum, feature) => sum + feature.baseCost,
+        0
+      );
+
+      void trackEstimateShareEvent('shared_estimate_opened', {
+        tab: selection.tab,
+        featureCount: hydratedFeatures.length,
+        estimatedTotal,
+        featureIds: hydratedFeatures.map((feature) => feature.id),
+      });
+    }
+  }, [featuresCatalog]);
+
+  useEffect(() => {
+    if (typeof window === 'undefined' || !hasHydratedFromUrl.current) {
+      return;
+    }
+
+    const nextPath = getEstimateSharePath(tab, shareFeatureIds);
+    const currentPath = `${window.location.pathname}${window.location.search}`;
+
+    if (currentPath !== nextPath) {
+      window.history.replaceState({}, '', nextPath);
+    }
+  }, [tab, shareFeatureIds]);
+
+  const handleShareEstimate = async (
+    snapshot: ShareableEstimateSnapshot = {
+      tab,
+      featureIds: shareFeatureIds,
+      featureCount: features.length,
+      estimatedTotal: subtotal,
+    }
+  ) => {
+    if (typeof window === 'undefined') return;
+
+    const shareUrl = getEstimateShareUrl(
+      window.location.origin,
+      snapshot.tab,
+      snapshot.featureIds
+    );
+    const shareText = `Here’s a project estimate for a ${snapshot.tab === 'web' ? 'web' : 'mobile'} build with ${snapshot.featureCount} selected feature${snapshot.featureCount === 1 ? '' : 's'}.`;
+
+    void trackEstimateShareEvent('estimate_share_clicked', {
+      tab: snapshot.tab,
+      featureCount: snapshot.featureCount,
+      estimatedTotal: snapshot.estimatedTotal,
+      featureIds: snapshot.featureIds,
+    });
+
+    try {
+      if (navigator.share) {
+        await navigator.share({
+          title: 'Shared project estimate',
+          text: shareText,
+          url: shareUrl,
+        });
+        setShareState({
+          type: 'success',
+          message: 'Estimate link shared successfully.',
+        });
+        return;
+      }
+
+      await navigator.clipboard.writeText(shareUrl);
+      setShareState({
+        type: 'success',
+        message: 'Estimate link copied to your clipboard.',
+      });
+    } catch (error) {
+      if (error instanceof DOMException && error.name === 'AbortError') {
+        setShareState({ type: 'idle', message: '' });
+        return;
+      }
+
+      console.error('Failed to share estimate', error);
+      setShareState({
+        type: 'error',
+        message: 'Unable to share right now. Please try again.',
+      });
+    }
+  };
 
   const handleSendConfirmation = async () => {
     if (!canSubmitStep3) {
@@ -152,6 +287,12 @@ export default function EstimatePage() {
 
       await sendEmail(TEMPLATE_ID_ADMIN, ADMIN_EMAIL, 'Lin');
 
+      setLastSharedEstimate({
+        tab,
+        featureIds: shareFeatureIds,
+        featureCount: features.length,
+        estimatedTotal: subtotal,
+      });
       setSendSuccess(true);
       resetContactForm();
       // Reset wizard and open success (Huray) modal
@@ -369,7 +510,29 @@ export default function EstimatePage() {
                       {estimatedLabel}
                     </p>
                   </div>
+                  <button
+                    onClick={() => {
+                      void handleShareEstimate();
+                    }}
+                    className="inline-flex items-center gap-2 px-4 py-2 rounded-lg border border-neutral-300 dark:border-neutral-700 text-neutral-800 dark:text-neutral-100 hover:border-primary-400 hover:text-primary-600 dark:hover:text-primary-300 transition-colors cursor-pointer"
+                    type="button"
+                  >
+                    <LinkIcon className="h-4 w-4" />
+                    Share this estimate
+                  </button>
                 </div>
+
+                {shareState.type !== 'idle' && (
+                  <p
+                    className={`text-sm ${
+                      shareState.type === 'success'
+                        ? 'text-green-600'
+                        : 'text-red-500'
+                    }`}
+                  >
+                    {shareState.message}
+                  </p>
+                )}
 
                 <div className="grid gap-3">
                   <label className="space-y-1 text-sm font-medium text-neutral-700 dark:text-neutral-200">
@@ -497,7 +660,30 @@ export default function EstimatePage() {
               I’ll reach out shortly via your provided contact details. Thanks!
             </p>
           </div>
-          <div className="pt-2">
+          {shareState.type !== 'idle' && (
+            <p
+              className={`text-sm ${
+                shareState.type === 'success'
+                  ? 'text-green-600'
+                  : 'text-red-500'
+              }`}
+            >
+              {shareState.message}
+            </p>
+          )}
+          <div className="pt-2 flex flex-col sm:flex-row gap-3">
+            <button
+              onClick={() => {
+                if (lastSharedEstimate) {
+                  void handleShareEstimate(lastSharedEstimate);
+                }
+              }}
+              className="px-4 py-2 rounded-lg border border-neutral-300 dark:border-neutral-700 text-neutral-800 dark:text-neutral-100 hover:border-primary-400 hover:text-primary-600 dark:hover:text-primary-300 cursor-pointer"
+              type="button"
+              disabled={!lastSharedEstimate}
+            >
+              Share this estimate
+            </button>
             <button
               onClick={() => setIsHurayOpen(false)}
               className="px-4 py-2 rounded-lg bg-primary-600 text-white font-semibold hover:bg-primary-500 cursor-pointer"
