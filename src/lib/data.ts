@@ -31,6 +31,26 @@ export const DATA = {
   },
   experience: [
     {
+      company: 'Smilax Global Co., Ltd',
+      role: 'Mobile Developer (Mid-Senior Level)',
+      period: 'May 2026 – Present',
+      location: 'Yangon, Myanmar',
+      type: 'Full-time',
+      bullets: [
+        'Developing and maintaining the mobile application for SSHR, a self-service human resource management system, using React Native.',
+        'Contributing to the development of Nest.js-based microservices architecture for the SSHR platform.',
+      ],
+      technologies: [
+        'React Native',
+        'Nest.js',
+        'Microservices',
+        'TypeScript',
+        'RESTful APIs',
+        'Git',
+        'Agile Methodologies',
+      ],
+    },
+    {
       company: 'Freelance',
       role: 'Full-Stack Developer',
       period: 'April 2023 – Present',
