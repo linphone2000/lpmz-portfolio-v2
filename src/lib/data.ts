@@ -20,7 +20,7 @@ export const DATA = {
     availability: 'Open to new projects',
     yearsOfExperience: 3, // Started learning JS frameworks in 2022
     yearsLabel: 'Years Coding',
-    totalProjects: 6,
+    totalProjects: 10,
     technologiesMastered: 12,
     typewriterStrings: [
       'Full‑Stack Developer',
