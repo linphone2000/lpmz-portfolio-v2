@@ -946,7 +946,7 @@ export const DATA = {
       category: 'AI & Computer Vision',
       year: 2024,
       status: 'Completed',
-      liveUrl: 'https://home-security-rho.vercel.app/',
+      liveUrl: 'https://home-security-nine.vercel.app/',
       demoAccount: {
         email: 'test@gmail.com',
         password: '123',
@@ -1080,7 +1080,7 @@ export const DATA = {
       category: 'Full-Stack Development',
       year: 2024,
       status: 'Completed',
-      liveUrl: 'https://pms-frontend-virid.vercel.app/',
+      liveUrl: 'https://pms-frontend-mauve.vercel.app/',
       demoAccount: {
         email: 'test@gmail.com',
         password: 'Test@123',
@@ -1181,7 +1181,7 @@ export const DATA = {
       category: 'Full-Stack Development',
       year: 2023,
       status: 'Completed',
-      liveUrl: 'https://scape-booking.vercel.app/',
+      liveUrl: 'https://hotel-frontend-sepia-seven.vercel.app/',
       features: [
         'Room Booking',
         'Hotel Management',
@@ -1284,7 +1284,7 @@ export const DATA = {
       category: 'Web Development',
       year: 2023,
       status: 'Completed',
-      liveUrl: 'https://travelscape-next.vercel.app/',
+      liveUrl: 'https://travelscape-next-gamma.vercel.app/',
       demoAccount: {
         email: 'test@gmail.com',
         password: '123',
