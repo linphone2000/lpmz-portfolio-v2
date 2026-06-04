@@ -1,7 +1,7 @@
 // Portfolio data - centralized for easy updates
 export const DATA = {
   name: 'Lin Phone Myint Zaw',
-  title: 'Full‑Stack / React Native Developer',
+  title: 'Freelance Full-Stack & React Native Developer',
   location: 'Yangon, Myanmar',
   phone: '+95 996 765 8131',
   email: 'linphonem@gmail.com',
@@ -10,23 +10,22 @@ export const DATA = {
     github: 'https://github.com/linphone2000',
   },
   summary:
-    'Software Engineer experienced in React Native, MERN, Next.js, and backend (Node.js, Express). Passionate about building real products that solve problems, clean architecture, and AI.',
+    'I work with startups and product teams to ship mobile apps and full-stack products—for schools, commerce, and EdTech. Based in Yangon; remote-friendly.',
   // Add more detailed personal info
   about: {
     valueProposition:
-      'Helping businesses build scalable mobile and web applications that deliver real value to users. From concept to deployment, focusing on clean architecture, maintainable code, and solutions that grow with your business.',
-    tagline:
-      'Building mobile-first experiences with strong API and data modeling foundations',
-    availability: 'Open to new projects',
-    yearsOfExperience: 3, // Started learning JS frameworks in 2022
-    yearsLabel: 'Years Coding',
-    totalProjects: 10,
-    technologiesMastered: 12,
+      'You get clear milestones, direct communication, and production-ready mobile and API work—from scoped MVP through App Store release. Code structured for handoff so your team can own it after delivery.',
+    tagline: 'Shipped mobile and APIs for schools, commerce, and EdTech clients',
+    availability: 'Open to freelance & contract work',
+    yearsOfExperience: 3,
+    yearsLabel: 'Years shipping for clients',
+    totalProjects: 5,
+    technologiesMastered: 6,
     typewriterStrings: [
-      'Full‑Stack Developer',
-      'Mobile Developer',
-      'React Native Developer',
-      'Building real products with clean code',
+      'Freelance Full-Stack Developer',
+      'React Native · Node · PostgreSQL',
+      'Mobile apps from MVP to App Store',
+      'Partnering with founders & product teams',
     ],
   },
   experience: [
@@ -1377,7 +1376,7 @@ export const DATA = {
     },
   ],
   skills: {
-    frontend: ['React Native', 'React JS', 'Next.js', 'WordPress'],
+    frontend: ['React Native', 'Expo', 'Next.js', 'React JS', 'WordPress'],
     backend: ['Node.js', 'Express.js', 'Nest.js', 'Flask'],
     databases: ['PostgreSQL', 'MongoDB', 'MySQL'],
     languages: ['TypeScript', 'JavaScript', 'Python', 'Java'],
@@ -1467,9 +1466,9 @@ export const DATA = {
   // Add achievements and milestones
   achievements: [
     {
-      title: 'Delivered SchoolFlow mobile platform',
+      title: 'Latest delivery: SchoolFlow',
       description:
-        'Completed a school management app experience for students, parents, and schools with attendance, assignments, schedule, grades, payments, chat, and leave workflows',
+        'Shipped end-to-end mobile school platform for parents, students, and staff—attendance, grades, payments, messaging, and leave workflows in one product',
       year: 2026,
       category: 'Professional',
     },

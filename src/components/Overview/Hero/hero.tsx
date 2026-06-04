@@ -77,9 +77,9 @@ export const Hero = () => {
 
   // Top 6 skills for display
   const topSkills = [
-    ...skills.frontend.slice(0, 2),
-    ...skills.backend.slice(0, 2),
-    ...skills.databases.slice(0, 2),
+    ...skills.frontend.slice(0, 4),
+    ...skills.backend.slice(0, 3),
+    ...skills.databases.slice(0, 3),
   ];
 
   return (
