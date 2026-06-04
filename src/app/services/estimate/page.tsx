@@ -1,12 +1,23 @@
 'use client';
 
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import { PageShell } from '@/components/Common/PageShell';
 import { Badge } from '@/components/Common/Badge';
-import { ProductType } from '@/lib/features';
+import {
+  type FeatureCategory,
+  type FeatureDefinition,
+  type ProductType,
+} from '@/lib/features';
 import { Modal } from '@/components/Common/Modal';
-import { CheckCircleIcon, LinkIcon } from '@heroicons/react/24/outline';
+import { ChevronDownIcon, LinkIcon } from '@heroicons/react/24/outline';
+import { CheckCircleIcon } from '@heroicons/react/24/solid';
 import { usePortfolioData } from '@/providers/PortfolioDataProvider';
+import {
+  ESTIMATE_PRESETS,
+  FEATURE_CATEGORY_LABELS,
+  FEATURE_CATEGORY_ORDER,
+  getEstimateTierHint,
+} from '@/lib/estimate';
 import {
   getEstimateSharePath,
   getEstimateShareUrl,
@@ -17,7 +28,7 @@ import {
 type SelectedFeature = {
   id: string;
   name: string;
-  baseCost: number; // MMK
+  baseCost: number;
 };
 
 type ShareableEstimateSnapshot = {
@@ -26,6 +37,20 @@ type ShareableEstimateSnapshot = {
   featureCount: number;
   estimatedTotal: number;
 };
+
+type WizardStep = 1 | 2 | 3;
+
+type PendingPreset = {
+  label: string;
+  description: string;
+  featureIds: string[];
+};
+
+const WIZARD_STEPS: { step: WizardStep; label: string }[] = [
+  { step: 1, label: 'Platform' },
+  { step: 2, label: 'Features' },
+  { step: 3, label: 'Confirm' },
+];
 
 const formatMMK = (value: number) => {
   if (value >= 1_000_000) {
@@ -36,6 +61,27 @@ const formatMMK = (value: number) => {
   return `${Math.round(value / 1_000)}K`;
 };
 
+function TierHintBanner({
+  tab,
+  subtotal,
+  className = '',
+}: {
+  tab: ProductType;
+  subtotal: number;
+  className?: string;
+}) {
+  const { message } = getEstimateTierHint(tab, subtotal);
+  if (!message || subtotal <= 0) return null;
+
+  return (
+    <p
+      className={`text-sm text-neutral-600 dark:text-neutral-400 ${className}`}
+    >
+      {message}. Final quote depends on scope and design.
+    </p>
+  );
+}
+
 export default function EstimatePage() {
   const {
     data: { estimateFeatures: featuresCatalog },
@@ -44,7 +90,7 @@ export default function EstimatePage() {
   const hasTrackedSharedOpen = useRef(false);
   const [tab, setTab] = useState<ProductType>('web');
   const [features, setFeatures] = useState<SelectedFeature[]>([]);
-  const [step, setStep] = useState<1 | 2 | 3>(1);
+  const [step, setStep] = useState<WizardStep>(1);
   const [contactName, setContactName] = useState('');
   const [contactEmail, setContactEmail] = useState('');
   const [contactPhone, setContactPhone] = useState('');
@@ -58,6 +104,19 @@ export default function EstimatePage() {
     type: 'idle' | 'success' | 'error';
     message: string;
   }>({ type: 'idle', message: '' });
+  const [featureSearch, setFeatureSearch] = useState('');
+  const [expandedCategories, setExpandedCategories] = useState<
+    Record<FeatureCategory, boolean>
+  >({
+    essential: true,
+    commerce: false,
+    education: false,
+    platform: false,
+  });
+  const [pendingPreset, setPendingPreset] = useState<PendingPreset | null>(
+    null
+  );
+  const [showSelectedOnly, setShowSelectedOnly] = useState(false);
 
   const resetContactForm = () => {
     setContactName('');
@@ -67,14 +126,52 @@ export default function EstimatePage() {
     setSendSuccess(false);
   };
 
-  const addPredefined = (id: string) => {
-    const catalog = featuresCatalog[tab];
-    const f = catalog.find((x) => x.id === id);
+  const catalogById = useMemo(() => {
+    const map = new Map<string, FeatureDefinition>();
+    for (const feature of featuresCatalog[tab]) {
+      map.set(feature.id, feature);
+    }
+    return map;
+  }, [featuresCatalog, tab]);
+
+  const selectedIds = useMemo(
+    () => new Set(features.map((feature) => feature.id)),
+    [features]
+  );
+
+  const buildSelectionFromIds = (featureIds: string[]) =>
+    featureIds
+      .map((id) => catalogById.get(id))
+      .filter((feature): feature is FeatureDefinition => Boolean(feature))
+      .map((feature) => ({
+        id: feature.id,
+        name: feature.name,
+        baseCost: feature.baseCost,
+      }));
+
+  const toggleFeature = (id: string) => {
+    const f = catalogById.get(id);
     if (!f) return;
     setFeatures((prev) => {
-      if (prev.some((p) => p.id === id)) return prev;
-      return [...prev, { id: id, name: f.name, baseCost: f.baseCost }];
+      if (prev.some((p) => p.id === id)) {
+        return prev.filter((item) => item.id !== id);
+      }
+      return [...prev, { id, name: f.name, baseCost: f.baseCost }];
     });
+  };
+
+  const requestPreset = (preset: PendingPreset) => {
+    if (features.length > 0) {
+      setPendingPreset(preset);
+      return;
+    }
+    setFeatures(buildSelectionFromIds(preset.featureIds));
+  };
+
+  const confirmPresetReplace = () => {
+    if (!pendingPreset) return;
+    setFeatures(buildSelectionFromIds(pendingPreset.featureIds));
+    setPendingPreset(null);
   };
 
   const removeFeature = (id: string) => {
@@ -84,10 +181,49 @@ export default function EstimatePage() {
   const subtotal = features.reduce((sum, f) => sum + f.baseCost, 0);
   const estimatedLabel = `${formatMMK(subtotal)} MMK`;
   const shareFeatureIds = features.map((feature) => feature.id);
+  const tierHintForEmail = getEstimateTierHint(tab, subtotal).message;
 
   const canProceedStep1 = true;
   const canProceedStep2 = features.length > 0;
   const canSubmitStep3 = Boolean(contactName && contactEmail && contactPhone);
+
+  const filteredCatalog = useMemo(() => {
+    const query = featureSearch.trim().toLowerCase();
+    let list = featuresCatalog[tab];
+    if (showSelectedOnly) {
+      list = list.filter((feature) => selectedIds.has(feature.id));
+    }
+    if (!query) return list;
+    return list.filter(
+      (feature) =>
+        feature.name.toLowerCase().includes(query) ||
+        (feature.desc?.toLowerCase().includes(query) ?? false) ||
+        (feature.nameMm?.toLowerCase().includes(query) ?? false)
+    );
+  }, [featureSearch, featuresCatalog, tab, showSelectedOnly, selectedIds]);
+
+  const catalogByCategory = useMemo(() => {
+    const grouped = new Map<FeatureCategory, FeatureDefinition[]>();
+    for (const category of FEATURE_CATEGORY_ORDER) {
+      grouped.set(category, []);
+    }
+    for (const feature of filteredCatalog) {
+      grouped.get(feature.category)?.push(feature);
+    }
+    return grouped;
+  }, [filteredCatalog]);
+
+  const goToStep = (target: WizardStep) => {
+    if (sending || target > step) return;
+    setStep(target);
+  };
+
+  const toggleCategory = (category: FeatureCategory) => {
+    setExpandedCategories((prev) => ({
+      ...prev,
+      [category]: !prev[category],
+    }));
+  };
 
   useEffect(() => {
     if (typeof window === 'undefined' || hasHydratedFromUrl.current) {
@@ -241,11 +377,18 @@ export default function EstimatePage() {
             .join('\n')
         : 'No features selected';
 
+      const comparableLine = tierHintForEmail
+        ? `Comparable package: ${tierHintForEmail}`
+        : null;
+
       const details = [
         `Platform: ${tab === 'web' ? 'Web' : 'Mobile'}`,
+        comparableLine,
         `Features:\n${featureLines}`,
         `Estimated total: ${estimatedLabel}`,
-      ].join('\n\n');
+      ]
+        .filter(Boolean)
+        .join('\n\n');
 
       const endpoint = 'https://api.emailjs.com/api/v1.0/email/send';
 
@@ -295,10 +438,10 @@ export default function EstimatePage() {
       });
       setSendSuccess(true);
       resetContactForm();
-      // Reset wizard and open success (Huray) modal
       setFeatures([]);
       setTab('web');
       setStep(1);
+      setFeatureSearch('');
       setIsHurayOpen(true);
     } catch (error) {
       console.error('Estimator confirmation failed', error);
@@ -329,21 +472,45 @@ export default function EstimatePage() {
 
           <div className="mb-8 grid gap-3">
             <div className="flex items-center justify-between text-sm text-neutral-600 dark:text-neutral-300">
-              <span
-                className={`${step === 1 ? 'font-semibold text-primary-600 dark:text-primary-300' : ''}`}
-              >
-                1. Platform
-              </span>
-              <span
-                className={`${step === 2 ? 'font-semibold text-primary-600 dark:text-primary-300' : ''}`}
-              >
-                2. Features
-              </span>
-              <span
-                className={`${step === 3 ? 'font-semibold text-primary-600 dark:text-primary-300' : ''}`}
-              >
-                3. Confirm
-              </span>
+              {WIZARD_STEPS.map(({ step: stepNumber, label }) => {
+                const isActive = step === stepNumber;
+                const isPast = step > stepNumber;
+                const isClickable = isPast && !sending;
+
+                if (isActive) {
+                  return (
+                    <span
+                      key={stepNumber}
+                      className="font-semibold text-primary-600 dark:text-primary-300 cursor-default"
+                      aria-current="step"
+                    >
+                      {stepNumber}. {label}
+                    </span>
+                  );
+                }
+
+                if (isClickable) {
+                  return (
+                    <button
+                      key={stepNumber}
+                      type="button"
+                      onClick={() => goToStep(stepNumber)}
+                      className="font-medium text-neutral-600 dark:text-neutral-300 hover:text-primary-600 dark:hover:text-primary-300 transition-colors cursor-pointer"
+                    >
+                      {stepNumber}. {label}
+                    </button>
+                  );
+                }
+
+                return (
+                  <span
+                    key={stepNumber}
+                    className="text-neutral-400 dark:text-neutral-500 cursor-default"
+                  >
+                    {stepNumber}. {label}
+                  </span>
+                );
+              })}
             </div>
             <div className="h-2 rounded-full bg-neutral-200 dark:bg-neutral-800 overflow-hidden">
               <div
@@ -369,18 +536,24 @@ export default function EstimatePage() {
                   </div>
                   <div className="inline-flex p-1 rounded-full bg-neutral-100 dark:bg-neutral-800 border border-neutral-200 dark:border-neutral-700">
                     <button
+                      type="button"
                       onClick={() => {
                         setTab('web');
                         setFeatures([]);
+                        setFeatureSearch('');
+                        setShowSelectedOnly(false);
                       }}
                       className={`px-5 py-2 rounded-full text-sm font-semibold transition-all cursor-pointer ${tab === 'web' ? 'bg-white dark:bg-neutral-700 text-primary-600 dark:text-primary-300 shadow-sm' : 'text-neutral-600 dark:text-neutral-400'}`}
                     >
                       Website / Web app
                     </button>
                     <button
+                      type="button"
                       onClick={() => {
                         setTab('mobile');
                         setFeatures([]);
+                        setFeatureSearch('');
+                        setShowSelectedOnly(false);
                       }}
                       className={`px-5 py-2 rounded-full text-sm font-semibold transition-all cursor-pointer ${tab === 'mobile' ? 'bg-white dark:bg-neutral-700 text-primary-600 dark:text-primary-300 shadow-sm' : 'text-neutral-600 dark:text-neutral-400'}`}
                     >
@@ -393,84 +566,221 @@ export default function EstimatePage() {
 
             {step === 2 && (
               <div className="rounded-3xl border border-neutral-200 dark:border-neutral-800 bg-white/70 dark:bg-neutral-900/60 backdrop-blur p-6 shadow-sm">
-                <div className="grid lg:grid-cols-2 gap-6">
-                  <div>
-                    <div className="flex items-center justify-between mb-3">
-                      <h3 className="font-semibold text-neutral-900 dark:text-white mb-0">
+                <div className="grid gap-6 lg:grid-cols-[minmax(0,13fr)_minmax(0,7fr)]">
+                  <div className="space-y-4 min-w-0">
+                    <div className="flex items-center justify-between gap-3">
+                      <h3 className="font-semibold text-neutral-900 dark:text-white">
                         Feature catalog
                       </h3>
-                      <span className="text-xs text-neutral-500 dark:text-neutral-400">
-                        Platform: {tab === 'web' ? 'Web' : 'Mobile'}
+                      <span className="text-xs text-neutral-500 dark:text-neutral-400 shrink-0">
+                        {tab === 'web' ? 'Web' : 'Mobile'}
                       </span>
                     </div>
-                    <div className="grid sm:grid-cols-2 gap-2">
-                      {featuresCatalog[tab].map((f) => (
-                        <button
-                          key={f.id}
-                          onClick={() => addPredefined(f.id)}
-                          className={`text-left p-3 rounded-xl border text-sm cursor-pointer ${
-                            features.some((s) => s.id === f.id)
-                              ? 'bg-neutral-50 dark:bg-neutral-900/50 border-neutral-300 dark:border-neutral-700 text-neutral-500 dark:text-neutral-400 cursor-not-allowed'
-                              : 'bg-white/70 dark:bg-neutral-900/60 border-neutral-200/70 dark:border-neutral-800/70 hover:border-primary-300'
-                          }`}
-                          disabled={features.some((s) => s.id === f.id)}
-                          title={f.desc}
-                        >
-                          <div className="font-semibold text-neutral-900 dark:text-white text-sm leading-tight">
-                            {f.name}
-                          </div>
-                          <div className="text-[11px] text-neutral-500 dark:text-neutral-400">
-                            ~{formatMMK(f.baseCost)} MMK
-                          </div>
-                        </button>
-                      ))}
+
+                    <div>
+                      <p className="text-xs font-semibold uppercase tracking-wide text-neutral-500 dark:text-neutral-400 mb-2">
+                        Quick starters
+                      </p>
+                      <div className="flex flex-wrap gap-2">
+                        {ESTIMATE_PRESETS[tab].map((preset) => (
+                          <button
+                            key={preset.id}
+                            type="button"
+                            onClick={() =>
+                              requestPreset({
+                                label: preset.label,
+                                description: preset.description,
+                                featureIds: preset.featureIds,
+                              })
+                            }
+                            className="text-left px-3 py-2 rounded-lg border border-neutral-200 dark:border-neutral-700 bg-white/80 dark:bg-neutral-900/70 hover:border-primary-300 hover:bg-primary-50/30 dark:hover:bg-primary-900/20 transition-colors cursor-pointer"
+                            title={preset.description}
+                          >
+                            <span className="block text-sm font-semibold text-neutral-900 dark:text-white">
+                              {preset.label}
+                            </span>
+                            <span className="block text-[11px] text-neutral-500 dark:text-neutral-400 mt-0.5">
+                              {preset.description}
+                            </span>
+                          </button>
+                        ))}
+                      </div>
                     </div>
+
+                    <div className="flex flex-col sm:flex-row gap-2">
+                      <label className="block flex-1 min-w-0">
+                        <span className="sr-only">Search features</span>
+                        <input
+                          type="search"
+                          value={featureSearch}
+                          onChange={(e) => setFeatureSearch(e.target.value)}
+                          placeholder="Search features…"
+                          className="w-full rounded-lg border border-neutral-300 dark:border-neutral-700 bg-white dark:bg-neutral-900 px-3 py-2 text-sm focus:border-primary-500 focus:ring-2 focus:ring-primary-200 dark:focus:ring-primary-800 outline-none"
+                        />
+                      </label>
+                      <button
+                        type="button"
+                        onClick={() => setShowSelectedOnly((value) => !value)}
+                        disabled={features.length === 0}
+                        className={`shrink-0 px-3 py-2 rounded-lg border text-xs font-semibold transition-colors cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed ${
+                          showSelectedOnly
+                            ? 'border-primary-500 bg-primary-50 text-primary-700 dark:bg-primary-950/50 dark:text-primary-300 dark:border-primary-600'
+                            : 'border-neutral-300 dark:border-neutral-700 text-neutral-600 dark:text-neutral-400 hover:border-primary-400'
+                        }`}
+                      >
+                        Selected only ({features.length})
+                      </button>
+                    </div>
+                    <p className="text-[11px] text-neutral-500 dark:text-neutral-400">
+                      Click a feature to add; click again to remove.
+                    </p>
+
+                    <div className="space-y-2 max-h-[28rem] overflow-y-auto pr-1">
+                      {FEATURE_CATEGORY_ORDER.map((category) => {
+                        const items = catalogByCategory.get(category) ?? [];
+                        if (items.length === 0) return null;
+                        const isOpen = expandedCategories[category];
+                        const selectedInCategory = items.filter((item) =>
+                          selectedIds.has(item.id)
+                        ).length;
+
+                        return (
+                          <div
+                            key={category}
+                            className="rounded-xl border border-neutral-200/80 dark:border-neutral-800/80 overflow-hidden"
+                          >
+                            <button
+                              type="button"
+                              onClick={() => toggleCategory(category)}
+                              className="w-full flex items-center justify-between gap-2 px-3 py-2.5 bg-neutral-50 dark:bg-neutral-900/80 text-left cursor-pointer"
+                            >
+                              <span className="text-sm font-semibold text-neutral-800 dark:text-neutral-100">
+                                {FEATURE_CATEGORY_LABELS[category]}
+                                <span className="ml-2 text-xs font-normal text-neutral-500 dark:text-neutral-400">
+                                  {items.length} features
+                                  {selectedInCategory > 0 && (
+                                    <span className="ml-1 text-primary-600 dark:text-primary-400 font-medium">
+                                      · {selectedInCategory} selected
+                                    </span>
+                                  )}
+                                </span>
+                              </span>
+                              <ChevronDownIcon
+                                className={`h-4 w-4 text-neutral-500 transition-transform ${isOpen ? 'rotate-180' : ''}`}
+                              />
+                            </button>
+                            {isOpen && (
+                              <div className="p-2 grid sm:grid-cols-2 gap-2">
+                                {items.map((f) => {
+                                  const isSelected = selectedIds.has(f.id);
+                                  return (
+                                    <button
+                                      key={f.id}
+                                      type="button"
+                                      onClick={() => toggleFeature(f.id)}
+                                      aria-pressed={isSelected}
+                                      className={`relative text-left p-3 rounded-lg border-2 text-sm transition-all cursor-pointer ${
+                                        isSelected
+                                          ? 'border-primary-500 bg-primary-50/90 dark:bg-primary-950/50 shadow-sm ring-1 ring-primary-500/25'
+                                          : 'border-neutral-200 dark:border-neutral-700 bg-white dark:bg-neutral-900/80 hover:border-primary-300 hover:bg-neutral-50 dark:hover:bg-neutral-800/80'
+                                      }`}
+                                      title={f.desc ?? f.name}
+                                    >
+                                      {isSelected && (
+                                        <CheckCircleIcon
+                                          className="absolute top-2 right-2 h-5 w-5 text-primary-600 dark:text-primary-400"
+                                          aria-hidden
+                                        />
+                                      )}
+                                      <div
+                                        className={`font-semibold leading-tight pr-6 ${
+                                          isSelected
+                                            ? 'text-primary-900 dark:text-primary-100'
+                                            : 'text-neutral-900 dark:text-white'
+                                        }`}
+                                      >
+                                        {f.name}
+                                      </div>
+                                      <div
+                                        className={`text-xs mt-1 tabular-nums ${
+                                          isSelected
+                                            ? 'text-primary-700/80 dark:text-primary-300/90'
+                                            : 'text-neutral-500 dark:text-neutral-400'
+                                        }`}
+                                      >
+                                        ~{formatMMK(f.baseCost)} MMK
+                                      </div>
+                                    </button>
+                                  );
+                                })}
+                              </div>
+                            )}
+                          </div>
+                        );
+                      })}
+                      {filteredCatalog.length === 0 && (
+                        <p className="text-sm text-neutral-500 dark:text-neutral-400 py-4 text-center">
+                          No features match your search.
+                        </p>
+                      )}
+                    </div>
+
+                    <TierHintBanner tab={tab} subtotal={subtotal} />
                   </div>
 
-                  <div>
-                    <div className="flex items-center justify-between mb-3 gap-3">
-                      <h3 className="font-semibold text-neutral-900 dark:text-white">
-                        Selected features
+                  <div className="min-w-0 flex flex-col">
+                    <div className="flex items-center justify-between mb-2 gap-2">
+                      <h3 className="text-xs font-semibold uppercase tracking-wide text-neutral-500 dark:text-neutral-400">
+                        Selected
                       </h3>
                       {features.length > 0 && (
                         <button
-                          onClick={() => setFeatures([])}
-                          className="text-xs font-semibold text-neutral-600 dark:text-neutral-300 hover:text-primary-600 dark:hover:text-primary-300 cursor-pointer"
+                          type="button"
+                          onClick={() => {
+                            setFeatures([]);
+                            setShowSelectedOnly(false);
+                          }}
+                          className="text-[11px] font-semibold text-neutral-500 dark:text-neutral-400 hover:text-primary-600 dark:hover:text-primary-300 cursor-pointer"
                         >
-                          Remove all
+                          Clear all
                         </button>
                       )}
                     </div>
                     {features.length === 0 ? (
-                      <div className="rounded-xl border border-dashed border-neutral-300 dark:border-neutral-700 p-4 text-sm text-neutral-600 dark:text-neutral-400">
-                        No features selected yet. Add from the catalog.
+                      <div className="rounded-lg border border-dashed border-neutral-300 dark:border-neutral-700 px-3 py-2.5 text-xs text-neutral-600 dark:text-neutral-400 leading-snug">
+                        Add features from the catalog or a quick starter.
                       </div>
                     ) : (
-                      <div className="space-y-3 max-h-[34rem] overflow-y-auto pr-2">
+                      <div className="rounded-lg border border-neutral-200 dark:border-neutral-800 bg-neutral-50/80 dark:bg-neutral-900/50 divide-y divide-neutral-200 dark:divide-neutral-800 max-h-[28rem] overflow-y-auto">
                         {features.map((f) => (
                           <div
                             key={f.id}
-                            className="p-4 rounded-xl border border-neutral-200 dark:border-neutral-800 bg-white/90 dark:bg-neutral-900/70 shadow-sm"
+                            className="flex items-start gap-1.5 px-2 py-1.5"
                           >
-                            <div className="flex items-start justify-between gap-3">
-                              <div>
-                                <p className="font-semibold text-neutral-900 dark:text-white leading-tight">
-                                  {f.name}
-                                </p>
-                                <p className="text-xs text-neutral-500 dark:text-neutral-400">
-                                  ~{formatMMK(f.baseCost)} MMK
-                                </p>
-                              </div>
-                              <button
-                                onClick={() => removeFeature(f.id)}
-                                className="text-xs font-semibold text-red-500 hover:text-red-600 bg-red-50 dark:bg-red-900/30 px-2 py-1 rounded-lg cursor-pointer"
-                              >
-                                Remove
-                              </button>
+                            <div className="flex-1 min-w-0">
+                              <p className="text-xs font-medium text-neutral-900 dark:text-white leading-snug line-clamp-2">
+                                {f.name}
+                              </p>
+                              <p className="text-[10px] text-neutral-500 dark:text-neutral-400 mt-0.5 tabular-nums">
+                                ~{formatMMK(f.baseCost)} MMK
+                              </p>
                             </div>
+                            <button
+                              type="button"
+                              onClick={() => removeFeature(f.id)}
+                              aria-label={`Remove ${f.name}`}
+                              className="shrink-0 text-[11px] font-semibold text-red-600 dark:text-red-400 hover:text-red-700 dark:hover:text-red-300 px-1 py-0.5 rounded cursor-pointer"
+                            >
+                              ×
+                            </button>
                           </div>
                         ))}
                       </div>
+                    )}
+                    {features.length > 0 && (
+                      <p className="mt-2 text-xs font-semibold text-neutral-800 dark:text-neutral-100 tabular-nums">
+                        Subtotal: {estimatedLabel}
+                      </p>
                     )}
                   </div>
                 </div>
@@ -501,7 +811,7 @@ export default function EstimatePage() {
                   )}
                 </div>
 
-                <div className="flex items-center justify-between">
+                <div className="flex flex-wrap items-end justify-between gap-4">
                   <div>
                     <p className="text-xs uppercase tracking-wide text-neutral-500 dark:text-neutral-400 font-semibold">
                       Total
@@ -509,13 +819,18 @@ export default function EstimatePage() {
                     <p className="text-2xl font-black text-neutral-900 dark:text-white">
                       {estimatedLabel}
                     </p>
+                    <TierHintBanner
+                      tab={tab}
+                      subtotal={subtotal}
+                      className="mt-2"
+                    />
                   </div>
                   <button
+                    type="button"
                     onClick={() => {
                       void handleShareEstimate();
                     }}
                     className="inline-flex items-center gap-2 px-4 py-2 rounded-lg border border-neutral-300 dark:border-neutral-700 text-neutral-800 dark:text-neutral-100 hover:border-primary-400 hover:text-primary-600 dark:hover:text-primary-300 transition-colors cursor-pointer"
-                    type="button"
                   >
                     <LinkIcon className="h-4 w-4" />
                     Share this estimate
@@ -588,6 +903,7 @@ export default function EstimatePage() {
 
                 <div className="flex justify-end">
                   <button
+                    type="button"
                     onClick={handleSendConfirmation}
                     className="px-4 py-2 rounded-lg bg-primary-600 text-white font-semibold hover:bg-primary-500 disabled:opacity-60 cursor-pointer"
                     disabled={sending || !canSubmitStep3}
@@ -607,30 +923,42 @@ export default function EstimatePage() {
 
             <div className="flex flex-wrap justify-between items-center gap-3">
               <button
-                onClick={() =>
-                  setStep((prev) =>
-                    prev === 1 ? 1 : ((prev - 1) as 1 | 2 | 3)
-                  )
-                }
+                type="button"
+                onClick={() => {
+                  if (step > 1) {
+                    goToStep((step - 1) as WizardStep);
+                  }
+                }}
                 className="px-4 py-2 rounded-lg border border-neutral-300 dark:border-neutral-700 text-neutral-800 dark:text-neutral-100 hover:border-primary-400 disabled:opacity-50 cursor-pointer"
                 disabled={step === 1 || sending}
               >
                 Back
               </button>
-              <div className="flex items-center gap-3">
-                <div className="text-sm text-neutral-600 dark:text-neutral-400">
-                  {step < 3 && `Estimated total: ${estimatedLabel}`}
-                </div>
+              <div className="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-3 min-w-0">
+                {step < 3 && (
+                  <div className="text-sm text-neutral-600 dark:text-neutral-400">
+                    <span className="font-medium">
+                      Estimated total: {estimatedLabel}
+                    </span>
+                    {subtotal > 0 && (
+                      <span className="hidden sm:inline">
+                        {' '}
+                        ·{' '}
+                        {getEstimateTierHint(tab, subtotal).message ??
+                          'Add features to compare with packages'}
+                      </span>
+                    )}
+                  </div>
+                )}
                 {step < 3 && (
                   <button
-                    onClick={() =>
-                      setStep((prev) => {
-                        if (prev === 1 && !canProceedStep1) return prev;
-                        if (prev === 2 && !canProceedStep2) return prev;
-                        return (prev + 1) as 1 | 2 | 3;
-                      })
-                    }
-                    className="px-5 py-2 rounded-lg bg-primary-600 text-white font-semibold hover:bg-primary-500 disabled:opacity-50 cursor-pointer"
+                    type="button"
+                    onClick={() => {
+                      if (step === 1 && !canProceedStep1) return;
+                      if (step === 2 && !canProceedStep2) return;
+                      setStep((step + 1) as WizardStep);
+                    }}
+                    className="px-5 py-2 rounded-lg bg-primary-600 text-white font-semibold hover:bg-primary-500 disabled:opacity-50 cursor-pointer shrink-0"
                     disabled={(step === 2 && !canProceedStep2) || sending}
                   >
                     Next
@@ -641,7 +969,46 @@ export default function EstimatePage() {
           </div>
         </div>
       </div>
-      {/* Huray Success Modal */}
+      <Modal
+        isOpen={pendingPreset !== null}
+        onClose={() => setPendingPreset(null)}
+        title="Replace current selection?"
+        size="sm"
+      >
+        {pendingPreset && (
+          <div className="space-y-4">
+            <p className="text-sm text-neutral-600 dark:text-neutral-400">
+              You have {features.length} feature
+              {features.length === 1 ? '' : 's'} selected. Replace them with the{' '}
+              <span className="font-semibold text-neutral-900 dark:text-neutral-100">
+                {pendingPreset.label}
+              </span>{' '}
+              starter set?
+            </p>
+            <p className="text-xs text-neutral-500 dark:text-neutral-400 rounded-lg bg-neutral-50 dark:bg-neutral-800/80 px-3 py-2">
+              {pendingPreset.description} ({pendingPreset.featureIds.length}{' '}
+              features)
+            </p>
+            <div className="flex flex-col-reverse sm:flex-row sm:justify-end gap-2 pt-1">
+              <button
+                type="button"
+                onClick={() => setPendingPreset(null)}
+                className="px-4 py-2 rounded-lg border border-neutral-300 dark:border-neutral-700 text-neutral-800 dark:text-neutral-100 hover:border-primary-400 transition-colors cursor-pointer"
+              >
+                Keep current
+              </button>
+              <button
+                type="button"
+                onClick={confirmPresetReplace}
+                className="px-4 py-2 rounded-lg bg-primary-600 text-white font-semibold hover:bg-primary-500 transition-colors cursor-pointer"
+              >
+                Replace selection
+              </button>
+            </div>
+          </div>
+        )}
+      </Modal>
+
       <Modal
         isOpen={isHurayOpen}
         onClose={() => setIsHurayOpen(false)}
@@ -657,7 +1024,8 @@ export default function EstimatePage() {
               Your request was sent successfully
             </h3>
             <p className="text-sm text-neutral-600 dark:text-neutral-400 mt-1">
-              I’ll reach out shortly via your provided contact details. Thanks!
+              I&apos;ll reach out shortly via your provided contact details.
+              Thanks!
             </p>
           </div>
           {shareState.type !== 'idle' && (
@@ -673,18 +1041,19 @@ export default function EstimatePage() {
           )}
           <div className="pt-2 flex flex-col sm:flex-row gap-3">
             <button
+              type="button"
               onClick={() => {
                 if (lastSharedEstimate) {
                   void handleShareEstimate(lastSharedEstimate);
                 }
               }}
               className="px-4 py-2 rounded-lg border border-neutral-300 dark:border-neutral-700 text-neutral-800 dark:text-neutral-100 hover:border-primary-400 hover:text-primary-600 dark:hover:text-primary-300 cursor-pointer"
-              type="button"
               disabled={!lastSharedEstimate}
             >
               Share this estimate
             </button>
             <button
+              type="button"
               onClick={() => setIsHurayOpen(false)}
               className="px-4 py-2 rounded-lg bg-primary-600 text-white font-semibold hover:bg-primary-500 cursor-pointer"
             >
