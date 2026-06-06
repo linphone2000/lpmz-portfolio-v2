@@ -1,0 +1,32 @@
+---
+description: Core consistency standards for the full codebase
+alwaysApply: true
+---
+
+# Core Consistency
+
+- Follow existing parent/child module flow before adding new logic.
+- Reuse shared utilities, hooks, and common components before creating new ones.
+- Prefer `@/*` imports for app code; avoid deep relative imports when alias is clearer.
+- Keep naming descriptive and stable across pages, components, hooks, and lib modules.
+- Handle failures explicitly (return typed fallbacks, throw meaningful errors, or return proper responses).
+- Write comments only when they explain non-obvious reasoning, not obvious mechanics.
+- Keep changes scoped; avoid mixing refactors with feature or bug-fix logic in one patch.
+- Avoid `React.` namespace usage in code. Import hooks and React types directly (e.g. `useEffect`, `ReactNode`, `PropsWithChildren`, `CSSProperties`, `FormEvent`) instead of `React.useEffect` or `React.ReactNode`.
+
+## Example
+
+```ts
+// ❌ BAD: duplicates existing helper and hides failure details
+const classes = ['a', cond && 'b'].filter(Boolean).join(' ');
+catch (e) { return null; }
+
+// ✅ GOOD: reuses shared helper and preserves useful error context
+import { cx } from '@/lib/utils';
+const classes = cx('a', cond && 'b');
+catch (error) {
+  throw new Error(
+    `Unable to process profile data: ${error instanceof Error ? error.message : 'Unknown error'}`
+  );
+}
+```

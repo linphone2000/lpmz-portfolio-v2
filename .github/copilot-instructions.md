@@ -1,5 +1,7 @@
 **Copilot Guide for lpmz-portfolio-v2**
 
+> Additional project-specific instruction files live under `.github/instructions/`. Use those for focused guidance on API routes, Next.js patterns, UI conventions, TypeScript style, and overall architecture.
+
 - Framework: Next.js App Router on React 19; shared layout and fonts live in [src/app/layout.tsx](src/app/layout.tsx). Page metadata defined per route (e.g., services at [src/app/page.tsx](src/app/page.tsx), overview at [src/app/overview/page.tsx](src/app/overview/page.tsx), portfolio at [src/app/portfolio/page.tsx](src/app/portfolio/page.tsx), education at [src/app/education/page.tsx](src/app/education/page.tsx)).
 - Shell: All pages render inside [src/components/Common/PageShell.tsx](src/components/Common/PageShell.tsx), which is client-only and waits for the theme hook to mount before rendering to avoid hydration mismatch. Keep new top-level UI inside this shell so scroll progress, blobs, nav, and error boundary stay wired.
 - Navigation/theme: [src/components/Common/TabNavigation.tsx](src/components/Common/TabNavigation.tsx) drives tabs and theme toggle; visibility is controlled by the throttled scroll hook. Dark mode state is stored in `localStorage` via [src/hooks/useDarkMode.ts](src/hooks/useDarkMode.ts). When changing nav items, keep `getActiveTab` in PageShell in sync with tab hrefs.
