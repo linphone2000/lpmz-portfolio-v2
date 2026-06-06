@@ -1,5 +1,5 @@
 ---
-alwaysApply: true
+applyTo: '**'
 ---
 
 # Architecture & Patterns (yoyic-admin)

@@ -1,5 +1,5 @@
 ---
-alwaysApply: true
+applyTo: '**'
 ---
 
 # React Next.js Patterns

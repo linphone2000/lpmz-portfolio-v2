@@ -1,5 +1,5 @@
 ---
-alwaysApply: true
+applyTo: '**'
 ---
 
 # UI & Components (yoyic-admin)

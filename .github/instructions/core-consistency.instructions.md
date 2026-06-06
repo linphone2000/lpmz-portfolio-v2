@@ -1,6 +1,6 @@
 ---
 description: Core consistency standards for the full codebase
-alwaysApply: true
+applyTo: '**'
 ---
 
 # Core Consistency
