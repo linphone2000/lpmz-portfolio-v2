@@ -37,6 +37,7 @@ export type PortfolioCMSData = {
   about: typeof DATA;
   experience: typeof DATA.experience;
   projects: typeof DATA.projects;
+  clientWork: typeof DATA.clientWork;
   skills: typeof DATA.skills;
   education: typeof DATA.education;
   certs: typeof DATA.certs;
@@ -50,6 +51,7 @@ export const fallbackPortfolioContent: PortfolioCMSData = {
   about: DATA,
   experience: DATA.experience,
   projects: DATA.projects,
+  clientWork: DATA.clientWork,
   skills: DATA.skills,
   education: DATA.education,
   certs: DATA.certs,

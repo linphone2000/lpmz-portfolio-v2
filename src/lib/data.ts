@@ -1,4 +1,102 @@
 // Portfolio data - centralized for easy updates
+import type { ClientWorkEntry } from '@/lib/types';
+
+const CLIENT_WORK: ClientWorkEntry[] = [
+  {
+    id: 'schoolflow',
+    clientName: 'SchoolFlow',
+    engagement: 'School Management System',
+    summary:
+      'Delivered a completed mobile app experience for students, parents, and schools with attendance, assignments, schedule, grades, payments, chat, leave requests, and role-based dashboards.',
+    status: 'Completed',
+    technologies: [
+      'React Native',
+      'Expo',
+      'TypeScript',
+      'Next.js',
+      'Supabase',
+      'PostgreSQL',
+    ],
+    featuredScreenshot: {
+      src: '/schoolflow-project/student home.png',
+      presentation: 'mobile',
+      screenshots: [
+        '/schoolflow-project/parent home.png',
+        '/schoolflow-project/student home.png',
+        '/schoolflow-project/student assignments.png',
+      ],
+    },
+  },
+  {
+    id: 'yoyic',
+    clientName: 'Yoyic',
+    engagement: 'Multi-vendor E-Commerce',
+    summary:
+      'Developing a multi-vendor marketplace with a customer mobile app and seller/admin web portal. Established CI/CD pipelines and coordinated data integration between client app and admin panel.',
+    status: 'Completed',
+    technologies: [
+      'React Native',
+      'Expo',
+      'React',
+      'Node.js',
+      'Express.js',
+      'PostgreSQL',
+    ],
+    featuredScreenshot: {
+      src: '/yoyic-mobile/home.png',
+      presentation: 'mobile',
+    },
+    deliverables: [
+      {
+        title: 'Customer Mobile App',
+        description:
+          'Mobile shopping experience with auth, cart, checkout, order tracking, reviews, and push notifications.',
+        platform: 'mobile',
+        screenshotSrc: '/yoyic-mobile/home.png',
+        screenshotPresentation: 'mobile',
+      },
+      {
+        title: 'Admin Web Portal',
+        description:
+          'Seller and admin web portal for dashboard management, orders, payments, and product administration.',
+        platform: 'web',
+        screenshotSrc: '/yoyic-admin/dashboard.png',
+        screenshotPresentation: 'web',
+      },
+    ],
+  },
+  {
+    id: 'technortal',
+    clientName: 'Technortal',
+    engagement: 'EdTech Learning Platform',
+    summary:
+      'Built the core backend using Express.js and PostgreSQL. Implemented multi-role authentication, course enrollment, a gamified community forum, and payment verification. Managed SDLC sprints for the frontend team.',
+    status: 'Completed',
+    technologies: [
+      'Node.js',
+      'Express.js',
+      'PostgreSQL',
+      'Sequelize',
+      'JWT',
+      'AWS S3',
+    ],
+    liveUrl: 'https://technortal.com',
+    featuredScreenshot: {
+      src: '/technortal-project/tec1.png',
+      presentation: 'web',
+    },
+  },
+  {
+    id: 'info-smart-campus',
+    clientName: 'Info Smart Campus',
+    engagement: 'App Store Release Ops',
+    summary:
+      'Managed the complete Apple App Store release process for Info Myanmar College, handling certification requirements, provisioning profiles, and ongoing version updates.',
+    status: 'Completed',
+    technologies: ['iOS', 'App Store Connect', 'Provisioning Profiles', 'Expo'],
+  },
+];
+
 export const DATA = {
   name: 'Lin Phone Myint Zaw',
   title: 'Freelance Full-Stack & React Native Developer',
@@ -15,7 +113,8 @@ export const DATA = {
   about: {
     valueProposition:
       'You get clear milestones, direct communication, and production-ready mobile and API work—from scoped MVP through App Store release. Code structured for handoff so your team can own it after delivery.',
-    tagline: 'Shipped mobile and APIs for schools, commerce, and EdTech clients',
+    tagline:
+      'Shipped mobile and APIs for schools, commerce, and EdTech clients',
     availability: 'Open to freelance & contract work',
     yearsOfExperience: 3,
     yearsLabel: 'Years shipping for clients',
@@ -109,10 +208,7 @@ export const DATA = {
       ],
     },
   ],
-  /** Optional live URLs for client work entries (keyed by client/project name as in experience bullets). */
-  clientWorkLinks: {
-    Technortal: 'https://technortal.com',
-  },
+  clientWork: CLIENT_WORK,
   projects: [
     {
       name: 'SchoolFlow - Mobile School Management System',

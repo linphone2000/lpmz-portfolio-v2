@@ -11,10 +11,12 @@ Project setup, API services, state management, authentication, navigation, and c
 ## Project Setup
 
 ### Tech Stack
+
 - Next.js 16, React 19, TypeScript (strict mode)
 - Tailwind CSS, React Query (TanStack Query), Zustand, JWT authentication
 
 ### Architecture Flow
+
 ```
 UI Components → React Query Hooks → API Services → API Client → Network
                                      ↓
@@ -22,6 +24,7 @@ UI Components → React Query Hooks → API Services → API Client → Network
 ```
 
 ### Folder Structure
+
 - `/app` – Next.js App Router pages and layouts
 - `/components` – UI components
 - `/services` – API services (pure async functions)
@@ -32,6 +35,7 @@ UI Components → React Query Hooks → API Services → API Client → Network
 - `/lib` – Shared logic (apiClient, etc.)
 
 ### Path Alias & TypeScript
+
 - Always use `@/` alias (never relative paths)
 - Never use `any`; define interfaces in `/types`; use type inference where possible
 
@@ -40,25 +44,31 @@ UI Components → React Query Hooks → API Services → API Client → Network
 ## API Service Patterns
 
 ### API Client
+
 - Use axios. Base URL: `NEXT_PUBLIC_API_BASE_URL` (host root only). `apiClient` appends `/api/`. Use `NEXT_PUBLIC_API_BASE_URL` directly for health checks (e.g. `${NEXT_PUBLIC_API_BASE_URL}/health`).
 - Auth: `Authorization: Bearer <token>` (Postman Bearer auth type). Read token from cookie or localStorage on each request (client-side).
 - Return `ApiResponse<T>` with `{ resCode, message, data }`; throw plain `Error`. On 401/403: delete token, call `onAuthError?.()`, throw.
 
 ### API Paths
+
 - Source of truth: `docs/Yoyic E-Commerce API.postman_collection.json`. Path constants: `services/apiPaths.ts` (`API_PATHS`). Use these in services so paths stay in sync with Postman.
 
 ### Services
+
 - Location: `/services/[resource]Service.ts`. Pure async functions; no React, hooks, or Zustand. Never update UI or global state; return data only. Use `apiClient` and `API_PATHS`; return `ApiResponse<T>`. Server Components can call services directly (no hooks).
 
 ```typescript
 export const userService = {
-  getUsers: async (params?: GetUsersParams): Promise<ApiResponse<{ users: User[] }>> => {
+  getUsers: async (
+    params?: GetUsersParams
+  ): Promise<ApiResponse<{ users: User[] }>> => {
     return await apiClient.get<{ users: User[] }>('/users', params);
   },
 };
 ```
 
 ### React Query Hooks
+
 - **Use directly in components when:** simple wrapper, single use, no Zustand, no complex cache.
 - **Create separate hook files (`/hooks`) when:** Zustand updates, token storage, query invalidation/cache, reuse, or complex logic.
 
@@ -87,6 +97,7 @@ export function useDeleteUser() {
 ```
 
 ### Error Handling & Filtering
+
 - Use `handleApiError()` for user-facing messages; apiClient throws plain `Error`. Never show technical errors to users.
 - **Server-side filtering:** Always prefer API query params for search, status, filters. Do not fetch all data and filter in the browser (except tiny static sets).
 

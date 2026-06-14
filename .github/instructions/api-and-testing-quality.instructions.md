@@ -34,7 +34,9 @@ export async function GET() {
     return NextResponse.json({ ok: true }, { status: 200 });
   } catch (error) {
     return NextResponse.json(
-      { error: `Unexpected API error: ${error instanceof Error ? error.message : 'Unknown error'}` },
+      {
+        error: `Unexpected API error: ${error instanceof Error ? error.message : 'Unknown error'}`,
+      },
       { status: 500 }
     );
   }

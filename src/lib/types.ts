@@ -56,6 +56,32 @@ export type ProjectPreviewScreenshot = NonNullable<
   NonNullable<Project['preview']>['screenshots']
 >[number];
 
+// Client work types
+export interface ClientWorkDeliverable {
+  title: string;
+  description: string;
+  platform: 'mobile' | 'web' | 'backend';
+  screenshotSrc?: string;
+  screenshotPresentation?: 'mobile' | 'web';
+}
+
+export interface ClientWorkEntry {
+  id: string;
+  clientName: string;
+  engagement: string;
+  summary: string;
+  status: 'Completed' | 'In Development' | 'Ongoing';
+  technologies: string[];
+  liveUrl?: string;
+  featuredScreenshot?: {
+    src: string;
+    presentation: 'mobile' | 'web';
+    /** Mobile collage: [left, center, right] — center image displays slightly larger */
+    screenshots?: [string, string, string];
+  };
+  deliverables?: ClientWorkDeliverable[];
+}
+
 // Experience types
 export interface Experience {
   company: string;

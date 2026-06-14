@@ -1,6 +1,6 @@
 ---
 name: lpmz-portfolio-v2
-description: "Workspace agent for the lpmz-portfolio-v2 Next.js portfolio app. Use when editing pages, components, hooks, API routes, styles, or repo-specific behavior in this project."
+description: 'Workspace agent for the lpmz-portfolio-v2 Next.js portfolio app. Use when editing pages, components, hooks, API routes, styles, or repo-specific behavior in this project.'
 ---
 
 # lpmz-portfolio-v2 agent

@@ -11,23 +11,29 @@ Components, UI/UX patterns, theming, confirmation modals, and tooltips. Central 
 ## Component Guidelines
 
 ### Server vs Client
+
 - **Server Components:** default, no `"use client"`, can async fetch; no hooks or browser APIs.
 - **Client Components:** add `"use client"` when using hooks, browser APIs, or event handlers. Data flow: Server passes data to Client as props.
 
 ### Component Pattern
+
 - `export default function` (not arrow functions); props interface `ComponentNameProps`. Tailwind only (no inline styles). `useCallback`/`useMemo` for expensive work in Client Components. Split or extract helpers if file exceeds ~300 lines.
 
 ### Page Structure
+
 - Semantic layout: `<main>`, `<header>`, `<nav>`, `<article>`. Admin: sidebar, header, content. Tailwind: `min-h-screen`, `p-4`, `space-y-4`, `container`; `bg-background` or `bg-zinc-50 dark:bg-zinc-900`. Content: `p-4` or `px-4 py-6`.
 
 ### Forms & React Query
+
 - Use `<form>` with `onSubmit`; Client Components for form state and validation. Use React Query in Client: `isPending`/`isLoading`, `error`, navigation in `onSuccess`/`onError`; show loading until data arrives.
 
 ### Modals
+
 - Location: `components/Modals/` by feature. Radix Dialog or portal. Screen owns visibility (`open`, `onClose`, data); modal owns form state, validation, mutations.
 - **Modals** for: critical confirmations, irreversible actions, complex/multi-step flows. **Toasts** for: success feedback, non-critical updates, non-blocking errors.
 
 ### Loading
+
 - **ListLoading** (`@/components/Loading/ListLoading`): list/table pages (Shops, Products, Categories, Orders, Coupons, Refunds, Reviews, Payment Methods, Users). Table-style shimmer.
 - **DetailsLoading** (`@/components/Loading/DetailsLoading`): detail/form pages (order detail, product form edit, profile, shop detail, etc.). Card-style shimmer. Do not use ad-hoc "Loading…" or lone spinners for list/detail content.
 
@@ -43,6 +49,7 @@ Components, UI/UX patterns, theming, confirmation modals, and tooltips. Central 
 ## UI/UX Guidelines
 
 ### Core Principles
+
 1. **Consistency:** Semantic utility classes (e.g. `.text-h1`, `.text-overline`); no arbitrary font sizes.
 2. **Hierarchy:** Typography and color (foreground vs muted).
 3. **Feedback:** Hover/active states and transitions; all clickable elements MUST have `cursor-pointer`.
@@ -51,22 +58,24 @@ Components, UI/UX patterns, theming, confirmation modals, and tooltips. Central 
 
 ### Typography (strict scale)
 
-| Element        | Class            | Usage                          |
-|----------------|------------------|--------------------------------|
-| Display        | `.text-display`  | Marketing headers, major stats |
-| Page Title     | `.text-h1`       | Page main headings             |
-| Section Title  | `.text-h2`       | Card headers, modal titles     |
-| Subsection     | `.text-h3`       | Inner card sections            |
-| Body           | `.text-body`     | Default paragraph text         |
-| Small          | `.text-small`    | Helper text, secondary info    |
-| Overline       | `.text-overline` | Labels, column headers, badges |
-| Mono           | `.font-mono`     | IDs, SKUs, code                |
+| Element       | Class            | Usage                          |
+| ------------- | ---------------- | ------------------------------ |
+| Display       | `.text-display`  | Marketing headers, major stats |
+| Page Title    | `.text-h1`       | Page main headings             |
+| Section Title | `.text-h2`       | Card headers, modal titles     |
+| Subsection    | `.text-h3`       | Inner card sections            |
+| Body          | `.text-body`     | Default paragraph text         |
+| Small         | `.text-small`    | Helper text, secondary info    |
+| Overline      | `.text-overline` | Labels, column headers, badges |
+| Mono          | `.font-mono`     | IDs, SKUs, code                |
 
 ### Colors & Spacing
+
 - **Backgrounds:** `bg-background`, `bg-card`, `bg-muted`. **Text:** `text-foreground`, `text-muted-foreground`, `text-primary`, `text-destructive`. **Borders:** `border-border`, `border-input-border`.
 - **Page:** `p-4 space-y-6 md:p-6`. **Card:** `p-4` or `p-6`. **Gap:** `gap-2`–`gap-6`. **Radius:** `rounded-xl` (cards/inputs), `rounded-2xl` (modals), `rounded-lg` (inner). **Shadows:** `shadow-sm`, `shadow-md`, `shadow-xl`.
 
 ### Component Patterns
+
 - **Buttons:** `h-10` or `h-8`; primary/secondary/ghost/icon; `cursor-pointer`. Primary action (header): `h-10 px-5 py-2.5 rounded-full`, `shadow-sm`, PlusIcon for create.
 - **Inputs:** `w-full rounded-xl border border-input-border bg-background px-4 py-2.5`; focus ring `focus:border-primary focus:ring-2 focus:ring-primary/10 outline-none`. Label: `text-sm font-medium text-foreground mb-1.5`.
 - **Cards:** `bg-card border border-border rounded-xl shadow-sm`; header `border-b border-border p-4`; content `p-4` or `p-6`.
@@ -74,6 +83,7 @@ Components, UI/UX patterns, theming, confirmation modals, and tooltips. Central 
 - **Status badges:** `inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-medium border`; transparent-glass (`/10` bg) with border; emerald/amber/rose/blue for status.
 
 ### Tables & Listings
+
 - **Layout:** `<main className="space-y-6">`; header flex `justify-between items-center`; container `.rounded-2xl border border-border bg-card/80 p-5`; table wrapper `.overflow-x-auto rounded-xl border border-border bg-background/40`.
 - **Filter row:** `mb-6 flex flex-wrap items-end gap-3`. Order: search → filters → clear (icon only when `hasActiveFilters`) → spacer `flex-1 min-w-4` → refresh. Clear: icon only, `XMarkIcon`, `title="Clear filters"`. Refresh: `ArrowPathIcon`, spin when fetching, `title="Refresh …"`.
 - **Table:** Header `.text-[0.65rem] uppercase tracking-[0.2em] text-muted-foreground`; rows `hover:bg-muted/50`; cells `px-4 py-3`. **Never** combine image and name in one cell; use separate image column (e.g. `w-16`). Empty: single row with `colSpan`. Actions: Eye/Pencil/Trash with hover.
