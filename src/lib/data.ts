@@ -130,7 +130,7 @@ export const DATA = {
   experience: [
     {
       company: 'Smilax Global Co., Ltd',
-      role: 'Mobile Developer (Mid-Senior Level)',
+      role: 'Senior Mobile Developer',
       period: 'May 2026 – Present',
       location: 'Yangon, Myanmar',
       type: 'Full-time',
