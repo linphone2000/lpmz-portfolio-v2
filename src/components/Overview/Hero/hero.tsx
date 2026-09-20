@@ -83,8 +83,8 @@ export const Hero = () => {
   ];
 
   return (
-    <section id="about" className="relative py-20 flex items-center">
-      <div className="max-w-7xl mx-auto px-6 w-full">
+    <section id="about" className="relative flex items-center py-20">
+      <div className="mx-auto w-full max-w-7xl px-6">
         <div
           ref={heroRef}
           className={`transition-all duration-1000 ease-out ${

@@ -2,7 +2,7 @@ import type { Metadata } from 'next';
 import { PageShell } from '@/components/Common/PageShell';
 import { Hero } from '@/components/Overview/Hero/hero';
 import { ClientWork } from '@/components/Overview/ClientWork/ClientWork';
-import { FeaturedProject } from '@/components/Overview/FeaturedProject/FeaturedProject';
+import FeaturedProject from '@/components/Overview/FeaturedProject/FeaturedProject';
 import { Contact } from '@/components/Common/contact';
 
 export const metadata: Metadata = {

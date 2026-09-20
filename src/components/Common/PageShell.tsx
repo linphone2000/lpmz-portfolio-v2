@@ -6,6 +6,7 @@ import { ScrollProgress, Blobs } from '@/components/Common/Effects';
 import { TabNavigation } from '@/components/Common/TabNavigation';
 import { ScrollToTop } from '@/components/Common/ScrollToTop';
 import { ErrorBoundary } from '@/components/Common/ErrorBoundary';
+import MotionRoot from '@/components/Motion/MotionRoot';
 import { useDarkMode } from '@/hooks/useDarkMode';
 import { PortfolioDataProvider } from '@/providers/PortfolioDataProvider';
 
@@ -18,7 +19,6 @@ const getActiveTab = (pathname: string) => {
   if (pathname.startsWith('/services')) return 'services';
   if (pathname.startsWith('/portfolio')) return 'portfolio';
   if (pathname.startsWith('/education')) return 'about';
-  // default to home so unknown paths keep nav highlighted
   return 'home';
 };
 
@@ -30,7 +30,7 @@ export const PageShell = ({ children }: PageShellProps) => {
 
   useEffect(() => {
     if (prevTabRef.current && prevTabRef.current !== activeTab) {
-      window.scrollTo({ top: 0, behavior: 'smooth' });
+      window.scrollTo({ top: 0, behavior: 'auto' });
     }
     prevTabRef.current = activeTab;
   }, [activeTab]);
@@ -42,7 +42,7 @@ export const PageShell = ({ children }: PageShellProps) => {
   return (
     <ErrorBoundary>
       <PortfolioDataProvider>
-        <div className="min-h-screen relative bg-neutral-50 dark:bg-neutral-900 text-neutral-900 dark:text-neutral-100">
+        <div className="relative min-h-[100dvh] bg-neutral-50 text-neutral-900 dark:bg-neutral-900 dark:text-neutral-100">
           <ScrollProgress />
           <Blobs activeTab={activeTab} />
 
@@ -53,9 +53,7 @@ export const PageShell = ({ children }: PageShellProps) => {
             mounted={mounted}
           />
 
-          <div className="animate-[fadeInUp_0.3s_ease-out_forwards]">
-            {children}
-          </div>
+          <MotionRoot>{children}</MotionRoot>
 
           <ScrollToTop />
         </div>
@@ -63,5 +61,3 @@ export const PageShell = ({ children }: PageShellProps) => {
     </ErrorBoundary>
   );
 };
-
-PageShell.displayName = 'PageShell';

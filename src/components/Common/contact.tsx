@@ -29,8 +29,8 @@ export const Contact = () => {
       <SectionDivider className="py-8" />
 
       <div className="max-w-5xl mx-auto px-4">
-        <div className="text-center mb-12">
-          <h2 className="text-3xl font-bold mb-4 text-neutral-900 dark:text-neutral-100">
+        <div className="reveal mb-12 text-center">
+          <h2 className="mb-4 text-3xl font-bold text-neutral-900 dark:text-neutral-100">
             Get In Touch
           </h2>
           <p className="text-neutral-600 dark:text-neutral-300 max-w-2xl mx-auto">
