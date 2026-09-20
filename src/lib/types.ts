@@ -7,7 +7,7 @@ export interface Tab {
   icon: string;
 }
 
-// Project types
+  // Project types
 export interface Project {
   name: string;
   stack: string[];
@@ -17,6 +17,7 @@ export interface Project {
   category: string;
   year: number;
   status: string;
+  /** Short highlights for the modal (keep to ~3–4; UI caps display at 4). */
   features: string[];
   demoAccount?: {
     email: string;

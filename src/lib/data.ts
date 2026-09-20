@@ -3,6 +3,54 @@ import type { ClientWorkEntry } from '@/lib/types';
 
 const CLIENT_WORK: ClientWorkEntry[] = [
   {
+    id: 'perfume-tower-mobile',
+    clientName: 'Perfume Tower',
+    engagement: 'Customer Mobile App',
+    summary:
+      'Built the React Native customer app for a fragrance commerce platform—catalog browsing, wishlist, orders, and live inventory states—backed by a shared Express and Supabase stack.',
+    status: 'Completed',
+    technologies: [
+      'React Native',
+      'Expo',
+      'TypeScript',
+      'Node.js',
+      'Express.js',
+      'Supabase',
+      'PostgreSQL',
+    ],
+    featuredScreenshot: {
+      src: '/perfume-tower/perfume-mobile-1.jpg',
+      presentation: 'mobile',
+      screenshots: [
+        '/perfume-tower/perfume-mobile-2.jpg',
+        '/perfume-tower/perfume-mobile-1.jpg',
+        '/perfume-tower/perfume-mobile-3.jpg',
+      ],
+    },
+  },
+  {
+    id: 'perfume-tower-web',
+    clientName: 'Perfume Tower',
+    engagement: 'E-Commerce Storefront',
+    summary:
+      'Shipped the Next.js storefront for perfume-tower.shop and owned API, database, and production ops—DigitalOcean Droplet deploys with CI/CD and PM2 on the shared backend.',
+    status: 'Completed',
+    technologies: [
+      'Next.js',
+      'Node.js',
+      'Express.js',
+      'Supabase',
+      'PostgreSQL',
+      'CI/CD',
+      'PM2',
+    ],
+    liveUrl: 'https://perfume-tower.shop',
+    featuredScreenshot: {
+      src: '/perfume-tower/perfume-web-1.png',
+      presentation: 'web',
+    },
+  },
+  {
     id: 'schoolflow',
     clientName: 'SchoolFlow',
     engagement: 'School Management System',
@@ -118,7 +166,7 @@ export const DATA = {
     availability: 'Open to freelance & contract work',
     yearsOfExperience: 3,
     yearsLabel: 'Years shipping for clients',
-    totalProjects: 5,
+    totalProjects: 7,
     technologiesMastered: 10,
     typewriterStrings: [
       'Senior Mobile Developer',
@@ -162,6 +210,8 @@ export const DATA = {
       location: 'Yangon, Myanmar',
       type: 'Freelance',
       bullets: [
+        'Perfume Tower – Customer Mobile App: Built the React Native/Expo commerce app for fragrance shopping (catalog, wishlist, orders, inventory states) against a shared Express and Supabase backend.',
+        'Perfume Tower – Web Storefront: Delivered the Next.js storefront at perfume-tower.shop and owned API, Postgres/Supabase data, and Droplet production deploys with CI/CD and PM2.',
         'School Management System (Client: SchoolFlow): Delivered a completed mobile app experience for students, parents, and schools with attendance, assignments, schedule, grades, payments, chat, leave requests, and role-based dashboards.',
         'Multi-vendor E-Commerce Platform (Client: Yoyic): Developing an E-Commerce mobile app with React Native and Express.js. Established CI/CD pipelines for automated testing and deployment, and coordinated with frontend developer to ensure data integration between client app and admin panel.',
         'Education Platform (Client: Technortal): Built the core backend using Express.js and PostgreSQL. Implemented business logic for multi-role authentication, course enrollment, a gamified community forum (XP/Point system), and payment verification. Managed the SDLC by defining sprints and tasks for the frontend team of developer and designer.',
@@ -169,11 +219,14 @@ export const DATA = {
       ],
       technologies: [
         'React Native',
+        'Next.js',
         'Node.js',
         'Express.js',
+        'Supabase',
         'PostgreSQL',
         'Jira',
         'CI/CD',
+        'PM2',
         'AWS S3',
         'Project Management',
       ],
@@ -218,6 +271,119 @@ export const DATA = {
   ],
   clientWork: CLIENT_WORK,
   projects: [
+    {
+      name: 'Perfume Tower – Customer Mobile App',
+      stack: [
+        'React Native',
+        'Expo',
+        'TypeScript',
+        'Express.js',
+        'Supabase',
+        'PostgreSQL',
+      ],
+      blurb:
+        'Customer mobile app for a fragrance commerce platform. Catalog browsing, wishlist, orders, and inventory-aware product states, connected to a shared Express and Supabase backend.',
+      href: '#',
+      highlight: true,
+      category: 'Mobile Development',
+      year: 2026,
+      status: 'Completed',
+      features: [
+        'End-to-end mobile commerce for fragrance retail',
+        'Catalog, wishlist, and order flows',
+        'Live inventory states (low stock / out of stock)',
+        'Shared API and data layer with the web storefront',
+      ],
+      preview: {
+        platform: 'iOS & Android',
+        featurePills: ['Catalog', 'Wishlist', 'Orders', 'Inventory states'],
+        screenshot: '/perfume-tower/perfume-mobile-1.jpg',
+        galleryLgColumns: 4 as const,
+        screenshots: [
+          {
+            id: 1,
+            src: '/perfume-tower/perfume-mobile-1.jpg',
+            title: 'Home',
+            description: 'Home feed with featured collections and product rails.',
+            presentation: 'mobile' as const,
+          },
+          {
+            id: 2,
+            src: '/perfume-tower/perfume-mobile-2.jpg',
+            title: 'Catalog',
+            description: 'Product grid with search and stock badges.',
+            presentation: 'mobile' as const,
+          },
+          {
+            id: 3,
+            src: '/perfume-tower/perfume-mobile-3.jpg',
+            title: 'Product detail',
+            description: 'Product detail and commerce actions.',
+            presentation: 'mobile' as const,
+          },
+        ],
+      },
+    },
+    {
+      name: 'Perfume Tower – Web Storefront',
+      stack: [
+        'Next.js',
+        'Node.js',
+        'Express.js',
+        'Supabase',
+        'PostgreSQL',
+        'CI/CD',
+        'PM2',
+      ],
+      blurb:
+        'Next.js storefront for perfume-tower.shop. Owned the customer-facing web experience plus API, database, and Droplet production deploys with CI/CD and PM2.',
+      href: '#',
+      highlight: true,
+      category: 'Web Development',
+      year: 2026,
+      status: 'Completed',
+      liveUrl: 'https://perfume-tower.shop',
+      features: [
+        'Production storefront at perfume-tower.shop',
+        'Catalog and account/cart commerce flows',
+        'Express API with Supabase/PostgreSQL',
+        'Droplet deployment with CI/CD and PM2',
+      ],
+      preview: {
+        platform: 'Web Application',
+        featurePills: [
+          'Storefront',
+          'Catalog',
+          'Cart / Account',
+          'Production deploy',
+        ],
+        screenshot: '/perfume-tower/perfume-web-1.png',
+        galleryLgColumns: 3 as const,
+        screenshots: [
+          {
+            id: 1,
+            src: '/perfume-tower/perfume-web-1.png',
+            title: 'Landing',
+            description: 'Hero landing for the fragrance storefront.',
+            presentation: 'web' as const,
+          },
+          {
+            id: 2,
+            src: '/perfume-tower/perfume-web-2.png',
+            title: 'Olfactory families',
+            description: 'Scent-family browsing on the storefront.',
+            presentation: 'web' as const,
+          },
+          {
+            id: 3,
+            src: '/perfume-tower/perfume-web-3.png',
+            title: 'Storefront',
+            description: 'Additional storefront view.',
+            presentation: 'web' as const,
+          },
+        ],
+      },
+    },
     {
       name: 'SchoolFlow - Mobile School Management System',
       stack: [
