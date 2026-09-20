@@ -114,11 +114,6 @@ export const ProjectModal = ({
           <Badge className="bg-emerald-500/10 text-emerald-700 dark:text-emerald-300">
             {project.status}
           </Badge>
-          {project.highlight && (
-            <Badge className="bg-amber-500/10 text-amber-700 dark:text-amber-300">
-              Featured
-            </Badge>
-          )}
           <div className="flex items-center gap-1.5 text-sm text-neutral-500 dark:text-neutral-400">
             <CalendarIcon className="w-4 h-4" />
             <span>{project.year}</span>

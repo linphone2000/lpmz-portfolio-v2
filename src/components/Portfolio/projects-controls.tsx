@@ -7,17 +7,17 @@ import {
 } from '@heroicons/react/24/outline';
 import { useEffect, useMemo, useRef, useState } from 'react';
 
-type SortOption = 'order' | 'year' | 'name';
-type FilterOption = 'all' | 'mobile' | 'web';
+export type SortOption = 'order' | 'year' | 'name';
+export type PlatformFilter = 'all' | 'mobile' | 'web';
 
 interface ProjectsControlsProps {
-  filterBy: FilterOption;
+  filterBy: PlatformFilter;
   sortBy: SortOption;
-  onFilterChange: (filter: FilterOption) => void;
+  onFilterChange: (filter: PlatformFilter) => void;
   onSortChange: (sort: SortOption) => void;
 }
 
-const filterOptions: Array<{ id: FilterOption; label: string }> = [
+const filterOptions: Array<{ id: PlatformFilter; label: string }> = [
   { id: 'all', label: 'All' },
   { id: 'mobile', label: 'Mobile' },
   { id: 'web', label: 'Web' },

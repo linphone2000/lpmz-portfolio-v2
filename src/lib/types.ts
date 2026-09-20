@@ -8,12 +8,16 @@ export interface Tab {
 }
 
   // Project types
+export type ProjectOrigin = 'client' | 'academic' | 'personal';
+
 export interface Project {
   name: string;
   stack: string[];
   blurb: string;
   href?: string;
   highlight?: boolean;
+  /** Client delivery, academic showcase, or personal/practice work. */
+  origin: ProjectOrigin;
   category: string;
   year: number;
   status: string;

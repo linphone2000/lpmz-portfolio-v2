@@ -19,10 +19,16 @@ import {
 } from '@heroicons/react/24/outline';
 import { PhoneFrame } from '../Common/PhoneFrame';
 import { usePortfolioData } from '@/providers/PortfolioDataProvider';
-import { ProjectsControls } from './projects-controls';
-
-type SortOption = 'order' | 'year' | 'name';
-type FilterOption = 'all' | 'mobile' | 'web';
+import {
+  ProjectsControls,
+  type PlatformFilter,
+  type SortOption,
+} from './projects-controls';
+import {
+  PROJECT_ORIGIN_BADGE_CLASS,
+  PROJECT_ORIGIN_LABEL,
+  originSortRank,
+} from '@/lib/projectOrigin';
 
 const isMobileProject = (project: Pick<Project, 'category' | 'stack'>) =>
   project.category === 'Mobile Development' ||
@@ -36,7 +42,7 @@ export const Projects = () => {
   const [selectedProject, setSelectedProject] = useState<Project | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [sortBy, setSortBy] = useState<SortOption>('order');
-  const [filterBy, setFilterBy] = useState<FilterOption>('all');
+  const [filterBy, setFilterBy] = useState<PlatformFilter>('all');
   const [currentPage, setCurrentPage] = useState(1);
   const [pageDirection, setPageDirection] = useState(0);
   const itemsPerPage = 3;
@@ -51,20 +57,22 @@ export const Projects = () => {
   const filteredAndSortedProjects = useMemo(() => {
     let filtered = projects;
 
-    // Filter by project platform type
     if (filterBy === 'mobile') {
       filtered = filtered.filter((project) => isMobileProject(project));
     } else if (filterBy === 'web') {
       filtered = filtered.filter((project) => !isMobileProject(project));
     }
 
-    // Sort projects
     return [...filtered].sort((a, b) => {
       switch (sortBy) {
-        case 'order':
+        case 'order': {
+          const originDiff =
+            originSortRank(a.origin) - originSortRank(b.origin);
+          if (originDiff !== 0) return originDiff;
           return projects.indexOf(a) - projects.indexOf(b);
+        }
         case 'year':
-          return b.year - a.year; // Newest first
+          return b.year - a.year;
         case 'name':
           return a.name.localeCompare(b.name);
         default:
@@ -123,7 +131,7 @@ export const Projects = () => {
     setSortBy(newSort);
   }, []);
 
-  const handleFilterChange = useCallback((newFilter: FilterOption) => {
+  const handleFilterChange = useCallback((newFilter: PlatformFilter) => {
     setFilterBy(newFilter);
     setPageDirection(1);
     setCurrentPage(1);
@@ -161,12 +169,11 @@ export const Projects = () => {
             Projects
           </h2>
           <p className="text-neutral-600 dark:text-neutral-300 max-w-2xl mx-auto">
-            A collection of my recent work, showcasing various technologies and
-            problem-solving approaches.
+            Client, academic, and practice work—tagged by badge so real
+            deliveries stay easy to spot.
           </p>
         </div>
 
-        {/* Filter and Sort Controls */}
         <div className="mb-8">
           <ProjectsControls
             filterBy={filterBy}
@@ -376,13 +383,13 @@ const ProjectCard = ({
                 />
               </div>
             ))}
-            {project.highlight && (
-              <div className="absolute top-3 right-3 z-10">
-                <Badge className="bg-primary-500! text-white! text-sm! font-bold! px-3! py-1.5! shadow-xl! border-0!">
-                  Featured
-                </Badge>
-              </div>
-            )}
+            <div className="absolute top-3 right-3 z-10">
+              <Badge
+                className={`${PROJECT_ORIGIN_BADGE_CLASS[project.origin]} px-2.5 py-1`}
+              >
+                {PROJECT_ORIGIN_LABEL[project.origin]}
+              </Badge>
+            </div>
             <div className="absolute inset-0 bg-linear-to-t from-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-0" />
           </div>
         ) : firstImage ? (
@@ -407,25 +414,25 @@ const ProjectCard = ({
                 </div>
               </div>
             )}
-            {project.highlight && (
-              <div className="absolute top-3 right-3 z-20">
-                <Badge className="bg-primary-500! text-white! text-sm! font-bold! px-3! py-1.5! shadow-xl! border-0!">
-                  Featured
-                </Badge>
-              </div>
-            )}
+            <div className="absolute top-3 right-3 z-20">
+              <Badge
+                className={`${PROJECT_ORIGIN_BADGE_CLASS[project.origin]} px-2.5 py-1`}
+              >
+                {PROJECT_ORIGIN_LABEL[project.origin]}
+              </Badge>
+            </div>
             <div className="absolute inset-0 bg-linear-to-t from-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-0" />
           </div>
         ) : (
           <div className="relative w-full h-48 overflow-hidden bg-linear-to-br from-neutral-100 to-neutral-200 dark:from-neutral-800 dark:to-neutral-900 flex items-center justify-center">
             <CodeBracketIcon className="w-12 h-12 text-neutral-400 dark:text-neutral-600" />
-            {project.highlight && (
-              <div className="absolute top-3 right-3">
-                <Badge className="bg-primary-500 text-white text-xs shadow-lg">
-                  Featured
-                </Badge>
-              </div>
-            )}
+            <div className="absolute top-3 right-3">
+              <Badge
+                className={`${PROJECT_ORIGIN_BADGE_CLASS[project.origin]} px-2.5 py-1`}
+              >
+                {PROJECT_ORIGIN_LABEL[project.origin]}
+              </Badge>
+            </div>
           </div>
         )}
 
