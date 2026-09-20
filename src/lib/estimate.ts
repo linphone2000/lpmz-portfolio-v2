@@ -1,6 +1,5 @@
 import type { FeatureCategory, ProductType } from '@/lib/features';
 import {
-  formatEstimateRange,
   getComparablePricingTier,
   type ComparablePricingTier,
   type PricingTab,
@@ -143,22 +142,49 @@ export const FEATURE_CATEGORY_ORDER: FeatureCategory[] = [
   'platform',
 ];
 
+export type FeatureEffort = 'light' | 'standard' | 'involved';
+
+export function getFeatureEffort(baseCost: number): FeatureEffort {
+  if (baseCost < 200_000) return 'light';
+  if (baseCost < 350_000) return 'standard';
+  return 'involved';
+}
+
+export function getFeatureEffortLabel(effort: FeatureEffort): string {
+  switch (effort) {
+    case 'light':
+      return 'Light build';
+    case 'standard':
+      return 'Standard build';
+    case 'involved':
+      return 'Involved build';
+  }
+}
+
+export function getScopeSummaryLabel(
+  featureCount: number,
+  tier: ComparablePricingTier | null
+): string {
+  if (featureCount <= 0) return 'No features selected yet';
+  const countLabel = `${featureCount} feature${featureCount === 1 ? '' : 's'}`;
+  if (!tier) return countLabel;
+  return `${countLabel} · aligns with ${tier.title}`;
+}
+
 export function getTierHintMessage(
   tier: ComparablePricingTier | null
 ): string | null {
   if (!tier) return null;
 
-  const range = formatEstimateRange(tier.priceMin, tier.priceMax);
-
   switch (tier.position) {
     case 'within':
-      return `Comparable to ${tier.title} (${range} MMK)`;
+      return `Comparable to ${tier.title}`;
     case 'below':
-      return `Below ${tier.title} (${range} MMK) — add features or expect a smaller scope`;
+      return `Below ${tier.title} — add features or expect a smaller scope`;
     case 'above':
-      return `Above ${tier.title} (${range} MMK) — likely a larger custom scope`;
+      return `Above ${tier.title} — likely a larger custom scope`;
     case 'enterprise':
-      return `Comparable to ${tier.title} (${tier.priceLabel} MMK)`;
+      return `Comparable to ${tier.title}`;
     default:
       return null;
   }

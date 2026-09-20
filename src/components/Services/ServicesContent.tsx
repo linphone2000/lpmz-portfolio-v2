@@ -6,21 +6,18 @@ import { Badge } from '@/components/Common/Badge';
 import { Modal } from '@/components/Common/Modal';
 import {
   CheckCircleIcon,
-  CurrencyDollarIcon,
+  ClipboardDocumentCheckIcon,
   SparklesIcon,
   GlobeAltIcon,
   DevicePhoneMobileIcon,
 } from '@heroicons/react/24/outline';
 import { usePortfolioData } from '@/providers/PortfolioDataProvider';
 
-type PricingTab = 'web' | 'mobile';
-
 export const ServicesContent = () => {
   const {
-    data: { pricing, services },
+    data: { services },
   } = usePortfolioData();
   const [isCheckoutOpen, setIsCheckoutOpen] = useState(false);
-  const [pricingTab, setPricingTab] = useState<PricingTab>('web');
   const [selectedPlan, setSelectedPlan] = useState<string | null>(null);
   const [customerName, setCustomerName] = useState('');
   const [customerEmail, setCustomerEmail] = useState('');
@@ -29,33 +26,6 @@ export const ServicesContent = () => {
   const [sendError, setSendError] = useState<string | null>(null);
   const [sendSuccess, setSendSuccess] = useState(false);
   const [isHurayOpen, setIsHurayOpen] = useState(false);
-
-  const formatPrice = (price: string) => {
-    if (price.includes('++')) {
-      const val = price.replace('++', '');
-      return (
-        <>
-          {val}
-          <span className="text-primary-600 dark:text-primary-400 ml-0.5 text-2xl align-top relative top-1">
-            ++
-          </span>
-        </>
-      );
-    }
-    if (price.includes('-')) {
-      const [start, end] = price.split('-');
-      return (
-        <>
-          {start}
-          <span className="text-neutral-400 dark:text-neutral-600 mx-1 font-light">
-            –
-          </span>
-          {end}
-        </>
-      );
-    }
-    return price;
-  };
 
   const resetForm = () => {
     setCustomerName('');
@@ -67,7 +37,7 @@ export const ServicesContent = () => {
 
   const openCheckout = (planLabel: string) => {
     resetForm();
-    setSelectedPlan(`${pricingTab.toUpperCase()} - ${planLabel}`);
+    setSelectedPlan(planLabel);
     setIsCheckoutOpen(true);
   };
 
@@ -103,7 +73,7 @@ export const ServicesContent = () => {
 
       const details = selectedPlan
         ? `Selected plan: ${selectedPlan}`
-        : `Selected category: ${pricingTab}`;
+        : 'General services inquiry';
 
       const endpoint = 'https://api.emailjs.com/api/v1.0/email/send';
       const sendEmail = async (
@@ -135,16 +105,13 @@ export const ServicesContent = () => {
         }
       };
 
-      // Send to user
       await sendEmail(
         TEMPLATE_ID_USER,
         customerEmail.trim(),
         customerName.trim()
       );
-      // Send to admin
       await sendEmail(TEMPLATE_ID_ADMIN, ADMIN_EMAIL, 'Lin');
 
-      // Close checkout and show success (Huray) modal
       setIsCheckoutOpen(false);
       setCustomerName('');
       setCustomerEmail('');
@@ -178,28 +145,12 @@ export const ServicesContent = () => {
           <p className="text-lg md:text-xl text-neutral-600 dark:text-neutral-300 max-w-3xl mx-auto mb-10 opacity-0 animate-[fadeInUp_0.6s_ease-out_0.2s_forwards]">
             {services.hero.description}
           </p>
-
-          <div className="flex flex-wrap justify-center gap-4 opacity-0 animate-[fadeInUp_0.6s_ease-out_0.3s_forwards]">
-            <Link
-              href="/services/estimate"
-              className="px-8 py-3.5 bg-primary-600 text-white font-semibold rounded-full hover:bg-primary-500 hover:scale-105 transition-all duration-300 shadow-lg shadow-primary-500/20 cursor-pointer"
-            >
-              Customize your project
-            </Link>
-            <Link
-              href="#pricing"
-              className="px-8 py-3.5 bg-white dark:bg-neutral-800 border border-neutral-200 dark:border-neutral-700 text-neutral-900 dark:text-white font-semibold rounded-full hover:border-primary-500 hover:text-primary-600 dark:hover:text-primary-300 hover:scale-105 transition-all duration-300 cursor-pointer"
-            >
-              View pricing
-            </Link>
-          </div>
         </div>
       </section>
 
       {/* Services Cards */}
       <section className="px-4" id="services">
         <div className="container mx-auto max-w-6xl grid md:grid-cols-2 gap-8">
-          {/* Web Development Card */}
           <div className="group relative rounded-3xl p-8 bg-gradient-to-br from-white/80 to-white/40 dark:from-neutral-900/80 dark:to-neutral-900/40 backdrop-blur-xl border border-neutral-200/50 dark:border-neutral-700/50 shadow-xl hover:shadow-2xl transition-all duration-500 hover:-translate-y-1 opacity-0 animate-[fadeInUp_0.6s_ease-out_0.4s_forwards]">
             <div className="absolute inset-0 bg-gradient-to-br from-blue-500/0 to-cyan-500/0 group-hover:from-blue-500/5 group-hover:to-cyan-500/5 rounded-3xl transition-all duration-500" />
 
@@ -228,7 +179,6 @@ export const ServicesContent = () => {
             </div>
           </div>
 
-          {/* Mobile Development Card */}
           <div className="group relative rounded-3xl p-8 bg-gradient-to-br from-white/80 to-white/40 dark:from-neutral-900/80 dark:to-neutral-900/40 backdrop-blur-xl border border-neutral-200/50 dark:border-neutral-700/50 shadow-xl hover:shadow-2xl transition-all duration-500 hover:-translate-y-1 opacity-0 animate-[fadeInUp_0.6s_ease-out_0.5s_forwards]">
             <div className="absolute inset-0 bg-gradient-to-br from-purple-500/0 to-pink-500/0 group-hover:from-purple-500/5 group-hover:to-pink-500/5 rounded-3xl transition-all duration-500" />
 
@@ -259,82 +209,84 @@ export const ServicesContent = () => {
         </div>
       </section>
 
-      {/* Spotlights removed — technical capability sections are omitted for client focus */}
-
-      {/* Pricing Section */}
-      <section className="px-4 py-8" id="pricing">
+      {/* Process Section */}
+      <section className="px-4 py-8" id="process">
         <div className="container mx-auto max-w-6xl">
           <div className="text-center mb-12">
-            <Badge className="bg-green-100/50 dark:bg-green-900/20 text-green-700 dark:text-green-300 border-green-200 dark:border-green-800 mb-4">
-              <CurrencyDollarIcon className="w-3.5 h-3.5 mr-1.5" />
-              Investment
+            <Badge className="bg-primary-100/50 dark:bg-primary-900/20 text-primary-700 dark:text-primary-300 border-primary-200 dark:border-primary-800 mb-4">
+              <ClipboardDocumentCheckIcon className="w-3.5 h-3.5 mr-1.5" />
+              {services.process.badge}
             </Badge>
             <h2 className="text-3xl md:text-4xl font-bold text-neutral-900 dark:text-white mb-4">
-              Transparent starting points
+              {services.process.title}
             </h2>
-            <p className="text-neutral-600 dark:text-neutral-400 mb-8">
-              Clear pricing for common project types. No hidden fees.
+            <p className="text-neutral-600 dark:text-neutral-400 max-w-2xl mx-auto">
+              {services.process.description}
             </p>
+          </div>
 
-            {/* Pricing Tabs */}
-            <div className="inline-flex p-1 rounded-full bg-neutral-100 dark:bg-neutral-800 border border-neutral-200 dark:border-neutral-700">
-              <button
-                onClick={() => setPricingTab('web')}
-                className={`px-6 py-2 rounded-full text-sm font-semibold transition-all duration-200 cursor-pointer ${
-                  pricingTab === 'web'
-                    ? 'bg-white dark:bg-neutral-700 text-primary-600 dark:text-primary-300 shadow-sm'
-                    : 'text-neutral-600 dark:text-neutral-400 hover:text-neutral-900 dark:hover:text-neutral-200'
-                }`}
+          <ol className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+            {services.process.steps.map((step, index) => (
+              <li
+                key={step.title}
+                className="relative rounded-3xl border border-neutral-200/60 dark:border-neutral-800/60 bg-white/60 dark:bg-neutral-900/60 backdrop-blur p-6"
               >
-                Web Development
-              </button>
-              <button
-                onClick={() => setPricingTab('mobile')}
-                className={`px-6 py-2 rounded-full text-sm font-semibold transition-all duration-200 cursor-pointer ${
-                  pricingTab === 'mobile'
-                    ? 'bg-white dark:bg-neutral-700 text-primary-600 dark:text-primary-300 shadow-sm'
-                    : 'text-neutral-600 dark:text-neutral-400 hover:text-neutral-900 dark:hover:text-neutral-200'
-                }`}
-              >
-                Mobile Development
-              </button>
-            </div>
+                <span className="inline-flex h-10 w-10 items-center justify-center rounded-2xl bg-primary-100 dark:bg-primary-900/30 text-primary-700 dark:text-primary-300 text-sm font-bold mb-4">
+                  {String(index + 1).padStart(2, '0')}
+                </span>
+                <h3 className="text-xl font-bold text-neutral-900 dark:text-white mb-2">
+                  {step.title}
+                </h3>
+                <p className="text-sm text-neutral-600 dark:text-neutral-400 leading-relaxed">
+                  {step.body}
+                </p>
+              </li>
+            ))}
+          </ol>
+        </div>
+      </section>
+
+      {/* Outcomes Section */}
+      <section className="px-4 py-8" id="outcomes">
+        <div className="container mx-auto max-w-6xl">
+          <div className="text-center mb-12">
+            <Badge className="bg-primary-100/50 dark:bg-primary-900/20 text-primary-700 dark:text-primary-300 border-primary-200 dark:border-primary-800 mb-4">
+              <SparklesIcon className="w-3.5 h-3.5 mr-1.5" />
+              {services.outcomes.badge}
+            </Badge>
+            <h2 className="text-3xl md:text-4xl font-bold text-neutral-900 dark:text-white mb-4">
+              {services.outcomes.title}
+            </h2>
+            <p className="text-neutral-600 dark:text-neutral-400 max-w-2xl mx-auto">
+              {services.outcomes.description}
+            </p>
           </div>
 
           <div className="grid md:grid-cols-3 gap-6">
-            {pricing[pricingTab].map((card) => (
+            {services.outcomes.items.map((item) => (
               <div
-                key={card.title}
+                key={item.id}
                 className={`relative p-8 rounded-3xl border transition-all duration-300 ${
-                  card.highlight
+                  item.highlight
                     ? 'bg-gradient-to-b from-white to-primary-50/30 dark:from-neutral-800 dark:to-neutral-900/50 border-primary-200 dark:border-primary-800 shadow-xl scale-105 z-10'
                     : 'bg-white/60 dark:bg-neutral-900/60 border-neutral-200/60 dark:border-neutral-800/60 hover:border-primary-200 dark:hover:border-primary-800 hover:shadow-lg'
                 } backdrop-blur`}
               >
-                {card.highlight && (
+                {item.highlight && (
                   <div className="absolute -top-4 left-1/2 -translate-x-1/2 px-4 py-1.5 text-xs font-bold uppercase tracking-wide rounded-full bg-primary-600 text-white shadow-lg shadow-primary-500/30">
                     Most Popular
                   </div>
                 )}
 
                 <h3 className="text-xl font-bold text-neutral-900 dark:text-white mb-2">
-                  {card.title}
+                  {item.title}
                 </h3>
-                <p className="text-sm text-neutral-500 dark:text-neutral-400 mb-6 h-10">
-                  {card.desc}
+                <p className="text-sm text-neutral-500 dark:text-neutral-400 mb-8 min-h-10">
+                  {item.desc}
                 </p>
 
-                <div className="mb-8 flex items-baseline gap-1">
-                  <span className="text-4xl font-black text-neutral-900 dark:text-white tracking-tight flex items-baseline">
-                    {formatPrice(card.price)}
-                  </span>
-                  <span className="text-neutral-500 dark:text-neutral-400 font-medium">
-                    MMK
-                  </span>
-                </div>
-
                 <div className="space-y-4 mb-8">
-                  {card.bullets
+                  {item.bullets
                     .filter((b) => b.length > 0)
                     .map((b) => (
                       <div
@@ -342,7 +294,11 @@ export const ServicesContent = () => {
                         className="flex items-start gap-3 text-sm text-neutral-700 dark:text-neutral-300"
                       >
                         <CheckCircleIcon
-                          className={`h-5 w-5 shrink-0 ${card.highlight ? 'text-primary-600 dark:text-primary-400' : 'text-neutral-400'}`}
+                          className={`h-5 w-5 shrink-0 ${
+                            item.highlight
+                              ? 'text-primary-600 dark:text-primary-400'
+                              : 'text-neutral-400'
+                          }`}
                         />
                         <span>{b}</span>
                       </div>
@@ -350,16 +306,14 @@ export const ServicesContent = () => {
                 </div>
 
                 <button
-                  onClick={() =>
-                    openCheckout(`${card.title} (${card.price} MMK)`)
-                  }
+                  onClick={() => openCheckout(`Outcome - ${item.title}`)}
                   className={`block w-full text-center px-6 py-3.5 font-bold rounded-xl transition-all duration-300 cursor-pointer ${
-                    card.highlight
+                    item.highlight
                       ? 'bg-primary-600 text-white hover:bg-primary-500 shadow-lg shadow-primary-500/25'
                       : 'bg-white dark:bg-neutral-800 border border-neutral-200 dark:border-neutral-700 text-neutral-900 dark:text-white hover:border-primary-500 hover:text-primary-600 dark:hover:text-primary-300'
                   }`}
                 >
-                  Get started
+                  {item.ctaLabel}
                 </button>
               </div>
             ))}
@@ -367,14 +321,22 @@ export const ServicesContent = () => {
 
           <div className="mt-12 text-center p-6 rounded-2xl bg-neutral-50 dark:bg-neutral-800/50 border border-neutral-200 dark:border-neutral-800">
             <p className="text-neutral-600 dark:text-neutral-400">
-              Need a custom solution?{' '}
+              Prefer a tailored scope?{' '}
+              <Link
+                href="/services/estimate"
+                className="text-primary-600 dark:text-primary-400 font-semibold hover:underline cursor-pointer"
+              >
+                Customize your project
+              </Link>{' '}
+              or{' '}
               <button
                 onClick={() => openCheckout('Custom solution')}
                 className="text-primary-600 dark:text-primary-400 font-semibold hover:underline cursor-pointer"
               >
-                Contact me
+                contact me
               </button>{' '}
-              for a tailored quote based on your specific requirements.
+              — clear milestones, direct communication, and code ready for
+              handoff.
             </p>
           </div>
         </div>

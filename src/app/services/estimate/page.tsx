@@ -17,6 +17,9 @@ import {
   FEATURE_CATEGORY_LABELS,
   FEATURE_CATEGORY_ORDER,
   getEstimateTierHint,
+  getFeatureEffort,
+  getFeatureEffortLabel,
+  getScopeSummaryLabel,
 } from '@/lib/estimate';
 import {
   getEstimateSharePath,
@@ -52,15 +55,6 @@ const WIZARD_STEPS: { step: WizardStep; label: string }[] = [
   { step: 3, label: 'Confirm' },
 ];
 
-const formatMMK = (value: number) => {
-  if (value >= 1_000_000) {
-    const million = value / 1_000_000;
-    const decimals = million >= 10 ? 0 : 1;
-    return `${million.toFixed(decimals)}M`;
-  }
-  return `${Math.round(value / 1_000)}K`;
-};
-
 function TierHintBanner({
   tab,
   subtotal,
@@ -77,7 +71,7 @@ function TierHintBanner({
     <p
       className={`text-sm text-neutral-600 dark:text-neutral-400 ${className}`}
     >
-      {message}. Final quote depends on scope and design.
+      {message}. Final scope depends on design and complexity.
     </p>
   );
 }
@@ -179,9 +173,10 @@ export default function EstimatePage() {
   };
 
   const subtotal = features.reduce((sum, f) => sum + f.baseCost, 0);
-  const estimatedLabel = `${formatMMK(subtotal)} MMK`;
+  const tierHint = getEstimateTierHint(tab, subtotal);
+  const scopeSummary = getScopeSummaryLabel(features.length, tierHint.tier);
+  const tierHintForEmail = tierHint.message;
   const shareFeatureIds = features.map((feature) => feature.id);
-  const tierHintForEmail = getEstimateTierHint(tab, subtotal).message;
 
   const canProceedStep1 = true;
   const canProceedStep2 = features.length > 0;
@@ -296,7 +291,7 @@ export default function EstimatePage() {
       snapshot.tab,
       snapshot.featureIds
     );
-    const shareText = `Here’s a project estimate for a ${snapshot.tab === 'web' ? 'web' : 'mobile'} build with ${snapshot.featureCount} selected feature${snapshot.featureCount === 1 ? '' : 's'}.`;
+    const shareText = `Here’s a project scope for a ${snapshot.tab === 'web' ? 'web' : 'mobile'} build with ${snapshot.featureCount} selected feature${snapshot.featureCount === 1 ? '' : 's'}.`;
 
     void trackEstimateShareEvent('estimate_share_clicked', {
       tab: snapshot.tab,
@@ -308,13 +303,13 @@ export default function EstimatePage() {
     try {
       if (navigator.share) {
         await navigator.share({
-          title: 'Shared project estimate',
+          title: 'Shared project scope',
           text: shareText,
           url: shareUrl,
         });
         setShareState({
           type: 'success',
-          message: 'Estimate link shared successfully.',
+          message: 'Scope link shared successfully.',
         });
         return;
       }
@@ -322,7 +317,7 @@ export default function EstimatePage() {
       await navigator.clipboard.writeText(shareUrl);
       setShareState({
         type: 'success',
-        message: 'Estimate link copied to your clipboard.',
+        message: 'Scope link copied to your clipboard.',
       });
     } catch (error) {
       if (error instanceof DOMException && error.name === 'AbortError') {
@@ -370,22 +365,22 @@ export default function EstimatePage() {
 
       const featureLines = features.length
         ? features
-            .map(
-              (f, idx) =>
-                `${idx + 1}. ${f.name} (~${formatMMK(f.baseCost)} MMK)`
-            )
+            .map((f, idx) => {
+              const effort = getFeatureEffortLabel(getFeatureEffort(f.baseCost));
+              return `${idx + 1}. ${f.name} (${effort})`;
+            })
             .join('\n')
         : 'No features selected';
 
       const comparableLine = tierHintForEmail
-        ? `Comparable package: ${tierHintForEmail}`
+        ? `Scope alignment: ${tierHintForEmail}`
         : null;
 
       const details = [
         `Platform: ${tab === 'web' ? 'Web' : 'Mobile'}`,
         comparableLine,
         `Features:\n${featureLines}`,
-        `Estimated total: ${estimatedLabel}`,
+        `Selected scope: ${scopeSummary}`,
       ]
         .filter(Boolean)
         .join('\n\n');
@@ -458,15 +453,16 @@ export default function EstimatePage() {
           <div className="text-center mb-8">
             <div className="flex justify-center mb-4">
               <Badge className="bg-primary-100/50 dark:bg-primary-900/20 text-primary-700 dark:text-primary-300 border-primary-200 dark:border-primary-800">
-                Project Estimator
+                Project builder
               </Badge>
             </div>
             <h1 className="text-3xl md:text-4xl font-bold mb-3 text-neutral-900 dark:text-white">
-              Customize your project and estimate
+              Customize your project
             </h1>
             <p className="text-neutral-600 dark:text-neutral-400 max-w-3xl mx-auto">
-              Guided wizard: choose platform, add features, then confirm details
-              to send.
+              Guided wizard: choose platform, add features, then confirm
+              details. I&apos;ll follow up with a clear plan based on your
+              scope.
             </p>
           </div>
 
@@ -702,13 +698,15 @@ export default function EstimatePage() {
                                         {f.name}
                                       </div>
                                       <div
-                                        className={`text-xs mt-1 tabular-nums ${
+                                        className={`text-xs mt-1 ${
                                           isSelected
                                             ? 'text-primary-700/80 dark:text-primary-300/90'
                                             : 'text-neutral-500 dark:text-neutral-400'
                                         }`}
                                       >
-                                        ~{formatMMK(f.baseCost)} MMK
+                                        {getFeatureEffortLabel(
+                                          getFeatureEffort(f.baseCost)
+                                        )}
                                       </div>
                                     </button>
                                   );
@@ -761,8 +759,10 @@ export default function EstimatePage() {
                               <p className="text-xs font-medium text-neutral-900 dark:text-white leading-snug line-clamp-2">
                                 {f.name}
                               </p>
-                              <p className="text-[10px] text-neutral-500 dark:text-neutral-400 mt-0.5 tabular-nums">
-                                ~{formatMMK(f.baseCost)} MMK
+                              <p className="text-[10px] text-neutral-500 dark:text-neutral-400 mt-0.5">
+                                {getFeatureEffortLabel(
+                                  getFeatureEffort(f.baseCost)
+                                )}
                               </p>
                             </div>
                             <button
@@ -778,8 +778,8 @@ export default function EstimatePage() {
                       </div>
                     )}
                     {features.length > 0 && (
-                      <p className="mt-2 text-xs font-semibold text-neutral-800 dark:text-neutral-100 tabular-nums">
-                        Subtotal: {estimatedLabel}
+                      <p className="mt-2 text-xs font-semibold text-neutral-800 dark:text-neutral-100">
+                        {scopeSummary}
                       </p>
                     )}
                   </div>
@@ -798,13 +798,13 @@ export default function EstimatePage() {
                     features.map((f) => (
                       <div
                         key={f.id}
-                        className="flex items-center justify-between text-sm"
+                        className="flex items-center justify-between gap-3 text-sm"
                       >
-                        <div className="text-neutral-800 dark:text-neutral-100">
+                        <div className="text-neutral-800 dark:text-neutral-100 min-w-0">
                           {f.name}
                         </div>
-                        <div className="text-neutral-500 dark:text-neutral-400">
-                          {formatMMK(f.baseCost)} MMK
+                        <div className="shrink-0 text-neutral-500 dark:text-neutral-400 text-xs">
+                          {getFeatureEffortLabel(getFeatureEffort(f.baseCost))}
                         </div>
                       </div>
                     ))
@@ -814,10 +814,10 @@ export default function EstimatePage() {
                 <div className="flex flex-wrap items-end justify-between gap-4">
                   <div>
                     <p className="text-xs uppercase tracking-wide text-neutral-500 dark:text-neutral-400 font-semibold">
-                      Total
+                      Selected scope
                     </p>
-                    <p className="text-2xl font-black text-neutral-900 dark:text-white">
-                      {estimatedLabel}
+                    <p className="text-xl font-black text-neutral-900 dark:text-white">
+                      {scopeSummary}
                     </p>
                     <TierHintBanner
                       tab={tab}
@@ -833,7 +833,7 @@ export default function EstimatePage() {
                     className="inline-flex items-center gap-2 px-4 py-2 rounded-lg border border-neutral-300 dark:border-neutral-700 text-neutral-800 dark:text-neutral-100 hover:border-primary-400 hover:text-primary-600 dark:hover:text-primary-300 transition-colors cursor-pointer"
                   >
                     <LinkIcon className="h-4 w-4" />
-                    Share this estimate
+                    Share this scope
                   </button>
                 </div>
 
@@ -937,15 +937,11 @@ export default function EstimatePage() {
               <div className="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-3 min-w-0">
                 {step < 3 && (
                   <div className="text-sm text-neutral-600 dark:text-neutral-400">
-                    <span className="font-medium">
-                      Estimated total: {estimatedLabel}
-                    </span>
-                    {subtotal > 0 && (
+                    <span className="font-medium">{scopeSummary}</span>
+                    {subtotal > 0 && tierHint.message && (
                       <span className="hidden sm:inline">
                         {' '}
-                        ·{' '}
-                        {getEstimateTierHint(tab, subtotal).message ??
-                          'Add features to compare with packages'}
+                        · {tierHint.message}
                       </span>
                     )}
                   </div>
@@ -1050,7 +1046,7 @@ export default function EstimatePage() {
               className="px-4 py-2 rounded-lg border border-neutral-300 dark:border-neutral-700 text-neutral-800 dark:text-neutral-100 hover:border-primary-400 hover:text-primary-600 dark:hover:text-primary-300 cursor-pointer"
               disabled={!lastSharedEstimate}
             >
-              Share this estimate
+              Share this scope
             </button>
             <button
               type="button"

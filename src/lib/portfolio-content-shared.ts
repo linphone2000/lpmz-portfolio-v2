@@ -31,6 +31,77 @@ export const fallbackServicesContent = {
       'MVPs to validate quickly',
     ],
   },
+  process: {
+    badge: 'How I work',
+    title: 'A clear process you can trust',
+    description:
+      'Systematic delivery from first call to launch—clear scope, regular updates, and code structured for handoff.',
+    steps: [
+      {
+        title: 'Discover',
+        body: 'We clarify goals, users, and constraints so the build matches your business—not a generic template.',
+      },
+      {
+        title: 'Plan',
+        body: 'You get a scoped roadmap with milestones, priorities, and what “done” looks like before development starts.',
+      },
+      {
+        title: 'Build',
+        body: 'Iterative development with progress check-ins, quality checks, and room to adjust as we learn.',
+      },
+      {
+        title: 'Launch & support',
+        body: 'Ship with handover docs, deployment guidance, and a clean path for follow-up fixes or next features.',
+      },
+    ],
+  },
+  outcomes: {
+    badge: 'Outcomes',
+    title: 'What we can achieve together',
+    description:
+      'Pick the outcome that fits where you are. Every engagement focuses on results you can measure and ship.',
+    items: [
+      {
+        id: 'launch',
+        title: 'Launch',
+        desc: 'Get a marketing site or MVP live quickly so you can start learning from real users.',
+        bullets: [
+          'Single-page or focused MVP experience',
+          'Responsive layout and solid performance',
+          'Lead capture or core user flow',
+          'Fast path from idea to live URL',
+        ],
+        ctaLabel: 'Start a launch project',
+        highlight: false,
+      },
+      {
+        id: 'grow',
+        title: 'Grow',
+        desc: 'Build a multi-page presence with content tools and SEO so your brand can scale organically.',
+        bullets: [
+          'Custom multi-page website',
+          'CMS for easy content updates',
+          'SEO foundations and analytics',
+          'Blog or news when you need it',
+        ],
+        ctaLabel: 'Start a growth project',
+        highlight: true,
+      },
+      {
+        id: 'scale',
+        title: 'Scale',
+        desc: 'Ship a product platform—auth, APIs, admin—ready for real users and ongoing iteration.',
+        bullets: [
+          'Secure authentication and roles',
+          'Database design and API layer',
+          'Admin dashboard and integrations',
+          'Architecture built for the next phase',
+        ],
+        ctaLabel: 'Start a scale project',
+        highlight: false,
+      },
+    ],
+  },
 };
 
 export type PortfolioCMSData = {
