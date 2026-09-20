@@ -818,3 +818,22 @@ html {
     animation: none !important;
   }
 }
+
+/* Home showcase cursor */
+html.home-custom-cursor,
+html.home-custom-cursor * {
+  cursor: none !important;
+}
+
+html.home-custom-cursor a,
+html.home-custom-cursor button,
+html.home-custom-cursor [data-magnetic],
+html.home-custom-cursor [data-cursor-grow] {
+  cursor: none !important;
+}
+
+.split-word,
+.split-char {
+  display: inline-block;
+  will-change: transform, opacity;
+}

@@ -143,7 +143,8 @@ export default function ClientWorkShowcase({
   return (
     <article
       data-client-work={isLeft ? 'left' : 'right'}
-      className="relative lg:grid lg:grid-cols-2 lg:items-center lg:gap-6 xl:gap-10"
+      data-client-work-chapter
+      className="relative py-6 lg:grid lg:min-h-[70vh] lg:grid-cols-2 lg:items-center lg:gap-6 lg:py-10 xl:gap-10"
     >
       <div className="absolute left-1/2 top-1/2 hidden -translate-x-1/2 -translate-y-1/2 lg:block z-10">
         <span className="relative flex h-5 w-5 items-center justify-center">
@@ -195,7 +196,10 @@ export default function ClientWorkShowcase({
             data-client-work-media
             className={`${isLeft ? 'lg:flex lg:justify-end' : ''} ${lgSpineContent}`}
           >
-            <div className="w-full max-w-md mx-auto lg:max-w-none lg:mx-0">
+            <div
+              data-client-work-mask
+              className="mx-auto w-full max-w-md lg:mx-0 lg:max-w-none"
+            >
               <ClientWorkInlinePreview entry={entry} isLeft={isLeft} />
             </div>
           </div>

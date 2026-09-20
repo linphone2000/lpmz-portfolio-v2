@@ -26,7 +26,10 @@ export default function FeaturedProject() {
   return (
     <>
       <SectionDivider className="py-8" />
-      <section className="px-4 py-14 md:px-6">
+      <section
+        data-featured-pin
+        className="relative px-4 py-14 md:px-6 lg:min-h-[100dvh]"
+      >
         <div className="mx-auto grid max-w-6xl items-center gap-10 md:grid-cols-[1.1fr_0.9fr]">
           <div data-preview-head className="reveal">
             <p className="text-[10px] uppercase tracking-[0.24em] text-primary-500">
@@ -34,6 +37,7 @@ export default function FeaturedProject() {
             </p>
             <h2
               data-section-title
+              data-split-title
               className="mt-3 text-3xl font-semibold tracking-tight text-neutral-900 dark:text-neutral-50 md:text-4xl"
             >
               {title}
@@ -55,6 +59,7 @@ export default function FeaturedProject() {
             <Link
               href={`/portfolio/${slug}`}
               data-magnetic
+              data-cursor-grow
               className="mt-8 inline-flex cursor-pointer rounded-full bg-neutral-900 px-5 py-2.5 text-sm text-white dark:bg-neutral-100 dark:text-neutral-900"
             >
               View case study
@@ -65,15 +70,21 @@ export default function FeaturedProject() {
             data-tilt
             className="relative aspect-[4/5] overflow-hidden rounded-2xl bg-neutral-100 dark:bg-neutral-800 md:aspect-[5/6]"
           >
-            {hero ? (
-              <Image
-                src={hero.src}
-                alt={hero.title}
-                fill
-                className="object-cover object-top"
-                sizes="(max-width: 768px) 100vw, 40vw"
-              />
-            ) : null}
+            <div
+              data-preview-mask
+              className="absolute inset-0"
+              style={{ clipPath: 'inset(0 0 0 0)' }}
+            >
+              {hero ? (
+                <Image
+                  src={hero.src}
+                  alt={hero.title}
+                  fill
+                  className="object-cover object-top"
+                  sizes="(max-width: 768px) 100vw, 40vw"
+                />
+              ) : null}
+            </div>
           </div>
         </div>
       </section>

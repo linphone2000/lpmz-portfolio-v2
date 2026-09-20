@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import { PageShell } from '@/components/Common/PageShell';
+import HomeMotionRoot from '@/components/Motion/HomeMotionRoot';
 import { Hero } from '@/components/Overview/Hero/hero';
 import { ClientWork } from '@/components/Overview/ClientWork/ClientWork';
 import FeaturedProject from '@/components/Overview/FeaturedProject/FeaturedProject';
@@ -14,10 +15,12 @@ export const metadata: Metadata = {
 export default function HomePage() {
   return (
     <PageShell>
-      <Hero />
-      <ClientWork />
-      <FeaturedProject />
-      <Contact />
+      <HomeMotionRoot>
+        <Hero />
+        <ClientWork />
+        <FeaturedProject />
+        <Contact />
+      </HomeMotionRoot>
     </PageShell>
   );
 }

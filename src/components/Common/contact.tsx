@@ -19,12 +19,35 @@ export const Contact = () => {
   return (
     <section className="relative overflow-hidden pb-12">
       <SectionDivider className="py-8" />
-      <SurfaceRing className="surface-ring-scene pointer-events-none absolute right-[-10%] bottom-0 hidden h-64 w-64 opacity-25 md:block" />
+      <SurfaceRing className="surface-ring-scene pointer-events-auto absolute right-[-8%] bottom-4 hidden h-64 w-64 opacity-30 md:block" />
+
+      <svg
+        aria-hidden
+        className="pointer-events-none absolute top-24 left-1/2 hidden h-40 w-[min(90%,42rem)] -translate-x-1/2 opacity-40 lg:block"
+        viewBox="0 0 640 160"
+        fill="none"
+      >
+        <path
+          data-draw-path
+          d="M40 120 C160 20, 240 20, 320 80 S480 140, 600 40"
+          stroke="currentColor"
+          strokeWidth="2"
+          className="text-primary-500/50"
+        />
+        <path
+          data-draw-path
+          d="M80 40 C200 140, 280 140, 360 80 S520 20, 600 100"
+          stroke="currentColor"
+          strokeWidth="1.5"
+          className="text-secondary-500/40"
+        />
+      </svg>
 
       <div className="relative mx-auto max-w-5xl px-4">
         <div className="mb-12 text-center">
           <h2
             data-section-title
+            data-split-title
             className="mb-4 text-3xl font-bold text-neutral-900 dark:text-neutral-100"
           >
             Get In Touch
@@ -73,7 +96,7 @@ export const Contact = () => {
               Social Links
             </h3>
             <div className="space-y-3">
-              <span data-magnetic className="block w-full">
+              <span data-magnetic data-cursor-grow className="block w-full">
                 <Button href={`mailto:${portfolio.email}`} className="w-full">
                   Send Email
                 </Button>

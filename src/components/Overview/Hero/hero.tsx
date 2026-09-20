@@ -1,9 +1,11 @@
 'use client';
 
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect, useState, type PointerEvent } from 'react';
+import dynamic from 'next/dynamic';
 import Typewriter from 'typewriter-effect';
 import { Badge } from '@/components/Common/Badge';
 import { Button } from '@/components/Common/Button';
+import { useCtaBurst } from '@/components/Motion/CtaBurst';
 import { usePortfolioData } from '@/providers/PortfolioDataProvider';
 import { useReducedMotion } from '@/hooks/useReducedMotion';
 import {
@@ -13,6 +15,10 @@ import {
   MapPinIcon,
 } from '@heroicons/react/24/outline';
 
+const HeroField = dynamic(() => import('@/components/Motion/HeroField'), {
+  ssr: false,
+});
+
 const PROOF_INTERVAL_MS = 4200;
 
 export const Hero = () => {
@@ -20,6 +26,7 @@ export const Hero = () => {
     data: { about: portfolio, skills, achievements },
   } = usePortfolioData();
   const reducedMotion = useReducedMotion();
+  const { burst, BurstLayer } = useCtaBurst();
   const [counts, setCounts] = useState({ years: 0, projects: 0, tech: 0 });
   const [proofIndex, setProofIndex] = useState(0);
   const [proofVisible, setProofVisible] = useState(true);
@@ -40,6 +47,10 @@ export const Hero = () => {
     ...skills.backend.slice(0, 3),
     ...skills.databases.slice(0, 2),
   ];
+
+  const typewriterStrings = portfolio.about.typewriterStrings.filter(
+    (s) => s.length > 0
+  );
 
   useEffect(() => {
     if (reducedMotion) {
@@ -83,22 +94,34 @@ export const Hero = () => {
 
   useEffect(() => {
     if (reducedMotion || proofLines.length < 2) return;
-    if (document.hidden) return;
 
-    const id = window.setInterval(() => {
-      setProofVisible(false);
-      window.setTimeout(() => {
-        setProofIndex((i) => (i + 1) % proofLines.length);
-        setProofVisible(true);
-      }, 220);
-    }, PROOF_INTERVAL_MS);
+    let intervalId = 0;
+    let fadeTimeout = 0;
+
+    const start = () => {
+      intervalId = window.setInterval(() => {
+        setProofVisible(false);
+        fadeTimeout = window.setTimeout(() => {
+          setProofIndex((i) => (i + 1) % proofLines.length);
+          setProofVisible(true);
+        }, 220);
+      }, PROOF_INTERVAL_MS);
+    };
 
     const onVisibility = () => {
-      if (document.hidden) window.clearInterval(id);
+      if (document.hidden) {
+        window.clearInterval(intervalId);
+        window.clearTimeout(fadeTimeout);
+      } else {
+        start();
+      }
     };
+
+    if (!document.hidden) start();
     document.addEventListener('visibilitychange', onVisibility);
     return () => {
-      window.clearInterval(id);
+      window.clearInterval(intervalId);
+      window.clearTimeout(fadeTimeout);
       document.removeEventListener('visibilitychange', onVisibility);
     };
   }, [reducedMotion, proofLines.length]);
@@ -111,6 +134,13 @@ export const Hero = () => {
     window.open(portfolio.links.github, '_blank');
   }, [portfolio.links.github]);
 
+  const handlePrimaryCta = useCallback(
+    (event: PointerEvent<HTMLElement>) => {
+      burst(event.currentTarget);
+    },
+    [burst]
+  );
+
   const statusPills = [
     portfolio.about.availability,
     'Open to freelance',
@@ -118,14 +148,19 @@ export const Hero = () => {
   ];
 
   return (
-    <section id="about" className="relative flex items-center overflow-hidden py-20">
+    <section
+      id="about"
+      className="relative flex items-center overflow-hidden py-20"
+    >
+      {BurstLayer}
+      <HeroField />
       <div aria-hidden className="pointer-events-none absolute inset-0">
         <span className="spark-float absolute top-[18%] left-[12%] h-1.5 w-1.5 rounded-full bg-primary-400/70" />
         <span className="spark-float spark-float-delay absolute top-[42%] right-[18%] h-1 w-1 rounded-full bg-secondary-400/60" />
         <span className="spark-float spark-float-delay-2 absolute bottom-[22%] left-[28%] h-1.5 w-1.5 rounded-full bg-pink-400/50" />
       </div>
 
-      <div className="relative mx-auto w-full max-w-7xl px-6">
+      <div className="relative z-10 mx-auto w-full max-w-7xl px-6">
         <div className="grid auto-rows-[minmax(120px,auto)] grid-cols-1 gap-4 md:grid-cols-12">
           <div
             data-hero-stage
@@ -140,7 +175,7 @@ export const Hero = () => {
                     type="button"
                     data-chip
                     onClick={() => setStatusKey(index)}
-                    className={`cursor-pointer rounded-full border px-3 py-1 text-xs font-medium transition-colors ${
+                    className={`chip-float cursor-pointer rounded-full border px-3 py-1 text-xs font-medium transition-colors ${
                       statusKey === index
                         ? 'border-green-300 bg-green-100 text-green-700 dark:border-green-700 dark:bg-green-900/40 dark:text-green-300'
                         : 'border-neutral-200 bg-neutral-50 text-neutral-500 dark:border-neutral-700 dark:bg-neutral-800 dark:text-neutral-400'
@@ -153,19 +188,24 @@ export const Hero = () => {
               </div>
 
               <div className="space-y-3">
-                <h1 className="text-4xl font-black leading-tight tracking-tight text-neutral-900 dark:text-neutral-100 sm:text-5xl">
+                <h1
+                  data-hero-name
+                  className="text-4xl font-black leading-tight tracking-tight text-neutral-900 dark:text-neutral-100 sm:text-5xl"
+                >
                   {portfolio.name}
                 </h1>
                 <div className="min-h-[32px] text-xl text-neutral-600 dark:text-neutral-300">
-                  <Typewriter
-                    options={{
-                      strings: portfolio.about.typewriterStrings.filter(
-                        (s) => s.length > 0
-                      ),
-                      autoStart: true,
-                      loop: true,
-                    }}
-                  />
+                  {reducedMotion ? (
+                    <span>{typewriterStrings[0] ?? 'Full-stack engineer'}</span>
+                  ) : (
+                    <Typewriter
+                      options={{
+                        strings: typewriterStrings,
+                        autoStart: true,
+                        loop: true,
+                      }}
+                    />
+                  )}
                 </div>
               </div>
 
@@ -179,7 +219,11 @@ export const Hero = () => {
               </p>
 
               <div className="flex flex-wrap gap-3 pt-2">
-                <span data-magnetic>
+                <span
+                  data-magnetic
+                  data-cursor-grow
+                  onPointerDown={handlePrimaryCta}
+                >
                   <Button href="/portfolio" className="relative overflow-hidden">
                     View work →
                   </Button>
@@ -201,7 +245,6 @@ export const Hero = () => {
           <div
             data-hero-stage
             data-hero-parallax
-            data-tile
             className="rounded-3xl border border-primary-200/50 bg-gradient-to-br from-primary-50/80 to-primary-100/40 p-6 shadow-lg backdrop-blur-xl dark:border-primary-700/30 dark:from-primary-900/20 dark:to-primary-800/10 md:col-span-3"
           >
             <div className="mb-4 flex items-center gap-2">
@@ -219,8 +262,8 @@ export const Hero = () => {
                 ] as const
               ).map(([value, label]) => (
                 <div
-                  key={label}
-                  className={`metrics-tile ${statusKey > 0 ? 'metrics-tile-bump' : ''}`}
+                  key={`${label}-${statusKey}`}
+                  className="metrics-tile metrics-tile-bump"
                 >
                   <div className="text-2xl font-bold text-primary-600 dark:text-primary-400 sm:text-3xl">
                     {value}+
@@ -235,7 +278,6 @@ export const Hero = () => {
 
           <div
             data-hero-stage
-            data-tile
             className="rounded-3xl border border-secondary-200/50 bg-gradient-to-br from-secondary-50/80 to-secondary-100/40 p-6 shadow-lg backdrop-blur-xl dark:border-secondary-700/30 dark:from-secondary-900/20 dark:to-secondary-800/10 md:col-span-3"
           >
             <div className="mb-4 flex items-center gap-2">
@@ -259,7 +301,6 @@ export const Hero = () => {
 
           <div
             data-hero-stage
-            data-tile
             className="rounded-3xl border border-amber-200/50 bg-gradient-to-br from-amber-50/80 to-amber-100/40 p-6 shadow-lg backdrop-blur-xl dark:border-amber-700/30 dark:from-amber-900/20 dark:to-amber-800/10 md:col-span-3"
           >
             <div className="mb-3 flex items-center gap-2">
@@ -279,7 +320,6 @@ export const Hero = () => {
 
           <div
             data-hero-stage
-            data-tile
             className="rounded-3xl border border-purple-200/50 bg-gradient-to-br from-purple-50/80 to-purple-100/40 p-6 shadow-lg backdrop-blur-xl dark:border-purple-700/30 dark:from-purple-900/20 dark:to-purple-800/10 md:col-span-3"
           >
             <div className="mb-3 flex items-center gap-2">

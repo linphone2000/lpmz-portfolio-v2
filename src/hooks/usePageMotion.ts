@@ -23,11 +23,12 @@ export function usePageMotion(
 
     registerGsap();
     const cleanups: Array<() => void> = [];
+    const homeShowcase = Boolean(root.querySelector('[data-home-showcase]'));
 
     if (prefersReducedMotion()) {
       root
         .querySelectorAll<HTMLElement>(
-          '.reveal, [data-hero-stage], [data-section-title], [data-agenda-row], [data-chip], [data-tile], [data-table-row], [data-carousel-enter], [data-preview-card]'
+          '.reveal, [data-hero-stage], [data-section-title], [data-agenda-row], [data-chip], [data-tile], [data-table-row], [data-carousel-enter], [data-preview-card], [data-hero-parallax], [data-preview-head], [data-client-work-media], [data-client-work-copy]'
         )
         .forEach((el) => {
           el.style.opacity = '1';
@@ -71,9 +72,9 @@ export function usePageMotion(
         });
       }
 
-      // 3. Section h2 titles
+      // 3. Section h2 titles (skip split-owned home titles)
       const titles = gsap.utils.toArray<HTMLElement>(
-        '[data-section-title]',
+        '[data-section-title]:not([data-split-title])',
         root
       );
       titles.forEach((title) => {
@@ -130,55 +131,57 @@ export function usePageMotion(
         });
       }
 
-      // 5b. Client work scrub parallax (media + copy layers)
-      const clientWorks = gsap.utils.toArray<HTMLElement>(
-        '[data-client-work]',
-        root
-      );
-      clientWorks.forEach((entry) => {
-        const isLeft = entry.dataset.clientWork === 'left';
-        const media = entry.querySelector<HTMLElement>(
-          '[data-client-work-media]'
+      // 5b. Client work scrub parallax — skipped on home (pin/horizontal owns it)
+      if (!homeShowcase) {
+        const clientWorks = gsap.utils.toArray<HTMLElement>(
+          '[data-client-work]',
+          root
         );
-        const copyLayers = gsap.utils.toArray<HTMLElement>(
-          '[data-client-work-copy]',
-          entry
-        );
-
-        if (media) {
-          gsap.fromTo(
-            media,
-            { y: isLeft ? 40 : 28 },
-            {
-              y: isLeft ? -48 : -36,
-              ease: 'none',
-              scrollTrigger: {
-                trigger: entry,
-                start: 'top bottom',
-                end: 'bottom top',
-                scrub: 0.7,
-              },
-            }
+        clientWorks.forEach((entry) => {
+          const isLeft = entry.dataset.clientWork === 'left';
+          const media = entry.querySelector<HTMLElement>(
+            '[data-client-work-media]'
           );
-        }
-
-        copyLayers.forEach((layer) => {
-          gsap.fromTo(
-            layer,
-            { y: isLeft ? -14 : 14 },
-            {
-              y: isLeft ? 22 : -22,
-              ease: 'none',
-              scrollTrigger: {
-                trigger: entry,
-                start: 'top bottom',
-                end: 'bottom top',
-                scrub: 0.5,
-              },
-            }
+          const copyLayers = gsap.utils.toArray<HTMLElement>(
+            '[data-client-work-copy]',
+            entry
           );
+
+          if (media) {
+            gsap.fromTo(
+              media,
+              { y: isLeft ? 40 : 28 },
+              {
+                y: isLeft ? -48 : -36,
+                ease: 'none',
+                scrollTrigger: {
+                  trigger: entry,
+                  start: 'top bottom',
+                  end: 'bottom top',
+                  scrub: 0.7,
+                },
+              }
+            );
+          }
+
+          copyLayers.forEach((layer) => {
+            gsap.fromTo(
+              layer,
+              { y: isLeft ? -14 : 14 },
+              {
+                y: isLeft ? 22 : -22,
+                ease: 'none',
+                scrollTrigger: {
+                  trigger: entry,
+                  start: 'top bottom',
+                  end: 'bottom top',
+                  scrub: 0.5,
+                },
+              }
+            );
+          });
         });
-      });
+      }
 
       // 6. Chips scale-in
       const chips = gsap.utils.toArray<HTMLElement>('[data-chip]', root);
@@ -200,37 +203,41 @@ export function usePageMotion(
         });
       }
 
-      // 7–8. Preview card un-tilt + header parallax (featured / case study)
-      const preview = root.querySelector<HTMLElement>('[data-preview-card]');
-      if (preview) {
-        gsap.fromTo(
-          preview,
-          { rotateX: 8, scale: 0.96, transformPerspective: 900 },
-          {
-            rotateX: 0,
-            scale: 1,
+      // 7–8. Preview un-tilt + head parallax — skipped on home (pin/mask owns it)
+      if (!homeShowcase) {
+        const preview = root.querySelector<HTMLElement>('[data-preview-card]');
+        if (preview) {
+          gsap.fromTo(
+            preview,
+            { rotateX: 8, scale: 0.96, transformPerspective: 900 },
+            {
+              rotateX: 0,
+              scale: 1,
+              ease: 'none',
+              scrollTrigger: {
+                trigger: preview,
+                start: 'top 85%',
+                end: 'top 40%',
+                scrub: 0.5,
+              },
+            }
+          );
+        }
+        const previewHead = root.querySelector<HTMLElement>(
+          '[data-preview-head]'
+        );
+        if (previewHead) {
+          gsap.to(previewHead, {
+            y: -24,
             ease: 'none',
             scrollTrigger: {
-              trigger: preview,
-              start: 'top 85%',
-              end: 'top 40%',
-              scrub: 0.5,
+              trigger: previewHead,
+              start: 'top bottom',
+              end: 'bottom top',
+              scrub: 0.6,
             },
-          }
-        );
-      }
-      const previewHead = root.querySelector<HTMLElement>('[data-preview-head]');
-      if (previewHead) {
-        gsap.to(previewHead, {
-          y: -24,
-          ease: 'none',
-          scrollTrigger: {
-            trigger: previewHead,
-            start: 'top bottom',
-            end: 'bottom top',
-            scrub: 0.6,
-          },
-        });
+          });
+        }
       }
 
       // 9. Tiles pop-in

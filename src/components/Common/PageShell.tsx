@@ -53,9 +53,10 @@ export const PageShell = ({ children }: PageShellProps) => {
             mounted={mounted}
           />
 
-          <MotionRoot>{children}</MotionRoot>
-
-          <ScrollToTop />
+          <MotionRoot>
+            {children}
+            <ScrollToTop />
+          </MotionRoot>
         </div>
       </PortfolioDataProvider>
     </ErrorBoundary>

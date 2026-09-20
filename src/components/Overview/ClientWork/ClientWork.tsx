@@ -14,16 +14,17 @@ export const ClientWork = () => {
   return (
     <>
       <SectionDivider className="py-6" />
-      <section className="py-12 relative">
+      <section className="relative py-12">
         <div className="mx-auto px-6">
-          <div className="text-center mb-10">
+          <div className="mb-10 text-center">
             <h2
               data-section-title
-              className="text-3xl font-bold mb-4 text-neutral-900 dark:text-neutral-100"
+              data-split-title
+              className="mb-4 text-3xl font-bold text-neutral-900 dark:text-neutral-100"
             >
               Client Work
             </h2>
-            <p className="reveal text-neutral-600 dark:text-neutral-300 max-w-3xl mx-auto">
+            <p className="reveal mx-auto max-w-3xl text-neutral-600 dark:text-neutral-300">
               Active freelance projects and client collaborations, delivering
               scalable solutions across mobile and web platforms.
             </p>
@@ -31,7 +32,7 @@ export const ClientWork = () => {
 
           <div className="relative">
             <div
-              className="absolute left-1/2 top-0 bottom-0 hidden w-px bg-linear-to-b from-primary-500/30 via-primary-500/15 to-primary-500/30 pointer-events-none lg:block"
+              className="pointer-events-none absolute top-0 bottom-0 left-1/2 hidden w-px -translate-x-1/2 bg-linear-to-b from-primary-500/30 via-primary-500/15 to-primary-500/30 lg:block"
               aria-hidden
             />
 
