@@ -7,7 +7,7 @@ const CLIENT_WORK: ClientWorkEntry[] = [
     clientName: 'Perfume Tower',
     engagement: 'Customer Mobile App',
     summary:
-      'Built the React Native customer app for a fragrance commerce platform—catalog browsing, wishlist, orders, and live inventory states—backed by a shared Express and Supabase stack.',
+      'Expo customer app for fragrance commerce — catalog, wishlist, and orders on a shared Express/Supabase backend.',
     status: 'Completed',
     technologies: [
       'React Native',
@@ -33,7 +33,7 @@ const CLIENT_WORK: ClientWorkEntry[] = [
     clientName: 'Perfume Tower',
     engagement: 'E-Commerce Storefront',
     summary:
-      'Shipped the Next.js storefront for perfume-tower.shop and owned API, database, and production ops—DigitalOcean Droplet deploys with CI/CD and PM2 on the shared backend.',
+      'Next.js storefront at perfume-tower.shop — API, database, and Droplet deploys with CI/CD and PM2.',
     status: 'Completed',
     technologies: [
       'Next.js',
@@ -55,7 +55,7 @@ const CLIENT_WORK: ClientWorkEntry[] = [
     clientName: 'SchoolFlow',
     engagement: 'School Management System',
     summary:
-      'Delivered a completed mobile app experience for students, parents, and schools with attendance, assignments, schedule, grades, payments, chat, leave requests, and role-based dashboards.',
+      'Completed mobile school ops for students and parents — attendance, grades, payments, chat, and role-based dashboards.',
     status: 'Completed',
     technologies: [
       'React Native',
@@ -80,7 +80,7 @@ const CLIENT_WORK: ClientWorkEntry[] = [
     clientName: 'Yoyic',
     engagement: 'Multi-vendor E-Commerce',
     summary:
-      'Developing a multi-vendor marketplace with a customer mobile app and seller/admin web portal. Established CI/CD pipelines and coordinated data integration between client app and admin panel.',
+      'Multi-vendor marketplace: customer mobile app, seller/admin portal, and API with CI/CD across surfaces.',
     status: 'Completed',
     technologies: [
       'React Native',
@@ -98,7 +98,7 @@ const CLIENT_WORK: ClientWorkEntry[] = [
       {
         title: 'Customer Mobile App',
         description:
-          'Mobile shopping experience with auth, cart, checkout, order tracking, reviews, and push notifications.',
+          'Auth, cart, checkout, order tracking, reviews, and push notifications.',
         platform: 'mobile',
         screenshotSrc: '/yoyic-mobile/home.png',
         screenshotPresentation: 'mobile',
@@ -106,7 +106,7 @@ const CLIENT_WORK: ClientWorkEntry[] = [
       {
         title: 'Admin Web Portal',
         description:
-          'Seller and admin web portal for dashboard management, orders, payments, and product administration.',
+          'Seller/admin dashboard for orders, payments, and product admin.',
         platform: 'web',
         screenshotSrc: '/yoyic-admin/dashboard.png',
         screenshotPresentation: 'web',
@@ -118,7 +118,7 @@ const CLIENT_WORK: ClientWorkEntry[] = [
     clientName: 'Technortal',
     engagement: 'EdTech Learning Platform',
     summary:
-      'Built the core backend using Express.js and PostgreSQL. Implemented multi-role authentication, course enrollment, a gamified community forum, and payment verification. Managed SDLC sprints for the frontend team.',
+      'Express/PostgreSQL backend — multi-role auth, enrollment, forum, and payment verification.',
     status: 'Completed',
     technologies: [
       'Node.js',
@@ -139,7 +139,7 @@ const CLIENT_WORK: ClientWorkEntry[] = [
     clientName: 'Info Smart Campus',
     engagement: 'App Store Release Ops',
     summary:
-      'Managed the complete Apple App Store release process for Info Myanmar College, handling certification requirements, provisioning profiles, and ongoing version updates.',
+      'Apple App Store release ops — certification, provisioning, and version updates.',
     status: 'Completed',
     technologies: ['iOS', 'App Store Connect', 'Provisioning Profiles', 'Expo'],
   },
@@ -1775,9 +1775,9 @@ export const DATA = {
   // Add achievements and milestones
   achievements: [
     {
-      title: 'Latest delivery: SchoolFlow',
+      title: 'Perfume Tower',
       description:
-        'Shipped end-to-end mobile school platform for parents, students, and staff—attendance, grades, payments, messaging, and leave workflows in one product',
+        'Fragrance commerce — React Native/Expo app + Next.js storefront at perfume-tower.shop, with Express/Supabase and Droplet deploys',
       year: 2026,
       category: 'Professional',
     },

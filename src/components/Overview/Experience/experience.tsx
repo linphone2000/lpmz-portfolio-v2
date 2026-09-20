@@ -1,6 +1,5 @@
 'use client';
 
-import { useInView } from '@/hooks/useInView';
 import { Card } from '@/components/Common/Card';
 import { Badge } from '@/components/Common/Badge';
 import { usePortfolioData } from '@/providers/PortfolioDataProvider';
@@ -9,78 +8,81 @@ export const Experience = () => {
   const {
     data: { experience },
   } = usePortfolioData();
-  const [containerRef, isInView] = useInView({
-    threshold: 0.1,
-    triggerOnce: false,
-  });
-  return (
-    <>
-      <section className="py-16 relative">
-        <div className="max-w-7xl mx-auto px-6">
-          <div className="text-center mb-8">
-            <h2 className="text-3xl font-bold mb-6 text-neutral-900 dark:text-neutral-100">
-              Experience
-            </h2>
-            <p className="text-neutral-600 dark:text-neutral-300 max-w-3xl mx-auto">
-              Senior mobile work backed by full-stack APIs, microservices, and
-              hands-on deployment on production servers.
-            </p>
-          </div>
 
-          <div
-            ref={containerRef}
-            className={`space-y-6 transition-all duration-700 ease-out ${
-              isInView ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-6'
-            }`}
+  return (
+    <section className="relative py-16">
+      <div className="mx-auto max-w-7xl px-6">
+        <div className="mb-8 text-center">
+          <h2
+            data-section-title
+            className="mb-6 text-3xl font-bold text-neutral-900 dark:text-neutral-100"
           >
-            {experience.map((exp, index) => (
-              <div
-                key={index}
-                className={`transition-all duration-500 ease-out animation-delay-${index * 100}`}
-              >
-                <Card className="relative overflow-hidden px-8 py-4">
-                  <div className="absolute top-0 left-0 w-1 h-full bg-gradient-to-b from-primary-500 to-secondary-500" />
-                  <div className="">
-                    <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-6">
-                      <div>
-                        <h3 className="text-xl font-bold mb-2 text-neutral-900 dark:text-neutral-100">
-                          {exp.role}
-                        </h3>
-                        <p className="text-primary-600 dark:text-primary-400 font-medium">
-                          {exp.company}
-                        </p>
-                      </div>
-                      <div className="flex flex-col sm:flex-row gap-2 items-end sm:items-center">
-                        <Badge className="bg-primary-500/10 text-primary-700 dark:text-primary-300 w-fit">
-                          {exp.period}
-                        </Badge>
-                        {exp.type && exp.type !== 'Full-time' && (
-                          <Badge className="bg-blue-500/10 text-blue-700 dark:text-blue-300 w-fit border border-blue-500/20">
-                            {exp.type}
-                          </Badge>
-                        )}
-                      </div>
-                    </div>
-                    <ul className="space-y-3">
-                      {exp.bullets
-                        .filter((bullet) => bullet.length > 0)
-                        .map((bullet, bulletIndex) => (
-                          <li
-                            key={bulletIndex}
-                            className="flex items-start gap-2 text-neutral-600 dark:text-neutral-300"
-                          >
-                            <span className="text-primary-500 mt-1.5">•</span>
-                            <span>{bullet}</span>
-                          </li>
-                        ))}
-                    </ul>
-                  </div>
-                </Card>
-              </div>
-            ))}
-          </div>
+            Experience
+          </h2>
+          <p className="reveal mx-auto max-w-3xl text-neutral-600 dark:text-neutral-300">
+            Senior mobile work backed by full-stack APIs, microservices, and
+            hands-on deployment on production servers.
+          </p>
         </div>
-      </section>
-    </>
+
+        <div className="space-y-6">
+          {experience.map((exp, index) => (
+            <div key={index} data-agenda-row>
+              <Card
+                className="relative overflow-hidden px-8 py-4"
+                data-tilt
+                animateIn={false}
+              >
+                <div className="absolute top-0 left-0 h-full w-1 bg-gradient-to-b from-primary-500 to-secondary-500" />
+                <div>
+                  <div className="mb-6 flex flex-col sm:flex-row sm:items-center sm:justify-between">
+                    <div>
+                      <h3 className="mb-2 text-xl font-bold text-neutral-900 dark:text-neutral-100">
+                        {exp.role}
+                      </h3>
+                      <p className="font-medium text-primary-600 dark:text-primary-400">
+                        {exp.company}
+                      </p>
+                    </div>
+                    <div className="flex flex-col items-end gap-2 sm:flex-row sm:items-center">
+                      <Badge
+                        data-chip
+                        className="w-fit bg-primary-500/10 text-primary-700 dark:text-primary-300"
+                      >
+                        {exp.period}
+                      </Badge>
+                      {'type' in exp &&
+                      exp.type &&
+                      exp.type !== 'Full-time' ? (
+                        <Badge
+                          data-chip
+                          className="w-fit border border-blue-500/20 bg-blue-500/10 text-blue-700 dark:text-blue-300"
+                        >
+                          {String(exp.type)}
+                        </Badge>
+                      ) : null}
+                    </div>
+                  </div>
+                  <ul className="space-y-3">
+                    {exp.bullets
+                      .filter((bullet) => bullet.length > 0)
+                      .map((bullet, bulletIndex) => (
+                        <li
+                          key={bulletIndex}
+                          data-table-row
+                          className="flex items-start gap-2 text-neutral-600 dark:text-neutral-300"
+                        >
+                          <span className="mt-1.5 text-primary-500">•</span>
+                          <span>{bullet}</span>
+                        </li>
+                      ))}
+                  </ul>
+                </div>
+              </Card>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
   );
 };

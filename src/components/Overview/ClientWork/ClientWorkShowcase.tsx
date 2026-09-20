@@ -7,7 +7,6 @@ import {
 } from '@heroicons/react/24/outline';
 import { Badge } from '@/components/Common/Badge';
 import { PhoneFrame } from '@/components/Common/PhoneFrame';
-import { useInView } from '@/hooks/useInView';
 import type { ClientWorkEntry } from '@/lib/types';
 
 interface ClientWorkShowcaseProps {
@@ -140,17 +139,11 @@ export default function ClientWorkShowcase({
   const isLeft = index % 2 === 0;
   const showDeliverables = entry.deliverables && entry.deliverables.length > 1;
   const lgSpineContent = isLeft ? 'lg:max-w-md lg:ml-auto' : 'lg:max-w-md';
-  const [itemRef, isInView] = useInView({
-    threshold: 0.15,
-    triggerOnce: false,
-  });
 
   return (
     <article
-      ref={itemRef}
-      className={`relative lg:grid lg:grid-cols-2 lg:items-center lg:gap-6 xl:gap-10 transition-all duration-700 ease-out ${
-        isInView ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-6'
-      }`}
+      data-client-work={isLeft ? 'left' : 'right'}
+      className="relative lg:grid lg:grid-cols-2 lg:items-center lg:gap-6 xl:gap-10"
     >
       <div className="absolute left-1/2 top-1/2 hidden -translate-x-1/2 -translate-y-1/2 lg:block z-10">
         <span className="relative flex h-5 w-5 items-center justify-center">
@@ -175,6 +168,7 @@ export default function ClientWorkShowcase({
 
         <div className="space-y-4 sm:space-y-5">
           <div
+            data-client-work-copy
             className={`text-center ${isLeft ? 'lg:text-right' : 'lg:text-left'} ${lgSpineContent}`}
           >
             <h3 className="text-xl sm:text-2xl font-bold text-neutral-900 dark:text-neutral-100">
@@ -185,16 +179,20 @@ export default function ClientWorkShowcase({
                 isLeft ? 'lg:justify-end' : 'lg:justify-start'
               }`}
             >
-              <Badge className="bg-primary-500/10 text-primary-700 dark:text-primary-300">
+              <Badge
+                data-chip
+                className="bg-primary-500/10 text-primary-700 dark:text-primary-300"
+              >
                 {entry.engagement}
               </Badge>
-              <Badge className={statusStyles[entry.status]}>
+              <Badge data-chip className={statusStyles[entry.status]}>
                 {entry.status}
               </Badge>
             </div>
           </div>
 
           <div
+            data-client-work-media
             className={`${isLeft ? 'lg:flex lg:justify-end' : ''} ${lgSpineContent}`}
           >
             <div className="w-full max-w-md mx-auto lg:max-w-none lg:mx-0">
@@ -209,62 +207,66 @@ export default function ClientWorkShowcase({
             aria-hidden
           />
 
-          <p
-            className={`text-sm sm:text-base text-neutral-600 dark:text-neutral-300 leading-relaxed ${lgSpineContent}`}
-          >
-            {entry.summary}
-          </p>
-
-          {showDeliverables && (
-            <ul
-              className={`space-y-2 ${isLeft ? 'lg:text-right' : ''} ${lgSpineContent}`}
+          <div data-client-work-copy className="space-y-4 sm:space-y-5">
+            <p
+              className={`text-sm sm:text-base text-neutral-600 dark:text-neutral-300 leading-relaxed ${lgSpineContent}`}
             >
-              {entry.deliverables!.map((deliverable) => (
-                <li
-                  key={deliverable.title + index}
-                  className={`flex flex-col gap-0.5 ${
-                    isLeft ? 'lg:items-end' : ''
-                  }`}
-                >
-                  <span className="text-sm font-semibold text-neutral-900 dark:text-neutral-100">
-                    {deliverable.title}
-                  </span>
-                  <span className="text-sm text-neutral-600 dark:text-neutral-400">
-                    {deliverable.description}
-                  </span>
-                </li>
-              ))}
-            </ul>
-          )}
+              {entry.summary}
+            </p>
 
-          <div
-            className={`flex flex-wrap gap-2 ${isLeft ? 'lg:justify-end' : ''} ${lgSpineContent}`}
-          >
-            {entry.technologies.slice(0, 5).map((tech) => (
-              <Badge
-                key={tech + index}
-                className="bg-neutral-100 dark:bg-neutral-800 text-xs"
+            {showDeliverables && (
+              <ul
+                className={`space-y-2 ${isLeft ? 'lg:text-right' : ''} ${lgSpineContent}`}
               >
-                {tech}
-              </Badge>
-            ))}
-          </div>
+                {entry.deliverables!.map((deliverable) => (
+                  <li
+                    key={deliverable.title + index}
+                    className={`flex flex-col gap-0.5 ${
+                      isLeft ? 'lg:items-end' : ''
+                    }`}
+                  >
+                    <span className="text-sm font-semibold text-neutral-900 dark:text-neutral-100">
+                      {deliverable.title}
+                    </span>
+                    <span className="text-sm text-neutral-600 dark:text-neutral-400">
+                      {deliverable.description}
+                    </span>
+                  </li>
+                ))}
+              </ul>
+            )}
 
-          {entry.liveUrl && (
             <div
-              className={`${isLeft ? 'lg:flex lg:justify-end' : ''} ${lgSpineContent}`}
+              className={`flex flex-wrap gap-2 ${isLeft ? 'lg:justify-end' : ''} ${lgSpineContent}`}
             >
-              <a
-                href={entry.liveUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex items-center gap-2 text-sm font-semibold text-primary-600 dark:text-primary-400 hover:text-primary-700 dark:hover:text-primary-300 transition-colors cursor-pointer group/link"
-              >
-                <ArrowTopRightOnSquareIcon className="w-4 h-4 group-hover/link:translate-x-0.5 group-hover/link:-translate-y-0.5 transition-transform" />
-                Visit website
-              </a>
+              {entry.technologies.slice(0, 5).map((tech) => (
+                <Badge
+                  key={tech + index}
+                  data-chip
+                  className="bg-neutral-100 dark:bg-neutral-800 text-xs"
+                >
+                  {tech}
+                </Badge>
+              ))}
             </div>
-          )}
+
+            {entry.liveUrl && (
+              <div
+                className={`${isLeft ? 'lg:flex lg:justify-end' : ''} ${lgSpineContent}`}
+              >
+                <a
+                  href={entry.liveUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  data-magnetic
+                  className="inline-flex items-center gap-2 text-sm font-semibold text-primary-600 dark:text-primary-400 hover:text-primary-700 dark:hover:text-primary-300 transition-colors cursor-pointer group/link"
+                >
+                  <ArrowTopRightOnSquareIcon className="w-4 h-4 group-hover/link:translate-x-0.5 group-hover/link:-translate-y-0.5 transition-transform" />
+                  Visit website
+                </a>
+              </div>
+            )}
+          </div>
         </div>
       </div>
 

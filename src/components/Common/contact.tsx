@@ -1,8 +1,8 @@
 'use client';
 
-import { useInView } from '@/hooks/useInView';
 import { Card } from '@/components/Common/Card';
 import { Button } from '@/components/Common/Button';
+import SurfaceRing from '@/components/Motion/SurfaceRing';
 import {
   EnvelopeIcon,
   PhoneIcon,
@@ -15,88 +15,70 @@ export const Contact = () => {
   const {
     data: { about: portfolio },
   } = usePortfolioData();
-  const [leftCardRef, leftCardInView] = useInView({
-    threshold: 0.1,
-    triggerOnce: false,
-  });
-  const [rightCardRef, rightCardInView] = useInView({
-    threshold: 0.1,
-    triggerOnce: false,
-  });
 
   return (
-    <section className="relative pb-12">
+    <section className="relative overflow-hidden pb-12">
       <SectionDivider className="py-8" />
+      <SurfaceRing className="surface-ring-scene pointer-events-none absolute right-[-10%] bottom-0 hidden h-64 w-64 opacity-25 md:block" />
 
-      <div className="max-w-5xl mx-auto px-4">
-        <div className="reveal mb-12 text-center">
-          <h2 className="mb-4 text-3xl font-bold text-neutral-900 dark:text-neutral-100">
+      <div className="relative mx-auto max-w-5xl px-4">
+        <div className="mb-12 text-center">
+          <h2
+            data-section-title
+            className="mb-4 text-3xl font-bold text-neutral-900 dark:text-neutral-100"
+          >
             Get In Touch
           </h2>
-          <p className="text-neutral-600 dark:text-neutral-300 max-w-2xl mx-auto">
-            I&apos;m always open to discussing new opportunities, interesting
-            projects, or just having a chat about technology.
+          <p className="reveal mx-auto max-w-2xl text-neutral-600 dark:text-neutral-300">
+            Open to new opportunities, collaborations, or a focused chat about
+            product builds.
           </p>
         </div>
 
-        <div className="grid md:grid-cols-2 gap-8">
-          <div
-            ref={leftCardRef}
-            className={`transition-all duration-500 ease-out ${
-              leftCardInView
-                ? 'opacity-100 translate-x-0'
-                : 'opacity-0 -translate-x-5'
-            }`}
-          >
-            <Card className="px-8 py-4">
-              <h3 className="text-xl font-bold mb-4 text-neutral-900 dark:text-neutral-100">
-                Contact Information
-              </h3>
-              <div className="space-y-3">
-                <div className="flex items-center gap-3">
-                  <EnvelopeIcon className="w-5 h-5 text-primary-500" />
-                  <a
-                    href={`mailto:${portfolio.email}`}
-                    className="text-neutral-600 dark:text-neutral-300 hover:text-primary-500 transition-colors cursor-pointer"
-                  >
-                    {portfolio.email}
-                  </a>
-                </div>
-                <div className="flex items-center gap-3">
-                  <PhoneIcon className="w-5 h-5 text-primary-500" />
-                  <a
-                    href={`tel:${portfolio.phone.replace(/\s/g, '')}`}
-                    className="text-neutral-600 dark:text-neutral-300 hover:text-primary-500 transition-colors cursor-pointer"
-                  >
-                    {portfolio.phone}
-                  </a>
-                </div>
-                <div className="flex items-center gap-3">
-                  <MapPinIcon className="w-5 h-5 text-primary-500" />
-                  <span className="text-neutral-600 dark:text-neutral-300">
-                    {portfolio.location}
-                  </span>
-                </div>
+        <div className="grid gap-8 md:grid-cols-2">
+          <Card className="reveal px-8 py-4" data-tilt animateIn={false}>
+            <h3 className="mb-4 text-xl font-bold text-neutral-900 dark:text-neutral-100">
+              Contact Information
+            </h3>
+            <div className="space-y-3">
+              <div className="flex items-center gap-3">
+                <EnvelopeIcon className="h-5 w-5 text-primary-500" />
+                <a
+                  href={`mailto:${portfolio.email}`}
+                  className="cursor-pointer text-neutral-600 transition-colors hover:text-primary-500 dark:text-neutral-300"
+                >
+                  {portfolio.email}
+                </a>
               </div>
-            </Card>
-          </div>
+              <div className="flex items-center gap-3">
+                <PhoneIcon className="h-5 w-5 text-primary-500" />
+                <a
+                  href={`tel:${portfolio.phone.replace(/\s/g, '')}`}
+                  className="cursor-pointer text-neutral-600 transition-colors hover:text-primary-500 dark:text-neutral-300"
+                >
+                  {portfolio.phone}
+                </a>
+              </div>
+              <div className="flex items-center gap-3">
+                <MapPinIcon className="h-5 w-5 text-primary-500" />
+                <span className="text-neutral-600 dark:text-neutral-300">
+                  {portfolio.location}
+                </span>
+              </div>
+            </div>
+          </Card>
 
-          <div
-            ref={rightCardRef}
-            className={`transition-all duration-500 ease-out ${
-              rightCardInView
-                ? 'opacity-100 translate-x-0'
-                : 'opacity-0 translate-x-5'
-            }`}
-          >
-            <Card className="px-8 py-4">
-              <h3 className="text-xl font-bold mb-4 text-neutral-900 dark:text-neutral-100">
-                Social Links
-              </h3>
-              <div className="space-y-3">
+          <Card className="reveal px-8 py-4" data-tilt animateIn={false}>
+            <h3 className="mb-4 text-xl font-bold text-neutral-900 dark:text-neutral-100">
+              Social Links
+            </h3>
+            <div className="space-y-3">
+              <span data-magnetic className="block w-full">
                 <Button href={`mailto:${portfolio.email}`} className="w-full">
                   Send Email
                 </Button>
+              </span>
+              <span data-magnetic className="block w-full">
                 <Button
                   href={portfolio.links.linkedin}
                   variant="ghost"
@@ -104,6 +86,8 @@ export const Contact = () => {
                 >
                   Connect on LinkedIn
                 </Button>
+              </span>
+              <span data-magnetic className="block w-full">
                 <Button
                   href={portfolio.links.github}
                   variant="ghost"
@@ -111,9 +95,9 @@ export const Contact = () => {
                 >
                   View GitHub
                 </Button>
-              </div>
-            </Card>
-          </div>
+              </span>
+            </div>
+          </Card>
         </div>
       </div>
     </section>

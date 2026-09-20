@@ -27,12 +27,15 @@ export default function FeaturedProject() {
     <>
       <SectionDivider className="py-8" />
       <section className="px-4 py-14 md:px-6">
-        <div className="reveal mx-auto grid max-w-6xl items-center gap-10 md:grid-cols-[1.1fr_0.9fr]">
-          <div>
+        <div className="mx-auto grid max-w-6xl items-center gap-10 md:grid-cols-[1.1fr_0.9fr]">
+          <div data-preview-head className="reveal">
             <p className="text-[10px] uppercase tracking-[0.24em] text-primary-500">
               Featured
             </p>
-            <h2 className="mt-3 text-3xl font-semibold tracking-tight text-neutral-900 dark:text-neutral-50 md:text-4xl">
+            <h2
+              data-section-title
+              className="mt-3 text-3xl font-semibold tracking-tight text-neutral-900 dark:text-neutral-50 md:text-4xl"
+            >
               {title}
             </h2>
             <p className="mt-4 text-neutral-500 dark:text-neutral-400">
@@ -42,6 +45,7 @@ export default function FeaturedProject() {
               {featured.stack.slice(0, 4).map((tech) => (
                 <span
                   key={tech}
+                  data-chip
                   className="rounded-full bg-neutral-100 px-3 py-1 text-xs text-neutral-600 dark:bg-neutral-800 dark:text-neutral-300"
                 >
                   {tech}
@@ -56,7 +60,11 @@ export default function FeaturedProject() {
               View case study
             </Link>
           </div>
-          <div className="relative aspect-[4/5] overflow-hidden rounded-2xl bg-neutral-100 dark:bg-neutral-800 md:aspect-[5/6]">
+          <div
+            data-preview-card
+            data-tilt
+            className="relative aspect-[4/5] overflow-hidden rounded-2xl bg-neutral-100 dark:bg-neutral-800 md:aspect-[5/6]"
+          >
             {hero ? (
               <Image
                 src={hero.src}

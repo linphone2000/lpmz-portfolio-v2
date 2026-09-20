@@ -17,10 +17,13 @@ export const ClientWork = () => {
       <section className="py-12 relative">
         <div className="mx-auto px-6">
           <div className="text-center mb-10">
-            <h2 className="text-3xl font-bold mb-4 text-neutral-900 dark:text-neutral-100">
+            <h2
+              data-section-title
+              className="text-3xl font-bold mb-4 text-neutral-900 dark:text-neutral-100"
+            >
               Client Work
             </h2>
-            <p className="text-neutral-600 dark:text-neutral-300 max-w-3xl mx-auto">
+            <p className="reveal text-neutral-600 dark:text-neutral-300 max-w-3xl mx-auto">
               Active freelance projects and client collaborations, delivering
               scalable solutions across mobile and web platforms.
             </p>

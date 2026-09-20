@@ -681,3 +681,140 @@ html {
   --admin-sidebar-top: 4.75rem;
   --admin-bottom-bar-h: 4.75rem;
 }
+
+/* --- animations.md CSS loops (scoped via .motion-root) --- */
+@keyframes sparkFloat {
+  0%,
+  100% {
+    transform: translateY(0) scale(1);
+    opacity: 0.35;
+  }
+  50% {
+    transform: translateY(-18px) scale(1.15);
+    opacity: 0.85;
+  }
+}
+
+@keyframes chipFloat {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-8px);
+  }
+}
+
+@keyframes dashFlow {
+  to {
+    stroke-dashoffset: -24;
+  }
+}
+
+@keyframes ringSpin {
+  to {
+    transform: rotateY(360deg);
+  }
+}
+
+@keyframes pulseDot {
+  0%,
+  100% {
+    opacity: 0.45;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.25);
+  }
+}
+
+@keyframes capIn {
+  from {
+    opacity: 0;
+    transform: translateY(8px) scale(0.96);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes metricsBump {
+  0%,
+  100% {
+    transform: scale(1);
+  }
+  40% {
+    transform: scale(1.04);
+  }
+}
+
+.motion-root .spark-float {
+  animation: sparkFloat 5.5s ease-in-out infinite;
+}
+
+.motion-root .spark-float-delay {
+  animation-delay: 1.2s;
+}
+
+.motion-root .spark-float-delay-2 {
+  animation-delay: 2.4s;
+}
+
+.motion-root .chip-float {
+  animation: chipFloat 4s ease-in-out infinite;
+}
+
+.motion-root .pulse-dot {
+  animation: pulseDot 1.8s ease-in-out infinite;
+}
+
+.motion-root .cap-in {
+  animation: capIn 0.55s ease-out both;
+}
+
+.motion-root .metrics-tile-bump {
+  animation: metricsBump 0.45s ease-out;
+}
+
+.motion-root .dash-flow {
+  stroke-dasharray: 6 8;
+  animation: dashFlow 1.2s linear infinite;
+}
+
+.surface-ring-scene {
+  perspective: 600px;
+}
+
+.surface-ring {
+  position: relative;
+  width: 7rem;
+  height: 7rem;
+  transform-style: preserve-3d;
+  animation: ringSpin 18s linear infinite;
+}
+
+.surface-ring-scene:hover .surface-ring {
+  animation-play-state: paused;
+}
+
+.surface-ring-face {
+  position: absolute;
+  inset: 0;
+  border: 1px solid rgb(14 165 233 / 0.35);
+  border-radius: 0.75rem;
+  background: rgb(14 165 233 / 0.06);
+  transform: rotateY(calc(var(--i) * 45deg)) translateZ(3.5rem);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .motion-root .spark-float,
+  .motion-root .chip-float,
+  .motion-root .pulse-dot,
+  .motion-root .cap-in,
+  .motion-root .dash-flow,
+  .surface-ring {
+    animation: none !important;
+  }
+}

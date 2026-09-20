@@ -4,7 +4,6 @@ import { useState, useMemo, type CSSProperties } from 'react';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Autoplay, Navigation, Pagination } from 'swiper/modules';
 import { Badge } from '../Common/Badge';
-import { useInView } from '../../hooks/useInView';
 import {
   PaintBrushIcon,
   CogIcon,
@@ -127,45 +126,33 @@ export const Skills = () => {
     return categories;
   }, [skills]);
 
-  // Use custom in-view hook for animations
-  const [containerRef, isContainerInView] = useInView({
-    threshold: 0.1,
-    triggerOnce: false,
-  });
-
   return (
     <section className="relative">
-      <div className="max-w-6xl mx-auto px-4">
-        {/* Hero Header */}
-        <div className="text-center mb-16">
-          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-gradient-to-r from-primary-100 to-secondary-100 dark:from-primary-900/30 dark:to-secondary-900/30 border border-primary-200 dark:border-primary-800 mb-6">
-            <SparklesIcon className="w-4 h-4 text-primary-600 dark:text-primary-400" />
+      <div className="mx-auto max-w-6xl px-4">
+        <div className="mb-16 text-center">
+          <div className="cap-in mb-6 inline-flex items-center gap-2 rounded-full border border-primary-200 bg-gradient-to-r from-primary-100 to-secondary-100 px-4 py-2 dark:border-primary-800 dark:from-primary-900/30 dark:to-secondary-900/30">
+            <SparklesIcon className="h-4 w-4 text-primary-600 dark:text-primary-400" />
             <span className="text-sm font-medium text-primary-700 dark:text-primary-300">
               Technical Arsenal
             </span>
           </div>
 
-          <h2 className="text-4xl md:text-5xl font-black mb-6 bg-gradient-to-r from-neutral-900 via-primary-600 to-secondary-600 dark:from-neutral-100 dark:via-primary-400 dark:to-secondary-400 bg-clip-text text-transparent">
+          <h2
+            data-section-title
+            className="mb-6 bg-gradient-to-r from-neutral-900 via-primary-600 to-secondary-600 bg-clip-text text-4xl font-black text-transparent dark:from-neutral-100 dark:via-primary-400 dark:to-secondary-400 md:text-5xl"
+          >
             Skills & Technologies
           </h2>
 
-          <p className="text-lg text-neutral-600 dark:text-neutral-300 max-w-3xl mx-auto mb-8">
+          <p className="reveal mx-auto mb-8 max-w-3xl text-lg text-neutral-600 dark:text-neutral-300">
             A comprehensive arsenal of modern technologies and tools I use to
             craft exceptional digital experiences.
           </p>
         </div>
 
-        {/* Skills Carousel - Swiper Implementation */}
-        <div
-          ref={containerRef}
-          className={`relative transition-all duration-700 ease-out ${
-            isContainerInView
-              ? 'opacity-100 translate-y-0'
-              : 'opacity-0 translate-y-6'
-          }`}
-        >
+        <div data-carousel-enter className="relative">
           <div
-            className="relative pt-8 pb-16 mx-auto overflow-hidden"
+            className="relative mx-auto overflow-hidden pt-8 pb-16"
             style={{
               maskImage:
                 'linear-gradient(to right, transparent 0%, black 10%, black 90%, transparent 100%)',

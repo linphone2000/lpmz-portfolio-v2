@@ -35,6 +35,7 @@ function ProjectRow({ project }: { project: Project }) {
     <Link
       href={`/portfolio/${slug}`}
       data-magnetic
+      data-table-row
       className="group reveal grid cursor-pointer grid-cols-[4rem_1fr] items-center gap-4 border-b border-neutral-200 py-7 dark:border-neutral-800 md:grid-cols-[5rem_1fr_minmax(12rem,32%)_7rem] md:gap-8"
     >
       <span className="font-mono text-sm text-neutral-400">{project.year}</span>
@@ -103,8 +104,11 @@ export default function Projects() {
         <p className="text-[10px] uppercase tracking-[0.24em] text-primary-500">
           Selected work
         </p>
-        <h2 className="mt-3 max-w-2xl text-3xl font-semibold tracking-tight text-neutral-900 dark:text-neutral-50 md:text-5xl">
-          Case studies, not screenshot dumps.
+        <h2
+          data-section-title
+          className="mt-3 max-w-2xl text-3xl font-semibold tracking-tight text-neutral-900 dark:text-neutral-50 md:text-5xl"
+        >
+          Case studies.
         </h2>
         <p className="mt-4 max-w-xl text-neutral-500 dark:text-neutral-400">
           Problem, role, and outcome — with a few curated frames.
