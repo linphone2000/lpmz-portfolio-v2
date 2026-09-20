@@ -99,7 +99,7 @@ const CLIENT_WORK: ClientWorkEntry[] = [
 
 export const DATA = {
   name: 'Lin Phone Myint Zaw',
-  title: 'Freelance Full-Stack & React Native Developer',
+  title: 'Senior Mobile Developer · Full-Stack & DevOps',
   location: 'Yangon, Myanmar',
   phone: '+95 996 765 8131',
   email: 'linphonem@gmail.com',
@@ -108,23 +108,23 @@ export const DATA = {
     github: 'https://github.com/linphone2000',
   },
   summary:
-    'I work with startups and product teams to ship mobile apps and full-stack products—for schools, commerce, and EdTech. Based in Yangon; remote-friendly.',
+    'Senior mobile developer who also owns backend, data, and deployment—shipping React Native apps while building microservices, managing databases, and operating services on Ubuntu. Based in Yangon; remote-friendly.',
   // Add more detailed personal info
   about: {
     valueProposition:
-      'You get clear milestones, direct communication, and production-ready mobile and API work—from scoped MVP through App Store release. Code structured for handoff so your team can own it after delivery.',
+      'You get end-to-end ownership: production mobile apps, Nest.js microservices, database work, Kafka-backed flows, and Ubuntu deployments—from scoped MVP through App Store release and server operations. Clear milestones, direct communication, and code structured for handoff.',
     tagline:
-      'Shipped mobile and APIs for schools, commerce, and EdTech clients',
+      'Mobile-first engineer with full-stack and DevOps ownership',
     availability: 'Open to freelance & contract work',
     yearsOfExperience: 3,
     yearsLabel: 'Years shipping for clients',
     totalProjects: 5,
-    technologiesMastered: 6,
+    technologiesMastered: 10,
     typewriterStrings: [
-      'Freelance Full-Stack Developer',
-      'React Native · Node · PostgreSQL',
-      'Mobile apps from MVP to App Store',
-      'Partnering with founders & product teams',
+      'Senior Mobile Developer',
+      'Full-Stack · Microservices · DevOps',
+      'React Native · Nest.js · Kafka · PostgreSQL',
+      'From mobile apps to Ubuntu production',
     ],
   },
   experience: [
@@ -135,13 +135,20 @@ export const DATA = {
       location: 'Yangon, Myanmar',
       type: 'Full-time',
       bullets: [
-        'Developing and maintaining the mobile application for SSHR, a self-service human resource management system, using React Native.',
-        'Contributing to the development of Nest.js-based microservices architecture for the SSHR platform.',
+        'Leading development and maintenance of the SSHR mobile app (self-service HR) with React Native, covering core employee and admin workflows.',
+        'Owning a large share of backend development for Nest.js microservices—APIs, service boundaries, and integration with the mobile client.',
+        'Managing database design and operations (schema changes, queries, data integrity) across SSHR services.',
+        'Working with Kafka for event-driven communication between microservices.',
+        'Deploying and operating services on Ubuntu servers, including environment setup, releases, and basic production ops.',
+        'Reviewing pull requests for code quality, maintainability, and team standards.',
       ],
       technologies: [
         'React Native',
         'Nest.js',
         'Microservices',
+        'Kafka',
+        'PostgreSQL',
+        'Ubuntu',
         'TypeScript',
         'RESTful APIs',
         'Git',
@@ -156,11 +163,12 @@ export const DATA = {
       type: 'Freelance',
       bullets: [
         'School Management System (Client: SchoolFlow): Delivered a completed mobile app experience for students, parents, and schools with attendance, assignments, schedule, grades, payments, chat, leave requests, and role-based dashboards.',
-        'Multi-vendor E-Commerce Platform (Client: Yoyic): Developing an E-Commerce mobile app with React Native and Express.js.Established CI/CD pipelines for automated testing and deployment, and coordinated with frontend developer to ensure data integration between client app and admin panel.',
+        'Multi-vendor E-Commerce Platform (Client: Yoyic): Developing an E-Commerce mobile app with React Native and Express.js. Established CI/CD pipelines for automated testing and deployment, and coordinated with frontend developer to ensure data integration between client app and admin panel.',
         'Education Platform (Client: Technortal): Built the core backend using Express.js and PostgreSQL. Implemented business logic for multi-role authentication, course enrollment, a gamified community forum (XP/Point system), and payment verification. Managed the SDLC by defining sprints and tasks for the frontend team of developer and designer.',
         'School Management System (Client: Info Smart Campus): Managed the complete Apple App Store release process for Info Myanmar College, handling certification requirements, provisioning profiles, and ongoing version updates.',
       ],
       technologies: [
+        'React Native',
         'Node.js',
         'Express.js',
         'PostgreSQL',
@@ -1473,7 +1481,14 @@ export const DATA = {
   ],
   skills: {
     frontend: ['React Native', 'Expo', 'Next.js', 'React JS', 'WordPress'],
-    backend: ['Node.js', 'Express.js', 'Nest.js', 'Flask'],
+    backend: [
+      'Node.js',
+      'Express.js',
+      'Nest.js',
+      'Microservices',
+      'Kafka',
+      'Flask',
+    ],
     databases: ['PostgreSQL', 'MongoDB', 'MySQL'],
     languages: ['TypeScript', 'JavaScript', 'Python', 'Java'],
     tools: [
@@ -1483,6 +1498,9 @@ export const DATA = {
       'Bitbucket',
       'Postman',
       'Docker',
+      'Ubuntu',
+      'CI/CD',
+      'AWS',
       'Trello',
       'Gantt Charts',
     ],
@@ -1491,9 +1509,25 @@ export const DATA = {
     // Add skill proficiency levels
     proficiency: {
       expert: ['React Native', 'TypeScript', 'JavaScript'],
-      advanced: ['React JS', 'Node.js', 'Express.js', 'MongoDB'],
-      intermediate: ['Next.js', 'Python', 'MySQL', 'TensorFlow.js'],
-      beginner: ['Java', 'Docker', 'OpenCV'],
+      advanced: [
+        'React JS',
+        'Node.js',
+        'Express.js',
+        'Nest.js',
+        'PostgreSQL',
+        'MongoDB',
+      ],
+      intermediate: [
+        'Next.js',
+        'Kafka',
+        'Microservices',
+        'Ubuntu',
+        'Docker',
+        'Python',
+        'MySQL',
+        'TensorFlow.js',
+      ],
+      beginner: ['Java', 'OpenCV'],
     },
   },
   education: [
@@ -1599,17 +1633,17 @@ export const DATA = {
       icon: 'mobile',
     },
     {
-      title: 'Full-Stack Solutions',
+      title: 'Full-Stack & APIs',
       description:
-        'Complete MERN stack applications with robust backend APIs and databases',
-      technologies: ['MERN', 'Node.js'],
+        'Nest.js/Express microservices, REST APIs, and database design from schema to production',
+      technologies: ['Nest.js', 'PostgreSQL', 'Kafka'],
       icon: 'fullstack',
     },
     {
-      title: 'Clean Architecture',
+      title: 'Deployment & Ops',
       description:
-        'Well-documented, maintainable code with strong development practices',
-      technologies: ['TypeScript', 'Clean Code'],
+        'Ubuntu server setup, CI/CD, and production releases so mobile and backend ship together',
+      technologies: ['Ubuntu', 'Docker', 'CI/CD'],
       icon: 'architecture',
     },
   ],

@@ -127,7 +127,7 @@ export const TabNavigation = ({
 
           {/* Download CV Button - Hide on mobile, show on desktop */}
           <div className="hidden md:block">
-            <Button href="/lpmz-cv.pdf" download>
+            <Button href="/LPMZ%20Resume.docx" download>
               Download CV
             </Button>
           </div>

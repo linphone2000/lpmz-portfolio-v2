@@ -22,8 +22,8 @@ export const Experience = () => {
               Experience
             </h2>
             <p className="text-neutral-600 dark:text-neutral-300 max-w-3xl mx-auto">
-              My professional journey in software development, focusing on
-              mobile and web technologies.
+              Senior mobile work backed by full-stack APIs, microservices, and
+              hands-on deployment on production servers.
             </p>
           </div>
 
