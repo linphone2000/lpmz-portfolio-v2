@@ -12,10 +12,7 @@ import {
   type MeshStandardMaterial,
   type Object3D,
 } from 'three';
-import {
-  canHoverFinePointer,
-  prefersReducedMotion,
-} from '@/lib/motion/gsap';
+import { canHoverFinePointer, prefersReducedMotion } from '@/lib/motion/gsap';
 
 /** MacBook — CC0 via pmndrs market (sriniwasjha). See public/models/CREDITS.md */
 export const LAPTOP_URL = '/models/laptop.glb';
@@ -44,9 +41,7 @@ type LaptopModelProps = {
 };
 
 function isScreenMaterial(name: string | undefined) {
-  return (
-    name === 'Screen' || name === 'ScreenGlass' || name === 'DisplayGlass'
-  );
+  return name === 'Screen' || name === 'ScreenGlass' || name === 'DisplayGlass';
 }
 
 /** Shared CC0 MacBook — clones so hero + featured can both mount it. */
@@ -93,14 +88,11 @@ export function LaptopModel({
     if (!group) return;
 
     const targetX =
-      rotation[0] +
-      (tracking.current ? pointer.current.y * POINTER_TILT.x : 0);
+      rotation[0] + (tracking.current ? pointer.current.y * POINTER_TILT.x : 0);
     const targetY =
-      rotation[1] +
-      (tracking.current ? pointer.current.x * POINTER_TILT.y : 0);
+      rotation[1] + (tracking.current ? pointer.current.x * POINTER_TILT.y : 0);
     const targetZ =
-      rotation[2] +
-      (tracking.current ? pointer.current.x * POINTER_TILT.z : 0);
+      rotation[2] + (tracking.current ? pointer.current.x * POINTER_TILT.z : 0);
 
     group.rotation.x = MathUtils.damp(group.rotation.x, targetX, 5, delta);
     group.rotation.y = MathUtils.damp(group.rotation.y, targetY, 5, delta);

@@ -139,7 +139,7 @@ await login(credentials, {
 
 ## Code Quality
 
-- **Principles:** Start simple; avoid premature abstractions (wait for 3+ use cases). Prefer explicit over clever. Type everything; no `any`. Keep components small. Run `npm run check` for linter/type/format only at the end when needed.
+- **Principles:** Start simple; avoid premature abstractions (wait for 3+ use cases). Prefer explicit over clever. Type everything; no `any`. Keep components small. Run `pnpm run check` for linter/type/format only at the end when needed.
 - **Imports:** `@/` only; order: React → third-party → internal (`@/` grouped by type).
 - **Components:** `export default function`; Tailwind only; `useCallback`/`useMemo` for expensive work; avoid inline functions in render.
 - **Performance:** Use virtualization (`@tanstack/react-virtual`) for long lists; check `useEffect` dependencies to avoid loops.
