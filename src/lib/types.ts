@@ -7,7 +7,7 @@ export interface Tab {
   icon: string;
 }
 
-  // Project types
+// Project types
 export type ProjectOrigin = 'client' | 'academic' | 'personal';
 
 export interface Project {

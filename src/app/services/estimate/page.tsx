@@ -366,7 +366,9 @@ export default function EstimatePage() {
       const featureLines = features.length
         ? features
             .map((f, idx) => {
-              const effort = getFeatureEffortLabel(getFeatureEffort(f.baseCost));
+              const effort = getFeatureEffortLabel(
+                getFeatureEffort(f.baseCost)
+              );
               return `${idx + 1}. ${f.name} (${effort})`;
             })
             .join('\n')

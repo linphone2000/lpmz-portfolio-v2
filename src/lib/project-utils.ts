@@ -35,9 +35,9 @@ export const PROJECT_SLUGS: Record<string, string> = {
 export const CASE_STUDY_META: Record<string, CaseStudyMeta> = {
   'perfume-tower-mobile': {
     problem:
-      'Fragrance retail needed a native customer app tied to live inventory.',
+      'Fragrance retail needed a native customer app tied to the same inventory as the web store.',
     outcome:
-      'Shipped a completed Expo app for catalog, wishlist, and orders on a shared backend.',
+      'Shipped an Expo commerce app—catalog, wishlist, and orders—on a shared Express/Supabase backend.',
     role: 'Mobile engineer',
     heroImageId: 1,
     beats: [
@@ -60,9 +60,9 @@ export const CASE_STUDY_META: Record<string, CaseStudyMeta> = {
   },
   'perfume-tower-web': {
     problem:
-      'The brand needed a web storefront sharing the same commerce backend.',
+      'The brand needed a production storefront that shared one commerce backend with mobile.',
     outcome:
-      'Delivered perfume-tower.shop with catalog, cart, and production deploys.',
+      'Delivered perfume-tower.shop with catalog, cart, and Droplet deploys (CI/CD + PM2).',
     role: 'Web + API + deploy',
     heroImageId: 1,
     beats: [
@@ -80,9 +80,9 @@ export const CASE_STUDY_META: Record<string, CaseStudyMeta> = {
   },
   schoolflow: {
     problem:
-      'Schools relied on paper and chat apps for attendance, grades, and fees.',
+      'Schools relied on paper and chat apps for attendance, grades, fees, and parent updates.',
     outcome:
-      'Completed iOS/Android school ops for parents and students, live in stores.',
+      'Lead mobile delivery of a completed parent/student app—live on the App Store—with attendance, grades, payments, and chat in one product.',
     role: 'Lead mobile delivery',
     heroImageId: 1,
     beats: [
@@ -111,9 +111,9 @@ export const CASE_STUDY_META: Record<string, CaseStudyMeta> = {
   },
   yoyic: {
     problem:
-      'Sellers and shoppers needed a connected mobile + admin marketplace.',
+      'Sellers and shoppers needed one marketplace spanning mobile and admin.',
     outcome:
-      'Sole full-stack delivery: customer app, RBAC admin, and shared Express API.',
+      'Sole full-stack build: customer app, RBAC admin, and Express API with CI/CD. Engineering complete; not publicly launched.',
     role: 'Sole full-stack engineer',
     heroImageId: 1,
     beats: [
@@ -124,16 +124,35 @@ export const CASE_STUDY_META: Record<string, CaseStudyMeta> = {
       },
       {
         title: 'Admin portal',
-        body: 'Seller/admin dashboards on the same API.',
+        body: 'Seller/admin dashboards and payment verification on the same API.',
         imageId: 15,
       },
     ],
   },
   technortal: {
-    problem: 'The EdTech product needed a reliable multi-role learning API.',
-    outcome: 'Production backend powering technortal.com.',
-    role: 'Core backend engineer',
+    problem:
+      'The EdTech product needed a multi-role learning API before the public site could grow.',
+    outcome:
+      'Production Express/PostgreSQL backend powering technortal.com—auth, enrollment, gamified forum, payments—plus sprint leadership for the frontend team.',
+    role: 'Core backend engineer · delivery lead',
     heroImageId: 1,
+    beats: [
+      {
+        title: 'Learning surface',
+        body: 'Courses and enrollment flows backed by the API you built.',
+        imageId: 2,
+      },
+      {
+        title: 'Community & XP',
+        body: 'Gamified forum with posts, comments, and leaderboard mechanics.',
+        imageId: 4,
+      },
+      {
+        title: 'Live classes & payments',
+        body: 'Class schedules with manual payment verification for local wallets.',
+        imageId: 5,
+      },
+    ],
   },
   propertyapp: {
     problem: 'Investors needed clear mobile portfolio performance views.',
@@ -148,7 +167,8 @@ export const CASE_STUDY_META: Record<string, CaseStudyMeta> = {
     heroImageId: 1,
   },
   'home-surveillance': {
-    problem: 'Home monitoring needed intelligent alerts without dedicated hardware.',
+    problem:
+      'Home monitoring needed intelligent alerts without dedicated hardware.',
     outcome: 'Live browser demo with detection modes and stranger alerts.',
     role: 'Sole engineer',
     heroImageId: 14,
@@ -166,7 +186,8 @@ export const CASE_STUDY_META: Record<string, CaseStudyMeta> = {
     heroImageId: 2,
   },
   'p2p-rental': {
-    problem: 'Hosts and renters needed searchable listings with reliable media.',
+    problem:
+      'Hosts and renters needed searchable listings with reliable media.',
     outcome: 'Next.js listings platform with filters and Cloudinary media.',
     role: 'Sole engineer',
     heroImageId: 1,
@@ -226,9 +247,7 @@ export function getHeroScreenshot(
   return shots.find((shot) => shot.id === heroId) ?? shots[0];
 }
 
-export function getStoryFrames(
-  project: Project
-): ProjectPreviewScreenshot[] {
+export function getStoryFrames(project: Project): ProjectPreviewScreenshot[] {
   const shots = project.preview?.screenshots ?? [];
   const meta = getCaseStudyMeta(project);
   const ids = (meta.beats ?? [])

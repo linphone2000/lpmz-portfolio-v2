@@ -51,9 +51,7 @@ export const Experience = () => {
                       >
                         {exp.period}
                       </Badge>
-                      {'type' in exp &&
-                      exp.type &&
-                      exp.type !== 'Full-time' ? (
+                      {'type' in exp && exp.type && exp.type !== 'Full-time' ? (
                         <Badge
                           data-chip
                           className="w-fit border border-blue-500/20 bg-blue-500/10 text-blue-700 dark:text-blue-300"

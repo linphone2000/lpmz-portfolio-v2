@@ -45,14 +45,12 @@ export function usePageMotion(
       );
       if (heroStages.length > 0) {
         gsap.set(heroStages, { opacity: 0, y: 24 });
-        gsap
-          .timeline({ defaults: { ease: 'power3.out' } })
-          .to(heroStages, {
-            opacity: 1,
-            y: 0,
-            duration: 0.7,
-            stagger: 0.1,
-          });
+        gsap.timeline({ defaults: { ease: 'power3.out' } }).to(heroStages, {
+          opacity: 1,
+          y: 0,
+          duration: 0.7,
+          stagger: 0.1,
+        });
       }
 
       // 2. Hero metrics board parallax (single light scrub)

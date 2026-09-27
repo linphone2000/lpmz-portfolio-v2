@@ -88,14 +88,16 @@ export const TabNavigation = ({
 
   return (
     <header
-      className={`sticky top-0 z-40 backdrop-blur bg-white/60 dark:bg-neutral-900/50 border-b border-neutral-200 dark:border-neutral-700 transition-transform duration-300 ease-in-out ${
-        isVisible ? 'translate-y-0' : '-translate-y-full'
-      }`}
+      className={cx(
+        'sticky top-0 z-40 border-b backdrop-blur transition-transform duration-300 ease-in-out',
+        isVisible ? 'translate-y-0' : '-translate-y-full',
+        'border-neutral-200 bg-white/60 dark:border-neutral-700 dark:bg-neutral-900/50'
+      )}
     >
-      <div className="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between">
+      <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-6">
         <Link
           href="/"
-          className="font-extrabold tracking-tight text-lg text-neutral-900 dark:text-neutral-100 transform hover:scale-110 transition-transform duration-200 cursor-pointer"
+          className="cursor-pointer text-lg font-extrabold tracking-tight text-neutral-900 transition-transform duration-200 hover:scale-110 dark:text-neutral-100"
           aria-label="Go to home"
         >
           LPMZ<span className="text-primary-500">.</span>
@@ -109,10 +111,10 @@ export const TabNavigation = ({
               href={tab.href}
               aria-current={activeTab === tab.id ? 'page' : undefined}
               className={cx(
-                'px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200 flex items-center gap-2 focus:outline-none',
+                'flex items-center gap-2 rounded-lg px-4 py-2 text-sm font-medium transition-all duration-200 focus:outline-none',
                 activeTab === tab.id
                   ? 'bg-primary-500 text-white shadow-lg'
-                  : 'text-neutral-600 dark:text-neutral-300 hover:bg-neutral-100 dark:hover:bg-neutral-800'
+                  : 'text-neutral-600 hover:bg-neutral-100 dark:text-neutral-300 dark:hover:bg-neutral-800'
               )}
             >
               <span>{tab.icon}</span>

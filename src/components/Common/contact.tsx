@@ -17,7 +17,7 @@ export const Contact = () => {
   } = usePortfolioData();
 
   return (
-    <section className="relative overflow-hidden pb-12">
+    <section data-home-chapter className="relative overflow-hidden pb-12">
       <SectionDivider className="py-8" />
       <SurfaceRing className="surface-ring-scene pointer-events-auto absolute right-[-8%] bottom-4 hidden h-64 w-64 opacity-30 md:block" />
 
@@ -44,7 +44,7 @@ export const Contact = () => {
       </svg>
 
       <div className="relative mx-auto max-w-5xl px-4">
-        <div className="mb-12 text-center">
+        <div data-reveal="fade-up" className="mb-12 text-center">
           <h2
             data-section-title
             data-split-title
@@ -52,14 +52,19 @@ export const Contact = () => {
           >
             Get In Touch
           </h2>
-          <p className="reveal mx-auto max-w-2xl text-neutral-600 dark:text-neutral-300">
-            Open to new opportunities, collaborations, or a focused chat about
-            product builds.
+          <p className="mx-auto max-w-2xl text-neutral-600 dark:text-neutral-300">
+            Open to freelance, contract, and full-time — or a focused chat about
+            a product build.
           </p>
         </div>
 
         <div className="grid gap-8 md:grid-cols-2">
-          <Card className="reveal px-8 py-4" data-tilt animateIn={false}>
+          <Card
+            data-reveal="from-left"
+            className="reveal px-8 py-4"
+            data-tilt
+            animateIn={false}
+          >
             <h3 className="mb-4 text-xl font-bold text-neutral-900 dark:text-neutral-100">
               Contact Information
             </h3>
@@ -91,7 +96,12 @@ export const Contact = () => {
             </div>
           </Card>
 
-          <Card className="reveal px-8 py-4" data-tilt animateIn={false}>
+          <Card
+            data-reveal="from-right"
+            className="reveal px-8 py-4"
+            data-tilt
+            animateIn={false}
+          >
             <h3 className="mb-4 text-xl font-bold text-neutral-900 dark:text-neutral-100">
               Social Links
             </h3>

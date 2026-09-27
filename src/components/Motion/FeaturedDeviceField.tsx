@@ -11,29 +11,33 @@ const ACCENT = '#0ea5e9';
 function Scene({ dark }: { dark: boolean }) {
   return (
     <>
-      <ambientLight intensity={dark ? 0.4 : 0.7} />
+      <ambientLight intensity={dark ? 0.35 : 0.55} />
       <directionalLight
-        position={[4, 6, 3]}
-        intensity={dark ? 1.4 : 1.25}
+        position={[3, 4, 2]}
+        intensity={dark ? 1.1 : 0.95}
         color="#ffffff"
       />
-      <pointLight position={[-2, 2, 2]} intensity={0.9} color={ACCENT} />
+      <pointLight position={[-2, 1, 2]} intensity={0.7} color={ACCENT} />
       <Suspense fallback={null}>
-        <LaptopModel />
+        <LaptopModel
+          position={[0.15, -0.35, 0]}
+          rotation={[0.2, -0.5, 0.05]}
+          scale={0.32}
+        />
       </Suspense>
       <ContactShadows
-        position={[0.9, -0.95, 0]}
-        opacity={0.4}
-        scale={10}
-        blur={2.5}
-        far={5}
+        position={[0.35, -0.95, 0]}
+        opacity={0.35}
+        scale={8}
+        blur={2.4}
+        far={4}
       />
     </>
   );
 }
 
-/** Home hero WebGL — CC0 MacBook (paused when offscreen). */
-export default function HeroField() {
+/** Featured-section WebGL — same CC0 MacBook as hero (paused offscreen). */
+export default function FeaturedDeviceField() {
   const [active, setActive] = useState(false);
   const [visible, setVisible] = useState(true);
   const [dark, setDark] = useState(false);
@@ -59,7 +63,7 @@ export default function HeroField() {
     const io =
       host &&
       new IntersectionObserver(([entry]) => setVisible(entry.isIntersecting), {
-        threshold: 0.05,
+        threshold: 0.08,
       });
     if (host && io) io.observe(host);
 
@@ -72,22 +76,19 @@ export default function HeroField() {
     };
   }, []);
 
-  if (prefersReducedMotion()) {
-    return (
-      <div
-        aria-hidden
-        className="pointer-events-none absolute inset-0 -z-0 bg-neutral-100 dark:bg-neutral-950"
-      />
-    );
-  }
+  if (prefersReducedMotion()) return null;
 
   return (
-    <div ref={hostRef} aria-hidden className="absolute inset-0 z-0">
+    <div
+      ref={hostRef}
+      aria-hidden
+      className="pointer-events-none absolute inset-0 -z-0 opacity-90"
+    >
       {active && visible ? (
         <Suspense fallback={null}>
           <Canvas
-            dpr={[1, 1.5]}
-            camera={{ position: [0.5, 0.35, 4], fov: 40 }}
+            dpr={[1, 1.25]}
+            camera={{ position: [0.2, 0.2, 4], fov: 40 }}
             gl={{ antialias: true, alpha: true, powerPreference: 'low-power' }}
             style={{ width: '100%', height: '100%' }}
           >

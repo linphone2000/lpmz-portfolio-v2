@@ -42,17 +42,19 @@ export const PageShell = ({ children }: PageShellProps) => {
   return (
     <ErrorBoundary>
       <PortfolioDataProvider>
-        <div className="relative min-h-[100dvh] bg-neutral-50 text-neutral-900 dark:bg-neutral-900 dark:text-neutral-100">
+        <div
+          className={
+            'relative min-h-[100dvh] bg-neutral-50 text-neutral-900 dark:bg-neutral-900 dark:text-neutral-100'
+          }
+        >
           <ScrollProgress />
           <Blobs activeTab={activeTab} />
-
           <TabNavigation
             activeTab={activeTab}
             dark={dark}
             toggle={toggle}
             mounted={mounted}
           />
-
           <MotionRoot>
             {children}
             <ScrollToTop />

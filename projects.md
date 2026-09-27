@@ -318,9 +318,9 @@ Same as Yoyic mobile — client name likely OK; confirm screenshots and **never 
 
 | Project      | Type   | Platform                         | Public?         | Your main role                   |
 | ------------ | ------ | -------------------------------- | --------------- | -------------------------------- |
-| SchoolFlow   | Client | Mobile (+ stack suggests web/DB) | No link in data | Mobile lead / delivery           |
-| Yoyic Mobile | Client | Mobile                           | In dev          | Mobile + API + CI/CD             |
-| Yoyic Admin  | Client | Web                              | In dev          | API + integration (+ team on UI) |
+| SchoolFlow   | Client | Mobile (+ stack suggests web/DB) | App Store       | Mobile lead / delivery           |
+| Yoyic Mobile | Client | Mobile                           | Built; not live | Mobile + API + CI/CD             |
+| Yoyic Admin  | Client | Web                              | Built; not live | API + integration (+ team on UI) |
 | Technortal   | Client | Web + API                        | **Live**        | Backend architect + PM           |
 
 ---

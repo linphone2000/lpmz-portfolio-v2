@@ -17,10 +17,10 @@ interface ClientWorkShowcaseProps {
 
 const statusStyles: Record<ClientWorkEntry['status'], string> = {
   Completed:
-    'bg-emerald-500/10 text-emerald-700 dark:text-emerald-300 border-emerald-500/20',
+    'bg-emerald-500/10 text-emerald-700 border-emerald-500/20 dark:text-emerald-300',
   'In Development':
-    'bg-amber-500/10 text-amber-700 dark:text-amber-300 border-amber-500/20',
-  Ongoing: 'bg-blue-500/10 text-blue-700 dark:text-blue-300 border-blue-500/20',
+    'bg-amber-500/10 text-amber-700 border-amber-500/20 dark:text-amber-300',
+  Ongoing: 'bg-sky-500/10 text-sky-700 border-sky-500/20 dark:text-sky-300',
 };
 
 function MobileScreenshotCollage({
@@ -40,7 +40,7 @@ function MobileScreenshotCollage({
 
   return (
     <div
-      className={`flex items-end gap-1.5 sm:gap-2 justify-center ${
+      className={`flex items-end justify-center gap-1.5 sm:gap-2 ${
         isLeft ? 'lg:justify-end' : 'lg:justify-start'
       }`}
     >
@@ -54,7 +54,7 @@ function MobileScreenshotCollage({
           <PhoneFrame
             src={src}
             alt={`${clientName} preview ${index + 1}`}
-            className="w-full h-full"
+            className="h-full w-full"
             showHoverEffect={false}
             thinBorder
           />
@@ -75,22 +75,22 @@ function ClientWorkInlinePreview({
 
   if (!screenshot) {
     return (
-      <div className="w-full rounded-xl border border-dashed border-neutral-300 dark:border-neutral-600 bg-neutral-50/80 dark:bg-neutral-800/40 p-4">
+      <div className="w-full rounded-xl border border-dashed border-neutral-300 bg-neutral-50/80 p-4 dark:border-neutral-600 dark:bg-neutral-800/40">
         <div className="flex items-start gap-3">
-          <div className="w-10 h-10 rounded-lg bg-primary-500/10 dark:bg-primary-900/30 flex items-center justify-center shrink-0">
-            <BuildingOfficeIcon className="w-5 h-5 text-primary-600 dark:text-primary-400" />
+          <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-primary-500/10 dark:bg-primary-900/30">
+            <BuildingOfficeIcon className="h-5 w-5 text-primary-600 dark:text-primary-400" />
           </div>
           <ul className="space-y-1.5 text-sm text-neutral-600 dark:text-neutral-300">
             <li className="flex items-start gap-2">
-              <span className="text-primary-500 mt-0.5">•</span>
+              <span className="mt-0.5 text-primary-500">•</span>
               <span>App Store certification & provisioning</span>
             </li>
             <li className="flex items-start gap-2">
-              <span className="text-primary-500 mt-0.5">•</span>
+              <span className="mt-0.5 text-primary-500">•</span>
               <span>Release management & version updates</span>
             </li>
             <li className="flex items-start gap-2">
-              <span className="text-primary-500 mt-0.5">•</span>
+              <span className="mt-0.5 text-primary-500">•</span>
               <span>Apple Developer account compliance</span>
             </li>
           </ul>
@@ -138,18 +138,20 @@ export default function ClientWorkShowcase({
 }: ClientWorkShowcaseProps) {
   const isLeft = index % 2 === 0;
   const showDeliverables = entry.deliverables && entry.deliverables.length > 1;
-  const lgSpineContent = isLeft ? 'lg:max-w-md lg:ml-auto' : 'lg:max-w-md';
+  const lgSpineContent = isLeft ? 'lg:ml-auto lg:max-w-md' : 'lg:max-w-md';
+  const side = isLeft ? 'from-left' : 'from-right';
 
   return (
     <article
       data-client-work={isLeft ? 'left' : 'right'}
       data-client-work-chapter
+      data-reveal={side}
       className="relative py-6 lg:grid lg:min-h-[70vh] lg:grid-cols-2 lg:items-center lg:gap-6 lg:py-10 xl:gap-10"
     >
-      <div className="absolute left-1/2 top-1/2 hidden -translate-x-1/2 -translate-y-1/2 lg:block z-10">
+      <div className="absolute top-1/2 left-1/2 z-10 hidden -translate-x-1/2 -translate-y-1/2 lg:block">
         <span className="relative flex h-5 w-5 items-center justify-center">
           <span className="absolute h-full w-full rounded-full bg-primary-500/20" />
-          <span className="relative h-3 w-3 rounded-full bg-primary-600 border-2 border-white dark:border-neutral-900" />
+          <span className="relative h-3 w-3 rounded-full border-2 border-white bg-primary-600 dark:border-neutral-900" />
         </span>
       </div>
 
@@ -161,7 +163,7 @@ export default function ClientWorkShowcase({
         }`}
       >
         <div
-          className={`hidden lg:block absolute top-1/2 h-px w-12 bg-primary-500/20 ${
+          className={`absolute top-1/2 hidden h-px w-12 bg-primary-500/20 lg:block ${
             isLeft ? 'right-0 translate-x-full' : 'left-0 -translate-x-full'
           }`}
           aria-hidden
@@ -170,13 +172,14 @@ export default function ClientWorkShowcase({
         <div className="space-y-4 sm:space-y-5">
           <div
             data-client-work-copy
+            data-reveal={side}
             className={`text-center ${isLeft ? 'lg:text-right' : 'lg:text-left'} ${lgSpineContent}`}
           >
-            <h3 className="text-xl sm:text-2xl font-bold text-neutral-900 dark:text-neutral-100">
+            <h3 className="text-xl font-bold text-neutral-900 dark:text-neutral-100 sm:text-2xl">
               {entry.clientName}
             </h3>
             <div
-              className={`flex flex-wrap items-center justify-center gap-2 mt-2 ${
+              className={`mt-2 flex flex-wrap items-center justify-center gap-2 ${
                 isLeft ? 'lg:justify-end' : 'lg:justify-start'
               }`}
             >
@@ -194,6 +197,7 @@ export default function ClientWorkShowcase({
 
           <div
             data-client-work-media
+            data-reveal={isLeft ? 'from-right' : 'from-left'}
             className={`${isLeft ? 'lg:flex lg:justify-end' : ''} ${lgSpineContent}`}
           >
             <div
@@ -211,9 +215,13 @@ export default function ClientWorkShowcase({
             aria-hidden
           />
 
-          <div data-client-work-copy className="space-y-4 sm:space-y-5">
+          <div
+            data-client-work-copy
+            data-reveal={side}
+            className="space-y-4 sm:space-y-5"
+          >
             <p
-              className={`text-sm sm:text-base text-neutral-600 dark:text-neutral-300 leading-relaxed ${lgSpineContent}`}
+              className={`text-sm leading-relaxed text-neutral-600 dark:text-neutral-300 sm:text-base ${lgSpineContent}`}
             >
               {entry.summary}
             </p>
@@ -247,7 +255,7 @@ export default function ClientWorkShowcase({
                 <Badge
                   key={tech + index}
                   data-chip
-                  className="bg-neutral-100 dark:bg-neutral-800 text-xs"
+                  className="bg-neutral-100 text-xs dark:bg-neutral-800"
                 >
                   {tech}
                 </Badge>
@@ -263,10 +271,12 @@ export default function ClientWorkShowcase({
                   target="_blank"
                   rel="noopener noreferrer"
                   data-magnetic
-                  className="inline-flex items-center gap-2 text-sm font-semibold text-primary-600 dark:text-primary-400 hover:text-primary-700 dark:hover:text-primary-300 transition-colors cursor-pointer group/link"
+                  className="group/link inline-flex cursor-pointer items-center gap-2 text-sm font-semibold text-primary-600 transition-colors hover:text-primary-700 dark:text-primary-400 dark:hover:text-primary-300"
                 >
-                  <ArrowTopRightOnSquareIcon className="w-4 h-4 group-hover/link:translate-x-0.5 group-hover/link:-translate-y-0.5 transition-transform" />
-                  Visit website
+                  <ArrowTopRightOnSquareIcon className="h-4 w-4 transition-transform group-hover/link:translate-x-0.5 group-hover/link:-translate-y-0.5" />
+                  {entry.liveUrl.includes('apps.apple.com')
+                    ? 'View on App Store'
+                    : 'Visit website'}
                 </a>
               </div>
             )}

@@ -151,7 +151,10 @@ export const ProjectModal = ({
                   />
                 </div>
                 {secondaryShots.map((shot) => (
-                  <div key={shot.id} className="w-28 sm:w-32 shrink-0 opacity-90">
+                  <div
+                    key={shot.id}
+                    className="w-28 sm:w-32 shrink-0 opacity-90"
+                  >
                     <PhoneFrame
                       src={shot.src}
                       alt={`${project.name} - ${shot.title}`}

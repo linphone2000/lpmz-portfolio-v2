@@ -24,8 +24,7 @@ export const Blobs = ({ activeTab = 'home' }: BlobsProps) => {
     return () => window.removeEventListener('resize', check);
   }, []);
 
-  const count =
-    activeTab === 'home' ? 3 : activeTab === 'about' ? 2 : 3;
+  const count = activeTab === 'home' ? 3 : activeTab === 'about' ? 2 : 3;
 
   const blobs = [
     {

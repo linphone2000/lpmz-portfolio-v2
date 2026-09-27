@@ -1,5 +1,6 @@
 'use client';
 
+import dynamic from 'next/dynamic';
 import Image from 'next/image';
 import Link from 'next/link';
 import { SectionDivider } from '@/components/Common/SectionDivider';
@@ -10,6 +11,11 @@ import {
   getHeroScreenshot,
   getProjectSlug,
 } from '@/lib/project-utils';
+
+const FeaturedDeviceField = dynamic(
+  () => import('@/components/Motion/FeaturedDeviceField'),
+  { ssr: false }
+);
 
 export default function FeaturedProject() {
   const {
@@ -28,21 +34,23 @@ export default function FeaturedProject() {
       <SectionDivider className="py-8" />
       <section
         data-featured-pin
-        className="relative px-4 py-14 md:px-6 lg:min-h-[100dvh]"
+        data-home-chapter
+        className="relative overflow-hidden px-4 py-14 md:px-6 lg:min-h-[100dvh]"
       >
-        <div className="mx-auto grid max-w-6xl items-center gap-10 md:grid-cols-[1.1fr_0.9fr]">
-          <div data-preview-head className="reveal">
-            <p className="text-[10px] uppercase tracking-[0.24em] text-primary-500">
+        <FeaturedDeviceField />
+        <div className="relative z-10 mx-auto grid max-w-6xl items-center gap-10 md:grid-cols-[1.1fr_0.9fr]">
+          <div data-preview-head data-reveal="from-left">
+            <p className="text-[10px] uppercase tracking-[0.24em] text-primary-600 dark:text-primary-400">
               Featured
             </p>
             <h2
               data-section-title
               data-split-title
-              className="mt-3 text-3xl font-semibold tracking-tight text-neutral-900 dark:text-neutral-50 md:text-4xl"
+              className="mt-3 text-3xl font-semibold tracking-tight text-neutral-900 dark:text-neutral-50 md:text-5xl"
             >
               {title}
             </h2>
-            <p className="mt-4 text-neutral-500 dark:text-neutral-400">
+            <p className="mt-4 max-w-md text-neutral-600 dark:text-neutral-400">
               {meta.outcome}
             </p>
             <div className="mt-6 flex flex-wrap gap-2">
@@ -60,15 +68,16 @@ export default function FeaturedProject() {
               href={`/portfolio/${slug}`}
               data-magnetic
               data-cursor-grow
-              className="mt-8 inline-flex cursor-pointer rounded-full bg-neutral-900 px-5 py-2.5 text-sm text-white dark:bg-neutral-100 dark:text-neutral-900"
+              className="mt-8 inline-flex cursor-pointer rounded-full bg-primary-500 px-5 py-2.5 text-sm font-medium text-white hover:bg-primary-400"
             >
               View case study
             </Link>
           </div>
           <div
             data-preview-card
+            data-reveal="from-right"
             data-tilt
-            className="relative aspect-[4/5] overflow-hidden rounded-2xl bg-neutral-100 dark:bg-neutral-800 md:aspect-[5/6]"
+            className="relative aspect-[4/5] overflow-hidden rounded-2xl border border-neutral-200 bg-neutral-100 dark:border-neutral-700 dark:bg-neutral-800 md:aspect-[5/6]"
           >
             <div
               data-preview-mask

@@ -55,7 +55,7 @@ const CLIENT_WORK: ClientWorkEntry[] = [
     clientName: 'SchoolFlow',
     engagement: 'School Management System',
     summary:
-      'Completed mobile school ops for students and parents — attendance, grades, payments, chat, and role-based dashboards.',
+      'Lead mobile delivery for parents and students — attendance, grades, payments, chat, and role-based dashboards. Live on the App Store.',
     status: 'Completed',
     technologies: [
       'React Native',
@@ -65,6 +65,7 @@ const CLIENT_WORK: ClientWorkEntry[] = [
       'Supabase',
       'PostgreSQL',
     ],
+    liveUrl: 'https://apps.apple.com/mm/app/schoolflow-app/id6771805767',
     featuredScreenshot: {
       src: '/schoolflow-project/student home.png',
       presentation: 'mobile',
@@ -80,7 +81,7 @@ const CLIENT_WORK: ClientWorkEntry[] = [
     clientName: 'Yoyic',
     engagement: 'Multi-vendor E-Commerce',
     summary:
-      'Multi-vendor marketplace: customer mobile app, seller/admin portal, and API with CI/CD across surfaces.',
+      'Built customer mobile, seller/admin portal, and shared Express API with CI/CD — engineering complete; not publicly launched yet.',
     status: 'Completed',
     technologies: [
       'React Native',
@@ -118,7 +119,7 @@ const CLIENT_WORK: ClientWorkEntry[] = [
     clientName: 'Technortal',
     engagement: 'EdTech Learning Platform',
     summary:
-      'Express/PostgreSQL backend — multi-role auth, enrollment, forum, and payment verification.',
+      'Core Express/PostgreSQL backend for technortal.com — multi-role auth, enrollment, gamified forum, and payment verification; led sprints for the frontend team.',
     status: 'Completed',
     technologies: [
       'Node.js',
@@ -156,14 +157,12 @@ export const DATA = {
     github: 'https://github.com/linphone2000',
   },
   summary:
-    'Senior mobile developer who also owns backend, data, and deployment—shipping React Native apps while building microservices, managing databases, and operating services on Ubuntu. Based in Yangon; remote-friendly.',
-  // Add more detailed personal info
+    'Senior mobile developer who owns the stack around the app—React Native to Nest.js APIs, Postgres, and Ubuntu deploys. App Store releases and production commerce for clients; microservices and Kafka at work. Yangon-based, remote-friendly.',
   about: {
     valueProposition:
-      'You get end-to-end ownership: production mobile apps, Nest.js microservices, database work, Kafka-backed flows, and Ubuntu deployments—from scoped MVP through App Store release and server operations. Clear milestones, direct communication, and code structured for handoff.',
-    tagline:
-      'Mobile-first engineer with full-stack and DevOps ownership',
-    availability: 'Open to freelance & contract work',
+      'End-to-end ownership from scoped MVP to ship: production mobile apps, Nest.js microservices, database work, Kafka-backed flows, App Store releases, and Ubuntu operations. Clear milestones, direct communication, code ready for handoff.',
+    tagline: 'Mobile-first engineer with full-stack and DevOps ownership',
+    availability: 'Open to freelance, contract & full-time',
     yearsOfExperience: 3,
     yearsLabel: 'Years shipping for clients',
     totalProjects: 7,
@@ -172,7 +171,7 @@ export const DATA = {
       'Senior Mobile Developer',
       'Full-Stack · Microservices · DevOps',
       'React Native · Nest.js · Kafka · PostgreSQL',
-      'From mobile apps to Ubuntu production',
+      'App Store releases · Ubuntu production',
     ],
   },
   experience: [
@@ -212,10 +211,10 @@ export const DATA = {
       bullets: [
         'Perfume Tower – Customer Mobile App: Built the React Native/Expo commerce app for fragrance shopping (catalog, wishlist, orders, inventory states) against a shared Express and Supabase backend.',
         'Perfume Tower – Web Storefront: Delivered the Next.js storefront at perfume-tower.shop and owned API, Postgres/Supabase data, and Droplet production deploys with CI/CD and PM2.',
-        'School Management System (Client: SchoolFlow): Delivered a completed mobile app experience for students, parents, and schools with attendance, assignments, schedule, grades, payments, chat, leave requests, and role-based dashboards.',
-        'Multi-vendor E-Commerce Platform (Client: Yoyic): Developing an E-Commerce mobile app with React Native and Express.js. Established CI/CD pipelines for automated testing and deployment, and coordinated with frontend developer to ensure data integration between client app and admin panel.',
-        'Education Platform (Client: Technortal): Built the core backend using Express.js and PostgreSQL. Implemented business logic for multi-role authentication, course enrollment, a gamified community forum (XP/Point system), and payment verification. Managed the SDLC by defining sprints and tasks for the frontend team of developer and designer.',
-        'School Management System (Client: Info Smart Campus): Managed the complete Apple App Store release process for Info Myanmar College, handling certification requirements, provisioning profiles, and ongoing version updates.',
+        'School Management System (Client: SchoolFlow): Delivered the mobile app for students, parents, and schools—attendance, assignments, schedule, grades, payments, chat, leave requests, and role-based dashboards; live on the App Store.',
+        'Multi-vendor E-Commerce Platform (Client: Yoyic): Built the customer React Native app, Express API, and CI/CD pipelines; coordinated admin/mobile data integration. Engineering complete; client has not launched publicly yet.',
+        'Education Platform (Client: Technortal): Built the core Express.js/PostgreSQL backend for technortal.com—multi-role auth, enrollment, gamified forum (XP), and payment verification. Defined sprints and tasks for the frontend developer and designer.',
+        'School Management System (Client: Info Smart Campus): Managed the complete Apple App Store release process for Info Myanmar College—certification, provisioning profiles, and ongoing version updates.',
       ],
       technologies: [
         'React Native',
@@ -284,7 +283,7 @@ export const DATA = {
       blurb:
         'Customer mobile app for a fragrance commerce platform. Catalog browsing, wishlist, orders, and inventory-aware product states, connected to a shared Express and Supabase backend.',
       href: '#',
-      highlight: true,
+      highlight: false,
       origin: 'client' as const,
       category: 'Mobile Development',
       year: 2026,
@@ -305,7 +304,8 @@ export const DATA = {
             id: 1,
             src: '/perfume-tower/perfume-mobile-1.jpg',
             title: 'Home',
-            description: 'Home feed with featured collections and product rails.',
+            description:
+              'Home feed with featured collections and product rails.',
             presentation: 'mobile' as const,
           },
           {
@@ -338,8 +338,8 @@ export const DATA = {
       ],
       blurb:
         'Next.js storefront for perfume-tower.shop. Owned the customer-facing web experience plus API, database, and Droplet production deploys with CI/CD and PM2.',
-      href: '#',
-      highlight: true,
+      href: 'https://perfume-tower.shop',
+      highlight: false,
       origin: 'client' as const,
       category: 'Web Development',
       year: 2026,
@@ -398,12 +398,13 @@ export const DATA = {
       ],
       blurb:
         'A completed mobile-first school operating experience connecting parents, students, and school teams in one product. It covers attendance, assignments, courses, grades, schedules, payments, profile management, leave requests, and communication workflows, with role-based access patterns and day-to-day operations designed for real school environments.',
-      href: '#',
+      href: 'https://apps.apple.com/mm/app/schoolflow-app/id6771805767',
       highlight: true,
       origin: 'client' as const,
       category: 'Mobile Development',
       year: 2026,
       status: 'Completed',
+      liveUrl: 'https://apps.apple.com/mm/app/schoolflow-app/id6771805767',
       features: [
         'Role-based flows for parent, student, and school users',
         'Student attendance and grade visibility',
@@ -721,13 +722,13 @@ export const DATA = {
         'Firebase (Expo base)',
       ],
       blurb:
-        'Full-stack e-commerce system with a customer mobile app, role-based seller/admin web portal, and Node/Express backend powering authentication, catalog browsing, cart/checkout, order tracking, payments (manual/COD), reviews, and admin analytics hooks.',
+        'Full-stack e-commerce system with a customer mobile app, role-based seller/admin web portal, and Node/Express backend powering authentication, catalog browsing, cart/checkout, order tracking, payments (manual/COD), reviews, and admin analytics hooks. Engineering complete; not publicly launched.',
       href: '#',
-      highlight: true,
+      highlight: false,
       origin: 'client' as const,
       category: 'Full-Stack Development',
       year: 2025,
-      status: 'In Development',
+      status: 'Completed',
       features: [
         'Auth: register/login + social login + token security',
         'Profile & account: avatar upload, password change, logout',
@@ -950,9 +951,9 @@ export const DATA = {
         'AWS S3',
       ],
       blurb:
-        'REST API backend for a learning platform: course enrollment & progress, live classes with payment verification (KPay/AyaPay), gamified community forum (XP/leaderboard), mentorship bookings, bootcamps & cohorts, and exams with certificates.',
+        'REST API backend for a learning platform: course enrollment & progress, live classes with payment verification (KPay/AyaPay), gamified community forum (XP/leaderboard), mentorship bookings, bootcamps & cohorts, and exams with certificates. Powers technortal.com; led delivery for the frontend team.',
       href: 'https://technortal.com',
-      highlight: true,
+      highlight: false,
       origin: 'client' as const,
       category: 'Full-Stack Development',
       year: 2025,
@@ -1220,7 +1221,7 @@ export const DATA = {
       blurb:
         'Web‑based AI security with object detection & face recognition; switches modes based on detected classes and emails alerts for strangers.',
       href: '#',
-      highlight: true,
+      highlight: false,
       origin: 'academic' as const,
       category: 'AI & Computer Vision',
       year: 2024,
