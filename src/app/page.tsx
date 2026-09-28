@@ -1,10 +1,6 @@
 import type { Metadata } from 'next';
 import { PageShell } from '@/components/Common/PageShell';
-import HomeMotionRoot from '@/components/Motion/HomeMotionRoot';
-import { Hero } from '@/components/Overview/Hero/hero';
-import { ClientWork } from '@/components/Overview/ClientWork/ClientWork';
-import FeaturedProject from '@/components/Overview/FeaturedProject/FeaturedProject';
-import { Contact } from '@/components/Common/contact';
+import HomePage from '@/components/Home/HomePage';
 
 export const metadata: Metadata = {
   title: 'Home – Lin Phone Myint Zaw',
@@ -12,15 +8,10 @@ export const metadata: Metadata = {
     'Overview of Lin Phone Myint Zaw: featured work and professional summary.',
 };
 
-export default function HomePage() {
+export default function Page() {
   return (
     <PageShell>
-      <HomeMotionRoot>
-        <Hero />
-        <ClientWork />
-        <FeaturedProject />
-        <Contact />
-      </HomeMotionRoot>
+      <HomePage />
     </PageShell>
   );
 }

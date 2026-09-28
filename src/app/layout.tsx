@@ -1,11 +1,30 @@
 import type { Metadata } from 'next';
 import type { ReactNode } from 'react';
-import { Geist, Geist_Mono } from 'next/font/google';
+import localFont from 'next/font/local';
+import { Geist_Mono } from 'next/font/google';
 import './globals.css';
+import '@/components/Home/home.css';
 
-const geistSans = Geist({
-  variable: '--font-geist-sans',
-  subsets: ['latin'],
+const manrope = localFont({
+  src: [
+    {
+      path: '../fonts/manrope-400.ttf',
+      weight: '400',
+      style: 'normal',
+    },
+    {
+      path: '../fonts/manrope-500.ttf',
+      weight: '500',
+      style: 'normal',
+    },
+    {
+      path: '../fonts/manrope-800.ttf',
+      weight: '800',
+      style: 'normal',
+    },
+  ],
+  variable: '--font-manrope',
+  display: 'swap',
 });
 
 const geistMono = Geist_Mono({
@@ -25,12 +44,11 @@ export default function RootLayout({
   children: ReactNode;
 }>) {
   return (
-    <html lang="en">
-      <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
-      >
-        {children}
-      </body>
+    <html
+      lang="en"
+      className={`${manrope.variable} ${geistMono.variable} dark`}
+    >
+      <body className="antialiased">{children}</body>
     </html>
   );
 }
