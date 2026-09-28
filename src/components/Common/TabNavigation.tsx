@@ -43,9 +43,9 @@ export const TabNavigation = ({ activeTab }: TabNavigationProps) => {
           );
         })}
       </nav>
-      <a className="header-contact" href="/#contact">
+      <Link className="header-contact" href="/#contact">
         Let’s talk <ArrowUpRightIcon />
-      </a>
+      </Link>
     </header>
   );
 };

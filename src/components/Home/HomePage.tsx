@@ -174,11 +174,7 @@ export default function HomePage() {
         <div className="stack-strip" aria-label="Technology stack">
           <div className="stack-track">
             {[0, 1].map((copy) => (
-              <div
-                className="stack-group"
-                key={copy}
-                aria-hidden={copy === 1}
-              >
+              <div className="stack-group" key={copy} aria-hidden={copy === 1}>
                 {stack.map((item) => (
                   <span key={`${copy}-${item}`}>
                     {item}
@@ -239,10 +235,7 @@ export default function HomePage() {
               <span /> {about.about.availability.toUpperCase()}
             </span>
           </div>
-          <a
-            className="contact-title reveal"
-            href={`mailto:${about.email}`}
-          >
+          <a className="contact-title reveal" href={`mailto:${about.email}`}>
             <h2 id="contact-title">
               Your next idea.
               <br />
