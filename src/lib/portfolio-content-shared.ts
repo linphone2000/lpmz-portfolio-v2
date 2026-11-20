@@ -4,72 +4,79 @@ import { pricingData } from '@/lib/pricing';
 
 export const fallbackServicesContent = {
   hero: {
-    badge: 'Services & Solutions',
-    title: 'Build your web or mobile product with confidence',
+    badge: 'Services',
+    title: 'Build for web and mobile.',
     description:
-      'One partner for strategy, design, and development. I craft scalable web platforms and cross-platform mobile apps tailored to your business needs.',
+      'I build React Native apps and Next.js web products, along with the APIs, databases, and deployments that keep them running.',
   },
   web: {
-    title: 'Web Development',
+    title: 'Web products',
     description:
-      'React and Next.js for fast, SEO-friendly experiences. From high-conversion marketing sites to complex data-rich dashboards.',
+      'Next.js storefronts, websites, and internal tools for customers and the teams who support them.',
     bullets: [
-      'Business websites & landing pages',
-      'E-commerce platforms',
-      'Admin dashboards & internal tools',
-      'Custom web applications',
+      'Commerce and account flows',
+      'Admin dashboards and reporting',
+      'Business websites and content tools',
     ],
   },
   mobile: {
-    title: 'Mobile App Development',
+    title: 'Mobile apps',
     description:
-      'React Native apps for iOS and Android with one codebase. Production-ready performance, native gestures, and premium UX.',
+      'Cross-platform apps built with React Native and Expo, from the first working build through store release.',
     bullets: [
-      'E-commerce and booking flows',
-      'Business & productivity apps',
-      'Push notifications, maps, payments',
-      'MVPs to validate quickly',
+      'iOS and Android from one codebase',
+      'Payments, notifications, and role-based access',
+      'Release setup and store submission',
+    ],
+  },
+  platform: {
+    title: 'Backends and deployment',
+    description:
+      'The systems behind the interface, from Nest.js or Express APIs to database design and production releases.',
+    bullets: [
+      'APIs, integrations, and data modeling',
+      'Event-driven workflows where needed',
+      'CI/CD and Linux deployment',
     ],
   },
   process: {
     badge: 'How I work',
-    title: 'A clear process you can trust',
+    title: 'How I work',
     description:
-      'Systematic delivery from first call to launch—clear scope, regular updates, and code structured for handoff.',
+      'You get a scoped plan before development and working builds to review along the way.',
     steps: [
       {
         title: 'Discover',
-        body: 'We clarify goals, users, and constraints so the build matches your business—not a generic template.',
+        body: 'We talk through the people using the product, the problem it solves, and any constraints.',
       },
       {
         title: 'Plan',
-        body: 'You get a scoped roadmap with milestones, priorities, and what “done” looks like before development starts.',
+        body: 'We agree on features, milestones, and what each release needs to do.',
       },
       {
         title: 'Build',
-        body: 'Iterative development with progress check-ins, quality checks, and room to adjust as we learn.',
+        body: 'I share working builds for feedback and test the flows your users will depend on.',
       },
       {
         title: 'Launch & support',
-        body: 'Ship with handover docs, deployment guidance, and a clean path for follow-up fixes or next features.',
+        body: 'I deploy the release and document how to run, maintain, and update it.',
       },
     ],
   },
   outcomes: {
     badge: 'Outcomes',
-    title: 'What we can achieve together',
+    title: 'Choose a starting point',
     description:
-      'Pick the outcome that fits where you are. Every engagement focuses on results you can measure and ship.',
+      'Pick the scope closest to your project, or use the estimate builder to put together your own brief.',
     items: [
       {
         id: 'launch',
         title: 'Launch',
-        desc: 'Get a marketing site or MVP live quickly so you can start learning from real users.',
+        desc: 'Put a focused site or first version of your product in front of users.',
         bullets: [
           'Single-page or focused MVP experience',
-          'Responsive layout and solid performance',
+          'Responsive layout',
           'Lead capture or core user flow',
-          'Fast path from idea to live URL',
         ],
         ctaLabel: 'Start a launch project',
         highlight: false,
@@ -77,12 +84,11 @@ export const fallbackServicesContent = {
       {
         id: 'grow',
         title: 'Grow',
-        desc: 'Build a multi-page presence with content tools and SEO so your brand can scale organically.',
+        desc: 'Build a website your team can update and measure as your business grows.',
         bullets: [
           'Custom multi-page website',
           'CMS for easy content updates',
           'SEO foundations and analytics',
-          'Blog or news when you need it',
         ],
         ctaLabel: 'Start a growth project',
         highlight: true,
@@ -90,12 +96,11 @@ export const fallbackServicesContent = {
       {
         id: 'scale',
         title: 'Scale',
-        desc: 'Ship a product platform—auth, APIs, admin—ready for real users and ongoing iteration.',
+        desc: 'Build a product with user accounts and tools for day-to-day operations.',
         bullets: [
-          'Secure authentication and roles',
-          'Database design and API layer',
+          'Authentication and permissions',
+          'Database design and APIs',
           'Admin dashboard and integrations',
-          'Architecture built for the next phase',
         ],
         ctaLabel: 'Start a scale project',
         highlight: false,

@@ -1,60 +1,78 @@
-'use client';
-
-import { useEffect, useMemo, useRef, type ReactNode } from 'react';
-import { usePathname } from 'next/navigation';
-import { ScrollProgress, Blobs } from '@/components/Common/Effects';
-import { TabNavigation } from '@/components/Common/TabNavigation';
-import { ScrollToTop } from '@/components/Common/ScrollToTop';
+import type { ReactNode } from 'react';
+import Link from 'next/link';
+import { ArrowUpRightIcon } from '@heroicons/react/24/outline';
 import { ErrorBoundary } from '@/components/Common/ErrorBoundary';
-import MotionRoot from '@/components/Motion/MotionRoot';
+import { TabNavigation } from '@/components/Common/TabNavigation';
+import { DATA } from '@/lib/data';
 import { PortfolioDataProvider } from '@/providers/PortfolioDataProvider';
 
 interface PageShellProps {
   children: ReactNode;
 }
 
-const getActiveTab = (pathname: string) => {
-  if (pathname === '/' || pathname.startsWith('/overview')) return 'home';
-  if (pathname.startsWith('/services')) return 'services';
-  if (pathname.startsWith('/portfolio')) return 'portfolio';
-  if (pathname.startsWith('/education')) return 'education';
-  return 'home';
-};
-
-export const PageShell = ({ children }: PageShellProps) => {
-  const pathname = usePathname();
-  const isHome = pathname === '/';
-  const activeTab = useMemo(() => getActiveTab(pathname), [pathname]);
-  const prevTabRef = useRef<string | null>(null);
-
-  useEffect(() => {
-    if (prevTabRef.current && prevTabRef.current !== activeTab) {
-      window.scrollTo({ top: 0, behavior: 'auto' });
-    }
-    prevTabRef.current = activeTab;
-  }, [activeTab]);
-
+export function PageShell({ children }: PageShellProps) {
   return (
     <ErrorBoundary>
       <PortfolioDataProvider>
-        <div className="relative min-h-[100dvh] bg-[#090a0c] text-[#f3f0e9]">
-          {isHome ? null : (
-            <>
-              <ScrollProgress />
-              <Blobs activeTab={activeTab} />
-            </>
-          )}
-          <TabNavigation activeTab={activeTab} />
-          {isHome ? (
-            children
-          ) : (
-            <MotionRoot>
-              {children}
-              <ScrollToTop />
-            </MotionRoot>
-          )}
+        <div className="site-shell" id="top">
+          <a className="site-skip" href="#main-content">
+            Skip to content
+          </a>
+          <TabNavigation />
+          <main id="main-content" tabIndex={-1} className="site-main">
+            {children}
+          </main>
+          <SiteFooter />
         </div>
       </PortfolioDataProvider>
     </ErrorBoundary>
   );
-};
+}
+
+function SiteFooter() {
+  return (
+    <footer
+      id="contact"
+      className="site-footer"
+      aria-labelledby="contact-heading"
+    >
+      <div className="site-container">
+        <div className="site-footer-contact">
+          <div>
+            <h2 id="contact-heading">Let’s work together.</h2>
+            <a className="site-footer-email" href={`mailto:${DATA.email}`}>
+              {DATA.email} <ArrowUpRightIcon aria-hidden="true" />
+            </a>
+          </div>
+          <nav
+            className="site-footer-links"
+            aria-label="Social and résumé links"
+          >
+            <a href={DATA.links.github} target="_blank" rel="noreferrer">
+              GitHub <ArrowUpRightIcon aria-hidden="true" />
+            </a>
+            <a href={DATA.links.linkedin} target="_blank" rel="noreferrer">
+              LinkedIn <ArrowUpRightIcon aria-hidden="true" />
+            </a>
+            <a href="/lpmz-cv.pdf" target="_blank" rel="noreferrer">
+              Résumé <ArrowUpRightIcon aria-hidden="true" />
+            </a>
+          </nav>
+        </div>
+        <div className="site-footer-end">
+          <Link
+            href="/"
+            className="site-wordmark"
+            aria-label="Lin Phone Myint Zaw, home"
+          >
+            linphone<span>.</span>
+          </Link>
+          <p>{DATA.location}</p>
+          <a href="#top">
+            Back to top <span aria-hidden="true">↑</span>
+          </a>
+        </div>
+      </div>
+    </footer>
+  );
+}

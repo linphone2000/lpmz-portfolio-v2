@@ -1,0 +1,62 @@
+.home-art-poster {
+  transition: opacity 420ms ease-out;
+}
+
+.home-art:has(> .sculpture-stage[data-ready='true']) > .home-art-poster {
+  opacity: 0;
+}
+
+.sculpture-stage {
+  position: absolute;
+  z-index: 1;
+  inset: 0;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 420ms ease-out;
+}
+
+.sculpture-stage[data-ready='true'] {
+  opacity: 1;
+  cursor: grab;
+  touch-action: pan-y pinch-zoom;
+  pointer-events: auto;
+}
+
+.sculpture-stage[data-dragging='true'] {
+  cursor: grabbing;
+}
+
+.sculpture-stage canvas {
+  display: block;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+
+.sculpture-stage:focus-visible {
+  border-radius: 0.75rem;
+  outline: 2px solid var(--site-accent);
+  outline-offset: -4px;
+}
+
+.sculpture-instruction {
+  position: absolute;
+  inset-inline: 0;
+  inset-block-end: clamp(0.8rem, 2.4vw, 1.65rem);
+  color: var(--site-muted);
+  text-align: center;
+  font: 0.72rem/1.3 var(--site-mono);
+  pointer-events: none;
+}
+
+.sculpture-instruction > span {
+  margin-inline-end: 0.2em;
+  color: var(--site-accent);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .home-art-poster,
+  .sculpture-stage {
+    transition: none;
+  }
+}

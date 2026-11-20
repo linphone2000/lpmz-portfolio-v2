@@ -13,9 +13,9 @@ export function createHomeLenis(): HomeLenisHandle {
   registerGsap();
 
   const lenis = new Lenis({
-    duration: 1.1,
+    duration: 0.9,
     easing: (t) => Math.min(1, 1.001 - 2 ** (-10 * t)),
-    touchMultiplier: 1.4,
+    stopInertiaOnNavigate: true,
   });
 
   lenis.on('scroll', ScrollTrigger.update);

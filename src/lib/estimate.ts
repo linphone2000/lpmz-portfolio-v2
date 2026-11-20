@@ -161,14 +161,9 @@ export function getFeatureEffortLabel(effort: FeatureEffort): string {
   }
 }
 
-export function getScopeSummaryLabel(
-  featureCount: number,
-  tier: ComparablePricingTier | null
-): string {
+export function getScopeSummaryLabel(featureCount: number): string {
   if (featureCount <= 0) return 'No features selected yet';
-  const countLabel = `${featureCount} feature${featureCount === 1 ? '' : 's'}`;
-  if (!tier) return countLabel;
-  return `${countLabel} · aligns with ${tier.title}`;
+  return `${featureCount} feature${featureCount === 1 ? '' : 's'}`;
 }
 
 export function getTierHintMessage(
@@ -180,9 +175,9 @@ export function getTierHintMessage(
     case 'within':
       return `Comparable to ${tier.title}`;
     case 'below':
-      return `Below ${tier.title} — add features or expect a smaller scope`;
+      return `Smaller in scope than ${tier.title}`;
     case 'above':
-      return `Above ${tier.title} — likely a larger custom scope`;
+      return `Larger in scope than ${tier.title}`;
     case 'enterprise':
       return `Comparable to ${tier.title}`;
     default:

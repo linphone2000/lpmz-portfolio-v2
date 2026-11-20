@@ -1,117 +1,149 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import { ArrowUpRightIcon } from '@heroicons/react/24/outline';
-import { getProjectSlug } from '@/lib/project-utils';
-import type { ClientWorkEntry, Project } from '@/lib/types';
 
-interface SelectedWorkProps {
-  clientWork: ClientWorkEntry[];
-  projects: Project[];
-}
+const projects = [
+  {
+    slug: 'schoolflow',
+    name: 'SchoolFlow',
+    category: 'Education · Mobile app',
+    description:
+      'Attendance, assignments, fee payments, and messaging in one app for students and families.',
+    screenshots: [
+      '/schoolflow-project/parent home.png',
+      '/schoolflow-project/student home.png',
+    ],
+    dimensions: { width: 1206, height: 2622 },
+    presentation: 'mobile',
+  },
+  {
+    slug: 'perfume-tower-web',
+    name: 'Perfume Tower',
+    category: 'Commerce · Web storefront',
+    description:
+      'A Next.js storefront and a shared commerce backend for the web and Expo customer app.',
+    screenshots: ['/perfume-tower/perfume-web-1.png'],
+    dimensions: { width: 2880, height: 1658 },
+    presentation: 'web',
+  },
+  {
+    slug: 'yoyic',
+    name: 'Yoyic',
+    category: 'Commerce · Mobile app',
+    description:
+      'A multi-vendor marketplace with a shopper app, seller dashboard, and shared API.',
+    screenshots: ['/yoyic-mobile/shop details.png', '/yoyic-mobile/home.png'],
+    dimensions: { width: 1206, height: 2622 },
+    presentation: 'mobile',
+  },
+  {
+    slug: 'technortal',
+    name: 'Technortal',
+    category: 'Education · Backend',
+    description:
+      'The services behind enrollment, payments, and community features in a learning platform.',
+    screenshots: ['/technortal-project/tec1.png'],
+    dimensions: { width: 1910, height: 958 },
+    presentation: 'web',
+  },
+] as const;
 
-function workHref(entry: ClientWorkEntry, projects: Project[]): string {
-  const match = projects.find(
-    (project) => getProjectSlug(project) === entry.id
-  );
-  return match ? `/portfolio/${entry.id}` : '/portfolio';
-}
-
-function cardTone(entry: ClientWorkEntry, index: number): string {
-  if (entry.featuredScreenshot?.presentation === 'web') return 'commerce web';
-  return index % 2 === 0 ? 'school' : 'commerce';
-}
-
-export default function SelectedWork({
-  clientWork,
-  projects,
-}: SelectedWorkProps) {
-  const selected = clientWork.filter((entry) => entry.featuredScreenshot);
-  const extra = clientWork.find((entry) => !entry.featuredScreenshot);
-
+export default function SelectedWork() {
   return (
     <section
-      className="work-section section-wrap"
       id="work"
+      className="home-work"
+      data-showcase
       aria-labelledby="work-title"
     >
-      <div className="section-heading reveal">
-        <div>
-          <p className="eyebrow muted">01 / SELECTED WORK</p>
-          <h2 id="work-title">
-            From idea.
-            <br />
-            <span className="soft">To in your hands.</span>
-          </h2>
+      <div className="home-section-head" data-home-reveal>
+        <h2 id="work-title">Selected work</h2>
+        <Link className="site-text-link" href="/portfolio">
+          All projects <ArrowUpRightIcon aria-hidden="true" />
+        </Link>
+      </div>
+      <div className="home-project-reel" data-project-reel>
+        <div className="home-project-window" data-project-window>
+          <div className="home-projects" data-project-track>
+            {projects.map(
+              ({
+                slug,
+                name,
+                category,
+                description,
+                screenshots,
+                dimensions,
+                presentation,
+              }) => {
+                return (
+                  <article key={slug} data-project-frame>
+                    <Link
+                      className="home-project"
+                      href={`/portfolio/${slug}`}
+                      aria-label={`${name} case study`}
+                    >
+                      <div
+                        className="home-project-cover"
+                        data-project-tone={slug}
+                        aria-hidden="true"
+                      >
+                        <div
+                          className={`home-project-plane home-project-plane-${presentation}`}
+                          data-project-plane
+                        >
+                          {screenshots.map((src) => (
+                            <Image
+                              key={src}
+                              src={src}
+                              alt=""
+                              width={dimensions.width}
+                              height={dimensions.height}
+                              sizes={
+                                presentation === 'mobile'
+                                  ? '(max-width: 680px) 39vw, 260px'
+                                  : '(max-width: 680px) 90vw, 720px'
+                              }
+                            />
+                          ))}
+                        </div>
+                      </div>
+                      <div className="home-project-caption">
+                        <div>
+                          <p>{category}</p>
+                          <h3>{name}</h3>
+                        </div>
+                        <p className="home-project-description">
+                          {description}
+                        </p>
+                        <ArrowUpRightIcon
+                          className="home-project-arrow"
+                          aria-hidden="true"
+                        />
+                      </div>
+                    </Link>
+                  </article>
+                );
+              }
+            )}
+          </div>
         </div>
-        <p className="section-note">
-          Useful products.
-          <br />
-          Thoughtfully built.
-        </p>
+        <div
+          className="home-project-controls"
+          role="group"
+          aria-label="Jump to a featured project"
+        >
+          <div className="home-project-progress" aria-hidden="true">
+            <span data-project-progress />
+          </div>
+          <div className="home-project-jumps">
+            {projects.map(({ slug, name }, index) => (
+              <button key={slug} data-project-jump={index} type="button">
+                {name}
+              </button>
+            ))}
+          </div>
+        </div>
       </div>
-      <div className="project-grid">
-        {selected.map((entry, index) => {
-          const href = workHref(entry, projects);
-          const shot = entry.featuredScreenshot?.src ?? '';
-          return (
-            <article
-              className={`project-card reveal ${cardTone(entry, index)}`}
-              key={entry.id}
-            >
-              <Link
-                className="project-visual"
-                href={href}
-                aria-label={`Read the ${entry.clientName} case study`}
-              >
-                <div className="project-topline">
-                  <span>{entry.engagement.toUpperCase()}</span>
-                  <span>{String(index + 1).padStart(2, '0')}</span>
-                </div>
-                <div className="project-art-inner">
-                  <Image
-                    src={shot}
-                    alt={`${entry.clientName} interface`}
-                    width={944}
-                    height={1600}
-                    sizes="(max-width: 760px) 70vw, 32vw"
-                  />
-                </div>
-                <span className="project-open">
-                  <ArrowUpRightIcon />
-                </span>
-                <span className="project-display-name" aria-hidden="true">
-                  {entry.clientName}
-                </span>
-              </Link>
-              <div className="project-info">
-                <h3>
-                  <Link href={href}>
-                    {entry.clientName} <ArrowUpRightIcon />
-                  </Link>
-                </h3>
-                <p>{entry.summary}</p>
-                <div className="tags">
-                  {entry.technologies.slice(0, 3).map((tool) => (
-                    <span key={tool}>{tool}</span>
-                  ))}
-                </div>
-              </div>
-            </article>
-          );
-        })}
-      </div>
-      <Link className="more-work reveal" href="/portfolio">
-        <span>
-          <small>ALSO IN THE MIX</small>
-          {extra?.clientName ?? 'Portfolio'}{' '}
-          <span className="muted-inline">
-            / {extra?.engagement ?? 'All case studies'}
-          </span>
-        </span>
-        <span>
-          Explore more work <ArrowUpRightIcon />
-        </span>
-      </Link>
     </section>
   );
 }

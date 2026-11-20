@@ -1,8 +1,9 @@
 import type { Metadata } from 'next';
 import type { ReactNode } from 'react';
 import localFont from 'next/font/local';
-import { Geist_Mono } from 'next/font/google';
+import RouteTransition from '@/components/Motion/RouteTransition';
 import './globals.css';
+import '@/components/Common/site.css';
 import '@/components/Home/home.css';
 
 const manrope = localFont({
@@ -27,15 +28,10 @@ const manrope = localFont({
   display: 'swap',
 });
 
-const geistMono = Geist_Mono({
-  variable: '--font-geist-mono',
-  subsets: ['latin'],
-});
-
 export const metadata: Metadata = {
   title: 'Lin Phone Myint Zaw',
   description:
-    'Portfolio of Lin Phone Myint Zaw, a Senior Mobile Developer with full-stack and DevOps experience based in Yangon, Myanmar.',
+    'Lin Phone Myint Zaw is a senior full-stack developer based in Yangon, Myanmar. Explore selected mobile and web projects, engineering experience, and services.',
 };
 
 export default function RootLayout({
@@ -46,9 +42,13 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${manrope.variable} ${geistMono.variable} dark`}
+      className={`${manrope.variable} dark`}
+      data-scroll-behavior="smooth"
     >
-      <body className="antialiased">{children}</body>
+      <body className="antialiased">
+        <RouteTransition />
+        {children}
+      </body>
     </html>
   );
 }

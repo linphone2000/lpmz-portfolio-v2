@@ -35,45 +35,45 @@ export const PROJECT_SLUGS: Record<string, string> = {
 export const CASE_STUDY_META: Record<string, CaseStudyMeta> = {
   'perfume-tower-mobile': {
     problem:
-      'Fragrance retail needed a native customer app tied to the same inventory as the web store.',
+      'Shoppers needed to browse fragrances and see product availability from their phones.',
     outcome:
-      'Shipped an Expo commerce app—catalog, wishlist, and orders—on a shared Express/Supabase backend.',
+      'Built an Expo shopping app with a catalog, wishlist, and orders on the same commerce API as the storefront.',
     role: 'Mobile engineer',
     heroImageId: 1,
     beats: [
       {
-        title: 'Commerce home',
-        body: 'Featured collections and product rails for discovery.',
+        title: 'Fragrance discovery',
+        body: 'The home screen introduces featured collections and gives customers a starting point for browsing.',
         imageId: 1,
       },
       {
-        title: 'Catalog & stock',
-        body: 'Inventory-aware browsing with search and stock badges.',
+        title: 'Catalog and stock',
+        body: 'Customers can search the catalog and see current product availability before opening a detail page.',
         imageId: 2,
       },
       {
         title: 'Product detail',
-        body: 'Detail and purchase actions connected to the shared API.',
+        body: 'Product details and purchase actions use the same commerce data as the web storefront.',
         imageId: 3,
       },
     ],
   },
   'perfume-tower-web': {
     problem:
-      'The brand needed a production storefront that shared one commerce backend with mobile.',
+      'The web storefront and customer app needed a shared catalog, inventory, and order system.',
     outcome:
-      'Delivered perfume-tower.shop with catalog, cart, and Droplet deploys (CI/CD + PM2).',
-    role: 'Web + API + deploy',
+      'Delivered the Next.js storefront and connected product browsing, accounts, and carts to the shared commerce API.',
+    role: 'Full-stack engineering and deployment',
     heroImageId: 1,
     beats: [
       {
         title: 'Storefront',
-        body: 'Customer-facing catalog and account flows on Next.js.',
+        body: 'The storefront gives customers a place to browse the range and manage their accounts on the web.',
         imageId: 1,
       },
       {
-        title: 'Commerce depth',
-        body: 'Cart and product paths wired to the shared Express API.',
+        title: 'Browse by scent family',
+        body: 'Scent families give shoppers a way into the catalog based on the fragrances they already like.',
         imageId: 2,
       },
     ],
@@ -82,23 +82,23 @@ export const CASE_STUDY_META: Record<string, CaseStudyMeta> = {
     problem:
       'Schools relied on paper and chat apps for attendance, grades, fees, and parent updates.',
     outcome:
-      'Lead mobile delivery of a completed parent/student app—live on the App Store—with attendance, grades, payments, and chat in one product.',
-    role: 'Lead mobile delivery',
+      'Led mobile delivery for the parent and student app, bringing attendance, grades, payments, and chat together.',
+    role: 'Mobile delivery lead',
     heroImageId: 1,
     beats: [
       {
         title: 'Role-based dashboards',
-        body: 'Parent and student flows share one product with clear permissions.',
+        body: 'Parents and students see different dashboards so each person can reach the records and actions available to their role.',
         imageId: 2,
       },
       {
-        title: 'Daily school rhythm',
-        body: 'Attendance, grades, and schedules where families expect them.',
+        title: 'Student schedules',
+        body: 'Students can check their upcoming classes alongside assignments, attendance, and grades in the app.',
         imageId: 7,
       },
       {
-        title: 'Payments & chat',
-        body: 'Fee tracking and messaging replace scattered follow-ups.',
+        title: 'Fee tracking and chat',
+        body: 'Parents can check school fees and message the school from the same app they use to follow their child’s progress.',
         imageId: 13,
       },
     ],
@@ -113,18 +113,18 @@ export const CASE_STUDY_META: Record<string, CaseStudyMeta> = {
     problem:
       'Sellers and shoppers needed one marketplace spanning mobile and admin.',
     outcome:
-      'Sole full-stack build: customer app, RBAC admin, and Express API with CI/CD. Engineering complete; not publicly launched.',
+      'Built the shopper app, seller and admin portal, and shared Express API as the sole engineer on the client delivery.',
     role: 'Sole full-stack engineer',
     heroImageId: 1,
     beats: [
       {
         title: 'Customer commerce',
-        body: 'Cart, checkout, and order timelines in the mobile app.',
+        body: 'Shoppers can manage the cart, choose how to pay, and follow the status of an order in the app.',
         imageId: 6,
       },
       {
-        title: 'Admin portal',
-        body: 'Seller/admin dashboards and payment verification on the same API.',
+        title: 'Seller and admin portal',
+        body: 'Role-based access controls who can manage catalog entries, update orders, or verify manual payments.',
         imageId: 15,
       },
     ],
@@ -133,23 +133,23 @@ export const CASE_STUDY_META: Record<string, CaseStudyMeta> = {
     problem:
       'The EdTech product needed a multi-role learning API before the public site could grow.',
     outcome:
-      'Production Express/PostgreSQL backend powering technortal.com—auth, enrollment, gamified forum, payments—plus sprint leadership for the frontend team.',
+      'Built the Express and PostgreSQL backend for enrollment, community, and payments, and led sprint delivery for the frontend team.',
     role: 'Core backend engineer · delivery lead',
     heroImageId: 1,
     beats: [
       {
-        title: 'Learning surface',
-        body: 'Courses and enrollment flows backed by the API you built.',
+        title: 'Course enrollment',
+        body: 'The API handles course discovery, enrollment, and lesson progress for learners.',
         imageId: 2,
       },
       {
-        title: 'Community & XP',
-        body: 'Gamified forum with posts, comments, and leaderboard mechanics.',
+        title: 'Community and experience points',
+        body: 'Learners can post and comment in the forum, earn experience points, and see their rank on the leaderboard.',
         imageId: 4,
       },
       {
-        title: 'Live classes & payments',
-        body: 'Class schedules with manual payment verification for local wallets.',
+        title: 'Live classes and payments',
+        body: 'Class schedules connect to payment records so staff can verify transfers from local wallets.',
         imageId: 5,
       },
     ],
@@ -223,7 +223,10 @@ export function getCaseStudyMeta(project: Project): CaseStudyMeta {
 }
 
 export function getDisplayName(project: Project): string {
-  return project.name.split('–')[0]?.split('-')[0]?.trim() || project.name;
+  const slug = getProjectSlug(project);
+  if (slug === 'perfume-tower-mobile') return 'Perfume Tower mobile app';
+  if (slug === 'perfume-tower-web') return 'Perfume Tower storefront';
+  return project.name.split(/\s+[–-]\s+/)[0]?.trim() || project.name;
 }
 
 export function getHeroScreenshot(
@@ -245,18 +248,4 @@ export function getHeroScreenshot(
   }
   const heroId = meta.heroImageId ?? shots[0]?.id;
   return shots.find((shot) => shot.id === heroId) ?? shots[0];
-}
-
-export function getStoryFrames(project: Project): ProjectPreviewScreenshot[] {
-  const shots = project.preview?.screenshots ?? [];
-  const meta = getCaseStudyMeta(project);
-  const ids = (meta.beats ?? [])
-    .map((beat) => beat.imageId)
-    .filter((id): id is number => typeof id === 'number');
-
-  if (ids.length === 0) return shots.slice(0, 3);
-
-  return ids
-    .map((id) => shots.find((shot) => shot.id === id))
-    .filter((shot): shot is ProjectPreviewScreenshot => Boolean(shot));
 }

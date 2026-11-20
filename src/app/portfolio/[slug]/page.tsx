@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 import { PageShell } from '@/components/Common/PageShell';
 import CaseStudy from '@/components/Portfolio/CaseStudy';
+import { sortPortfolioProjects } from '@/components/Portfolio/project-presentation';
 import {
   getDisplayName,
   getProjectBySlug,
@@ -25,9 +26,9 @@ export async function generateMetadata({
 }: CaseStudyPageProps): Promise<Metadata> {
   const { slug } = await params;
   const project = getProjectBySlug(slug);
-  if (!project) return { title: 'Project – Lin Phone Myint Zaw' };
+  if (!project) return { title: 'Project | Lin Phone Myint Zaw' };
   return {
-    title: `${getDisplayName(project)} – Lin Phone Myint Zaw`,
+    title: `${getDisplayName(project)} | Lin Phone Myint Zaw`,
     description: getCaseStudyMeta(project).outcome,
   };
 }
@@ -37,9 +38,13 @@ export default async function CaseStudyPage({ params }: CaseStudyPageProps) {
   const project = getProjectBySlug(slug);
   if (!project) notFound();
 
+  const projects = sortPortfolioProjects(getProjects());
+  const currentIndex = projects.indexOf(project);
+  const nextProject = projects[currentIndex + 1];
+
   return (
     <PageShell>
-      <CaseStudy project={project} />
+      <CaseStudy project={project} nextProject={nextProject} />
     </PageShell>
   );
 }

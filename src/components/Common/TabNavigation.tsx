@@ -1,53 +1,50 @@
 'use client';
 
 import Link from 'next/link';
+import { usePathname } from 'next/navigation';
 import { ArrowUpRightIcon } from '@heroicons/react/24/outline';
 
-interface TabNavigationProps {
-  activeTab: string;
-}
-
-interface NavItem {
-  id: string;
-  label: string;
-  href: string;
-  index: string;
-}
-
-const NAV_ITEMS: NavItem[] = [
-  { id: 'home', label: 'Home', href: '/', index: '01' },
-  { id: 'services', label: 'Services', href: '/services', index: '02' },
-  { id: 'portfolio', label: 'Portfolio', href: '/portfolio', index: '03' },
-  { id: 'education', label: 'Education', href: '/education', index: '04' },
+const navItems = [
+  { label: 'Work', href: '/portfolio' },
+  { label: 'About', href: '/education' },
+  { label: 'Services', href: '/services' },
 ];
 
-export const TabNavigation = ({ activeTab }: TabNavigationProps) => {
+export function TabNavigation() {
+  const pathname = usePathname();
+
   return (
     <header className="site-header">
-      <Link href="/" className="wordmark" aria-label="Lin Phone home">
-        linphone<span>.</span>
-      </Link>
-      <nav aria-label="Main navigation">
-        {NAV_ITEMS.map((item) => {
-          const active = activeTab === item.id;
-
-          return (
+      <div className="site-container site-header-inner">
+        <Link
+          href="/"
+          className="site-wordmark"
+          aria-label="Lin Phone Myint Zaw, home"
+        >
+          linphone<span>.</span>
+        </Link>
+        <nav className="site-nav" aria-label="Main navigation">
+          {navItems.map(({ label, href }) => (
             <Link
-              key={item.id}
-              href={item.href}
-              className={active ? 'active' : undefined}
-              aria-current={active ? 'page' : undefined}
+              key={href}
+              href={href}
+              aria-current={
+                pathname === href
+                  ? 'page'
+                  : pathname.startsWith(`${href}/`)
+                    ? 'location'
+                    : undefined
+              }
             >
-              {item.label} <span>{item.index}</span>
+              {label}
             </Link>
-          );
-        })}
-      </nav>
-      <Link className="header-contact" href="/#contact">
-        Let’s talk <ArrowUpRightIcon />
-      </Link>
+          ))}
+        </nav>
+        <a className="site-header-contact" href="#contact">
+          <span>Get in touch</span>
+          <ArrowUpRightIcon aria-hidden="true" />
+        </a>
+      </div>
     </header>
   );
-};
-
-TabNavigation.displayName = 'TabNavigation';
+}

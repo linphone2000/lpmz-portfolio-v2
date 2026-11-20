@@ -55,7 +55,7 @@ const CLIENT_WORK: ClientWorkEntry[] = [
     clientName: 'SchoolFlow',
     engagement: 'School Management System',
     summary:
-      'Lead mobile delivery for parents and students — attendance, grades, payments, chat, and role-based dashboards. Live on the App Store.',
+      'Built the app for students and families and maintain the web, mobile, and backend systems. The app brings together attendance, assignments, payments, and messaging.',
     status: 'Completed',
     technologies: [
       'React Native',
@@ -119,7 +119,7 @@ const CLIENT_WORK: ClientWorkEntry[] = [
     clientName: 'Technortal',
     engagement: 'EdTech Learning Platform',
     summary:
-      'Core Express/PostgreSQL backend for technortal.com — multi-role auth, enrollment, gamified forum, and payment verification; led sprints for the frontend team.',
+      'Built the core Express and PostgreSQL backend for authentication, enrollment, forums, and payment verification, and led frontend planning.',
     status: 'Completed',
     technologies: [
       'Node.js',
@@ -129,7 +129,6 @@ const CLIENT_WORK: ClientWorkEntry[] = [
       'JWT',
       'AWS S3',
     ],
-    liveUrl: 'https://technortal.com',
     featuredScreenshot: {
       src: '/technortal-project/tec1.png',
       presentation: 'web',
@@ -148,7 +147,7 @@ const CLIENT_WORK: ClientWorkEntry[] = [
 
 export const DATA = {
   name: 'Lin Phone Myint Zaw',
-  title: 'Senior Mobile Developer · Full-Stack & DevOps',
+  title: 'Senior Full-Stack Developer',
   location: 'Yangon, Myanmar',
   phone: '+95 996 765 8131',
   email: 'linphonem@gmail.com',
@@ -157,18 +156,18 @@ export const DATA = {
     github: 'https://github.com/linphone2000',
   },
   summary:
-    'Senior mobile developer who owns the stack around the app—React Native to Nest.js APIs, Postgres, and Ubuntu deploys. App Store releases and production commerce for clients; microservices and Kafka at work. Yangon-based, remote-friendly.',
+    'I build and operate mobile and web products. My work spans React Native and Next.js interfaces, NestJS and Express APIs, PostgreSQL, and production deployments.',
   about: {
     valueProposition:
-      'End-to-end ownership from scoped MVP to ship: production mobile apps, Nest.js microservices, database work, Kafka-backed flows, App Store releases, and Ubuntu operations. Clear milestones, direct communication, code ready for handoff.',
-    tagline: 'Mobile-first engineer with full-stack and DevOps ownership',
+      'I take projects from scoping through release and maintenance. I work across mobile apps, web platforms, APIs, data, and deployment.',
+    tagline: 'Mobile, web, and production systems',
     availability: 'Open to freelance, contract & full-time',
     yearsOfExperience: 3,
     yearsLabel: 'Years shipping for clients',
     totalProjects: 7,
     technologiesMastered: 10,
     typewriterStrings: [
-      'Senior Mobile Developer',
+      'Senior Full-Stack Developer',
       'Full-Stack · Microservices · DevOps',
       'React Native · Nest.js · Kafka · PostgreSQL',
       'App Store releases · Ubuntu production',
@@ -177,17 +176,16 @@ export const DATA = {
   experience: [
     {
       company: 'Smilax Global Co., Ltd',
-      role: 'Senior Mobile Developer',
+      role: 'Senior Developer',
       period: 'May 2026 – Present',
       location: 'Yangon, Myanmar',
       type: 'Full-time',
+      summary:
+        'I develop the SSHR mobile app and own NestJS service architecture, Kafka event flows, and production operations.',
       bullets: [
-        'Leading development and maintenance of the SSHR mobile app (self-service HR) with React Native, covering core employee and admin workflows.',
-        'Owning a large share of backend development for Nest.js microservices—APIs, service boundaries, and integration with the mobile client.',
-        'Managing database design and operations (schema changes, queries, data integrity) across SSHR services.',
-        'Working with Kafka for event-driven communication between microservices.',
-        'Deploying and operating services on Ubuntu servers, including environment setup, releases, and basic production ops.',
-        'Reviewing pull requests for code quality, maintainability, and team standards.',
+        'Develop and maintain core employee and admin workflows for the SSHR mobile app in React Native.',
+        'Own NestJS microservices architecture, API boundaries, and PostgreSQL and MongoDB operations.',
+        'Implement Kafka event flows, deploy and operate services on Ubuntu, and review pull requests.',
       ],
       technologies: [
         'React Native',
@@ -195,6 +193,7 @@ export const DATA = {
         'Microservices',
         'Kafka',
         'PostgreSQL',
+        'MongoDB',
         'Ubuntu',
         'TypeScript',
         'RESTful APIs',
@@ -203,18 +202,19 @@ export const DATA = {
       ],
     },
     {
-      company: 'Freelance',
-      role: 'Full-Stack Developer',
+      company: 'Empire Digital Solution',
+      role: 'Technical Lead',
       period: 'April 2023 – Present',
       location: 'Yangon, Myanmar',
-      type: 'Freelance',
+      type: 'Technical leadership',
+      summary:
+        'I lead engineering across mobile, web, and backend, including Perfume Tower, SchoolFlow, and Technortal.',
       bullets: [
-        'Perfume Tower – Customer Mobile App: Built the React Native/Expo commerce app for fragrance shopping (catalog, wishlist, orders, inventory states) against a shared Express and Supabase backend.',
-        'Perfume Tower – Web Storefront: Delivered the Next.js storefront at perfume-tower.shop and owned API, Postgres/Supabase data, and Droplet production deploys with CI/CD and PM2.',
-        'School Management System (Client: SchoolFlow): Delivered the mobile app for students, parents, and schools—attendance, assignments, schedule, grades, payments, chat, leave requests, and role-based dashboards; live on the App Store.',
-        'Multi-vendor E-Commerce Platform (Client: Yoyic): Built the customer React Native app, Express API, and CI/CD pipelines; coordinated admin/mobile data integration. Engineering complete; client has not launched publicly yet.',
-        'Education Platform (Client: Technortal): Built the core Express.js/PostgreSQL backend for technortal.com—multi-role auth, enrollment, gamified forum (XP), and payment verification. Defined sprints and tasks for the frontend developer and designer.',
-        'School Management System (Client: Info Smart Campus): Managed the complete Apple App Store release process for Info Myanmar College—certification, provisioning profiles, and ongoing version updates.',
+        'Lead the development team and establish engineering practices across mobile, web, and backend projects.',
+        'Built Perfume Tower’s Expo app and Next.js storefront, alongside its shared Express backend and automated deployment.',
+        'Built SchoolFlow’s app for students, parents, and schools and continue to maintain its mobile, web, and backend systems.',
+        'Built Technortal’s Express and PostgreSQL backend for authentication, enrollment, forums, and payment verification.',
+        'Architect and develop two education projects in progress, Gon Myanmar Learning and New Next Academy GED Test.',
       ],
       technologies: [
         'React Native',
@@ -252,7 +252,7 @@ export const DATA = {
     },
     {
       company: 'NTT Data Myanmar',
-      role: 'Junior System Engineer (Application Dev)',
+      role: 'Junior System Engineer (Application Development)',
       period: 'April 2025 – June 2025',
       location: 'Yangon, Myanmar',
       type: 'Full-time',
@@ -951,14 +951,12 @@ export const DATA = {
         'AWS S3',
       ],
       blurb:
-        'REST API backend for a learning platform: course enrollment & progress, live classes with payment verification (KPay/AyaPay), gamified community forum (XP/leaderboard), mentorship bookings, bootcamps & cohorts, and exams with certificates. Powers technortal.com; led delivery for the frontend team.',
-      href: 'https://technortal.com',
+        'Built the REST API for enrollment, course progress, live classes, payment verification, community forums, mentorship bookings, and exams. Led delivery planning for the frontend team.',
       highlight: false,
       origin: 'client' as const,
       category: 'Full-Stack Development',
       year: 2025,
       status: 'Completed',
-      liveUrl: 'https://technortal.com',
       features: [
         'Multi-role Auth (learner, instructor, mentor, admin)',
         'Course CRUD, enrollment & lesson progress',
@@ -1668,6 +1666,7 @@ export const DATA = {
       'Microservices',
       'Kafka',
       'Flask',
+      'Go',
     ],
     databases: ['PostgreSQL', 'MongoDB', 'MySQL'],
     languages: ['TypeScript', 'JavaScript', 'Python', 'Java'],
@@ -1681,6 +1680,8 @@ export const DATA = {
       'Ubuntu',
       'CI/CD',
       'AWS',
+      'Jest',
+      'Jira',
       'Trello',
       'Gantt Charts',
     ],
@@ -1743,6 +1744,12 @@ export const DATA = {
   ],
   certs: [
     {
+      name: 'TOEFL ITP',
+      year: 2024,
+      issuer: 'ETS',
+      description: 'Score: 597',
+    },
+    {
       name: 'IT Passport (ITPEC)',
       year: 2022,
       issuer: 'ITPEC',
@@ -1751,26 +1758,20 @@ export const DATA = {
     {
       name: 'Basic Linux Skills',
       year: 2019,
-      issuer: 'YMAX Education',
+      issuer: 'Ymax',
       description: 'Fundamental Linux system administration',
     },
     {
       name: 'Network Engineering',
       year: 2018,
-      issuer: 'Myanmar Business & Technology',
+      issuer: 'MBT',
       description: 'Network infrastructure and protocols',
     },
     {
       name: 'Intermediate English',
       year: 2018,
-      issuer: 'Success English Academy',
-      description: 'B2 level English proficiency',
-    },
-    {
-      name: 'CompTIA A+',
-      year: 2016,
-      issuer: 'IMCS',
-      description: 'IT fundamentals and hardware support',
+      issuer: 'Success Language Academy',
+      description: 'Intermediate English course',
     },
   ],
   // Add achievements and milestones

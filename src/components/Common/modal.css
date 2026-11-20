@@ -1,0 +1,94 @@
+html:has(.portfolio-modal[open]) {
+  overflow: hidden;
+  scrollbar-gutter: stable;
+}
+
+.portfolio-modal {
+  position: fixed;
+  inset: 0;
+  display: none;
+  place-items: center;
+  width: 100%;
+  height: 100dvh;
+  max-width: none;
+  max-height: none;
+  margin: 0;
+  padding: 1rem;
+  overflow: hidden;
+  color: inherit;
+  background: transparent;
+  pointer-events: none;
+  transition:
+    display 240ms allow-discrete,
+    overlay 240ms allow-discrete;
+}
+
+.portfolio-modal[open] {
+  display: grid;
+  pointer-events: auto;
+}
+
+.portfolio-modal::backdrop {
+  background: transparent;
+  pointer-events: none;
+  transition:
+    background-color 200ms ease-out,
+    backdrop-filter 200ms ease-out,
+    display 240ms allow-discrete,
+    overlay 240ms allow-discrete;
+}
+
+.portfolio-modal[open]::backdrop {
+  background-color: #0a0909a6;
+  backdrop-filter: blur(4px);
+}
+
+.portfolio-modal-panel {
+  color: var(--site-ink);
+  background: var(--site-surface);
+  border-color: var(--site-line);
+  opacity: 0;
+  transform: translateY(0.75rem) scale(0.98);
+  transition:
+    opacity 220ms ease-out,
+    transform 240ms ease-out;
+}
+
+.portfolio-modal-header {
+  border-color: var(--site-line);
+}
+
+.portfolio-modal-close {
+  color: var(--site-muted);
+  outline-color: var(--site-accent);
+}
+
+.portfolio-modal-close:hover:enabled {
+  color: var(--site-ink);
+  background: var(--site-bg);
+}
+
+.portfolio-modal[open] .portfolio-modal-panel {
+  opacity: 1;
+  transform: none;
+}
+
+@starting-style {
+  .portfolio-modal[open] .portfolio-modal-panel {
+    opacity: 0;
+    transform: translateY(0.75rem) scale(0.98);
+  }
+
+  .portfolio-modal[open]::backdrop {
+    background-color: transparent;
+    backdrop-filter: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .portfolio-modal,
+  .portfolio-modal::backdrop,
+  .portfolio-modal-panel {
+    transition: none;
+  }
+}

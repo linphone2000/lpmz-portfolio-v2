@@ -2,19 +2,20 @@ import type { Metadata } from 'next';
 import { PageShell } from '@/components/Common/PageShell';
 import Projects from '@/components/Portfolio/projects';
 import { Skills } from '@/components/Portfolio/skills';
-import { Contact } from '@/components/Common/contact';
 
 export const metadata: Metadata = {
-  title: 'Portfolio – Lin Phone Myint Zaw',
-  description: 'Selected projects and technical skills of Lin Phone Myint Zaw.',
+  title: 'Selected Work | Lin Phone Myint Zaw',
+  description:
+    'Explore mobile apps, web platforms, and backend systems built by Lin Phone Myint Zaw, with project roles, screenshots, and technical details.',
 };
 
 export default function PortfolioPage() {
   return (
     <PageShell>
-      <Projects />
-      <Skills />
-      <Contact />
+      <div className="site-container">
+        <Projects />
+        <Skills />
+      </div>
     </PageShell>
   );
 }

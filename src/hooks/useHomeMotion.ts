@@ -1,337 +1,240 @@
 'use client';
 
-import { useEffect, type RefObject } from 'react';
-import {
-  gsap,
-  prefersReducedMotion,
-  registerGsap,
-  ScrollTrigger,
-} from '@/lib/motion/gsap';
-import { splitWords } from '@/lib/motion/splitText';
+import { useEffect, useRef, type RefObject } from 'react';
+import { gsap, registerGsap, ScrollTrigger } from '@/lib/motion/gsap';
 
-const DESKTOP_MQ = '(min-width: 1024px)';
+const wideScreen = '(min-width: 960px) and (min-height: 700px)';
 
-function revealOffset(el: HTMLElement): { x: number; y: number } {
-  const dir = el.dataset.reveal;
-  if (dir === 'from-left') return { x: -96, y: 18 };
-  if (dir === 'from-right') return { x: 96, y: 18 };
-  if (dir === 'from-bottom') return { x: 0, y: 72 };
-  return { x: 0, y: 40 };
-}
+export function useHomeMotion(
+  rootRef: RefObject<HTMLElement | null>,
+  enabled: boolean
+) {
+  const playedIntro = useRef(false);
 
-/**
- * Home showcase motion — Lando-style cinematic reveals:
- * side entrances, scrubbed chapter pins, featured wipe.
- * Skips entirely under reduced motion.
- */
-export function useHomeMotion(rootRef: RefObject<HTMLElement | null>) {
   useEffect(() => {
     const root = rootRef.current;
-    if (!root || prefersReducedMotion()) return;
+    if (!root || !enabled) return;
 
     registerGsap();
-    const reverts: Array<() => void> = [];
+    const media = gsap.matchMedia(root);
+    let disposed = false;
 
-    const ctx = gsap.context(() => {
-      // Split-word section titles
-      const splitTargets = gsap.utils.toArray<HTMLElement>(
-        '[data-split-title]',
-        root
-      );
-      splitTargets.forEach((el) => {
-        const split = splitWords(el, { chars: false });
-        reverts.push(split.revert);
-        gsap.set(split.words, { opacity: 0, y: 28, x: -12 });
-        gsap.to(split.words, {
-          opacity: 1,
-          y: 0,
-          x: 0,
-          duration: 0.7,
-          stagger: 0.045,
-          ease: 'power3.out',
-          scrollTrigger: {
-            trigger: el,
-            start: 'top 86%',
-            once: true,
-          },
-        });
-      });
+    media.add({ wide: wideScreen, active: 'all' }, ({ conditions }) => {
+      const hero = root.querySelector<HTMLElement>('[data-home-hero]');
+      const intro = root.querySelector('[data-home-intro]');
+      const art = root.querySelector('[data-home-art]');
+      const reel = root.querySelector<HTMLElement>('[data-project-reel]');
+      const track = root.querySelector<HTMLElement>('[data-project-track]');
+      const viewport = root.querySelector<HTMLElement>('[data-project-window]');
+      const progress = root.querySelector('[data-project-progress]');
 
-      const heroName = root.querySelector<HTMLElement>('[data-hero-name]');
-      if (heroName) {
-        const split = splitWords(heroName, { chars: true });
-        reverts.push(split.revert);
-        gsap.from(split.chars, {
-          opacity: 0,
-          y: 42,
-          x: -8,
-          rotateX: -48,
-          transformOrigin: '50% 100%',
-          duration: 0.75,
-          stagger: 0.018,
-          ease: 'power3.out',
-          delay: 0.28,
-        });
+      const shouldPlayIntro =
+        !playedIntro.current && window.scrollY < 80 && !window.location.hash;
+      playedIntro.current = true;
+
+      if (shouldPlayIntro) {
+        gsap
+          .timeline({ defaults: { ease: 'power4.out' } })
+          .from('[data-name-line]', {
+            yPercent: 108,
+            rotate: 3,
+            duration: 0.95,
+            stagger: 0.11,
+          })
+          .from(
+            '[data-intro-reveal]',
+            { opacity: 0, y: 18, duration: 0.58, stagger: 0.085 },
+            0.28
+          );
       }
 
-      // Generic side / fade reveals (once) — works on mobile + desktop
-      const revealEls = gsap.utils.toArray<HTMLElement>('[data-reveal]', root);
-      revealEls.forEach((el) => {
-        // Chapter pins own their nested reveal motion on desktop
-        if (el.closest('[data-client-work-chapter], [data-featured-pin]')) {
-          return;
-        }
-        const { x, y } = revealOffset(el);
-        gsap.set(el, { opacity: 0, x, y, force3D: true });
-        gsap.to(el, {
-          opacity: 1,
-          x: 0,
-          y: 0,
-          duration: 0.9,
-          ease: 'power3.out',
+      if (hero && intro && art && conditions?.wide) {
+        const flight = gsap.timeline({
+          defaults: { ease: 'none' },
           scrollTrigger: {
-            trigger: el,
-            start: 'top 88%',
-            once: true,
+            trigger: hero,
+            start: 'top 64px',
+            end: 'bottom 15%',
+            scrub: true,
+            invalidateOnRefresh: true,
           },
         });
-      });
+        flight.to(intro, { yPercent: -21, opacity: 0.28 }, 0);
+        flight.to(art, { yPercent: 25, scale: 1.12, opacity: 0.44 }, 0);
+      }
 
-      // Proof rail: staggered side entrances as a horizontal feel
-      const proofTiles = gsap.utils.toArray<HTMLElement>(
-        '[data-proof-tile]',
-        root
-      );
-      if (proofTiles.length > 0) {
-        gsap.set(proofTiles, { opacity: 0, y: 48 });
-        gsap.to(proofTiles, {
-          opacity: 1,
-          y: 0,
-          x: 0,
-          duration: 0.85,
-          stagger: {
-            each: 0.12,
-            from: 'start',
-          },
-          ease: 'power3.out',
-          scrollTrigger: {
-            trigger: root.querySelector('[data-proof-rail]') ?? proofTiles[0],
-            start: 'top 80%',
-            once: true,
-          },
+      gsap.utils
+        .toArray<HTMLElement>('[data-home-reveal]', root)
+        .forEach((item) => {
+          gsap.from(item, {
+            y: 42,
+            duration: 0.85,
+            ease: 'power3.out',
+            scrollTrigger: { trigger: item, start: 'top 91%', once: true },
+          });
         });
-        proofTiles.forEach((tile, i) => {
-          const fromLeft = i % 2 === 0;
+
+      if (!reel || !track || !viewport) return;
+
+      const frames = Array.from(
+        track.querySelectorAll<HTMLElement>('[data-project-frame]')
+      );
+
+      if (!conditions?.wide) {
+        frames.forEach((frame) => {
+          const plane = frame.querySelector('[data-project-plane]');
+          if (!plane) return;
           gsap.fromTo(
-            tile,
-            { x: fromLeft ? -64 : 64 },
+            plane,
+            { yPercent: -7, scale: 1.08 },
             {
-              x: 0,
-              duration: 0.85,
-              delay: i * 0.08,
-              ease: 'power3.out',
+              yPercent: 8,
+              scale: 1.04,
+              ease: 'none',
               scrollTrigger: {
-                trigger: root.querySelector('[data-proof-rail]') ?? tile,
-                start: 'top 80%',
-                once: true,
+                trigger: frame,
+                start: 'top bottom',
+                end: 'bottom top',
+                scrub: true,
               },
             }
           );
         });
+        return;
       }
 
-      const mm = gsap.matchMedia();
+      reel.dataset.reel = 'active';
+      const jumpButtons = Array.from(
+        reel.querySelectorAll<HTMLButtonElement>('[data-project-jump]')
+      );
+      const distance = () =>
+        Math.max(0, track.scrollWidth - viewport.clientWidth);
+      let reelDistance = distance();
+      let frameOffsets = frames.map((frame) =>
+        Math.min(frame.offsetLeft, reelDistance)
+      );
+      let currentProject = -1;
+      const setProgress = progress
+        ? gsap.quickSetter(progress, 'scaleX')
+        : undefined;
 
-      mm.add(DESKTOP_MQ, () => {
-        // Client Work chapters: pin + media/copy enter from opposite sides
-        const chapters = gsap.utils.toArray<HTMLElement>(
-          '[data-client-work-chapter]',
-          root
-        );
-
-        chapters.forEach((chapter) => {
-          const isLeft = chapter.dataset.clientWork === 'left';
-          const mask = chapter.querySelector<HTMLElement>(
-            '[data-client-work-mask]'
-          );
-          const media = chapter.querySelector<HTMLElement>(
-            '[data-client-work-media]'
-          );
-          const copyLayers = gsap.utils.toArray<HTMLElement>(
-            '[data-client-work-copy]',
-            chapter
-          );
-
-          const mediaFromX = isLeft ? 120 : -120;
-          const copyFromX = isLeft ? -100 : 100;
-
-          if (mask) gsap.set(mask, { opacity: 0, scale: 0.94 });
-          if (media) gsap.set(media, { opacity: 0, x: mediaFromX });
-          if (copyLayers.length > 0) {
-            gsap.set(copyLayers, { opacity: 0, x: copyFromX, y: 24 });
-          }
-
-          const tl = gsap.timeline({
-            scrollTrigger: {
-              trigger: chapter,
-              start: 'top 16%',
-              end: '+=110%',
-              pin: true,
-              scrub: 0.65,
-              anticipatePin: 1,
-            },
-          });
-
-          if (media) {
-            tl.to(media, { opacity: 1, x: 0, ease: 'none', duration: 1 }, 0);
-          }
-          if (mask) {
-            tl.to(mask, { opacity: 1, scale: 1, ease: 'none', duration: 1 }, 0);
-          }
-          if (copyLayers.length > 0) {
-            tl.to(
-              copyLayers,
-              {
-                opacity: 1,
-                x: 0,
-                y: 0,
-                ease: 'none',
-                duration: 1,
-                stagger: 0.1,
-              },
-              0.12
-            );
+      function markCurrentProject(value: number) {
+        const position = value * reelDistance;
+        let nearestIndex = 0;
+        let nearestDistance = Infinity;
+        frameOffsets.forEach((offset, index) => {
+          const difference = Math.abs(offset - position);
+          if (difference < nearestDistance) {
+            nearestDistance = difference;
+            nearestIndex = index;
           }
         });
+        if (currentProject === nearestIndex) return;
+        jumpButtons[currentProject]?.removeAttribute('aria-current');
+        jumpButtons[nearestIndex]?.setAttribute('aria-current', 'true');
+        currentProject = nearestIndex;
+      }
 
-        // Featured: copy from left, media from right + pin wipe
-        const featured = root.querySelector<HTMLElement>('[data-featured-pin]');
-        const preview = root.querySelector<HTMLElement>('[data-preview-card]');
-        const previewHead = root.querySelector<HTMLElement>(
-          '[data-preview-head]'
-        );
-        const previewMask = root.querySelector<HTMLElement>(
-          '[data-preview-mask]'
-        );
+      const traverse = gsap.to(track, {
+        x: () => -distance(),
+        ease: 'none',
+        scrollTrigger: {
+          trigger: reel,
+          start: 'top 96px',
+          end: () => '+=' + distance(),
+          pin: true,
+          scrub: true,
+          anticipatePin: 1,
+          invalidateOnRefresh: true,
+          onRefresh: ({ progress: value }) => {
+            reelDistance = distance();
+            frameOffsets = frames.map((frame) =>
+              Math.min(frame.offsetLeft, reelDistance)
+            );
+            setProgress?.(value);
+            markCurrentProject(value);
+          },
+          onUpdate: ({ progress: value }) => {
+            setProgress?.(value);
+            markCurrentProject(value);
+          },
+        },
+      });
 
-        if (featured && preview) {
-          gsap.set(preview, {
-            rotateX: 14,
-            rotateY: -8,
-            x: 80,
-            opacity: 0.35,
-            scale: 0.9,
-            transformPerspective: 1200,
-          });
-          if (previewHead) {
-            gsap.set(previewHead, { opacity: 0, x: -72, y: 20 });
-          }
-          if (previewMask) {
-            gsap.set(previewMask, { clipPath: 'inset(0 100% 0 0)' });
-          }
-
-          const tl = gsap.timeline({
+      frames.forEach((frame) => {
+        const plane = frame.querySelector('[data-project-plane]');
+        if (!plane) return;
+        gsap.fromTo(
+          plane,
+          { rotateY: -17, xPercent: 8, scale: 1.15 },
+          {
+            rotateY: 15,
+            xPercent: -8,
+            scale: 1.15,
+            ease: 'none',
             scrollTrigger: {
-              trigger: featured,
-              start: 'top top',
-              end: '+=140%',
-              pin: true,
-              scrub: 0.6,
-              anticipatePin: 1,
+              trigger: frame,
+              containerAnimation: traverse,
+              start: 'left right',
+              end: 'right left',
+              scrub: true,
             },
-          });
+          }
+        );
+      });
 
-          if (previewHead) {
-            tl.to(
-              previewHead,
-              { opacity: 1, x: 0, y: 0, ease: 'none', duration: 1 },
-              0
-            );
-          }
-          tl.to(
-            preview,
-            {
-              rotateX: 0,
-              rotateY: 0,
-              x: 0,
-              opacity: 1,
-              scale: 1,
-              ease: 'none',
-              duration: 1,
-            },
-            0
-          );
-          if (previewMask) {
-            tl.to(
-              previewMask,
-              { clipPath: 'inset(0 0% 0 0)', ease: 'none', duration: 1 },
-              0.05
-            );
-          }
+      function scrollToFrame(frame: HTMLElement, smooth = false) {
+        const trigger = traverse.scrollTrigger;
+        const offset = frameOffsets[frames.indexOf(frame)];
+        if (!trigger || offset === undefined) return;
+        const top = trigger.start + offset;
+        if (smooth) {
+          window.scrollTo({ top, behavior: 'smooth' });
+          return;
         }
+        trigger.scroll(top);
+        ScrollTrigger.update();
+      }
 
-        // Contact SVG draw-on
-        const paths = gsap.utils.toArray<SVGPathElement>(
-          '[data-draw-path]',
-          root
-        );
-        paths.forEach((path) => {
-          const length = path.getTotalLength();
-          gsap.set(path, {
-            strokeDasharray: length,
-            strokeDashoffset: length,
-          });
-          gsap.to(path, {
-            strokeDashoffset: 0,
-            duration: 1.4,
-            ease: 'power2.out',
-            scrollTrigger: {
-              trigger: path.closest('section') ?? path,
-              start: 'top 75%',
-              once: true,
-            },
-          });
-        });
-      });
+      // Bring the focused link into the clipped rail when tabbing between cards.
+      function showFocusedProject(event: FocusEvent) {
+        if (!(event.target instanceof HTMLElement) || !viewport) return;
+        const frame = event.target.closest<HTMLElement>('[data-project-frame]');
+        if (!frame) return;
+        const bounds = viewport.getBoundingClientRect();
+        const card = frame.getBoundingClientRect();
+        if (card.left >= bounds.left - 2 && card.right <= bounds.right + 2)
+          return;
+        scrollToFrame(frame);
+      }
 
-      // Mobile / tablet: lighter once-reveals for chapters (no pin)
-      mm.add('(max-width: 1023px)', () => {
-        const chapterBits = gsap.utils.toArray<HTMLElement>(
-          '[data-client-work-copy], [data-client-work-media], [data-preview-head], [data-preview-card]',
-          root
-        );
-        chapterBits.forEach((el, i) => {
-          const fromLeft = i % 2 === 0;
-          gsap.set(el, {
-            opacity: 0,
-            x: fromLeft ? -48 : 48,
-            y: 24,
-          });
-          gsap.to(el, {
-            opacity: 1,
-            x: 0,
-            y: 0,
-            duration: 0.75,
-            ease: 'power3.out',
-            scrollTrigger: {
-              trigger: el,
-              start: 'top 90%',
-              once: true,
-            },
-          });
-        });
-      });
+      function jumpToProject(event: MouseEvent) {
+        if (!(event.target instanceof HTMLElement)) return;
+        const button = event.target.closest<HTMLElement>('[data-project-jump]');
+        if (!button) return;
+        const frame = frames[Number(button.dataset.projectJump)];
+        if (frame) scrollToFrame(frame, true);
+      }
 
-      reverts.push(() => mm.revert());
-    }, root);
+      track.addEventListener('focusin', showFocusedProject);
+      reel.addEventListener('click', jumpToProject);
+      return () => {
+        delete reel.dataset.reel;
+        track.removeEventListener('focusin', showFocusedProject);
+        reel.removeEventListener('click', jumpToProject);
+        jumpButtons[currentProject]?.removeAttribute('aria-current');
+        if (progress instanceof HTMLElement)
+          progress.style.removeProperty('transform');
+      };
+    });
 
-    const onResize = () => ScrollTrigger.refresh();
-    window.addEventListener('resize', onResize);
+    void document.fonts.ready.then(() => {
+      if (!disposed) ScrollTrigger.refresh();
+    });
 
     return () => {
-      window.removeEventListener('resize', onResize);
-      reverts.forEach((fn) => fn());
-      ctx.revert();
+      disposed = true;
+      media.revert();
     };
-  }, [rootRef]);
+  }, [rootRef, enabled]);
 }

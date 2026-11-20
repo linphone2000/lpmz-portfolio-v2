@@ -1,8 +1,8 @@
 'use client';
 
-import { useMemo, useState } from 'react';
-import Image from 'next/image';
+import { useState } from 'react';
 import Link from 'next/link';
+import { ArrowUpRightIcon } from '@heroicons/react/24/outline';
 import type { Project } from '@/lib/types';
 import { usePortfolioData } from '@/providers/PortfolioDataProvider';
 import {
@@ -11,72 +11,66 @@ import {
   getCaseStudyMeta,
   getProjectSlug,
 } from '@/lib/project-utils';
+import { PROJECT_ORIGIN_LABEL } from '@/lib/projectOrigin';
 import {
-  PROJECT_ORIGIN_BADGE_CLASS,
-  PROJECT_ORIGIN_LABEL,
-  originSortRank,
-} from '@/lib/projectOrigin';
-import { cx } from '@/lib/utils';
+  isMobileProject,
+  isWebProject,
+  sortPortfolioProjects,
+} from '@/components/Portfolio/project-presentation';
+import ProjectMedia from '@/components/Portfolio/ProjectMedia';
+import PortfolioMotion from '@/components/Portfolio/PortfolioMotion';
+import styles from '@/components/Portfolio/portfolio.module.css';
 
-type FilterOption = 'all' | 'mobile' | 'web';
+const filters = [
+  { id: 'all', label: 'All projects' },
+  { id: 'mobile', label: 'Mobile' },
+  { id: 'web', label: 'Web' },
+] as const;
 
-const isMobileProject = (project: Pick<Project, 'category' | 'stack'>) =>
-  project.category === 'Mobile Development' ||
-  project.stack.includes('React Native') ||
-  project.stack.includes('Expo');
+type FilterOption = (typeof filters)[number]['id'];
 
-function ProjectRow({ project }: { project: Project }) {
+function ProjectEntry({
+  project,
+  featured,
+}: {
+  project: Project;
+  featured: boolean;
+}) {
   const meta = getCaseStudyMeta(project);
-  const hero = getHeroScreenshot(project);
+  const shot = getHeroScreenshot(project);
   const slug = getProjectSlug(project);
   const title = getDisplayName(project);
+  const titleId = `project-${slug}`;
 
   return (
-    <Link
-      href={`/portfolio/${slug}`}
-      data-magnetic
-      data-table-row
-      className="group reveal grid cursor-pointer grid-cols-[4rem_1fr] items-center gap-4 border-b border-neutral-200 py-7 dark:border-neutral-800 md:grid-cols-[5rem_1fr_minmax(12rem,32%)_7rem] md:gap-8"
-    >
-      <span className="font-mono text-sm text-neutral-400">{project.year}</span>
-      <div className="min-w-0">
-        <div className="flex flex-wrap items-baseline gap-x-3 gap-y-1">
-          <h3 className="text-xl font-semibold tracking-tight text-neutral-900 transition-transform duration-300 group-hover:translate-x-1 dark:text-neutral-50 md:text-2xl">
-            {title}
-          </h3>
-          <span
-            className={cx(
-              'rounded-full px-2 py-0.5 text-[10px] uppercase tracking-[0.14em]',
-              PROJECT_ORIGIN_BADGE_CLASS[project.origin]
-            )}
-          >
-            {PROJECT_ORIGIN_LABEL[project.origin]}
-          </span>
-        </div>
-        {meta.role ? (
-          <p className="mt-1 text-xs uppercase tracking-[0.14em] text-neutral-400">
-            {meta.role}
+    <li>
+      <Link
+        href={`/portfolio/${slug}`}
+        className={styles.entry}
+        aria-labelledby={titleId}
+      >
+        {shot && (
+          <div className={styles.entryMedia}>
+            <ProjectMedia
+              project={project}
+              shot={shot}
+              variant={featured ? 'cover' : 'thumbnail'}
+            />
+          </div>
+        )}
+        <div className={styles.entryCopy}>
+          <p className={styles.entryMeta}>
+            <span>{PROJECT_ORIGIN_LABEL[project.origin]} project</span>
+            <span>{project.year}</span>
           </p>
-        ) : null}
-        <p className="mt-2 text-sm text-neutral-500 md:hidden dark:text-neutral-400">
-          {meta.outcome}
-        </p>
-      </div>
-      <p className="hidden text-sm leading-relaxed text-neutral-500 dark:text-neutral-400 md:block">
-        {meta.outcome}
-      </p>
-      <div className="relative hidden h-16 w-28 overflow-hidden rounded-lg bg-neutral-100 opacity-0 transition-opacity duration-300 group-hover:opacity-100 dark:bg-neutral-800 md:block">
-        {hero ? (
-          <Image
-            src={hero.src}
-            alt=""
-            fill
-            className="object-cover"
-            sizes="112px"
-          />
-        ) : null}
-      </div>
-    </Link>
+          <h2 id={titleId}>{title}</h2>
+          <p className={styles.entryOutcome}>{meta.outcome}</p>
+        </div>
+        <span className={styles.entryArrow} aria-hidden="true">
+          <ArrowUpRightIcon strokeWidth={1.55} />
+        </span>
+      </Link>
+    </li>
   );
 }
 
@@ -85,66 +79,77 @@ export default function Projects() {
     data: { projects },
   } = usePortfolioData();
   const [filterBy, setFilterBy] = useState<FilterOption>('all');
-
-  const filtered = useMemo(() => {
-    let list = projects;
-    if (filterBy === 'mobile') {
-      list = list.filter((p) => isMobileProject(p));
-    } else if (filterBy === 'web') {
-      list = list.filter((p) => !isMobileProject(p));
-    }
-    return [...list].sort(
-      (a, b) => originSortRank(a.origin) - originSortRank(b.origin)
-    );
-  }, [filterBy, projects]);
+  const sortedProjects = sortPortfolioProjects(projects);
+  const filtered =
+    filterBy === 'mobile'
+      ? sortedProjects.filter(isMobileProject)
+      : filterBy === 'web'
+        ? sortedProjects.filter(isWebProject)
+        : sortedProjects;
+  const featured = filtered.slice(0, 2);
+  const archive = filtered.slice(2);
 
   return (
-    <section className="relative mx-auto max-w-6xl px-4 py-20 md:px-6 md:py-28">
-      <div className="reveal mb-10">
-        <p className="text-[10px] uppercase tracking-[0.24em] text-primary-500">
-          Selected work
-        </p>
-        <h2
-          data-section-title
-          className="mt-3 max-w-2xl text-3xl font-semibold tracking-tight text-neutral-900 dark:text-neutral-50 md:text-5xl"
-        >
-          Case studies.
-        </h2>
-        <p className="mt-4 max-w-xl text-neutral-500 dark:text-neutral-400">
-          Problem, role, and outcome — with a few curated frames.
-        </p>
-      </div>
+    <PortfolioMotion revision={filterBy}>
+      <section className={styles.archive} aria-labelledby="work-heading">
+        <header className={styles.archiveHeader}>
+          <h1 id="work-heading" className={styles.display} data-work-intro>
+            Selected work<span>.</span>
+          </h1>
+          <p className={styles.archiveLead}>
+            Mobile apps, web platforms, and the systems behind them. Browse the
+            projects to see what I built and the role I played.
+          </p>
+        </header>
 
-      <div className="reveal mb-6 flex flex-wrap gap-2">
-        {(
-          [
-            ['all', 'All'],
-            ['mobile', 'Mobile'],
-            ['web', 'Web'],
-          ] as const
-        ).map(([value, label]) => (
-          <button
-            key={value}
-            type="button"
-            data-magnetic
-            onClick={() => setFilterBy(value)}
-            className={cx(
-              'cursor-pointer rounded-full px-4 py-2 text-sm transition-colors',
-              filterBy === value
-                ? 'bg-neutral-900 text-white dark:bg-neutral-100 dark:text-neutral-900'
-                : 'bg-neutral-100 text-neutral-600 hover:bg-neutral-200 dark:bg-neutral-800 dark:text-neutral-300'
-            )}
+        <div className={styles.filters}>
+          <div
+            className={styles.filterOptions}
+            role="group"
+            aria-label="Filter projects by platform"
           >
-            {label}
-          </button>
-        ))}
-      </div>
+            {filters.map(({ id, label }) => (
+              <button
+                key={id}
+                type="button"
+                aria-pressed={filterBy === id}
+                onClick={() => setFilterBy(id)}
+              >
+                {label}
+              </button>
+            ))}
+          </div>
+          <p className={styles.resultCount} role="status">
+            {filtered.length} {filtered.length === 1 ? 'project' : 'projects'}
+          </p>
+        </div>
 
-      <div>
-        {filtered.map((project) => (
-          <ProjectRow key={getProjectSlug(project)} project={project} />
-        ))}
-      </div>
-    </section>
+        {featured.length ? (
+          <ul className={styles.featuredEntries} role="list">
+            {featured.map((project) => (
+              <ProjectEntry
+                key={getProjectSlug(project)}
+                project={project}
+                featured
+              />
+            ))}
+          </ul>
+        ) : (
+          <p className={styles.empty}>No projects match this platform.</p>
+        )}
+
+        {archive.length > 0 && (
+          <ul className={styles.archiveEntries} role="list">
+            {archive.map((project) => (
+              <ProjectEntry
+                key={getProjectSlug(project)}
+                project={project}
+                featured={false}
+              />
+            ))}
+          </ul>
+        )}
+      </section>
+    </PortfolioMotion>
   );
 }

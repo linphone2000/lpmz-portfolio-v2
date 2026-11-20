@@ -3,9 +3,9 @@ import { PageShell } from '@/components/Common/PageShell';
 import HomePage from '@/components/Home/HomePage';
 
 export const metadata: Metadata = {
-  title: 'Home – Lin Phone Myint Zaw',
+  title: 'Lin Phone Myint Zaw | Senior Full-Stack Developer',
   description:
-    'Overview of Lin Phone Myint Zaw: featured work and professional summary.',
+    'Mobile and web engineering by Lin Phone Myint Zaw. Explore SchoolFlow, Perfume Tower, and selected full-stack projects.',
 };
 
 export default function Page() {

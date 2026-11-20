@@ -1,9 +1,8 @@
 'use client';
 
-import { useEffect, type ReactNode } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { useId, useLayoutEffect, useRef, type ReactNode } from 'react';
 import { XMarkIcon } from '@heroicons/react/24/outline';
-import { createPortal } from 'react-dom';
+import './modal.css';
 
 interface ModalProps {
   isOpen: boolean;
@@ -11,7 +10,15 @@ interface ModalProps {
   title: string;
   children: ReactNode;
   size?: 'sm' | 'md' | 'lg' | 'xl';
+  dismissible?: boolean;
 }
+
+const sizeClasses = {
+  sm: 'max-w-md',
+  md: 'max-w-lg',
+  lg: 'max-w-2xl',
+  xl: 'max-w-4xl',
+};
 
 export const Modal = ({
   isOpen,
@@ -19,82 +26,66 @@ export const Modal = ({
   title,
   children,
   size = 'lg',
+  dismissible = true,
 }: ModalProps) => {
-  // Close modal on escape key
-  useEffect(() => {
-    const handleEscape = (e: KeyboardEvent) => {
-      if (e.key === 'Escape') {
-        onClose();
-      }
-    };
+  const titleId = useId();
+  const dialogRef = useRef<HTMLDialogElement>(null);
+  const pointerStartedOutsidePanel = useRef(false);
 
-    if (isOpen) {
-      document.addEventListener('keydown', handleEscape);
-      // Prevent body scroll when modal is open
-      document.body.style.overflow = 'hidden';
-    }
+  useLayoutEffect(() => {
+    const dialog = dialogRef.current;
+    if (!dialog || dialog.open === isOpen) return;
 
-    return () => {
-      document.removeEventListener('keydown', handleEscape);
-      document.body.style.overflow = 'unset';
-    };
-  }, [isOpen, onClose]);
+    if (isOpen) dialog.showModal();
+    else dialog.close();
+  }, [isOpen]);
 
-  const sizeClasses = {
-    sm: 'max-w-md',
-    md: 'max-w-lg',
-    lg: 'max-w-2xl',
-    xl: 'max-w-4xl',
-  };
-
-  const modalContent = (
-    <AnimatePresence>
-      {isOpen && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
-          {/* Backdrop */}
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            transition={{ duration: 0.2 }}
-            className="absolute inset-0 bg-black/50 backdrop-blur-sm"
+  return (
+    <dialog
+      ref={dialogRef}
+      className="portfolio-modal"
+      aria-labelledby={titleId}
+      inert={!isOpen}
+      onCancel={(event) => {
+        event.preventDefault();
+        if (dismissible) onClose();
+      }}
+      onPointerDown={(event) => {
+        pointerStartedOutsidePanel.current =
+          event.target === event.currentTarget;
+      }}
+      onClick={(event) => {
+        if (
+          dismissible &&
+          pointerStartedOutsidePanel.current &&
+          event.target === event.currentTarget
+        ) {
+          onClose();
+        }
+        pointerStartedOutsidePanel.current = false;
+      }}
+    >
+      <div
+        className={`portfolio-modal-panel flex max-h-full w-full flex-col overflow-hidden rounded-2xl border shadow-2xl ${sizeClasses[size]}`}
+      >
+        <div className="portfolio-modal-header flex shrink-0 items-center justify-between gap-3 border-b p-4 sm:px-6">
+          <h2 id={titleId} className="text-xl font-semibold">
+            {title}
+          </h2>
+          <button
+            type="button"
             onClick={onClose}
-          />
-
-          {/* Modal */}
-          <motion.div
-            initial={{ opacity: 0, scale: 0.95, y: 20 }}
-            animate={{ opacity: 1, scale: 1, y: 0 }}
-            exit={{ opacity: 0, scale: 0.95, y: 20 }}
-            transition={{ duration: 0.3, ease: 'easeOut' }}
-            className={`relative w-full ${sizeClasses[size]} bg-white dark:bg-neutral-900 rounded-2xl shadow-2xl border border-neutral-200 dark:border-neutral-700 max-h-[90vh] overflow-hidden`}
+            disabled={!dismissible}
+            className="portfolio-modal-close grid size-11 shrink-0 cursor-pointer place-items-center rounded-lg transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
+            aria-label="Close dialog"
           >
-            {/* Header */}
-            <div className="flex items-center justify-between p-6 border-b border-neutral-200 dark:border-neutral-700">
-              <h2 className="text-xl font-semibold text-neutral-900 dark:text-neutral-100">
-                {title}
-              </h2>
-              <button
-                onClick={onClose}
-                className="p-2 rounded-lg text-neutral-500 hover:text-neutral-700 dark:text-neutral-400 dark:hover:text-neutral-200 hover:bg-neutral-100 dark:hover:bg-neutral-800 transition-colors cursor-pointer"
-                aria-label="Close modal"
-              >
-                <XMarkIcon className="w-5 h-5" />
-              </button>
-            </div>
-
-            {/* Content */}
-            <div className="p-6 overflow-y-auto max-h-[calc(90vh-120px)]">
-              {children}
-            </div>
-          </motion.div>
+            <XMarkIcon className="size-5" aria-hidden="true" />
+          </button>
         </div>
-      )}
-    </AnimatePresence>
+        <div className="overflow-y-auto overscroll-y-contain p-4 sm:p-6">
+          {children}
+        </div>
+      </div>
+    </dialog>
   );
-
-  // Use portal to render modal at document root
-  return typeof document !== 'undefined'
-    ? createPortal(modalContent, document.body)
-    : modalContent;
 };
