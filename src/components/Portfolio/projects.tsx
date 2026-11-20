@@ -41,9 +41,10 @@ function ProjectEntry({
   const slug = getProjectSlug(project);
   const title = getDisplayName(project);
   const titleId = `project-${slug}`;
+  const Heading = featured ? 'h2' : 'h3';
 
   return (
-    <li>
+    <li data-work-entry={featured ? 'feature' : 'index'}>
       <Link
         href={`/portfolio/${slug}`}
         className={styles.entry}
@@ -63,7 +64,7 @@ function ProjectEntry({
             <span>{PROJECT_ORIGIN_LABEL[project.origin]} project</span>
             <span>{project.year}</span>
           </p>
-          <h2 id={titleId}>{title}</h2>
+          <Heading id={titleId}>{title}</Heading>
           <p className={styles.entryOutcome}>{meta.outcome}</p>
         </div>
         <span className={styles.entryArrow} aria-hidden="true">
@@ -93,12 +94,13 @@ export default function Projects() {
     <PortfolioMotion revision={filterBy}>
       <section className={styles.archive} aria-labelledby="work-heading">
         <header className={styles.archiveHeader}>
-          <h1 id="work-heading" className={styles.display} data-work-intro>
-            Selected work<span>.</span>
-          </h1>
-          <p className={styles.archiveLead}>
-            Mobile apps, web platforms, and the systems behind them. Browse the
-            projects to see what I built and the role I played.
+          <div className={styles.archiveTitle}>
+            <h1 id="work-heading" className={styles.display} data-work-intro>
+              Selected work<span>.</span>
+            </h1>
+          </div>
+          <p className={styles.archiveLead} data-work-intro-detail>
+            Mobile apps, web platforms, and the systems behind them.
           </p>
         </header>
 
@@ -107,6 +109,7 @@ export default function Projects() {
             className={styles.filterOptions}
             role="group"
             aria-label="Filter projects by platform"
+            data-filter={filterBy}
           >
             {filters.map(({ id, label }) => (
               <button
@@ -139,15 +142,27 @@ export default function Projects() {
         )}
 
         {archive.length > 0 && (
-          <ul className={styles.archiveEntries} role="list">
-            {archive.map((project) => (
-              <ProjectEntry
-                key={getProjectSlug(project)}
-                project={project}
-                featured={false}
-              />
-            ))}
-          </ul>
+          <section
+            className={styles.projectIndex}
+            aria-labelledby="project-index-title"
+          >
+            <h2
+              id="project-index-title"
+              className={styles.sectionHeading}
+              data-work-enter
+            >
+              Project index
+            </h2>
+            <ul className={styles.archiveEntries} role="list">
+              {archive.map((project) => (
+                <ProjectEntry
+                  key={getProjectSlug(project)}
+                  project={project}
+                  featured={false}
+                />
+              ))}
+            </ul>
+          </section>
         )}
       </section>
     </PortfolioMotion>

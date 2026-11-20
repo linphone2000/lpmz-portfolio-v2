@@ -92,3 +92,9 @@ html:has(.portfolio-modal[open]) {
     transition: none;
   }
 }
+
+html[data-site-motion='off'] .portfolio-modal,
+html[data-site-motion='off'] .portfolio-modal::backdrop,
+html[data-site-motion='off'] .portfolio-modal-panel {
+  transition: none;
+}

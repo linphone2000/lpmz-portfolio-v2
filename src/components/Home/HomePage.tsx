@@ -5,10 +5,7 @@ import {
 } from '@heroicons/react/24/outline';
 import { DATA } from '@/lib/data';
 import SelectedWork from '@/components/Home/SelectedWork';
-import HomeMotionRoot, {
-  HomeArt,
-  HomeMotionSwitch,
-} from '@/components/Motion/HomeMotionRoot';
+import HomeMotionRoot, { HomeArt } from '@/components/Motion/HomeMotionRoot';
 
 const currentRoles = DATA.experience.slice(0, 2);
 
@@ -63,7 +60,6 @@ export default function HomePage() {
           <span>
             React Native <i /> Next.js <i /> NestJS
           </span>
-          <HomeMotionSwitch />
         </div>
         <SelectedWork />
         <section

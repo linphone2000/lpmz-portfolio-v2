@@ -7,7 +7,7 @@ import { useSiteMotion } from '@/hooks/useSiteMotion';
 export default function RouteTransition() {
   const pathname = usePathname();
   const previous = useRef(pathname);
-  const [transition, setTransition] = useState(0);
+  const [transition, setTransition] = useState<string | null>(null);
   const active = useSiteMotion();
 
   useEffect(() => {
@@ -15,19 +15,29 @@ export default function RouteTransition() {
   }, [active]);
 
   useEffect(() => {
-    if (previous.current === pathname) return;
+    if (!active) {
+      setTransition(null);
+    } else if (previous.current !== pathname) {
+      setTransition(pathname);
+    }
     previous.current = pathname;
-    if (active) setTransition((current) => current + 1);
   }, [pathname, active]);
 
   return (
     <>
       <div className="site-scroll-meter" aria-hidden="true" />
-      {active && transition > 0 && (
+      {active && transition && (
         <div
           className="site-route-transition"
           key={transition}
           aria-hidden="true"
+          onAnimationEnd={(event) => {
+            if (event.animationName === 'site-route-settle') {
+              setTransition((current) =>
+                current === transition ? null : current
+              );
+            }
+          }}
         />
       )}
     </>

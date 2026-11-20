@@ -13,14 +13,20 @@ export function Certifications() {
       id="certifications"
       aria-labelledby="certifications-title"
       className={styles.section}
+      data-profile-chapter
+      tabIndex={-1}
     >
-      <h2 id="certifications-title">Certifications</h2>
+      <h2 id="certifications-title" data-profile-heading>
+        Certifications
+      </h2>
       <ul className={styles.credentials}>
         {certs.map(({ name, issuer, year }) => (
           <li key={name}>
             <span className={styles.period}>{year}</span>
-            <h3>{name}</h3>
-            <span className={styles.entryDetail}>{issuer}</span>
+            <div>
+              <h3>{name}</h3>
+              <span className={styles.entryDetail}>{issuer}</span>
+            </div>
           </li>
         ))}
       </ul>

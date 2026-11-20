@@ -11,8 +11,11 @@ import {
 import { Modal } from '@/components/Common/Modal';
 import {
   ArrowLeftIcon,
+  ArrowRightIcon,
   ChevronDownIcon,
+  DevicePhoneMobileIcon,
   LinkIcon,
+  WindowIcon,
 } from '@heroicons/react/24/outline';
 import { CheckCircleIcon } from '@heroicons/react/24/solid';
 import { usePortfolioData } from '@/providers/PortfolioDataProvider';
@@ -54,6 +57,22 @@ type PendingPreset = {
   featureIds: string[];
 };
 
+const PLATFORMS = [
+  {
+    id: 'web',
+    label: 'Website / Web app',
+    description: 'Websites, storefronts, dashboards, and browser-based tools.',
+    icon: WindowIcon,
+  },
+  {
+    id: 'mobile',
+    label: 'Mobile app',
+    description:
+      'Apps for iOS and Android with features like push notifications or payments.',
+    icon: DevicePhoneMobileIcon,
+  },
+] as const;
+
 const WIZARD_STEPS: { step: WizardStep; label: string }[] = [
   { step: 1, label: 'Platform' },
   { step: 2, label: 'Features' },
@@ -85,6 +104,8 @@ export default function EstimatePage() {
   } = usePortfolioData();
   const hasHydratedFromUrl = useRef(false);
   const hasTrackedSharedOpen = useRef(false);
+  const stepHeading = useRef<HTMLHeadingElement>(null);
+  const shouldFocusStep = useRef(false);
   const [tab, setTab] = useState<ProductType>('web');
   const [features, setFeatures] = useState<SelectedFeature[]>([]);
   const [step, setStep] = useState<WizardStep>(1);
@@ -218,9 +239,18 @@ export default function EstimatePage() {
   }, [filteredCatalog]);
 
   const goToStep = (target: WizardStep) => {
-    if (sending || target > step) return;
+    if (sending || target === step) return;
+    if (target > step && step === 2 && !canProceedStep2) return;
+    shouldFocusStep.current = true;
     setStep(target);
   };
+
+  useEffect(() => {
+    if (!shouldFocusStep.current) return;
+
+    shouldFocusStep.current = false;
+    stepHeading.current?.focus();
+  }, [step]);
 
   const toggleCategory = (category: FeatureCategory) => {
     setExpandedCategories((prev) => ({
@@ -457,8 +487,8 @@ export default function EstimatePage() {
 
   return (
     <PageShell>
-      <div className={'site-container ' + styles.page}>
-        <div className={styles.wizard}>
+      <div className={styles.page}>
+        <div className={`site-container ${styles.wizard}`}>
           <header className={styles.heading}>
             <Link href="/services" className={styles.backLink}>
               <ArrowLeftIcon aria-hidden /> Services
@@ -470,106 +500,104 @@ export default function EstimatePage() {
             </p>
           </header>
 
-          <div className="mb-8 grid gap-3">
-            <div className="flex min-h-11 items-center justify-between text-sm text-[var(--site-muted)]">
-              {WIZARD_STEPS.map(({ step: stepNumber, label }) => {
-                const isActive = step === stepNumber;
-                const isPast = step > stepNumber;
-                const isClickable = isPast && !sending;
+          <ol className={styles.steps} aria-label="Estimate stages">
+            {WIZARD_STEPS.map(({ step: stepNumber, label }) => {
+              const isActive = step === stepNumber;
+              const isPast = step > stepNumber;
+              const caption = (
+                <>
+                  <span aria-hidden>{String(stepNumber).padStart(2, '0')}</span>
+                  {label}
+                </>
+              );
 
-                if (isActive) {
-                  return (
-                    <span
-                      key={stepNumber}
-                      className="font-semibold text-[var(--site-accent)] cursor-default"
-                      aria-current="step"
-                    >
-                      {stepNumber}. {label}
+              return (
+                <li
+                  key={stepNumber}
+                  data-state={
+                    isActive ? 'active' : isPast ? 'complete' : 'ahead'
+                  }
+                >
+                  {isPast && !sending ? (
+                    <button type="button" onClick={() => goToStep(stepNumber)}>
+                      {caption}
+                    </button>
+                  ) : (
+                    <span aria-current={isActive ? 'step' : undefined}>
+                      {caption}
                     </span>
-                  );
-                }
+                  )}
+                </li>
+              );
+            })}
+          </ol>
 
-                if (isClickable) {
-                  return (
-                    <button
-                      key={stepNumber}
-                      type="button"
-                      onClick={() => goToStep(stepNumber)}
-                      className="font-medium text-[var(--site-muted)] hover:text-[var(--site-accent)] transition-colors cursor-pointer"
-                    >
-                      {stepNumber}. {label}
-                    </button>
-                  );
-                }
-
-                return (
-                  <span
-                    key={stepNumber}
-                    className="text-[var(--site-muted)] opacity-75 cursor-default"
-                  >
-                    {stepNumber}. {label}
-                  </span>
-                );
-              })}
-            </div>
-            <div className="h-2 rounded-full bg-[var(--site-line)] overflow-hidden">
-              <div
-                className="h-full bg-[var(--site-accent)] transition-all duration-300 motion-reduce:transition-none"
-                style={{
-                  width: step === 1 ? '33%' : step === 2 ? '66%' : '100%',
-                }}
-              />
-            </div>
-          </div>
-
-          <div className="flex flex-col gap-8">
+          <div className={styles.workspace}>
             {step === 1 && (
-              <div className="rounded-lg border border-[var(--site-line)] bg-[var(--site-surface)] p-4 sm:p-6">
-                <div className="flex flex-wrap items-center justify-between gap-4 mb-4">
-                  <div>
-                    <p className="text-sm uppercase tracking-wide text-[var(--site-muted)] font-semibold">
-                      Product type
-                    </p>
-                    <p className="text-base text-[var(--site-muted)]">
-                      Choose a web or mobile app.
-                    </p>
-                  </div>
-                  <div className="inline-flex w-full sm:w-auto p-1 rounded-lg bg-[var(--site-bg)] border border-[var(--site-line)]">
+              <section
+                className={`${styles.stepPanel} ${styles.platformPanel}`}
+                aria-labelledby="estimate-step-heading"
+              >
+                <h2
+                  id="estimate-step-heading"
+                  className={styles.stepTitle}
+                  tabIndex={-1}
+                  ref={stepHeading}
+                >
+                  Choose a platform
+                </h2>
+                <div className={styles.platformChoices}>
+                  {PLATFORMS.map(({ id, label, description, icon: Icon }) => (
                     <button
+                      key={id}
                       type="button"
-                      aria-pressed={tab === 'web'}
+                      aria-pressed={tab === id}
+                      aria-labelledby={`estimate-platform-label-${id}`}
+                      aria-describedby={`estimate-platform-${id}`}
                       onClick={() => {
-                        if (tab === 'web') return;
-                        setTab('web');
+                        if (tab === id) return;
+                        setTab(id);
                         setFeatures([]);
                         setFeatureSearch('');
                         setShowSelectedOnly(false);
                       }}
-                      className={`flex-1 px-3 py-2 min-h-10 rounded-md text-sm font-semibold transition-all cursor-pointer ${tab === 'web' ? 'bg-[var(--site-accent)] text-[var(--site-bg)]' : 'text-[var(--site-muted)]'}`}
                     >
-                      Website / Web app
+                      <Icon className={styles.platformIcon} aria-hidden />
+                      <span
+                        id={`estimate-platform-label-${id}`}
+                        className={styles.platformName}
+                      >
+                        {label}
+                      </span>
+                      <span
+                        id={`estimate-platform-${id}`}
+                        className={styles.platformDescription}
+                      >
+                        {description}
+                      </span>
+                      <CheckCircleIcon
+                        className={styles.platformCheck}
+                        aria-hidden
+                      />
                     </button>
-                    <button
-                      type="button"
-                      aria-pressed={tab === 'mobile'}
-                      onClick={() => {
-                        if (tab === 'mobile') return;
-                        setTab('mobile');
-                        setFeatures([]);
-                        setFeatureSearch('');
-                        setShowSelectedOnly(false);
-                      }}
-                      className={`flex-1 px-3 py-2 min-h-10 rounded-md text-sm font-semibold transition-all cursor-pointer ${tab === 'mobile' ? 'bg-[var(--site-accent)] text-[var(--site-bg)]' : 'text-[var(--site-muted)]'}`}
-                    >
-                      Mobile app
-                    </button>
-                  </div>
+                  ))}
                 </div>
-              </div>
+              </section>
             )}
 
             {step === 2 && (
-              <div className="rounded-lg border border-[var(--site-line)] bg-[var(--site-surface)] p-4 sm:p-6">
+              <section
+                className={styles.stepPanel}
+                aria-labelledby="estimate-step-heading"
+              >
+                <h2
+                  id="estimate-step-heading"
+                  className={styles.stepTitle}
+                  tabIndex={-1}
+                  ref={stepHeading}
+                >
+                  Choose features
+                </h2>
                 <div className="grid gap-6 lg:grid-cols-[minmax(0,13fr)_minmax(0,7fr)]">
                   <div className="space-y-4 min-w-0">
                     <div className="flex items-center justify-between gap-3">
@@ -782,11 +810,22 @@ export default function EstimatePage() {
                     )}
                   </div>
                 </div>
-              </div>
+              </section>
             )}
 
             {step === 3 && (
-              <div className="rounded-lg border border-[var(--site-line)] bg-[var(--site-surface)] p-4 sm:p-6 space-y-6">
+              <section
+                className={`${styles.stepPanel} space-y-6`}
+                aria-labelledby="estimate-step-heading"
+              >
+                <h2
+                  id="estimate-step-heading"
+                  className={styles.stepTitle}
+                  tabIndex={-1}
+                  ref={stepHeading}
+                >
+                  Review your scope
+                </h2>
                 <div className="rounded-xl border border-[var(--site-line)] bg-[var(--site-bg)] p-4 space-y-2 max-h-64 overflow-auto">
                   {features.length === 0 ? (
                     <p className="text-sm text-[var(--site-muted)]">
@@ -910,7 +949,7 @@ export default function EstimatePage() {
                     >
                       {sending ? (
                         <span className="inline-flex items-center">
-                          <span className="inline-block h-4 w-4 rounded-full border-2 border-current border-t-transparent animate-spin mr-2" />
+                          <span className="inline-block h-4 w-4 rounded-full border-2 border-current border-t-transparent animate-spin motion-reduce:animate-none mr-2" />
                           Sending...
                         </span>
                       ) : (
@@ -919,10 +958,10 @@ export default function EstimatePage() {
                     </button>
                   </div>
                 </form>
-              </div>
+              </section>
             )}
 
-            <div className="flex flex-wrap justify-between items-center gap-3">
+            <div className={styles.stepActions}>
               <button
                 type="button"
                 onClick={() => {
@@ -930,10 +969,10 @@ export default function EstimatePage() {
                     goToStep((step - 1) as WizardStep);
                   }
                 }}
-                className="px-4 py-2 rounded-lg border border-[var(--site-line)] text-[var(--site-ink)] hover:border-[var(--site-accent)] disabled:opacity-50 cursor-pointer"
+                className={styles.previous}
                 disabled={step === 1 || sending}
               >
-                Back
+                <ArrowLeftIcon aria-hidden /> Back
               </button>
               <div className="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-3 min-w-0">
                 {step < 3 && (
@@ -950,14 +989,11 @@ export default function EstimatePage() {
                 {step < 3 && (
                   <button
                     type="button"
-                    onClick={() => {
-                      if (step === 2 && !canProceedStep2) return;
-                      setStep((step + 1) as WizardStep);
-                    }}
-                    className="px-5 py-2 rounded-lg bg-[var(--site-accent)] text-[var(--site-bg)] font-semibold hover:bg-[var(--site-ink)] disabled:opacity-50 cursor-pointer shrink-0"
+                    onClick={() => goToStep((step + 1) as WizardStep)}
+                    className={styles.next}
                     disabled={(step === 2 && !canProceedStep2) || sending}
                   >
-                    Next
+                    Next <ArrowRightIcon aria-hidden />
                   </button>
                 )}
               </div>

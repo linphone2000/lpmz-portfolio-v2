@@ -1,6 +1,7 @@
 import Image from 'next/image';
 import type { Project, ProjectPreviewScreenshot } from '@/lib/types';
 import { isMobileScreenshot } from '@/components/Portfolio/project-presentation';
+import { getProjectSlug } from '@/lib/project-utils';
 import styles from '@/components/Portfolio/portfolio.module.css';
 
 interface ProjectMediaProps {
@@ -38,6 +39,7 @@ export default function ProjectMedia({
       className={styles.stage}
       data-work-frame
       data-presentation={mobile ? 'mobile' : 'web'}
+      data-project={getProjectSlug(project)}
       data-variant={variant}
       data-pair={companion ? 'true' : undefined}
     >

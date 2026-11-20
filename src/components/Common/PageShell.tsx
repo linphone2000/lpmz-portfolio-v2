@@ -38,6 +38,11 @@ function SiteFooter() {
     >
       <div className="site-container">
         <div className="site-footer-contact">
+          <div className="site-footer-orbit" aria-hidden="true">
+            <span />
+            <span />
+            <span />
+          </div>
           <div>
             <h2 id="contact-heading">Let’s work together.</h2>
             <a className="site-footer-email" href={`mailto:${DATA.email}`}>

@@ -13,16 +13,20 @@ export function Education() {
       id="education"
       aria-labelledby="education-title"
       className={styles.section}
+      data-profile-chapter
+      tabIndex={-1}
     >
-      <h2 id="education-title">Education</h2>
-      <div className={styles.entries}>
+      <h2 id="education-title" data-profile-heading>
+        Education
+      </h2>
+      <div className={styles.education}>
         {education.map(
           ({ school, credential, period, location, relevantCourses }) => (
-            <article key={school} className={styles.entry}>
+            <article key={school} className={styles.degree} data-profile-panel>
               <p className={styles.period}>{period}</p>
-              <div>
-                <h3>{credential}</h3>
+              <div className={styles.degreeBody}>
                 <p className={styles.organization}>{school}</p>
+                <h3>{credential}</h3>
                 {location && <p className={styles.entryDetail}>{location}</p>}
                 {relevantCourses?.length > 0 && (
                   <details className={styles.courses}>

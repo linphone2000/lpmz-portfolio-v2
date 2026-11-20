@@ -3,9 +3,8 @@
 import { useEffect, useRef, type ReactNode } from 'react';
 import dynamic from 'next/dynamic';
 import Image from 'next/image';
-import { PauseIcon, PlayIcon } from '@heroicons/react/24/outline';
 import { useHomeMotion } from '@/hooks/useHomeMotion';
-import { setSiteMotion, useSiteMotion } from '@/hooks/useSiteMotion';
+import { useSiteMotion } from '@/hooks/useSiteMotion';
 import { createHomeLenis } from '@/lib/motion/lenis';
 import 'lenis/dist/lenis.css';
 
@@ -56,26 +55,5 @@ export function HomeArt() {
       />
       {enabled && <Sculpture active={enabled} />}
     </div>
-  );
-}
-
-export function HomeMotionSwitch() {
-  const enabled = useSiteMotion();
-
-  return (
-    <button
-      aria-label="Motion effects"
-      aria-pressed={enabled}
-      className="home-motion-switch"
-      type="button"
-      onClick={() => setSiteMotion(!enabled)}
-    >
-      {enabled ? (
-        <PauseIcon aria-hidden="true" />
-      ) : (
-        <PlayIcon aria-hidden="true" />
-      )}
-      Motion {enabled ? 'on' : 'off'}
-    </button>
   );
 }
